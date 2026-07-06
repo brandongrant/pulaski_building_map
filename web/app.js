@@ -97,6 +97,16 @@ function buildAttrConfig() {
     val: { label: "Improvement value ($)", type: "cont", domain: [Math.max(10000, cfg.val.p5), cfg.val.p99], scale: "log",
            fmtV: (v) => "$" + fmt.format(Math.round(v)) },
   };
+  if (cfg.nveh) {
+    // p99 is skewed by apartment complexes and dealer lots (100s of vehicles);
+    // clamp the color ramp to the residential 1-10 range, extremes saturate
+    ATTRS.nveh = { label: "Vehicles at address", type: "cont",
+                   domain: [1, 10], scale: "linear",
+                   fmtV: (v) => (v >= 10 ? "10+" : String(Math.round(v))) };
+    ATTRS.ppv = { label: "Personal property value ($)", type: "cont",
+                  domain: [Math.max(500, cfg.ppv.p5), cfg.ppv.p99], scale: "log",
+                  fmtV: (v) => "$" + fmt.format(Math.round(v)) };
+  }
   state.yrLo = cfg.year.min;
   state.yrHi = cfg.year.max;
 }
@@ -275,7 +285,8 @@ function renderLegend() {
 
   const [lo, hi] = a.domain;
   const mid = a.scale === "log" ? Math.sqrt(lo * hi) : (lo + hi) / 2;
-  labels.innerHTML = `<span>${state.attr === "yr" ? "≤" : ""}${a.fmtV(lo)}</span><span>${a.fmtV(mid)}</span><span>${a.fmtV(hi)}${state.attr === "yr" ? "" : "+"}</span>`;
+  const hiLbl = String(a.fmtV(hi));
+  labels.innerHTML = `<span>${state.attr === "yr" ? "≤" : ""}${a.fmtV(lo)}</span><span>${a.fmtV(mid)}</span><span>${hiLbl}${state.attr === "yr" || hiLbl.endsWith("+") ? "" : "+"}</span>`;
 
   // decade histogram only for year
   if (state.attr === "yr" && cfg.decades) {
@@ -316,8 +327,11 @@ function featHTML(p, compactOnly) {
   if (p.sqft) add("Bldg area", fmt.format(p.sqft) + " ft²");
   if (p.fpa) add("Footprint", fmt.format(p.fpa) + " ft²");
   if (p.val) add("Impr. value", fmtUSD.format(p.val));
+  if (p.nveh) add("Vehicles", p.nveh);
+  if (p.ppv) add("Pers. property", fmtUSD.format(p.ppv));
+  const veh = p.veh ? `<div class="tt-veh">${p.veh}</div>` : "";
   const addr = p.addr ? p.addr + (p.city ? ", " + p.city : "") : (compactOnly ? "" : "No address on parcel");
-  return { addr, rows };
+  return { addr, rows, veh };
 }
 
 function wireHover() {
@@ -330,9 +344,9 @@ function wireHover() {
       const fs = map.queryRenderedFeatures(e.point, { layers: ["bld-fill", "bld-3d"] });
       if (fs.length) {
         map.getCanvas().style.cursor = "pointer";
-        const { addr, rows } = featHTML(fs[0].properties, true);
+        const { addr, rows, veh } = featHTML(fs[0].properties, true);
         tt.innerHTML = (addr ? `<div class="tt-addr">${addr}</div>` : "") +
-          `<div class="tt-line pp-grid">${rows}</div>`;
+          `<div class="tt-line pp-grid">${rows}</div>` + veh;
         tt.hidden = false;
         const x = Math.min(e.point.x + 14, window.innerWidth - 260);
         const y = Math.min(e.point.y + 14, window.innerHeight - 140);
@@ -348,10 +362,10 @@ function wireHover() {
   map.on("click", (e) => {
     const fs = map.queryRenderedFeatures(e.point, { layers: ["bld-fill", "bld-3d"] });
     if (!fs.length) return;
-    const { addr, rows } = featHTML(fs[0].properties, false);
+    const { addr, rows, veh } = featHTML(fs[0].properties, false);
     new maplibregl.Popup({ closeButton: true, maxWidth: "290px" })
       .setLngLat(e.lngLat)
-      .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>`)
+      .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` + veh)
       .addTo(map);
   });
 }

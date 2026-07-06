@@ -38,12 +38,19 @@ n = len(gdf)
 print(f"{n} buildings", flush=True)
 
 # ---------------- properties ----------------
+def col(name, default):
+    if name in gdf.columns:
+        return gdf[name].tolist()
+    return [default] * n
+
+
 def build_props(full):
     out = []
     it = zip(gdf.yr.tolist(), gdf.cat.tolist(), gdf.st.tolist(), gdf.main.tolist(),
              gdf.sqft.tolist(), gdf.fpa.tolist(), gdf.val.tolist(),
-             gdf.addr.tolist(), gdf.city.tolist())
-    for yr, cat, st, main, sqft, fpa, val, addr, city in it:
+             gdf.addr.tolist(), gdf.city.tolist(),
+             col("nveh", 0), col("ppv", 0), col("veh", ""))
+    for yr, cat, st, main, sqft, fpa, val, addr, city, nveh, ppv, veh in it:
         p = {"yr": int(yr), "cat": int(cat), "main": int(main)}
         if st == st:  # not NaN
             p["st"] = round(float(st), 1)
@@ -51,6 +58,8 @@ def build_props(full):
         # them below z13 made everything render as unknown-gray when
         # coloring by size/value zoomed out. At low zooms round them so the
         # MVT value table dedupes (keeps county-wide tiles small).
+        if nveh:
+            p["nveh"] = int(nveh)
         if full:
             if sqft:
                 p["sqft"] = int(sqft)
@@ -58,10 +67,14 @@ def build_props(full):
                 p["fpa"] = int(fpa)
             if val:
                 p["val"] = int(val)
+            if ppv:
+                p["ppv"] = int(ppv)
             if addr:
                 p["addr"] = addr
             if city:
                 p["city"] = city
+            if veh:
+                p["veh"] = veh
         else:
             if sqft:
                 p["sqft"] = int(round(sqft, -1))
@@ -69,6 +82,8 @@ def build_props(full):
                 p["fpa"] = int(round(fpa, -1))
             if val:
                 p["val"] = int(round(val, -3))
+            if ppv:
+                p["ppv"] = int(round(ppv, -3))
         out.append(p)
     return out
 
@@ -235,5 +250,10 @@ cfg = {
     "val": {"p5": int(gdf.val[gdf.val > 0].quantile(0.05)),
             "p99": int(gdf.val[gdf.val > 0].quantile(0.99))},
 }
+if "nveh" in gdf.columns:
+    nv = gdf.nveh[gdf.nveh > 0]
+    pv = gdf.ppv[gdf.ppv > 0]
+    cfg["nveh"] = {"known": int(len(nv)), "p99": int(nv.quantile(0.99)), "max": int(nv.max())}
+    cfg["ppv"] = {"p5": int(pv.quantile(0.05)), "p99": int(pv.quantile(0.99))}
 (OUT / "config.json").write_text(json.dumps(cfg, indent=1), encoding="utf-8")
 print("wrote config.json:", json.dumps(cfg)[:300], flush=True)

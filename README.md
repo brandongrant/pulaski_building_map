@@ -22,7 +22,7 @@ online basemaps.
 
 | Control | What it does |
 |---|---|
-| **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value |
+| **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value |
 | **Palette + flip** | Colouring-London, Amsterdam-fire, Viridis, Magma, Turbo, Cividis, Cool-Warm |
 | **Year built filter** | Range sliders + "include undated" |
 | **Building types** | Toggle chips (single-family, commercial, condo, mobile…) |
@@ -52,7 +52,13 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
    Residential `StoryHeight` is a code — mapping validated against second-floor area.
 4. `join_buildings.py` — CAMA → parcel polygons (normalized parcel-number key, 84% match)
    → buildings via representative-point spatial join (89.7% of buildings dated).
-5. `make_tiles.py` — pure-Python vector tiler → `web/data/buildings.pmtiles`
+5. `extract_pp.py` + `enrich_pp.py` — personal property (vehicle) exports
+   (`PP_Dump1/2.xlsx` from the same assessor page): stream 1.7M rows, keep each
+   account's latest assessment (≥2025, not CLOSED), count vehicles
+   (Vehicle Type 1–98 with real make/model; business equipment excluded),
+   sum assessed value, and join to buildings by normalized situs address
+   (81% of PP addresses match; 67% of buildings get vehicle data).
+6. `make_tiles.py` — pure-Python vector tiler → `web/data/buildings.pmtiles`
    (z9–z15, tiny-building dilation at low zooms so every house stays a visible speck)
    + `web/data/config.json` (stats, histograms, domains for the UI).
 
@@ -65,8 +71,11 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
   common areas) → rendered gray as *unknown*.
 - Categories: `sfr, condo (HPR), plex (2–4 units), mobile, commercial/apartments,
   exempt/public, outbuilding` — derived from CAMA improvement descriptions.
+- Vehicle counts aggregate by street address: apartment complexes sum all residents'
+  vehicles; dealer/leasing lots reach hundreds. "Personal property value" includes
+  business equipment; vehicle counts do not.
 - Sources: **PAgis** (footprints, parcels, addresses) · **Pulaski County Assessor**
-  CAMA export (attributes) · not an official record.
+  CAMA real property + personal property exports (public records) · not an official record.
 
 ## Hosted version
 

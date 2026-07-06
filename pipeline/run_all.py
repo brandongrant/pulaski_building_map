@@ -31,7 +31,15 @@ if not skip_dl:
     run(sys.executable, PIPE / "download_layer.py", f"{PAGIS}/68", "parcels", RAW,
         "OBJECTID,PARCELID,CAMA_PIN,PROPLOOKUP,ADRLABEL,ADRCITY,PARCELTYPE,IMPVALUE,LANDVALUE,TOTALVALUE", "1000")
 
+if not skip_dl:
+    for n, u in [("PP_Dump1.xlsx", "https://www.dropbox.com/s/2q59jy8xs1j97ql/PP_Dump1.xlsx?dl=1"),
+                 ("PP_Dump2.xlsx", "https://www.dropbox.com/s/hyucgbvkii5secf/PP_Dump2.xlsx?dl=1")]:
+        if not (RAW / n).exists():
+            run("curl", "-SL", "-o", RAW / n, u)
+
 run(sys.executable, PIPE / "build_cama_attrs.py")
 run(sys.executable, PIPE / "join_buildings.py")
+run(sys.executable, PIPE / "extract_pp.py")
+run(sys.executable, PIPE / "enrich_pp.py")
 run(sys.executable, PIPE / "make_tiles.py")
 print("\nPipeline complete. Start the map with:  python serve.py")
