@@ -62,6 +62,26 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
    (z9–z15, tiny-building dilation at low zooms so every house stays a visible speck)
    + `web/data/config.json` (stats, histograms, domains for the UI).
 
+## Public dispatch overlay
+
+[dispatch.yml](.github/workflows/dispatch.yml) runs every ~15 minutes: it pulls the
+City of Little Rock public CAD feed (`/pub/Home/CadEvents`), dedupes by
+`hash(type+location+time)`, categorizes call types, geocodes against a PAgis
+address-point index (`pipeline/build_addr_index.py`, ~97% match), and appends
+JSONL archives to the **`data` branch**, republishing:
+
+- `dispatch/out/recent_24h.geojson` — points (sensitive call types excluded)
+- `dispatch/out/recent_7d.geojson` — bare points for the heatmap
+- `dispatch/out/grid_30d.geojson` — ~500 ft cells with per-category counts
+- `dispatch/out/stats.json` — totals + collection start date
+
+The map fetches these from `raw.githubusercontent.com` (no Pages redeploy per
+collection). Privacy rules follow the project plan: exact points only for the
+last 24 h, aggregates beyond that, medical/welfare/death call types never shown
+as points, and calls-for-service language throughout (a dispatch is not a
+confirmed crime). Note: GitHub disables cron workflows after ~60 days without
+repo activity — any commit re-enables it.
+
 ## Data notes & caveats
 
 - Assessor attributes are **parcel-level**: every structure on a parcel inherits the
