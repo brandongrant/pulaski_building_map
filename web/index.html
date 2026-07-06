@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pulaski County Building Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="map"></div>
+
+<button id="panelToggle" title="Toggle panel (H)">☰</button>
+
+<aside id="panel">
+  <header>
+    <h1>Pulaski County<span>Building Map</span></h1>
+    <div class="stats" id="stats">Loading…</div>
+  </header>
+
+  <section>
+    <label class="lbl" for="attr">Color by</label>
+    <select id="attr"></select>
+  </section>
+
+  <section id="rampRow">
+    <label class="lbl" for="ramp">Palette</label>
+    <div class="row">
+      <select id="ramp"></select>
+      <label class="chk"><input type="checkbox" id="reverse"> flip</label>
+    </div>
+  </section>
+
+  <section id="legendBox">
+    <canvas id="legendGrad" width="248" height="14"></canvas>
+    <div id="legendLabels"></div>
+    <canvas id="hist" width="248" height="52"></canvas>
+    <div id="catLegend"></div>
+  </section>
+
+  <section>
+    <label class="lbl">Year built filter <span id="yrShow"></span></label>
+    <div class="row range2">
+      <input type="range" id="yrLo" step="1">
+      <input type="range" id="yrHi" step="1">
+    </div>
+    <label class="chk"><input type="checkbox" id="showUnk" checked> include undated buildings</label>
+  </section>
+
+  <section>
+    <label class="lbl">Building types shown</label>
+    <div id="catChips"></div>
+  </section>
+
+  <section class="row wrap">
+    <label class="chk"><input type="checkbox" id="mainOnly"> main buildings only</label>
+    <label class="chk"><input type="checkbox" id="threeD"> 3D height</label>
+  </section>
+
+  <section id="threeDOpts" hidden>
+    <label class="lbl">Height exaggeration ×<span id="hMultV">5</span></label>
+    <input type="range" id="hMult" min="1" max="25" value="5">
+  </section>
+
+  <section>
+    <label class="lbl">Building opacity <span id="opV">100%</span></label>
+    <input type="range" id="opacity" min="10" max="100" value="100">
+  </section>
+
+  <section>
+    <label class="lbl" for="basemap">Basemap</label>
+    <select id="basemap">
+      <option value="none" selected>None — pure black</option>
+      <option value="carto-dark">Dark streets (online)</option>
+      <option value="carto-light">Light streets (online)</option>
+      <option value="osm">OpenStreetMap (online)</option>
+    </select>
+  </section>
+
+  <section>
+    <label class="lbl">Background</label>
+    <div id="bgSwatches"></div>
+  </section>
+
+  <footer>
+    <a href="#" id="aboutLink">About & data sources</a>
+  </footer>
+</aside>
+
+<div id="tooltip" hidden></div>
+
+<div id="about" hidden>
+  <div class="card">
+    <button class="close" id="aboutClose">×</button>
+    <h2>About this map</h2>
+    <p>Every building footprint in Pulaski County, Arkansas, colored by assessor data.
+       Inspired by <i>Colouring London</i> and the Amsterdam building-age map.</p>
+    <h3>Data sources</h3>
+    <ul>
+      <li><b>Building footprints & parcels</b> — PAgis (Pulaski Area GIS)</li>
+      <li><b>Year built, stories, size, type</b> — Pulaski County Assessor CAMA raw export</li>
+    </ul>
+    <h3>Caveats</h3>
+    <ul>
+      <li>Assessor attributes describe the <i>parcel's</i> primary improvements. Every structure
+          on a parcel inherits them, so a 2005 garage next to a 1940 house shows 1940.
+          Use "main buildings only" to hide accessory structures.</li>
+      <li>About 10% of footprints (rights-of-way, common areas, exempt land, new splits)
+          have no assessor match and are shown as "undated / unknown".</li>
+      <li>Unofficial visualization; not an authoritative record.</li>
+    </ul>
+    <p class="fine" id="aboutMeta"></p>
+  </div>
+</div>
+
+<div id="loading"><div class="spin"></div>Loading building tiles…</div>
+
+<script src="vendor/maplibre-gl.js"></script>
+<script src="vendor/pmtiles.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

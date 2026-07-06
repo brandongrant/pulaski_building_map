@@ -1,0 +1,9 @@
+requests
+numpy
+pandas
+shapely>=2.0
+pyproj
+pyogrio
+geopandas
+mapbox-vector-tile
+pmtiles

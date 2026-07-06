@@ -1,0 +1,8 @@
+# bulk source data — re-downloadable via pipeline/run_all.py
+data/raw/
+data/processed/
+
+# tiles (46 MB) are committed — they ARE the site data for GitHub Pages
+
+__pycache__/
+*.pyc
