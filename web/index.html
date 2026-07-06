@@ -85,6 +85,24 @@
     </div>
   </section>
 
+  <section id="permitSec">
+    <label class="lbl">Permits & improvements <span id="pmMeta"></span></label>
+    <label class="chk"><input type="checkbox" id="pmOn"> show permit overlay</label>
+    <div id="pmControls" hidden>
+      <label class="lbl">Issued <span id="pmYrShow"></span></label>
+      <div class="row range2">
+        <input type="range" id="pmLo" min="2019" max="2026" value="2019" step="1">
+        <input type="range" id="pmHi" min="2019" max="2026" value="2026" step="1">
+      </div>
+      <div id="pmCats"></div>
+      <label class="lbl" style="margin-top:8px">Min declared value: <span id="pmValV">any</span></label>
+      <input type="range" id="pmVal" min="0" max="6" value="0" step="1">
+      <div class="fineprint">City of Little Rock Planning & Development permits,
+        2019 – Apr 2026, matched by address (≈98%). Contractor names omitted.
+        Click a building for its permit timeline. Unofficial.</div>
+    </div>
+  </section>
+
   <section>
     <label class="lbl" for="basemap">Basemap</label>
     <select id="basemap">

@@ -1,0 +1,34 @@
+{
+ "generated": "2026-07-06",
+ "source": "City of Little Rock Planning & Development Permits (2019-YTD)",
+ "count": 62711,
+ "date_min": 20181218,
+ "date_max": 20260424,
+ "geocode_rate": 0.979,
+ "cats": {
+  "mec": 16177,
+  "add": 1940,
+  "plu": 15313,
+  "rem": 5200,
+  "ele": 18703,
+  "roof": 694,
+  "new": 3446,
+  "sign": 619,
+  "demo": 277,
+  "oth": 111,
+  "usv": 231
+ },
+ "labels": {
+  "new": "New construction",
+  "add": "Addition",
+  "rem": "Remodel/repair",
+  "demo": "Demolition",
+  "roof": "Roofing",
+  "ele": "Electrical",
+  "mec": "Mechanical",
+  "plu": "Plumbing",
+  "usv": "Unsafe/vacant",
+  "sign": "Sign/banner",
+  "oth": "Other"
+ }
+}
