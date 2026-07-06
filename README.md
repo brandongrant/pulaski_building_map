@@ -82,6 +82,21 @@ as points, and calls-for-service language throughout (a dispatch is not a
 confirmed crime). Note: GitHub disables cron workflows after ~60 days without
 repo activity — any commit re-enables it.
 
+## Permit overlay
+
+`pipeline/build_permits.py` normalizes the City of Little Rock
+[Planning & Development permits CSV](https://littlerock.gov/government/mayors-office/initiatives/city-of-lr-data/)
+(2019 – present, ~63k permits after fee-row dedupe and void filtering) into
+`web/data/permits/permits.geojson`: 11 derived categories (new construction,
+addition, remodel/repair, demolition, roofing, trades, unsafe/vacant, sign,
+other), issue dates, declared values, statuses — geocoded via the PAgis address
+index (97.9%). Contractor/applicant names are deliberately excluded. The map
+gets a permit overlay (year / type / min-value filters) and building popups
+show an address-matched permit timeline. To refresh: grab the newest CSV link
+from the city page (the filename is date-stamped), save as
+`data/raw/lr_permits.csv`, rerun the script, commit. North Little Rock permits
+are deferred to Phase 4 (their WP File Download portal needs JS-driven scraping).
+
 ## Data notes & caveats
 
 - Assessor attributes are **parcel-level**: every structure on a parcel inherits the
