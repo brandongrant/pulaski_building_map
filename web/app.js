@@ -97,6 +97,19 @@ function buildAttrConfig() {
     val: { label: "Improvement value ($)", type: "cont", domain: [Math.max(10000, cfg.val.p5), cfg.val.p99], scale: "log",
            fmtV: (v) => "$" + fmt.format(Math.round(v)) },
   };
+  if (cfg.vpsf) {
+    // computed live from val/sqft already present in tiles — surfaces
+    // under-improved large buildings (low $/ft²) and premium small ones
+    ATTRS.vpsf = {
+      label: "Improvement $ per sq ft", type: "cont", scale: "log",
+      domain: [Math.max(5, cfg.vpsf.p5), cfg.vpsf.p99],
+      valueExpr: ["/", ["coalesce", ["get", "val"], 0],
+                  ["max", ["coalesce", ["get", "sqft"], 1], 1]],
+      unknownExpr: ["any", ["<=", ["coalesce", ["get", "val"], 0], 0],
+                    ["<=", ["coalesce", ["get", "sqft"], 0], 0]],
+      fmtV: (v) => "$" + (v < 10 ? v.toFixed(1) : fmt.format(Math.round(v))),
+    };
+  }
   if (cfg.nveh) {
     // p99 is skewed by apartment complexes and dealer lots (100s of vehicles);
     // clamp the color ramp to the residential 1-10 range, extremes saturate
@@ -139,10 +152,11 @@ function colorExpr() {
   }
   const colors = currentColors();
   const stops = stopPositions(a, colors.length);
-  const v = ["coalesce", ["get", state.attr], 0];
+  const v = a.valueExpr || ["coalesce", ["get", state.attr], 0];
   const interp = ["interpolate", ["linear"], v];
   stops.forEach((s, i) => interp.push(s, colors[i]));
-  return ["case", ["<=", v, state.attr === "st" ? 0.01 : 0], UNKNOWN_COLOR, interp];
+  const unknown = a.unknownExpr || ["<=", v, state.attr === "st" ? 0.01 : 0];
+  return ["case", unknown, UNKNOWN_COLOR, interp];
 }
 
 /* ------------------------------------------------- filter expression */
@@ -329,6 +343,7 @@ function featHTML(p, compactOnly) {
   if (p.sqft) add("Bldg area", fmt.format(p.sqft) + " ft²");
   if (p.fpa) add("Footprint", fmt.format(p.fpa) + " ft²");
   if (p.val) add("Impr. value", fmtUSD.format(p.val));
+  if (p.val > 0 && p.sqft > 0) add("$ / sq ft", "$" + Math.round(p.val / p.sqft));
   if (p.nveh) add("Vehicles", p.nveh);
   if (p.ppv) add("Pers. property", fmtUSD.format(p.ppv));
   const veh = p.veh ? `<div class="tt-veh">${p.veh}</div>` : "";

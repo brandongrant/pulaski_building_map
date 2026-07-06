@@ -250,6 +250,11 @@ cfg = {
     "val": {"p5": int(gdf.val[gdf.val > 0].quantile(0.05)),
             "p99": int(gdf.val[gdf.val > 0].quantile(0.99))},
 }
+vm = (gdf.val > 0) & (gdf.sqft > 0)
+vpsf = gdf.val[vm] / gdf.sqft[vm]
+cfg["vpsf"] = {"p5": round(float(vpsf.quantile(0.05)), 1),
+               "p50": round(float(vpsf.quantile(0.50)), 1),
+               "p99": round(float(vpsf.quantile(0.99)), 1), "known": int(vm.sum())}
 if "nveh" in gdf.columns:
     nv = gdf.nveh[gdf.nveh > 0]
     pv = gdf.ppv[gdf.ppv > 0]
