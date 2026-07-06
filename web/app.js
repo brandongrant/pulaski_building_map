@@ -175,7 +175,9 @@ function initMap() {
     },
     center: cfg.center,
     zoom: 10,
-    minZoom: 8.99,
+    // keep the floor above the tileset's minzoom (z8) — below a source's
+    // minzoom MapLibre loads nothing and the screen goes black
+    minZoom: Math.max(8, cfg.minzoom),
     maxZoom: 19,
     maxPitch: 70,
   });

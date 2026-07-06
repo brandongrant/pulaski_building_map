@@ -23,7 +23,7 @@ ROOT = Path(r"D:\Claude Code Projects\Building_Map")
 OUT = ROOT / "web" / "data"
 OUT.mkdir(parents=True, exist_ok=True)
 
-MINZ, MAXZ, EXTENT = 9, 15, 4096
+MINZ, MAXZ, EXTENT = 8, 15, 4096  # z8 so a phone can fit the whole county on screen
 FULL_PROPS_Z = 13          # zoom at which addr/city strings appear
 TINY_UNITS = 2.5           # min speck size in tile units at low zooms
 ORIGIN = 20037508.342789244
