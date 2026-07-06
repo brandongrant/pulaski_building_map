@@ -22,6 +22,7 @@ online basemaps.
 
 | Control | What it does |
 |---|---|
+| **Search** | Owner name or street address across all ~180k parcels — flags every property of an owner, flies to addresses; building popups show the owner (click it to see their other properties) plus deed/assessor/tax lookup links |
 | **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value |
 | **Palette + flip** | Colouring-London, Amsterdam-fire, Viridis, Magma, Turbo, Cividis, Cool-Warm |
 | **Year built filter** | Range sliders + "include undated" |
@@ -61,6 +62,11 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 6. `make_tiles.py` — pure-Python vector tiler → `web/data/buildings.pmtiles`
    (z9–z15, tiny-building dilation at low zooms so every house stays a visible speck)
    + `web/data/config.json` (stats, histograms, domains for the UI).
+7. `build_owner_index.py` — streams the PAgis parcel layer (owner name, situs
+   address, subdivision/lot/block, values, centroid — no bulk file kept on disk)
+   → `web/data/owners.json` (the in-app owner/address search index) and
+   `data/processed/parcel_owners.pkl` (parcel crosswalk seed for the
+   recorded-documents roadmap, see `docs/recorded_documents_plan.md`).
 
 ## Public dispatch overlay
 
@@ -109,8 +115,14 @@ are deferred to Phase 4 (their WP File Download portal needs JS-driven scraping)
 - Vehicle counts aggregate by street address: apartment complexes sum all residents'
   vehicles; dealer/leasing lots reach hundreds. "Personal property value" includes
   business equipment; vehicle counts do not.
-- Sources: **PAgis** (footprints, parcels, addresses) · **Pulaski County Assessor**
-  CAMA real property + personal property exports (public records) · not an official record.
+- Owner names come from the public county parcel roll (PAgis/assessor); they can
+  lag recent sales and appear exactly as recorded (trusts, LLCs, co-owners).
+  Building popups link to the official deed, assessor, and treasurer lookups —
+  the roadmap for pulling recorded documents (deeds/mortgages/liens) into the
+  map itself is in [docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
+- Sources: **PAgis** (footprints, parcels, addresses, owners) · **Pulaski County
+  Assessor** CAMA real property + personal property exports (public records) ·
+  not an official record.
 
 ## Hosted version
 
