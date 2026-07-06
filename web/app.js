@@ -337,33 +337,45 @@ function featHTML(p, compactOnly) {
 function wireHover() {
   const tt = $("tooltip");
   let raf = null;
-  map.on("mousemove", (e) => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = null;
-      const fs = map.queryRenderedFeatures(e.point, { layers: ["bld-fill", "bld-3d"] });
-      if (fs.length) {
-        map.getCanvas().style.cursor = "pointer";
-        const { addr, rows, veh } = featHTML(fs[0].properties, true);
-        tt.innerHTML = (addr ? `<div class="tt-addr">${addr}</div>` : "") +
-          `<div class="tt-line pp-grid">${rows}</div>` + veh;
-        tt.hidden = false;
-        const x = Math.min(e.point.x + 14, window.innerWidth - 260);
-        const y = Math.min(e.point.y + 14, window.innerHeight - 140);
-        tt.style.left = x + "px";
-        tt.style.top = y + "px";
-      } else {
-        map.getCanvas().style.cursor = "";
-        tt.hidden = true;
-      }
+  let popup = null;
+  // touch browsers synthesize mousemove from taps — the hover tooltip would
+  // appear under the tap popup and never clear, so only wire it where a real
+  // hover pointer exists
+  const canHover = window.matchMedia("(hover: hover)").matches;
+  if (canHover) {
+    map.on("mousemove", (e) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        const fs = map.queryRenderedFeatures(e.point, { layers: ["bld-fill", "bld-3d"] });
+        if (fs.length) {
+          map.getCanvas().style.cursor = "pointer";
+          const { addr, rows, veh } = featHTML(fs[0].properties, true);
+          tt.innerHTML = (addr ? `<div class="tt-addr">${addr}</div>` : "") +
+            `<div class="tt-line pp-grid">${rows}</div>` + veh;
+          tt.hidden = false;
+          const x = Math.min(e.point.x + 14, window.innerWidth - 260);
+          const y = Math.min(e.point.y + 14, window.innerHeight - 140);
+          tt.style.left = x + "px";
+          tt.style.top = y + "px";
+        } else {
+          map.getCanvas().style.cursor = "";
+          tt.hidden = true;
+        }
+      });
     });
-  });
-  map.on("mouseout", () => { tt.hidden = true; });
+    map.on("mouseout", () => { tt.hidden = true; });
+  }
   map.on("click", (e) => {
     const fs = map.queryRenderedFeatures(e.point, { layers: ["bld-fill", "bld-3d"] });
+    if (popup) {
+      popup.remove();
+      popup = null;
+    }
     if (!fs.length) return;
+    tt.hidden = true;
     const { addr, rows, veh } = featHTML(fs[0].properties, false);
-    new maplibregl.Popup({ closeButton: true, maxWidth: "290px" })
+    popup = new maplibregl.Popup({ closeButton: true, maxWidth: "290px" })
       .setLngLat(e.lngLat)
       .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` + veh)
       .addTo(map);
