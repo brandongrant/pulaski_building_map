@@ -68,8 +68,11 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 - Sources: **PAgis** (footprints, parcels, addresses) · **Pulaski County Assessor**
   CAMA export (attributes) · not an official record.
 
-## Publishing later
+## Hosted version
 
-The app is static — copy `web/` to any host that supports Range requests
-(GitHub Pages, Cloudflare Pages, S3 all do). The 3 vendored JS files and the
-PMTiles archive are the only assets; no build step, no API keys.
+Live at **https://brandongrant.github.io/pulaski_building_map/** — deployed by
+[GitHub Actions](.github/workflows/pages.yml), which publishes `web/` to GitHub
+Pages on every push to `main`. The app is fully static (no build step, no API
+keys); GitHub Pages serves the Range requests PMTiles needs. To update the map,
+re-run the pipeline locally and push the regenerated
+`web/data/buildings.pmtiles` + `config.json`.
