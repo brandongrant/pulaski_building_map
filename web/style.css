@@ -26,15 +26,27 @@ body { font: 13px/1.45 "Segoe UI", system-ui, -apple-system, sans-serif; color: 
   transition: transform 0.25s ease, opacity 0.25s ease;
   scrollbar-width: thin; scrollbar-color: #333d52 transparent;
 }
-#panel.hidden { transform: translateX(-330px); opacity: 0; pointer-events: none; }
+#panel.hidden { transform: translateX(calc(-100% - 24px)); opacity: 0; pointer-events: none; }
 #panelToggle {
   position: absolute; top: 12px; left: 12px; z-index: 11;
-  width: 34px; height: 34px; border-radius: 9px;
+  width: 44px; height: 44px; border-radius: 11px;
   background: var(--panel-bg); color: var(--txt);
-  border: 1px solid var(--panel-border); cursor: pointer; font-size: 15px;
+  border: 1px solid var(--panel-border); cursor: pointer; font-size: 19px;
   opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  touch-action: manipulation;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 #panelToggle.show { opacity: 1; pointer-events: auto; }
+#panel header { position: relative; }
+#panel header h1 { padding-right: 34px; }
+#panelClose {
+  position: absolute; top: -4px; right: -6px;
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--ctl-bg); color: var(--txt-dim);
+  border: 1px solid var(--ctl-border); cursor: pointer;
+  font-size: 19px; line-height: 1; touch-action: manipulation;
+}
+#panelClose:hover { color: var(--txt); }
 #panel header h1 {
   margin: 0 0 2px; font-size: 21px; font-weight: 700; letter-spacing: 0.2px; line-height: 1.15;
 }
@@ -142,6 +154,21 @@ footer a:hover { color: var(--accent); }
 .maplibregl-ctrl-group button + button { border-top: 1px solid var(--panel-border) !important; }
 .maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(0.9); }
 
+/* ---------- mobile ---------- */
 @media (max-width: 640px) {
-  #panel { width: calc(100vw - 24px); max-height: 55%; }
+  #panel {
+    width: min(86vw, 330px);
+    top: 10px; left: 10px;
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
+    padding: 14px 15px 10px;
+  }
+  /* 16px+ inputs stop iOS Safari from zooming the page on focus */
+  select { font-size: 16px; padding: 9px 10px; }
+  .chk { font-size: 14px; min-height: 30px; }
+  .chk input { width: 18px; height: 18px; }
+  .chip { padding: 6px 12px 7px; font-size: 13px; }
+  input[type="range"] { height: 30px; }
+  .bgsw { width: 34px; height: 34px; }
+  footer a { display: inline-block; padding: 6px 0; }
 }

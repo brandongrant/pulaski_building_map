@@ -477,13 +477,16 @@ function initUI() {
     sw.appendChild(el);
   });
 
-  // panel toggle
+  // panel toggle (slide-away drawer)
   const panel = $("panel"), pt = $("panelToggle");
   const setPanel = (hidden) => {
     panel.classList.toggle("hidden", hidden);
     pt.classList.toggle("show", hidden);
   };
   pt.onclick = () => setPanel(false);
+  $("panelClose").onclick = () => setPanel(true);
+  // phones: start with the map full-screen, panel tucked away
+  if (window.matchMedia("(max-width: 640px)").matches) setPanel(true);
   document.addEventListener("keydown", (e) => {
     if (e.key === "h" || e.key === "H") {
       if (/input|select|textarea/i.test(document.activeElement.tagName)) return;
