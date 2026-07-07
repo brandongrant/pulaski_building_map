@@ -80,6 +80,36 @@ generated and were not proven stable enough to hard-link from GitHub Pages.
 Keep `tax-open.html` as the current honest fallback unless a future pass
 successfully reproduces the full TaxPro session state.
 
+## 2026-07-07 fourth follow-up - mixed deed click failures
+
+User reported that some `deeds` clicks worked while others still showed
+"County and/or state have not been set properly." The likely split is:
+
+- normal map-click interception now works for both instrument links and owner
+  links when the current `app.js` is loaded;
+- any non-intercepted deed link, cached old page, right-click/open-new-tab, or
+  similar path still landed on `pulaski-open.html`, whose hidden iframe
+  initializer was known-broken.
+
+Fix applied:
+
+- `web/pulaski-open.html` no longer auto-posts through a hidden iframe or
+  navigates the top-level tab to PulaskiDeeds.
+- The helper now shows the requested instrument/owner and an `Open records`
+  button. That button runs the same first-party named-popup POST sequence used
+  by the map click handler.
+- Owner-search final navigation timing was lengthened in both `web/app.js` and
+  `web/pulaski-open.html` because PulaskiDeeds can take several seconds to
+  finish the final `ajaxActions.php` post; navigating to `content.php` too soon
+  can leave the popup on the AJAX endpoint or in an unset-session state.
+
+Verified locally in Chromium:
+
+- `pulaski-open.html?inst=2016038433` button opened the warranty deed detail
+  and image-on-file section.
+- `pulaski-open.html?owner=SON+HYE+JIN%2FGRANT+BRANDON` button opened the index
+  list with `GRANT BRANDON`, `SON HYE JIN`, and `View Image` rows.
+
 ## Where you are
 
 Repo: `github.com/brandongrant/pulaski_building_map` (PUBLIC - Pages deploys

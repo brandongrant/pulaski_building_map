@@ -21,25 +21,33 @@
   h1 { margin: 0 0 8px; font-size: 18px; }
   p { margin: 0 0 12px; color: #b8c0d2; }
   a { color: #f3d54c; }
-  iframe { position: fixed; width: 1px; height: 1px; left: -10px; top: -10px; opacity: 0; }
+  button {
+    border: 1px solid rgba(243, 213, 76, 0.45);
+    background: #f3d54c; color: #101217;
+    border-radius: 6px; padding: 9px 12px;
+    font: 600 13px/1 "Segoe UI", system-ui, -apple-system, sans-serif;
+    cursor: pointer;
+  }
+  button:disabled { cursor: wait; opacity: 0.65; }
 </style>
 </head>
 <body>
 <main>
   <h1>Opening PulaskiDeeds</h1>
-  <p id="status">Preparing the county record...</p>
-  <p>If this tab does not move in a few seconds, <a id="fallback" href="https://pulaskideeds.com/search/">open PulaskiDeeds search</a>.</p>
+  <p id="status">Ready to open the county record.</p>
+  <p id="detail"></p>
+  <p><button id="openBtn" type="button">Open records</button></p>
+  <p>If the popup is blocked, <a id="fallback" href="https://pulaskideeds.com/search/">open PulaskiDeeds search</a>.</p>
 </main>
-<iframe id="pulaskiFrame" name="pulaskiFrame" title="PulaskiDeeds session initializer"></iframe>
 <script>
 "use strict";
 
 const BASE = "https://pulaskideeds.com/search/";
-const WAIT = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 const params = new URLSearchParams(window.location.search);
-const frame = document.getElementById("pulaskiFrame");
 const statusEl = document.getElementById("status");
+const detailEl = document.getElementById("detail");
 const fallback = document.getElementById("fallback");
+const openBtn = document.getElementById("openBtn");
 const INST_CODES = [
   "ALA", "AMU", "ARM", "ARS", "ASM", "ASR", "AST", "ASU", "BAS", "BFD",
   "CAD", "CCL", "CNU", "COD", "COM", "CRC", "CRD", "CRF", "CSR", "CTY",
@@ -52,15 +60,15 @@ const INST_CODES = [
   "SUM", "SUS", "SUT", "SUU", "TEU", "TMU", "UCC", "WAD",
 ];
 
-function setFrame(url) {
-  frame.src = url;
+function contentURL() {
+  return `${BASE}content.php?embedded=1&${Date.now()}`;
 }
 
-function postFrame(fields) {
+function postWindow(target, fields) {
   const form = document.createElement("form");
   form.method = "post";
   form.action = `${BASE}ajaxActions.php`;
-  form.target = "pulaskiFrame";
+  form.target = target;
   form.hidden = true;
   for (const [name, value] of Object.entries(fields)) {
     const input = document.createElement("input");
@@ -71,11 +79,7 @@ function postFrame(fields) {
   }
   document.body.appendChild(form);
   form.submit();
-  window.setTimeout(() => form.remove(), 1200);
-}
-
-function contentURL() {
-  return `${BASE}content.php?embedded=1&${Date.now()}`;
+  window.setTimeout(() => form.remove(), 2500);
 }
 
 function instValue() {
@@ -110,19 +114,11 @@ function ownerEntityValue(owner) {
   return owner.toUpperCase().replace(/[^A-Z0-9]+/g, "");
 }
 
-async function openInstrument(inst) {
-  const data = new URLSearchParams({ searchType: "details", inst_num: inst });
-  fallback.href = `${BASE}index.php`;
-  statusEl.textContent = `Opening instrument ${inst}...`;
-  setFrame(`${BASE}index.php`);
-  await WAIT(900);
-  postFrame({ dataString: data.toString(), action: "storeDataString" });
-  await WAIT(900);
-  window.location.href = contentURL();
+function targetName(kind) {
+  return `pulaski_${kind}_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
 }
 
-async function openOwner(owner) {
-  const names = ownerCandidates(owner);
+function ownerDataString(names) {
   const primary = names[names.length - 1];
   const data = new URLSearchParams();
   data.set("searchType", "name");
@@ -137,32 +133,78 @@ async function openOwner(owner) {
   for (const code of INST_CODES) data.set(`instType[${code}][${code}]`, code);
   data.set("plresults_length", "100");
   for (const name of names) data.append("name[]", ownerEntityValue(name));
-  fallback.href = `${BASE}index.php`;
-  statusEl.textContent = `Opening records for ${names.join(" / ")}...`;
-  setFrame(`${BASE}index.php`);
-  await WAIT(900);
-  for (const name of names) {
-    postFrame({ entityID: ownerEntityId(name), action: "storeEID" });
-    await WAIT(350);
-  }
-  postFrame({ dataString: data.toString(), action: "storeDataString" });
-  await WAIT(900);
-  window.location.href = contentURL();
+  return data.toString();
 }
 
-(async () => {
+function openInstrument(inst) {
+  const target = targetName("inst");
+  const w = window.open(`${BASE}index.php`, target);
+  if (!w) return false;
+  const dataString = new URLSearchParams({ searchType: "details", inst_num: inst }).toString();
+  statusEl.textContent = `Opening instrument ${inst}...`;
+  window.setTimeout(() => postWindow(target, { dataString, action: "storeDataString" }), 1100);
+  window.setTimeout(() => {
+    try {
+      w.location.href = contentURL();
+      w.focus();
+    } catch (e) {}
+  }, 5600);
+  return true;
+}
+
+function openOwner(owner) {
+  const names = ownerCandidates(owner);
+  const dataString = ownerDataString(names);
+  const target = targetName("owner");
+  const w = window.open(`${BASE}index.php`, target);
+  if (!w) return false;
+  statusEl.textContent = `Opening records for ${names.join(" / ")}...`;
+  names.forEach((name, i) => {
+    window.setTimeout(() => {
+      postWindow(target, { entityID: ownerEntityId(name), action: "storeEID" });
+    }, 1100 + (i * 900));
+  });
+  window.setTimeout(() => {
+    postWindow(target, { dataString, action: "storeDataString" });
+  }, 1100 + (names.length * 900));
+  window.setTimeout(() => {
+    try {
+      w.location.href = contentURL();
+      w.focus();
+    } catch (e) {}
+  }, 11000 + (names.length * 1200));
+  return true;
+}
+
+function describeRequest() {
   const inst = instValue();
   const owner = ownerValue();
   if (inst) {
-    await openInstrument(inst);
+    detailEl.textContent = `Instrument ${inst}`;
+    return true;
   } else if (owner && ownerEntityId(owner)) {
-    await openOwner(owner);
-  } else {
-    statusEl.textContent = "No PulaskiDeeds record was provided.";
+    detailEl.textContent = `Owner ${ownerCandidates(owner).join(" / ")}`;
+    return true;
   }
-})().catch(() => {
-  statusEl.textContent = "PulaskiDeeds did not accept the automatic opener.";
+  statusEl.textContent = "No PulaskiDeeds record was provided.";
+  openBtn.disabled = true;
+  return false;
+}
+
+openBtn.addEventListener("click", () => {
+  const inst = instValue();
+  const owner = ownerValue();
+  openBtn.disabled = true;
+  let ok = false;
+  if (inst) ok = openInstrument(inst);
+  else if (owner && ownerEntityId(owner)) ok = openOwner(owner);
+  if (!ok) {
+    statusEl.textContent = "PulaskiDeeds popup was blocked.";
+    openBtn.disabled = false;
+  }
 });
+
+describeRequest();
 </script>
 </body>
 </html>

@@ -553,7 +553,7 @@ function openPulaskiOwnerIndex(owner) {
       w.location.href = pulaskiDeedContentURL();
       w.focus();
     } catch (e) {}
-  }, 7000 + (names.length * 900));
+  }, 11000 + (names.length * 1200));
   return true;
 }
 
