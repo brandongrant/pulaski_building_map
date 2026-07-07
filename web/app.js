@@ -347,6 +347,17 @@ function renderLegend() {
 const PULASKI_DEEDS_BASE = "https://pulaskideeds.com/search/";
 const ARCOUNTY_PARCEL_BASE = "https://www.arcountydata.com/parcel.asp?County=Pulaski&ParcelID=";
 const TREASURER_MOBILE_BASE = "https://public.pulaskicountytreasurer.net/mobile/pulaski/";
+const PULASKI_INST_CODES = [
+  "ALA", "AMU", "ARM", "ARS", "ASM", "ASR", "AST", "ASU", "BAS", "BFD",
+  "CAD", "CCL", "CNU", "COD", "COM", "CRC", "CRD", "CRF", "CSR", "CTY",
+  "CVJ", "DCH", "DTM", "EAD", "EXD", "FJL", "FTL", "INT", "IRD", "IRL",
+  "IRM", "IRT", "LPL", "LTD", "MAD", "MEL", "MGM", "MID", "MML", "MRB",
+  "NJA", "NJC", "NJD", "NJF", "NJL", "NJP", "NJS", "NOB", "NOL", "OAO",
+  "ORS", "ORU", "OTB", "OTC", "OTD", "OTI", "OTJ", "OTL", "OUF", "PAG",
+  "PLAT", "POA", "PRL", "PRM", "PRR", "PRU", "PSJ", "QCD", "RAR", "RBA",
+  "RDD", "REL", "REM", "REU", "RML", "RPA", "RTL", "SAJ", "SALE", "SML",
+  "SUM", "SUS", "SUT", "SUU", "TEU", "TMU", "UCC", "WAD",
+];
 
 const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null };
 
@@ -430,14 +441,6 @@ function pulaskiInst(inst) {
   return String(inst || "").replace(/[^0-9A-Za-z-]/g, "");
 }
 
-function pulaskiDeedStoreURL(inst) {
-  const dataString = new URLSearchParams({ searchType: "details", inst_num: inst }).toString();
-  const u = new URL("ajaxActions.php", PULASKI_DEEDS_BASE);
-  u.searchParams.set("dataString", dataString);
-  u.searchParams.set("action", "storeDataString");
-  return u.href;
-}
-
 function pulaskiDeedContentURL() {
   return `${PULASKI_DEEDS_BASE}content.php?embedded=1&${Date.now()}`;
 }
@@ -448,19 +451,44 @@ function pulaskiOpenURL(key, value) {
   return u.href;
 }
 
+function pulaskiWindowName(kind) {
+  return `pulaski_${kind}_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+}
+
+function postPulaskiWindow(target, fields) {
+  const form = document.createElement("form");
+  form.method = "post";
+  form.action = `${PULASKI_DEEDS_BASE}ajaxActions.php`;
+  form.target = target;
+  form.hidden = true;
+  for (const [name, value] of Object.entries(fields)) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  window.setTimeout(() => form.remove(), 2500);
+}
+
 function openPulaskiDeed(inst) {
   const clean = pulaskiInst(inst);
   if (!clean) return false;
-  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, "_blank");
+  const target = pulaskiWindowName("inst");
+  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, target);
   if (!w) return false;
-  const storeURL = pulaskiDeedStoreURL(clean);
-  window.setTimeout(() => { try { w.location.href = storeURL; } catch (e) {} }, 700);
+  const dataString = new URLSearchParams({ searchType: "details", inst_num: clean }).toString();
+  window.setTimeout(() => {
+    postPulaskiWindow(target, { dataString, action: "storeDataString" });
+  }, 1100);
   window.setTimeout(() => {
     try {
       w.location.href = pulaskiDeedContentURL();
       w.focus();
     } catch (e) {}
-  }, 1400);
+  }, 5600);
   return true;
 }
 
@@ -473,52 +501,66 @@ function pulaskiOwnerValue(owner) {
   return String(owner || "").toUpperCase().replace(/[^A-Z0-9]+/g, "");
 }
 
-function pulaskiOwnerEIDURL(owner) {
-  const entityID = pulaskiOwnerEntityId(owner);
-  if (!entityID) return "";
-  const u = new URL("ajaxActions.php", PULASKI_DEEDS_BASE);
-  u.searchParams.set("entityID", entityID);
-  u.searchParams.set("action", "storeEID");
-  return u.href;
+function pulaskiOwnerCandidates(owner) {
+  const raw = String(owner || "").split(/[\/;]+/);
+  const out = [];
+  for (const part of raw) {
+    const clean = part.replace(/\s+/g, " ").trim();
+    if (clean && !out.some((v) => v.toUpperCase() === clean.toUpperCase())) out.push(clean);
+  }
+  return out.length ? out : [String(owner || "").trim()].filter(Boolean);
 }
 
-function pulaskiOwnerDataURL(owner) {
-  const value = pulaskiOwnerValue(owner);
-  if (!value) return "";
+function pulaskiTodayMDY() {
+  const d = new Date();
+  return `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}/${d.getFullYear()}`;
+}
+
+function pulaskiOwnerDataString(names) {
+  const primary = names[names.length - 1];
   const data = new URLSearchParams();
   data.set("searchType", "name");
-  data.set("last_name", String(owner || "").toLowerCase());
+  data.set("start_date", "01/01/1903");
+  data.set("end_date", pulaskiTodayMDY());
+  data.set("sort_type", "Name");
+  data.set("search_type", "Standard");
+  data.set("last_name", primary.toLowerCase());
   data.set("party_type", "Both");
   data.set("entity_type", "Both");
   data.set("instType[ALL][ALL]", "ALL");
-  data.append("name[]", value);
-  const u = new URL("ajaxActions.php", PULASKI_DEEDS_BASE);
-  u.searchParams.set("dataString", data.toString());
-  u.searchParams.set("action", "storeDataString");
-  return u.href;
+  for (const code of PULASKI_INST_CODES) data.set(`instType[${code}][${code}]`, code);
+  data.set("plresults_length", "100");
+  for (const name of names) data.append("name[]", pulaskiOwnerValue(name));
+  return data.toString();
 }
 
 function openPulaskiOwnerIndex(owner) {
-  const eidURL = pulaskiOwnerEIDURL(owner);
-  const dataURL = pulaskiOwnerDataURL(owner);
-  if (!eidURL || !dataURL) return false;
-  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, "_blank");
+  const names = pulaskiOwnerCandidates(owner);
+  if (!names.length || !pulaskiOwnerDataString(names)) return false;
+  const target = pulaskiWindowName("owner");
+  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, target);
   if (!w) return false;
-  window.setTimeout(() => { try { w.location.href = eidURL; } catch (e) {} }, 700);
-  window.setTimeout(() => { try { w.location.href = dataURL; } catch (e) {} }, 1200);
+  names.forEach((name, i) => {
+    window.setTimeout(() => {
+      postPulaskiWindow(target, { entityID: pulaskiOwnerEntityId(name), action: "storeEID" });
+    }, 1100 + (i * 900));
+  });
+  window.setTimeout(() => {
+    postPulaskiWindow(target, { dataString: pulaskiOwnerDataString(names), action: "storeDataString" });
+  }, 1100 + (names.length * 900));
   window.setTimeout(() => {
     try {
       w.location.href = pulaskiDeedContentURL();
       w.focus();
     } catch (e) {}
-  }, 1800);
+  }, 7000 + (names.length * 900));
   return true;
 }
 
 function deedDocLink(inst, label) {
   const clean = pulaskiInst(inst);
   if (!clean) return "";
-  return `<a class="doc-link" href="${pulaskiOpenURL("inst", clean)}" target="_blank" rel="noopener" ` +
+  return `<a class="doc-link" data-pulaski-inst="${clean}" href="${pulaskiOpenURL("inst", clean)}" target="_blank" rel="noopener" ` +
     `title="Open PulaskiDeeds document details for instrument ${clean}">` +
     `${esc(label || clean)}</a>`;
 }
@@ -526,7 +568,7 @@ function deedDocLink(inst, label) {
 function deedOwnerLink(owner, label) {
   const enc = encodeURIComponent(String(owner || ""));
   if (!enc) return "";
-  return `<a class="doc-link" href="${pulaskiOpenURL("owner", String(owner || ""))}" target="_blank" rel="noopener" ` +
+  return `<a class="doc-link" data-pulaski-owner="${enc}" href="${pulaskiOpenURL("owner", String(owner || ""))}" target="_blank" rel="noopener" ` +
     `title="Open PulaskiDeeds records indexed to ${esc(owner)}">` +
     `${esc(label || owner)}</a>`;
 }

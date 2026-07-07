@@ -52,6 +52,34 @@ Code state after this follow-up:
   copy button for the compact parcel. This is a static-site compromise until a
   stable classic Treasurer bill/history URL can be proven.
 
+## 2026-07-07 third follow-up - real click verification
+
+User reported seeing no behavioral change. Live browser verification showed
+why: `pulaski-open.html` was posting the PulaskiDeeds search through a hidden
+third-party iframe, and Chrome did not carry that iframe session into the final
+top-level `content.php` page. The visible result was still "County and/or state
+have not been set properly" even though the static hrefs looked changed.
+
+Fix applied after that report:
+
+- `web/app.js` deed links now include `data-pulaski-owner` /
+  `data-pulaski-inst`, so normal popup clicks are intercepted in the map page.
+- The click handler opens PulaskiDeeds as a first-party named popup, then POSTs
+  the `storeEID` / `storeDataString` forms into that named popup before sending
+  it to `content.php`. This was verified locally in Chromium by clicking the
+  generated `deeds` anchor for `SON HYE JIN/GRANT BRANDON`; the popup landed on
+  the PulaskiDeeds index list with `GRANT BRANDON`, `SON HYE JIN`, and `View
+  Image` rows.
+- The old GET-style PulaskiDeeds URL helpers in `app.js` were removed so future
+  work does not reuse the broken path.
+
+Treasurer status from the same follow-up: the classic TaxPro app exposes a
+`PostMenu()` / `WinOpen("rightframe","STDFIND","PUBLIC.SEARCH",...)` search
+path after login, but the selected bill/history/info URLs remain session-
+generated and were not proven stable enough to hard-link from GitHub Pages.
+Keep `tax-open.html` as the current honest fallback unless a future pass
+successfully reproduces the full TaxPro session state.
+
 ## Where you are
 
 Repo: `github.com/brandongrant/pulaski_building_map` (PUBLIC - Pages deploys
