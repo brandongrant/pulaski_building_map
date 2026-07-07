@@ -409,14 +409,20 @@ function parcelIdForURL(parcelId) {
   return String(parcelId || "").trim();
 }
 
+function treasurerParcelId(parcelId) {
+  return String(parcelId || "").replace(/[^0-9A-Za-z]/g, "");
+}
+
 function arCountyParcelURL(parcelId) {
   return ARCOUNTY_PARCEL_BASE + encodeURIComponent(parcelIdForURL(parcelId));
 }
 
 function treasurerURL(parcelId, address) {
-  const u = new URL(TREASURER_MOBILE_BASE);
-  if (parcelId) u.searchParams.set("parcel", parcelIdForURL(parcelId));
-  else if (address) u.searchParams.set("propaddr", String(address).trim());
+  const cleanParcel = treasurerParcelId(parcelId);
+  const u = new URL("tax-open.html", location.href);
+  if (cleanParcel) u.searchParams.set("parcel", cleanParcel);
+  if (parcelId) u.searchParams.set("display", parcelIdForURL(parcelId));
+  if (address) u.searchParams.set("address", String(address).trim());
   return u.href;
 }
 

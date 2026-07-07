@@ -30,7 +30,7 @@
   <p id="status">Preparing the county record...</p>
   <p>If this tab does not move in a few seconds, <a id="fallback" href="https://pulaskideeds.com/search/">open PulaskiDeeds search</a>.</p>
 </main>
-<iframe id="pulaskiFrame" title="PulaskiDeeds session initializer"></iframe>
+<iframe id="pulaskiFrame" name="pulaskiFrame" title="PulaskiDeeds session initializer"></iframe>
 <script>
 "use strict";
 
@@ -40,9 +40,38 @@ const params = new URLSearchParams(window.location.search);
 const frame = document.getElementById("pulaskiFrame");
 const statusEl = document.getElementById("status");
 const fallback = document.getElementById("fallback");
+const INST_CODES = [
+  "ALA", "AMU", "ARM", "ARS", "ASM", "ASR", "AST", "ASU", "BAS", "BFD",
+  "CAD", "CCL", "CNU", "COD", "COM", "CRC", "CRD", "CRF", "CSR", "CTY",
+  "CVJ", "DCH", "DTM", "EAD", "EXD", "FJL", "FTL", "INT", "IRD", "IRL",
+  "IRM", "IRT", "LPL", "LTD", "MAD", "MEL", "MGM", "MID", "MML", "MRB",
+  "NJA", "NJC", "NJD", "NJF", "NJL", "NJP", "NJS", "NOB", "NOL", "OAO",
+  "ORS", "ORU", "OTB", "OTC", "OTD", "OTI", "OTJ", "OTL", "OUF", "PAG",
+  "PLAT", "POA", "PRL", "PRM", "PRR", "PRU", "PSJ", "QCD", "RAR", "RBA",
+  "RDD", "REL", "REM", "REU", "RML", "RPA", "RTL", "SAJ", "SALE", "SML",
+  "SUM", "SUS", "SUT", "SUU", "TEU", "TMU", "UCC", "WAD",
+];
 
 function setFrame(url) {
   frame.src = url;
+}
+
+function postFrame(fields) {
+  const form = document.createElement("form");
+  form.method = "post";
+  form.action = `${BASE}ajaxActions.php`;
+  form.target = "pulaskiFrame";
+  form.hidden = true;
+  for (const [name, value] of Object.entries(fields)) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
+  window.setTimeout(() => form.remove(), 1200);
 }
 
 function contentURL() {
@@ -57,6 +86,21 @@ function ownerValue() {
   return String(params.get("owner") || "").trim();
 }
 
+function todayMDY() {
+  const d = new Date();
+  return `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}/${d.getFullYear()}`;
+}
+
+function ownerCandidates(owner) {
+  const raw = String(owner || "").split(/[\/;]+/);
+  const out = [];
+  for (const part of raw) {
+    const clean = part.replace(/\s+/g, " ").trim();
+    if (clean && !out.some((v) => v.toUpperCase() === clean.toUpperCase())) out.push(clean);
+  }
+  return out.length ? out : [String(owner || "").trim()].filter(Boolean);
+}
+
 function ownerEntityId(owner) {
   const clean = owner.toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "");
   return clean ? clean + ":" : "";
@@ -66,46 +110,42 @@ function ownerEntityValue(owner) {
   return owner.toUpperCase().replace(/[^A-Z0-9]+/g, "");
 }
 
-function storeDataURL(data) {
-  const u = new URL("ajaxActions.php", BASE);
-  u.searchParams.set("dataString", data.toString());
-  u.searchParams.set("action", "storeDataString");
-  return u.href;
-}
-
-function storeEIDURL(owner) {
-  const u = new URL("ajaxActions.php", BASE);
-  u.searchParams.set("entityID", ownerEntityId(owner));
-  u.searchParams.set("action", "storeEID");
-  return u.href;
-}
-
 async function openInstrument(inst) {
   const data = new URLSearchParams({ searchType: "details", inst_num: inst });
   fallback.href = `${BASE}index.php`;
   statusEl.textContent = `Opening instrument ${inst}...`;
   setFrame(`${BASE}index.php`);
   await WAIT(900);
-  setFrame(storeDataURL(data));
+  postFrame({ dataString: data.toString(), action: "storeDataString" });
   await WAIT(900);
   window.location.href = contentURL();
 }
 
 async function openOwner(owner) {
+  const names = ownerCandidates(owner);
+  const primary = names[names.length - 1];
   const data = new URLSearchParams();
   data.set("searchType", "name");
-  data.set("last_name", owner.toLowerCase());
+  data.set("start_date", "01/01/1903");
+  data.set("end_date", todayMDY());
+  data.set("sort_type", "Name");
+  data.set("search_type", "Standard");
+  data.set("last_name", primary.toLowerCase());
   data.set("party_type", "Both");
   data.set("entity_type", "Both");
   data.set("instType[ALL][ALL]", "ALL");
-  data.append("name[]", ownerEntityValue(owner));
+  for (const code of INST_CODES) data.set(`instType[${code}][${code}]`, code);
+  data.set("plresults_length", "100");
+  for (const name of names) data.append("name[]", ownerEntityValue(name));
   fallback.href = `${BASE}index.php`;
-  statusEl.textContent = `Opening records for ${owner}...`;
+  statusEl.textContent = `Opening records for ${names.join(" / ")}...`;
   setFrame(`${BASE}index.php`);
   await WAIT(900);
-  setFrame(storeEIDURL(owner));
-  await WAIT(700);
-  setFrame(storeDataURL(data));
+  for (const name of names) {
+    postFrame({ entityID: ownerEntityId(name), action: "storeEID" });
+    await WAIT(350);
+  }
+  postFrame({ dataString: data.toString(), action: "storeDataString" });
   await WAIT(900);
   window.location.href = contentURL();
 }

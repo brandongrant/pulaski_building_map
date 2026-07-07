@@ -15,15 +15,61 @@ instrument is in the current deed feed, the `deeds` public-record link falls
 back to the owner's PulaskiDeeds index list by setting `storeEID` and the
 pick-list `dataString`.
 
+## 2026-07-07 second follow-up - exact public-record links
+
+User tested the live GitHub Pages popup and found three public-record link
+gaps:
+
+- `deeds` for combined assessor owners such as `SON HYE JIN/GRANT BRANDON`
+  opened `pulaski-open.html?owner=...`, then PulaskiDeeds
+  `content.php?embedded=1&...`, and could land on HTTP 500 or an empty/bad
+  result set. The manual PulaskiDeeds name search that works posts to
+  `ajaxActions.php` with `searchType=name`, `start_date=01/01/1903`,
+  today's `end_date`, `sort_type=Name`, `search_type=Standard`,
+  `party_type=Both`, `entity_type=Both`, all instrument codes, and
+  `plresults_length=100`.
+- `parcel` and `assessor` both going to ARCountyData's exact
+  `parcel.asp?County=Pulaski&ParcelID=<parcel>` page is acceptable for now.
+- `taxes` was using the dashed/dotted parcel id in the Treasurer mobile URL
+  (`53L-934.02-001.29`), which fails. The Treasurer mobile site accepts the
+  compact parcel id (`53L9340200129`), but the user's desired bill/history/info
+  pages in the classic Treasurer app are generated per session after selecting
+  the parcel, so those `gsapdfs` / `PUBLIC.SEARCH` URLs should not be treated
+  as permanent links.
+
+Code state after this follow-up:
+
+- `web/pulaski-open.html` now splits slash/semicolon owner strings into
+  individual PulaskiDeeds party candidates, posts `storeEID` for each
+  candidate, posts the fuller name-search `dataString`, and uses the last
+  split owner as the primary `last_name` search term. For
+  `SON HYE JIN/GRANT BRANDON`, that matches the user's successful manual
+  `GRANT BRANDON` search while still including both `name[]` values.
+- `web/app.js` now strips punctuation from Treasurer parcel ids before opening
+  taxes and sends users to `web/tax-open.html`.
+- `web/tax-open.html` shows the compact parcel, provides a working Treasurer
+  mobile parcel-search link, links to the classic public tax app, and exposes a
+  copy button for the compact parcel. This is a static-site compromise until a
+  stable classic Treasurer bill/history URL can be proven.
+
 ## Where you are
 
-Repo: `github.com/brandongrant/pulaski_building_map` (PUBLIC — Pages deploys
-`web/` from `main`). Working branch **`claude/elegant-allen-733b4f`**
-(worktree `.claude/worktrees/elegant-allen-733b4f`), two commits ahead of
-main, **not merged**:
+Repo: `github.com/brandongrant/pulaski_building_map` (PUBLIC - Pages deploys
+`web/` from `main`). Current worktree:
+`.claude/worktrees/sharp-payne-7096cd`, branch
+`claude/sharp-payne-7096cd`.
 
-- `426b707` — owner/address name search (Phase 1)
-- `d16704e` — pulaskideeds.com collector (Phase 2)
+Already pushed to `origin/main` before this exact-link follow-up:
+
+- `426b707` - owner/address name search (Phase 1)
+- `d16704e` - pulaskideeds.com collector (Phase 2)
+- `b97f24c` - deed activity overlay and portable pipeline roots
+- `08a93a0` - merge owner search and deed records UI
+- `1ee9736` - exact Pulaski public record links, including owner/parcel data
+
+Current follow-up edits, before the next commit: split combined PulaskiDeeds
+owners in `pulaski-open.html`, normalize Treasurer parcel ids in `app.js`, add
+`tax-open.html`, and update this handoff.
 
 `data` branch (collector storage): seeded at `65aca5d` with
 `deeds/legal_index.json.gz` + one harvested day (2026-05-15 deed groups,
@@ -35,16 +81,13 @@ manual collector run, or ignore it.
 Big gitignored inputs live in the MAIN checkout `D:\Claude Code
 Projects\Building_Map\data\processed\`: `parcel_owners.pkl` (owner/legal
 crosswalk seed), `legal_index.json.gz`, `buildings_final.pkl` (tiler input),
-`cama_parcel_attrs.pkl`, `address_index.json.gz`. Disk is ~2 GB free on C:
-and D: — never persist bulk downloads.
+`cama_parcel_attrs.pkl`, `address_index.json.gz`. Disk was tight on C: and D:
+during the original work - never persist bulk downloads.
 
-**Merging this branch to main is the gate for everything**: GitHub runs
-scheduled workflows from the default branch, so the deeds collector only
-starts collecting (2 queries / 15 min) after merge. Merge also publishes
-owner search on the public site — user has approved building it, but let
-the USER do or ask for the merge.
+The old merge gate is gone: owner search, deed collector, deed overlay, and the
+first exact-link pass have already been pushed to `origin/main`.
 
-## What shipped this session
+## What has shipped
 
 1. **Owner/address search** (`pipeline/build_owner_index.py` →
    `web/data/owners.json`, 12.5 MB; UI in `web/app.js` — `own` module,
@@ -59,16 +102,16 @@ the USER do or ask for the merge.
    (69 %) and publishes `deeds/out/recent_activity.geojson` + `stats.json`.
    Full recon + phase plan: `docs/recorded_documents_plan.md` (read it).
 
-## THE NEXT TASK (agreed with user): click a building → see its deeds
+## Completed prior task - click a building and see its deeds
 
 User asked "what is required next so we can click to view deeds,
 mortgages… when selecting a building" and was told step 3 below is the
-build. Requirements already settled:
+build. This is now historical context, not the next task:
 
 1. ~~Merge to main~~ (user's call; collector then fills Apr→Jul in ~4-5
    days at 192 queries/day vs ~870 pending day-groups).
 2. Archive fills on its own.
-3. **Build the map UI** (do this now; testable against the seeded day):
+3. ~~Build the map UI~~ (shipped in `b97f24c` / `08a93a0`):
    - Fetch `https://raw.githubusercontent.com/brandongrant/pulaski_building_map/data/deeds/out/recent_activity.geojson`
      lazily (mirror `DSP_BASE` constant pattern in app.js) + `stats.json`
      for the section meta line.
@@ -94,7 +137,7 @@ build. Requirements already settled:
      top — see dspLoad/pmLoad).
    - Consider a `sendPrompt`-free equivalent of the permits fine-print:
      "Recorded-document index lags recording by 2–4 weeks · unofficial".
-4. Later enrichment (not now): consideration/book-page need one details
+4. Later enrichment: consideration/book-page need one details
    request per doc; S/T/R fallback matching could recover part of the 31 %
    unmatched (rural metes-and-bounds); pre-Apr-2026 history should come
    from a Clerk bulk-export ask, not scraping (measured cost forbids).
