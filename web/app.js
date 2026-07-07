@@ -344,6 +344,10 @@ function renderLegend() {
 }
 
 /* ------------------------------------------------- owner index + search */
+const PULASKI_DEEDS_BASE = "https://pulaskideeds.com/search/";
+const ARCOUNTY_PARCEL_BASE = "https://www.arcountydata.com/parcel.asp?County=Pulaski&ParcelID=";
+const TREASURER_MOBILE_BASE = "https://public.pulaskicountytreasurer.net/mobile/pulaski/";
+
 const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null };
 
 function ownersLoad() {
@@ -389,7 +393,7 @@ function ownerLinkHTML(name) {
          `title="Show every property of this owner">${esc(name)}</span>`;
 }
 
-function recordLinks() {
+function recordLinksLegacy() {
   return `<div class="tt-veh pp-links">Public records: ` +
     `<a href="https://pulaskideeds.com/search/" target="_blank" rel="noopener" ` +
     `title="Pulaski County recorded documents — deeds, mortgages, liens (1994+)">deeds</a> · ` +
@@ -399,6 +403,187 @@ function recordLinks() {
     `title="Pulaski County Assessor">assessor</a> · ` +
     `<a href="https://public.pulaskicountytreasurer.net/" target="_blank" rel="noopener" ` +
     `title="Pulaski County Treasurer property tax records">taxes</a></div>`;
+}
+
+function parcelIdForURL(parcelId) {
+  return String(parcelId || "").trim();
+}
+
+function arCountyParcelURL(parcelId) {
+  return ARCOUNTY_PARCEL_BASE + encodeURIComponent(parcelIdForURL(parcelId));
+}
+
+function treasurerURL(parcelId, address) {
+  const u = new URL(TREASURER_MOBILE_BASE);
+  if (parcelId) u.searchParams.set("parcel", parcelIdForURL(parcelId));
+  else if (address) u.searchParams.set("propaddr", String(address).trim());
+  return u.href;
+}
+
+function pulaskiInst(inst) {
+  return String(inst || "").replace(/[^0-9A-Za-z-]/g, "");
+}
+
+function pulaskiDeedStoreURL(inst) {
+  const dataString = new URLSearchParams({ searchType: "details", inst_num: inst }).toString();
+  const u = new URL("ajaxActions.php", PULASKI_DEEDS_BASE);
+  u.searchParams.set("dataString", dataString);
+  u.searchParams.set("action", "storeDataString");
+  return u.href;
+}
+
+function pulaskiDeedContentURL() {
+  return `${PULASKI_DEEDS_BASE}content.php?embedded=1&${Date.now()}`;
+}
+
+function pulaskiOpenURL(key, value) {
+  const u = new URL("pulaski-open.html", location.href);
+  u.searchParams.set(key, value);
+  return u.href;
+}
+
+function openPulaskiDeed(inst) {
+  const clean = pulaskiInst(inst);
+  if (!clean) return false;
+  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, "_blank");
+  if (!w) return false;
+  const storeURL = pulaskiDeedStoreURL(clean);
+  window.setTimeout(() => { try { w.location.href = storeURL; } catch (e) {} }, 700);
+  window.setTimeout(() => {
+    try {
+      w.location.href = pulaskiDeedContentURL();
+      w.focus();
+    } catch (e) {}
+  }, 1400);
+  return true;
+}
+
+function pulaskiOwnerEntityId(owner) {
+  const clean = String(owner || "").toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  return clean ? clean + ":" : "";
+}
+
+function pulaskiOwnerValue(owner) {
+  return String(owner || "").toUpperCase().replace(/[^A-Z0-9]+/g, "");
+}
+
+function pulaskiOwnerEIDURL(owner) {
+  const entityID = pulaskiOwnerEntityId(owner);
+  if (!entityID) return "";
+  const u = new URL("ajaxActions.php", PULASKI_DEEDS_BASE);
+  u.searchParams.set("entityID", entityID);
+  u.searchParams.set("action", "storeEID");
+  return u.href;
+}
+
+function pulaskiOwnerDataURL(owner) {
+  const value = pulaskiOwnerValue(owner);
+  if (!value) return "";
+  const data = new URLSearchParams();
+  data.set("searchType", "name");
+  data.set("last_name", String(owner || "").toLowerCase());
+  data.set("party_type", "Both");
+  data.set("entity_type", "Both");
+  data.set("instType[ALL][ALL]", "ALL");
+  data.append("name[]", value);
+  const u = new URL("ajaxActions.php", PULASKI_DEEDS_BASE);
+  u.searchParams.set("dataString", data.toString());
+  u.searchParams.set("action", "storeDataString");
+  return u.href;
+}
+
+function openPulaskiOwnerIndex(owner) {
+  const eidURL = pulaskiOwnerEIDURL(owner);
+  const dataURL = pulaskiOwnerDataURL(owner);
+  if (!eidURL || !dataURL) return false;
+  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, "_blank");
+  if (!w) return false;
+  window.setTimeout(() => { try { w.location.href = eidURL; } catch (e) {} }, 700);
+  window.setTimeout(() => { try { w.location.href = dataURL; } catch (e) {} }, 1200);
+  window.setTimeout(() => {
+    try {
+      w.location.href = pulaskiDeedContentURL();
+      w.focus();
+    } catch (e) {}
+  }, 1800);
+  return true;
+}
+
+function deedDocLink(inst, label) {
+  const clean = pulaskiInst(inst);
+  if (!clean) return "";
+  return `<a class="doc-link" href="${pulaskiOpenURL("inst", clean)}" target="_blank" rel="noopener" ` +
+    `title="Open PulaskiDeeds document details for instrument ${clean}">` +
+    `${esc(label || clean)}</a>`;
+}
+
+function deedOwnerLink(owner, label) {
+  const enc = encodeURIComponent(String(owner || ""));
+  if (!enc) return "";
+  return `<a class="doc-link" href="${pulaskiOpenURL("owner", String(owner || ""))}" target="_blank" rel="noopener" ` +
+    `title="Open PulaskiDeeds records indexed to ${esc(owner)}">` +
+    `${esc(label || owner)}</a>`;
+}
+
+document.addEventListener("click", (e) => {
+  const a = e.target && e.target.closest ? e.target.closest("a[data-pulaski-inst],a[data-pulaski-owner]") : null;
+  if (!a) return;
+  const handled = a.dataset.pulaskiInst
+    ? openPulaskiDeed(a.dataset.pulaskiInst)
+    : openPulaskiOwnerIndex(decodeURIComponent(a.dataset.pulaskiOwner || ""));
+  if (handled) e.preventDefault();
+});
+
+function parcelAtAddr(p) {
+  if (!own.loaded || !p.addr) return null;
+  const key = normAddrJS(p.addr) + "|" + normAddrJS(p.city || "");
+  const ois = own.byAddr.get(key);
+  if (!ois) return null;
+  for (const oi of ois) {
+    const props = own.owners[oi][1] || [];
+    for (const pr of props) {
+      const city = pr[1] >= 0 ? own.cities[pr[1]] : "";
+      if (normAddrJS(pr[0]) === normAddrJS(p.addr) && normAddrJS(city) === normAddrJS(p.city || "")) {
+        return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0 };
+      }
+    }
+  }
+  return null;
+}
+
+function deedsForBuilding(bldProps) {
+  if (!bldProps.addr || !deed.byAddr) return null;
+  return deed.byAddr.get(normAddrJS(bldProps.addr)) || [];
+}
+
+function recordLinks(ctx = {}) {
+  const docs = Array.isArray(ctx.docs) ? ctx.docs : null;
+  const deedDoc = docs && docs.find((p) => p.n);
+  const parcelId = parcelIdForURL(ctx.parcelId || (ctx.parcel && ctx.parcel.id));
+  const owner = ctx.owner || (ctx.parcel && ctx.parcel.owner) || "";
+  const address = ctx.address || "";
+  const deedsLink = deedDoc
+    ? deedDocLink(deedDoc.n, "deeds")
+    : owner ? deedOwnerLink(owner, "deeds")
+    : `<a href="${PULASKI_DEEDS_BASE}" target="_blank" rel="noopener" ` +
+      `title="Pulaski County recorded documents - deeds, mortgages, liens (1994+)">deeds</a>`;
+  const parcelLink = parcelId
+    ? `<a href="${arCountyParcelURL(parcelId)}" target="_blank" rel="noopener" ` +
+      `title="Open this parcel's ARCountyData property record">parcel</a>`
+    : `<a href="https://www.arcountydata.com/county.asp?county=pulaski&amp;directlogin=true" target="_blank" rel="noopener" ` +
+      `title="ARCountyData Pulaski property records">parcel</a>`;
+  const assessorLink = parcelId
+    ? `<a href="${arCountyParcelURL(parcelId)}" target="_blank" rel="noopener" ` +
+      `title="Open the assessor-sponsored ARCountyData property record">assessor</a>`
+    : `<a href="https://pulaskicountyassessor.net/" target="_blank" rel="noopener" ` +
+      `title="Pulaski County Assessor">assessor</a>`;
+  const taxLink = parcelId || address
+    ? `<a href="${treasurerURL(parcelId, address)}" target="_blank" rel="noopener" ` +
+      `title="Open Pulaski County Treasurer tax inquiry for this parcel">taxes</a>`
+    : `<a href="https://public.pulaskicountytreasurer.net/mobile/pulaski/" target="_blank" rel="noopener" ` +
+      `title="Pulaski County Treasurer property tax records">taxes</a>`;
+  return `<div class="tt-veh pp-links">Public records: ` +
+    `${deedsLink} &middot; ${parcelLink} &middot; ${assessorLink} &middot; ${taxLink}</div>`;
 }
 
 function searchRun(qRaw) {
@@ -459,7 +644,7 @@ function hitFeatures(list) {
   return list.map((h) => ({
     type: "Feature",
     geometry: { type: "Point", coordinates: [h.lon, h.lat] },
-    properties: { a: h.addr, c: h.city, o: h.owner, v: h.val },
+    properties: { a: h.addr, c: h.city, o: h.owner, v: h.val, pid: h.parcelId || "" },
   }));
 }
 
@@ -500,7 +685,7 @@ function clearHits() {
 function selectResult(kind, oi, pi) {
   const [name, props] = own.owners[oi];
   const toHit = (pr) => ({ addr: pr[0], city: pr[1] >= 0 ? own.cities[pr[1]] : "",
-                           lon: pr[2], lat: pr[3], val: pr[4], owner: name });
+                           lon: pr[2], lat: pr[3], val: pr[4], parcelId: pr[5] || "", owner: name });
   if (kind === "o") {
     setHits(props.map(toHit), `${name} — ${props.length} propert${props.length === 1 ? "y" : "ies"}`);
   } else {
@@ -641,10 +826,11 @@ function wireHover() {
         let html;
         if (df[0].layer.id === "hit-ring") {
           const where = p.a ? esc(p.a) + (p.c ? ", " + esc(p.c) : "") : "(no situs address)";
+          const docs = p.a ? deedsForBuilding({ addr: p.a }) : null;
           html = `<div class="pp-addr">${where}</div><div class="pp-grid">` +
             (p.o ? `<span class="k">Owner</span><span>${ownerLinkHTML(p.o)}</span>` : "") +
             (p.v > 0 ? `<span class="k">Parcel value</span><span>${fmtUSD.format(p.v)}</span>` : "") +
-            `</div>` + recordLinks() +
+            `</div>` + recordLinks({ parcelId: p.pid, address: p.a, owner: p.o, docs }) +
             `<div class="tt-veh">Owner per county parcel roll · unofficial</div>`;
         } else if (df[0].layer.id === "pm-pts") {
           const d = String(p.d);
@@ -662,7 +848,7 @@ function wireHover() {
           html = `<div class="pp-addr">${esc(p.dt || DEED_TYPES[p.t]?.label || "Deed activity")}</div><div class="pp-grid">` +
             `<span class="k">Where</span><span>${esc(p.a || "Matched location")}</span>` +
             `<span class="k">Recorded</span><span>${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}</span>` +
-            `<span class="k">Document #</span><span>${esc(p.n || "")}</span>` +
+            `<span class="k">Document #</span><span>${p.n ? deedDocLink(p.n, p.n) : ""}</span>` +
             `<span class="k">Match</span><span>${esc(p.mq || "geocoded")}</span></div>` +
             `<div class="tt-veh">Pulaski County deed index match · party names omitted · unofficial</div>`;
         } else if (df[0].layer.id === "dsp-pts") {
@@ -688,10 +874,13 @@ function wireHover() {
     if (!fs.length) return;
     tt.hidden = true;
     const { addr, rows, veh } = featHTML(fs[0].properties, false);
+    const docs = deedsForBuilding(fs[0].properties);
+    const parcel = parcelAtAddr(fs[0].properties);
     popup = new maplibregl.Popup({ closeButton: true, maxWidth: "310px" })
       .setLngLat(e.lngLat)
       .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` +
-               veh + permitTimeline(fs[0].properties) + deedsTimeline(fs[0].properties) + recordLinks())
+               veh + permitTimeline(fs[0].properties) + deedsTimeline(fs[0].properties, docs) +
+               recordLinks({ parcel, address: fs[0].properties.addr, docs }))
       .addTo(map);
   });
 }
@@ -1272,12 +1461,12 @@ function initDeeds() {
   setTimeout(deedDataLoad, 2500);
 }
 
-function deedsTimeline(bldProps) {
+function deedsTimeline(bldProps, docs = undefined) {
   if (!bldProps.addr) return "";
-  if (!deed.byAddr) {
+  if (docs === undefined) docs = deedsForBuilding(bldProps);
+  if (docs === null) {
     return `<div class="tt-veh">Recent recorded-document index is loading; click again for deed history.</div>`;
   }
-  const docs = deed.byAddr.get(normAddrJS(bldProps.addr));
   if (!docs || !docs.length) {
     return `<div class="tt-veh">No recent recorded deeds matched at this address.</div>`;
   }
@@ -1288,11 +1477,11 @@ function deedsTimeline(bldProps) {
     const right = partyShort(p.g2);
     items.push(`<div>${d.slice(0, 4)}-${d.slice(4, 6)} · ${esc(deedLabel(p))}` +
       `${left || right ? " · " + esc(left || "?") + " → " + esc(right || "?") : ""}` +
-      `${p.n ? " · #" + esc(p.n) : ""}</div>`);
+      `${p.n ? " · " + deedDocLink(p.n, "#" + p.n) : ""}</div>`);
     if (items.length >= 8) break;
   }
   return `<div class="tt-veh pm-tl"><b>Recent recorded documents</b>${items.join("")}` +
-    `<div>Use the instrument number at pulaskideeds.com/search for full details.</div></div>`;
+    `<div>Document links open PulaskiDeeds details and image pages.</div></div>`;
 }
 
 /* re-render legend once map ready (colors already set at layer creation) */

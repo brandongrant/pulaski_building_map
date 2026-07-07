@@ -93,8 +93,8 @@ section { margin: 13px 0; }
 #searchHits button:hover { color: var(--txt); }
 
 /* popup extras: owner + record links */
-.pp-links a { color: var(--accent); text-decoration: none; }
-.pp-links a:hover { text-decoration: underline; }
+.pp-links a, .doc-link { color: var(--accent); text-decoration: none; }
+.pp-links a:hover, .doc-link:hover { text-decoration: underline; }
 .owner-link { color: var(--accent); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
 .lbl { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.1px; color: var(--txt-dim); margin-bottom: 5px; }
 .row { display: flex; gap: 10px; align-items: center; }

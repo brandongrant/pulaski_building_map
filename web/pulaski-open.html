@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening PulaskiDeeds</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    background: #05060a; color: #e8eaf0;
+    font: 14px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  main {
+    width: min(460px, calc(100vw - 32px));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(13, 16, 24, 0.94);
+    border-radius: 10px; padding: 22px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+  h1 { margin: 0 0 8px; font-size: 18px; }
+  p { margin: 0 0 12px; color: #b8c0d2; }
+  a { color: #f3d54c; }
+  iframe { position: fixed; width: 1px; height: 1px; left: -10px; top: -10px; opacity: 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Opening PulaskiDeeds</h1>
+  <p id="status">Preparing the county record...</p>
+  <p>If this tab does not move in a few seconds, <a id="fallback" href="https://pulaskideeds.com/search/">open PulaskiDeeds search</a>.</p>
+</main>
+<iframe id="pulaskiFrame" title="PulaskiDeeds session initializer"></iframe>
+<script>
+"use strict";
+
+const BASE = "https://pulaskideeds.com/search/";
+const WAIT = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+const params = new URLSearchParams(window.location.search);
+const frame = document.getElementById("pulaskiFrame");
+const statusEl = document.getElementById("status");
+const fallback = document.getElementById("fallback");
+
+function setFrame(url) {
+  frame.src = url;
+}
+
+function contentURL() {
+  return `${BASE}content.php?embedded=1&${Date.now()}`;
+}
+
+function instValue() {
+  return String(params.get("inst") || "").replace(/[^0-9A-Za-z-]/g, "");
+}
+
+function ownerValue() {
+  return String(params.get("owner") || "").trim();
+}
+
+function ownerEntityId(owner) {
+  const clean = owner.toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  return clean ? clean + ":" : "";
+}
+
+function ownerEntityValue(owner) {
+  return owner.toUpperCase().replace(/[^A-Z0-9]+/g, "");
+}
+
+function storeDataURL(data) {
+  const u = new URL("ajaxActions.php", BASE);
+  u.searchParams.set("dataString", data.toString());
+  u.searchParams.set("action", "storeDataString");
+  return u.href;
+}
+
+function storeEIDURL(owner) {
+  const u = new URL("ajaxActions.php", BASE);
+  u.searchParams.set("entityID", ownerEntityId(owner));
+  u.searchParams.set("action", "storeEID");
+  return u.href;
+}
+
+async function openInstrument(inst) {
+  const data = new URLSearchParams({ searchType: "details", inst_num: inst });
+  fallback.href = `${BASE}index.php`;
+  statusEl.textContent = `Opening instrument ${inst}...`;
+  setFrame(`${BASE}index.php`);
+  await WAIT(900);
+  setFrame(storeDataURL(data));
+  await WAIT(900);
+  window.location.href = contentURL();
+}
+
+async function openOwner(owner) {
+  const data = new URLSearchParams();
+  data.set("searchType", "name");
+  data.set("last_name", owner.toLowerCase());
+  data.set("party_type", "Both");
+  data.set("entity_type", "Both");
+  data.set("instType[ALL][ALL]", "ALL");
+  data.append("name[]", ownerEntityValue(owner));
+  fallback.href = `${BASE}index.php`;
+  statusEl.textContent = `Opening records for ${owner}...`;
+  setFrame(`${BASE}index.php`);
+  await WAIT(900);
+  setFrame(storeEIDURL(owner));
+  await WAIT(700);
+  setFrame(storeDataURL(data));
+  await WAIT(900);
+  window.location.href = contentURL();
+}
+
+(async () => {
+  const inst = instValue();
+  const owner = ownerValue();
+  if (inst) {
+    await openInstrument(inst);
+  } else if (owner && ownerEntityId(owner)) {
+    await openOwner(owner);
+  } else {
+    statusEl.textContent = "No PulaskiDeeds record was provided.";
+  }
+})().catch(() => {
+  statusEl.textContent = "PulaskiDeeds did not accept the automatic opener.";
+});
+</script>
+</body>
+</html>

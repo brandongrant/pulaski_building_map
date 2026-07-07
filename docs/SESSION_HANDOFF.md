@@ -3,6 +3,18 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-07 follow-up
+
+Plain cold PulaskiDeeds detail URLs still fail with "County and/or state have
+not been set properly", but the site accepts the same session sequence its UI
+uses via GET requests: open `index.php`, call `ajaxActions.php` with
+`action=storeDataString` and `dataString=searchType=details&inst_num=<inst>`,
+then open `content.php?embedded=1&<cache-buster>`. `web/app.js` now uses that
+sequence from a user click for instrument links. If no address-matched
+instrument is in the current deed feed, the `deeds` public-record link falls
+back to the owner's PulaskiDeeds index list by setting `storeEID` and the
+pick-list `dataString`.
+
 ## Where you are
 
 Repo: `github.com/brandongrant/pulaski_building_map` (PUBLIC — Pages deploys

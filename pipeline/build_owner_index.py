@@ -10,7 +10,7 @@ Output:
        values, owner mailing city/state, representative lon/lat)
   web/data/owners.json               compact client search index
       {"generated", "count", "cities": [...],
-       "owners": [[name, [[addr, cityIdx, lon, lat, totalValue], ...]], ...]}
+       "owners": [[name, [[addr, cityIdx, lon, lat, totalValue, parcelId], ...]], ...]}
 
 parcel_owners.pkl is the seed of the property_crosswalk described in
 docs/recorded_documents_plan.md: SUBDIV/LOT/BLOCK are the join keys the
@@ -118,7 +118,7 @@ city_i[""] = -1
 
 owners = []
 for name, grp in idx.groupby("owner", sort=True):
-    props = [[r.addr, city_i[r.city], r.lon, r.lat, int(r.total_value or 0)]
+    props = [[r.addr, city_i[r.city], r.lon, r.lat, int(r.total_value or 0), r.parcelid]
              for r in grp.itertuples()]
     owners.append([name, props])
 
