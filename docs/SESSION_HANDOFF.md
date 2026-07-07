@@ -3,6 +3,78 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-07 sixth follow-up — deeds by LEGAL DESCRIPTION (major fix)
+
+Shipped to `origin/main` (`5d6f321`). Fixes the user's report that some deed
+clicks (e.g. 18 TOULOUSE CT, owner "WEBSTER FAMILY LIVING TRUST") showed an
+error or no documents.
+
+ROOT CAUSE: the popup searched PulaskiDeeds by the ASSESSOR OWNER NAME. That
+string frequently has no matching clerk party entity — the clerk indexes
+names by surname/first-token prefix ("WEBSTER" → 271 parties incl.
+"WEBSTER FAMILY TRUST", "WEBSTER LIVING TRUST", but NOT the assessor's exact
+"WEBSTER FAMILY LIVING TRUST"), so `last_name=<full owner string>` returns 0
+rows → the popup dance lands on an empty/error page.
+
+THE FIX — search by legal description instead (owner-independent). NEW
+hard-won facts about PulaskiDeeds' `property` search (all measured live):
+- It is a plain **top-level POST to `content.php`** with fields
+  `searchType=property, LOT, BLC, RNG, SEC, QTR, SUB, TWP, PD, TRCT, UNIT,
+  BLD, PH, CON, prop_start_date=01/01/1903, prop_end_date=<today>` + every
+  `instType[<code>]=<code>` (+ `instType[ALL]=ALL`). It renders results
+  **from the POST response itself** — NO storeDataString, NO storeEID, NO
+  pick list, NO `random` token needed. This is far simpler than the name flow.
+- Session requirement: exactly ONE prior `GET index.php` (sets county/state).
+  NO `Accept` POST needed. A bogus/absent `?<random>` is fine. With no prior
+  index.php at all you get the 46-byte "County and/or state…" error.
+- `SUB` matches as a **case-insensitive PREFIX** against the clerk's OWN
+  subdivision vocabulary (6,885 options, saved to
+  `pipeline/pulaski_subdivisions.json`). The clerk spells names differently
+  from the assessor: clerk "ST CHARLES ADN" vs assessor "ST CHARLES ADDN";
+  "SAINT CHARLES ADN" and a trailing space both return 0. Sending the
+  shortest clerk SUB for a base name also catches its phased siblings
+  ("ST CHARLES ADN" prefixes "ST CHARLES ADN PH VIII") without leaking into
+  "ST CHARLES PLACE".
+- Results carry ONE ROW PER PARTY SIDE (same as instrumenttype) — merge by
+  instrument number. Column 3 is the structured legal (SUBDIVISION/LOT/BLOCK
+  or "PROPERTY DESCRIPTION:LT …").
+
+`pipeline/pulaski_legal.py` (`SubResolver`) maps assessor subdivision →
+clerk SUB via stripped-base matching; 180,227/180,230 parcels resolve.
+`build_owner_index.py --rebuild-web` regenerates `owners.json` from the
+existing `parcel_owners.pkl` (NO re-download) with a shared `subs` string
+table + per-property `[…, parcelId, subIdx, lot, block]` (entry indices
+5,6,7,8). owners.json grew 12.5 → 18.4 MB (~5-6 MB gzipped on the wire).
+
+Client: `app.js` `parcelAtAddr` now returns `{id,owner,value,sub,lot,blc}`;
+`openPulaskiProperty` / `deedPropertyLink` (data-pulaski-sub/lot/blc) drive
+the property POST through the SAME first-party named-popup mechanism the
+inst/owner flows use — `window.open(deeds-open.html)` → at
+`PULASKI_SPINNER_MS` navigate popup to `index.php` → at +1600 ms POST the
+property form to `content.php` (target = popup name). `recordLinks` prefers
+this legal search when `parcel.sub && parcel.lot`, else falls back to the
+owner-name search, else the bare site. `deeds-open.html` now shows the legal
+context AND can self-drive (property/inst/owner) when opened standalone
+(new tab / middle-click), since the opener isn't driving it then.
+
+VERIFIED end-to-end WITHOUT a browser (verify_browser_path.py pattern): load
+the shipped owners.json → replicate normAddrJS + parcelAtAddr + the JS field
+list → POST live. 18 TOULOUSE CT → 27 docs; 14 TOULOUSE → 27; 3420 W 19TH ST
+(HIGHLAND PARK lot 13 block 2, exercises BLC) → 23. STILL UNVERIFIED here
+(hidden preview tab blocks window.open): the popup navigation end-to-end —
+but it reuses the exact mechanism the fifth follow-up verified in Chromium.
+NEXT SESSION: ask the user to click a deed link on the live site and confirm
+the parcel's deed list loads. If it races, the single tunable is the
+`+1600 ms` gap in `openPulaskiProperty` (index.php must finish first).
+
+Deferred/known limits: ~3 parcels have no lot → fall back to owner search;
+a handful of assessor subdivisions with embedded lot codes (e.g.
+"BRADDOCKS BLVD L2") resolve to a bare-prefix that can under-match; the
+prefix SUB can over-match sibling subdivisions sharing a base name (LOT
+still constrains it). The local deed-collector archive + `deedsTimeline`
+(recent_activity.geojson) are unchanged and still list individual recent
+instruments with working detail deep-links.
+
 ## 2026-07-07 follow-up
 
 Plain cold PulaskiDeeds detail URLs still fail with "County and/or state have
