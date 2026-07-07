@@ -140,15 +140,20 @@ Official document link
       (pipeline/build_owner_index.py → parcel_owners.pkl + web/data/owners.json)
 - [x] Normalize party names (owner index normalizes for search)
 - [x] Map name-search UI (owner + address search, panel search box)
-- [ ] Query recorded-document source by parcel/name/date where available
-- [ ] Extract document type, instrument number, recording date, grantor,
-      grantee, legal description, source URL
-- [ ] Normalize document type into deed/mortgage/release/lien/easement/plat/etc.
-- [ ] Match documents to parcel/building (crosswalk priority above)
-- [ ] Store exact official document URL when available
-- [ ] Add document events to property timeline
-- [ ] Add filters for document type, date range, grantor, grantee, lender,
-      instrument number
+- [x] Query recorded-document source by date + instrument type
+      (pipeline/deeds_collect.py, GitHub Actions cron, gentle budget)
+- [x] Extract document type, instrument number, recording date, grantor,
+      grantee, structured legal description per document
+- [x] Normalize document type (88 official codes → deed/mtg/rel/asgn/lien/
+      fcl/plat/ease/oth; see deeds_inst_codes.json)
+- [x] Match documents to parcels via SUBDIV|LOT|BLOCK crosswalk
+      (pipeline/build_legal_index.py → deeds/legal_index.json.gz)
+- [x] Store per-document official deep link (details URL by instrument number)
+- [ ] Add document events to the building-popup property timeline (map UI —
+      once the archive has accumulated)
+- [ ] Add filters for document type, date range, grantor, grantee (map UI)
+- [ ] Consideration amounts / book-page (details pages only — would need one
+      extra request per document; deliberately not harvested yet)
 
 ## Source notes (from clerk / site disclaimers)
 
@@ -206,12 +211,38 @@ How pulaskideeds.com actually works — basis for the Phase-2 collector:
    on the map; owner shown in building popups; records links per popup;
    `data/processed/parcel_owners.pkl` seeds `property_crosswalk`
    (parcel_id, situs, SUBDIV/LOT/BLOCK, legal, values, centroid).
-2. **Collector** (GitHub Actions, like dispatch): daily `instrumenttype`
-   sweep of the previous recording day (1994+ backfill optional, budgeted),
-   parse the results grid → `recorded_documents` JSONL on the `data` branch;
-   dedupe by instrument number.
-3. **Crosswalk & match**: normalize legal descriptions; join documents →
-   parcels by SUBDIV/LOT/BLOCK, then name+date fallback, per the matching
-   priority; emit per-address latest-deed/mortgage fields + timeline events.
-4. **Map integration**: popup "Recorded documents" timeline (like permits),
-   grantor/grantee in the existing name search, document-type/date filters.
+2. **Done — collector** (`pipeline/deeds_collect.py`, runs inside the
+   dispatch cron): per-(recording-day × type-group) `instrumenttype`
+   queries, parsed into `deeds/raw/YYYY-MM.jsonl` on the `data` branch
+   (dedupe by instrument number), matched to parcels via
+   `deeds/legal_index.json.gz`, published as
+   `deeds/out/recent_activity.geojson` + `stats.json`.
+3. **Next — map integration** (once the archive fills): recorded-activity
+   overlay + popup "Recorded documents" timeline (address-matched like
+   permits), grantor/grantee surfaced in the map's name search,
+   type/date filters.
+4. **Open — history depth**: harvest currently starts 2026-04-01.
+   Deeper backfill is feasible but slow under the measured server cost
+   (~1 s/result-row, 180 s cap ⇒ ~9 queries per fully-indexed day); for
+   1994+ depth, ask the Circuit/County Clerk about a bulk index export
+   (many GovOS/Kofile counties sell one) before scraping three decades.
+
+### Collector implementation notes (measured 2026-07-06)
+
+- A working search = `POST ajaxActions.php {action: storeDataString,
+  dataString: <serialized form>}` **with `X-Requested-With: XMLHttpRequest`**,
+  then `GET content.php?embedded=1&<rand>` (same headers, same session).
+  Query params on content.php alone are ignored — the form goes through the
+  session. `instType[ALL]` is NOT expanded server-side; every wanted code
+  must be sent individually (the UI checks all 88 boxes for you).
+- Cost model: ~1 s per result row, hard ~180 s execution cap (92-byte error
+  body), load-dependent (an identical query can fail then succeed). Hence
+  GROUPS in deeds_collect.py keep any (day × group) under ~150 rows, and
+  failures retry across cron runs (MAX_ATTEMPTS backstop).
+- The verified index lags recording by ~2–4 weeks (Temp Index = in-process
+  queue), so recent days return 0 rows legitimately; the collector re-checks
+  them on a schedule instead of assuming completion (state.json).
+- Results carry one row per document **per party side** (Party 1 = grantor
+  side, Party 2 = grantee side) — merge by instrument number.
+- Privacy: DCH (military discharge) and ARM (medical-records authorization)
+  are never requested; they are not property records.

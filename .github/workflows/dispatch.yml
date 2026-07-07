@@ -1,4 +1,4 @@
-name: Collect dispatch data
+name: Collect dispatch + deeds data
 
 on:
   schedule:
@@ -26,6 +26,9 @@ jobs:
           python-version: "3.12"
       - run: pip install requests
       - run: python pipeline/dispatch_collect.py --store datastore
+      - name: Collect recorded documents (pulaskideeds.com, 2 gentle queries)
+        continue-on-error: true
+        run: python pipeline/deeds_collect.py --store datastore --max-queries 2
       - name: Commit collected data
         run: |
           cd datastore
@@ -33,9 +36,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           if git diff --cached --quiet; then
-            echo "no new dispatches"
+            echo "no new data"
           else
-            git commit -m "dispatch: $(date -u +%FT%TZ)"
+            git commit -m "collect: $(date -u +%FT%TZ)"
             for i in 1 2 3; do
               git push && break || { git pull --rebase; sleep 5; }
             done

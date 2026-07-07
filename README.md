@@ -88,6 +88,22 @@ as points, and calls-for-service language throughout (a dispatch is not a
 confirmed crime). Note: GitHub disables cron workflows after ~60 days without
 repo activity — any commit re-enables it.
 
+## Recorded documents collector
+
+The same workflow also runs `pipeline/deeds_collect.py`: two gentle queries
+per run against the Pulaski County Circuit/County Clerk's public
+recorded-document index (pulaskideeds.com) — one recording-day × one
+instrument-type group at a time (the server allows ~150 result rows per
+query). Documents (deeds, mortgages, releases, liens, plats…, with grantor/
+grantee names and structured legal descriptions) accumulate in
+`deeds/raw/*.jsonl` on the **`data` branch**, are matched to parcels through
+a subdivision/lot/block crosswalk (`pipeline/build_legal_index.py`), and
+publish as `deeds/out/recent_activity.geojson` + `stats.json`. Harvest
+currently covers recordings from 2026-04-01 forward (the clerk's verified
+index lags recording by ~2–4 weeks). Design, source recon, and roadmap:
+[docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
+Military discharges and medical-record authorizations are never collected.
+
 ## Permit overlay
 
 `pipeline/build_permits.py` normalizes the City of Little Rock
