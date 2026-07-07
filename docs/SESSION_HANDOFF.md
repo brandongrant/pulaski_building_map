@@ -110,6 +110,66 @@ Verified locally in Chromium:
 - `pulaski-open.html?owner=SON+HYE+JIN%2FGRANT+BRANDON` button opened the index
   list with `GRANT BRANDON`, `SON HYE JIN`, and `View Image` rows.
 
+## 2026-07-07 fifth follow-up - deed loading screen + iframe ruled out
+
+Shipped and LIVE on `origin/main` (`fcbf070`, fast-forwarded from the
+`claude/sharp-payne-7096cd` branch). Clicking a deed/owner link no longer
+opens a blank popup. The popup now opens FIRST to a new first-party
+`web/deeds-open.html` spinner ("Opening Pulaski County records…", shows the
+instrument #/owner + a "PulaskiDeeds is slow, ~10-15s, keep this window open"
+note + a manual fallback link), THEN the same proven session dance runs in
+that window, delayed by `PULASKI_SPINNER_MS` (1500 ms) so the notice is seen.
+
+`openPulaskiDeed` / `openPulaskiOwnerIndex` in `web/app.js` now do
+`window.open(pulaskiLoadingURL(kind, value), target)` then
+`w.location.href = <BASE>index.php` at `PULASKI_SPINNER_MS`; every later
+storeDataString/storeEID/content.php step is offset by the SAME 1500 ms, so
+the index.php→POST session-establishment gap (~1100 ms) is preserved. The
+anchor `href` still points to `pulaski-open.html` (button fallback for
+non-intercepted / middle-click / new-tab opens) — unchanged on purpose.
+
+HARD-WON FACT - do NOT re-attempt an iframe embed of PulaskiDeeds. Its
+`PHPSESSID` is `Set-Cookie: …; path=/; Secure` with NO `SameSite`, i.e.
+browser-default `SameSite=Lax`, so it is NOT sent on cross-site iframe
+requests. `content.php` with no session returns the 46-byte "County and/or
+state have not been set properly" body (measured live). That is exactly why
+the earlier hidden-iframe attempt failed; a visible iframe would only show
+that error. Framing itself is allowed (no `X-Frame-Options` / CSP), but that
+is irrelevant given the cookie. Lax cookies ARE sent on top-level
+navigations, so the first-party named popup is the ONLY path that carries the
+session — keep it.
+
+STILL UNVERIFIED (the verification env cannot do it — hidden preview tab
+blocks `window.open`, no live PulaskiDeeds session): the popup dance end to
+end. `deeds-open.html` rendering WAS verified live (real `#ctx`, spinner,
+fallback link). NEXT SESSION: ask the user whether a real deed click shows
+the spinner AND then loads the record. If the record stops loading, tune
+`PULASKI_SPINNER_MS` down/up (1500 ms could race a slow index.php load).
+
+Also done this session (research, IN CHAT ONLY — not saved to any file): an
+audit of which Arkansas counties expose each dataset this map uses. Headline:
+building footprints are statewide (all 75, AR GIS Office); parcels 62/75;
+assessor + deeds are near-universal but as *lookup* via actDataScout /
+ARCountyData (paid bulk via DataScoutPro); free bulk assessor + personal-
+property exports are Pulaski-notable; genuine public police-dispatch feeds
+exist only in Little Rock, Fayetteville, and Springdale. Washington County
+(Fayetteville/Springdale) is the strongest county for replicating the FULL
+map. Exact per-county vendor enumeration was cut short by a session limit.
+
+Repo / worktree hygiene (matters for the next session):
+- `origin/main` = `fcbf070` and contains ALL deed work + this loading screen.
+  This supersedes the stale commit list in "Where you are" below.
+- The MAIN checkout `D:\Claude Code Projects\Building_Map` is BEHIND
+  `origin/main` and carries UNRELATED uncommitted edits (a mobile
+  "tap map to hide panel" change in `web/app.js` + `.claude/launch.json`,
+  plus untracked `pulaski_deeds_*source_code.pdf`). Not shipped — reconcile
+  (`git fetch`/pull) or ignore before working there.
+- `elegant-allen-733b4f` worktree holds SUPERSEDED deeds-UI work (deeds
+  already shipped) — ignore or remove.
+- `.claude/launch.json` in the main checkout gained an uncommitted
+  `deeds-sharp-payne` config (port 8083) that serves the sharp-payne
+  worktree `web/` for preview — convenient, not committed.
+
 ## Where you are
 
 Repo: `github.com/brandongrant/pulaski_building_map` (PUBLIC - Pages deploys
