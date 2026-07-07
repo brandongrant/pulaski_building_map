@@ -451,6 +451,16 @@ function pulaskiOpenURL(key, value) {
   return u.href;
 }
 
+// First-party loading screen shown in the popup while PulaskiDeeds is fetched,
+// so the user sees immediate feedback instead of a blank page.
+const PULASKI_SPINNER_MS = 1500;
+
+function pulaskiLoadingURL(kind, value) {
+  const u = new URL("deeds-open.html", location.href);
+  u.searchParams.set(kind === "inst" ? "inst" : "owner", value);
+  return u.href;
+}
+
 function pulaskiWindowName(kind) {
   return `pulaski_${kind}_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
 }
@@ -477,18 +487,22 @@ function openPulaskiDeed(inst) {
   const clean = pulaskiInst(inst);
   if (!clean) return false;
   const target = pulaskiWindowName("inst");
-  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, target);
+  // Show our loading screen first; then drive PulaskiDeeds in the same window.
+  const w = window.open(pulaskiLoadingURL("inst", clean), target);
   if (!w) return false;
   const dataString = new URLSearchParams({ searchType: "details", inst_num: clean }).toString();
   window.setTimeout(() => {
+    try { w.location.href = `${PULASKI_DEEDS_BASE}index.php`; } catch (e) {}
+  }, PULASKI_SPINNER_MS);
+  window.setTimeout(() => {
     postPulaskiWindow(target, { dataString, action: "storeDataString" });
-  }, 1100);
+  }, PULASKI_SPINNER_MS + 1100);
   window.setTimeout(() => {
     try {
       w.location.href = pulaskiDeedContentURL();
       w.focus();
     } catch (e) {}
-  }, 5600);
+  }, PULASKI_SPINNER_MS + 5600);
   return true;
 }
 
@@ -538,22 +552,26 @@ function openPulaskiOwnerIndex(owner) {
   const names = pulaskiOwnerCandidates(owner);
   if (!names.length || !pulaskiOwnerDataString(names)) return false;
   const target = pulaskiWindowName("owner");
-  const w = window.open(`${PULASKI_DEEDS_BASE}index.php`, target);
+  // Show our loading screen first; then drive PulaskiDeeds in the same window.
+  const w = window.open(pulaskiLoadingURL("owner", String(owner || "")), target);
   if (!w) return false;
+  window.setTimeout(() => {
+    try { w.location.href = `${PULASKI_DEEDS_BASE}index.php`; } catch (e) {}
+  }, PULASKI_SPINNER_MS);
   names.forEach((name, i) => {
     window.setTimeout(() => {
       postPulaskiWindow(target, { entityID: pulaskiOwnerEntityId(name), action: "storeEID" });
-    }, 1100 + (i * 900));
+    }, PULASKI_SPINNER_MS + 1100 + (i * 900));
   });
   window.setTimeout(() => {
     postPulaskiWindow(target, { dataString: pulaskiOwnerDataString(names), action: "storeDataString" });
-  }, 1100 + (names.length * 900));
+  }, PULASKI_SPINNER_MS + 1100 + (names.length * 900));
   window.setTimeout(() => {
     try {
       w.location.href = pulaskiDeedContentURL();
       w.focus();
     } catch (e) {}
-  }, 11000 + (names.length * 1200));
+  }, PULASKI_SPINNER_MS + 11000 + (names.length * 1200));
   return true;
 }
 
