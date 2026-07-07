@@ -19,6 +19,17 @@
     <div class="stats" id="stats">Loading…</div>
   </header>
 
+  <section id="searchSec">
+    <input id="searchBox" type="search" placeholder="Search owner name or address…"
+           autocomplete="off" spellcheck="false" enterkeyhint="search"
+           aria-label="Search owner name or address">
+    <div id="searchResults" hidden></div>
+    <div id="searchHits" hidden>
+      <span id="searchHitsTxt"></span>
+      <button id="searchHitsClear" title="Clear search markers">×</button>
+    </div>
+  </section>
+
   <section>
     <label class="lbl" for="attr">Color by</label>
     <select id="attr"></select>
@@ -109,8 +120,8 @@
     <div id="deedControls" hidden>
       <div id="deedTypes"></div>
       <div class="fineprint">Pulaski County deed index documents, matched to map
-        locations from public legal/address records. Locations are approximate,
-        party names are omitted from map popups, and this is not an official record.</div>
+        locations from public legal/address records. Point locations are approximate;
+        overlay popups omit party names. Unofficial.</div>
     </div>
   </section>
 
@@ -149,6 +160,9 @@
       <li><b>Vehicles & personal property</b> — Pulaski County Assessor personal
           property export (public assessment records), matched to buildings by
           situs address; counts reflect each account's most recent assessment</li>
+      <li><b>Owner names</b> — PAgis parcel records (public county records, as
+          published by the assessor). The search box finds properties by owner
+          name or address; popups link to official deed/assessor/tax lookups.</li>
     </ul>
     <h3>Caveats</h3>
     <ul>
@@ -161,6 +175,8 @@
           all residents' vehicles, dealers/leasing lots can reach hundreds, and every
           building on a parcel shows its parcel's totals. Business equipment is
           excluded from vehicle counts but included in personal-property value.</li>
+      <li>Owner names come from the county parcel roll and can lag recent sales;
+          they are shown exactly as recorded (trusts, LLCs, co-owners).</li>
       <li>Unofficial visualization; not an authoritative record.</li>
     </ul>
     <p class="fine" id="aboutMeta"></p>

@@ -22,6 +22,7 @@ online basemaps.
 
 | Control | What it does |
 |---|---|
+| **Search** | Owner name or street address across all ~180k parcels — flags every property of an owner, flies to addresses; building popups show the owner (click it to see their other properties) plus deed/assessor/tax lookup links |
 | **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value |
 | **Palette + flip** | Colouring-London, Amsterdam-fire, Viridis, Magma, Turbo, Cividis, Cool-Warm |
 | **Year built filter** | Range sliders + "include undated" |
@@ -61,6 +62,11 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 6. `make_tiles.py` — pure-Python vector tiler → `web/data/buildings.pmtiles`
    (z9–z15, tiny-building dilation at low zooms so every house stays a visible speck)
    + `web/data/config.json` (stats, histograms, domains for the UI).
+7. `build_owner_index.py` — streams the PAgis parcel layer (owner name, situs
+   address, subdivision/lot/block, values, centroid — no bulk file kept on disk)
+   → `web/data/owners.json` (the in-app owner/address search index) and
+   `data/processed/parcel_owners.pkl` (parcel crosswalk seed for the
+   recorded-documents roadmap, see `docs/recorded_documents_plan.md`).
 
 ## Public dispatch overlay
 
@@ -81,6 +87,22 @@ last 24 h, aggregates beyond that, medical/welfare/death call types never shown
 as points, and calls-for-service language throughout (a dispatch is not a
 confirmed crime). Note: GitHub disables cron workflows after ~60 days without
 repo activity — any commit re-enables it.
+
+## Recorded documents collector
+
+The same workflow also runs `pipeline/deeds_collect.py`: two gentle queries
+per run against the Pulaski County Circuit/County Clerk's public
+recorded-document index (pulaskideeds.com) — one recording-day × one
+instrument-type group at a time (the server allows ~150 result rows per
+query). Documents (deeds, mortgages, releases, liens, plats…, with grantor/
+grantee names and structured legal descriptions) accumulate in
+`deeds/raw/*.jsonl` on the **`data` branch**, are matched to parcels through
+a subdivision/lot/block crosswalk (`pipeline/build_legal_index.py`), and
+publish as `deeds/out/recent_activity.geojson` + `stats.json`. Harvest
+currently covers recordings from 2026-04-01 forward (the clerk's verified
+index lags recording by ~2–4 weeks). Design, source recon, and roadmap:
+[docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
+Military discharges and medical-record authorizations are never collected.
 
 ## Permit overlay
 
@@ -107,10 +129,11 @@ The map can also show recent Pulaski County deed-index activity from the
 - `deeds/out/stats.json` - collection totals, earliest document date, match rate
 
 The frontend reads those files from `raw.githubusercontent.com`, so new deed
-outputs can appear without a Pages redeploy. Popups show document type, matched
-address, record date, document number, and match quality, but intentionally omit
-grantor/grantee names from the map UI. The current dataset is a seeded harvest;
-the recurring collector is still a follow-up item.
+outputs can appear without a Pages redeploy. Building popups show a recent
+recorded-documents timeline by matched address; overlay point popups show
+document type, matched address, record date, document number, and match quality
+without grantor/grantee names. The current dataset is a seeded harvest; the
+recurring collector is still a follow-up item.
 
 ## Data notes & caveats
 
@@ -124,8 +147,14 @@ the recurring collector is still a follow-up item.
 - Vehicle counts aggregate by street address: apartment complexes sum all residents'
   vehicles; dealer/leasing lots reach hundreds. "Personal property value" includes
   business equipment; vehicle counts do not.
-- Sources: **PAgis** (footprints, parcels, addresses) · **Pulaski County Assessor**
-  CAMA real property + personal property exports (public records) · not an official record.
+- Owner names come from the public county parcel roll (PAgis/assessor); they can
+  lag recent sales and appear exactly as recorded (trusts, LLCs, co-owners).
+  Building popups link to the official deed, assessor, and treasurer lookups —
+  the roadmap for pulling recorded documents (deeds/mortgages/liens) into the
+  map itself is in [docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
+- Sources: **PAgis** (footprints, parcels, addresses, owners) · **Pulaski County
+  Assessor** CAMA real property + personal property exports (public records) ·
+  not an official record.
 
 ## Hosted version
 

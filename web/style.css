@@ -54,6 +54,48 @@ body { font: 13px/1.45 "Segoe UI", system-ui, -apple-system, sans-serif; color: 
 .stats { color: var(--txt-dim); font-size: 11.5px; margin: 6px 0 2px; }
 
 section { margin: 13px 0; }
+
+/* ---------- owner / address search ---------- */
+#searchSec { position: relative; margin: 11px 0 13px; }
+#searchBox {
+  width: 100%; padding: 8px 11px; border-radius: 8px;
+  background: var(--ctl-bg); color: var(--txt);
+  border: 1px solid var(--ctl-border); font: inherit;
+}
+#searchBox:focus { outline: 1px solid var(--accent); }
+#searchBox::placeholder { color: var(--txt-dim); }
+#searchResults {
+  position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 4px);
+  background: #141926; border: 1px solid var(--ctl-border); border-radius: 9px;
+  max-height: 330px; overflow-y: auto; overflow-x: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+  scrollbar-width: thin; scrollbar-color: #333d52 transparent;
+}
+.sr-head {
+  padding: 7px 11px 2px; font-size: 10px; letter-spacing: 1.1px;
+  color: var(--txt-dim); text-transform: uppercase;
+}
+.sr-item { padding: 6px 11px 7px; cursor: pointer; }
+.sr-item b { display: block; font-weight: 600; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-item .sr-sub { color: var(--txt-dim); font-size: 11px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-item:hover, .sr-item.sel { background: #202a3e; }
+.sr-none { padding: 9px 11px; color: var(--txt-dim); font-size: 12px; }
+#searchHits {
+  display: flex; align-items: center; gap: 7px; margin-top: 7px;
+  font-size: 11.5px; color: var(--accent); min-width: 0;
+}
+#searchHits span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#searchHits button {
+  flex: none; background: var(--ctl-bg); border: 1px solid var(--ctl-border);
+  border-radius: 6px; color: var(--txt-dim); cursor: pointer;
+  font-size: 13px; line-height: 1; padding: 2px 7px 3px;
+}
+#searchHits button:hover { color: var(--txt); }
+
+/* popup extras: owner + record links */
+.pp-links a { color: var(--accent); text-decoration: none; }
+.pp-links a:hover { text-decoration: underline; }
+.owner-link { color: var(--accent); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
 .lbl { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.1px; color: var(--txt-dim); margin-bottom: 5px; }
 .row { display: flex; gap: 10px; align-items: center; }
 .row.wrap { flex-wrap: wrap; row-gap: 6px; }
@@ -175,7 +217,7 @@ footer a:hover { color: var(--accent); }
     padding: 14px 15px 10px;
   }
   /* 16px+ inputs stop iOS Safari from zooming the page on focus */
-  select { font-size: 16px; padding: 9px 10px; }
+  select, #searchBox { font-size: 16px; padding: 9px 10px; }
   .chk { font-size: 14px; min-height: 30px; }
   .chk input { width: 18px; height: 18px; }
   .chip { padding: 6px 12px 7px; font-size: 13px; }

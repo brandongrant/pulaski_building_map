@@ -228,6 +228,18 @@ function initMap() {
       },
     });
 
+    // search-hit markers (owner/address search results) — kept above overlays
+    map.addSource("hits", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+    map.addLayer({
+      id: "hit-ring", type: "circle", source: "hits",
+      paint: {
+        "circle-color": "rgba(243,213,76,0.18)",
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 4, 13, 9, 16, 14],
+        "circle-stroke-color": "#f3d54c",
+        "circle-stroke-width": 2,
+      },
+    });
+
     if (!location.hash || location.hash.length < 4) {
       map.fitBounds([[cfg.bounds[0], cfg.bounds[1]], [cfg.bounds[2], cfg.bounds[3]]], { padding: 30, duration: 0 });
     }
@@ -331,12 +343,247 @@ function renderLegend() {
   }
 }
 
+/* ------------------------------------------------- owner index + search */
+const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null };
+
+function ownersLoad() {
+  if (own.loading) return own.loading;
+  const sb = $("searchBox");
+  sb.placeholder = "Loading owner index…";
+  own.loading = fetch("data/owners.json")
+    .then((r) => { if (!r.ok) throw new Error("owners.json missing"); return r.json(); })
+    .then((d) => {
+      own.cities = d.cities;
+      own.owners = d.owners;
+      own.namesN = new Array(d.owners.length);
+      own.byAddr = new Map();
+      d.owners.forEach(([name, props], oi) => {
+        own.namesN[oi] = normAddrJS(name);
+        for (const pr of props) {
+          if (!pr[0]) continue;
+          const key = normAddrJS(pr[0]) + "|" + (pr[1] >= 0 ? normAddrJS(d.cities[pr[1]]) : "");
+          const a = own.byAddr.get(key);
+          if (a) a.push(oi); else own.byAddr.set(key, [oi]);
+        }
+      });
+      own.loaded = true;
+      sb.placeholder = `Search ${fmt.format(d.count)} owners & addresses…`;
+      return true;
+    })
+    .catch(() => { sb.placeholder = "Search index unavailable"; return false; });
+  return own.loading;
+}
+
+function ownerAtAddr(p) {
+  if (!own.loaded || !p.addr) return null;
+  const key = normAddrJS(p.addr) + "|" + normAddrJS(p.city || "");
+  const ois = own.byAddr.get(key);
+  if (!ois) return null;
+  const names = [...new Set(ois.map((i) => own.owners[i][0]).filter(Boolean))];
+  return names.length ? names : null;
+}
+
+function ownerLinkHTML(name) {
+  const enc = encodeURIComponent(name).replace(/'/g, "%27");
+  return `<span class="owner-link" onclick="__ownerSearch('${enc}')" ` +
+         `title="Show every property of this owner">${esc(name)}</span>`;
+}
+
+function recordLinks() {
+  return `<div class="tt-veh pp-links">Public records: ` +
+    `<a href="https://pulaskideeds.com/search/" target="_blank" rel="noopener" ` +
+    `title="Pulaski County recorded documents — deeds, mortgages, liens (1994+)">deeds</a> · ` +
+    `<a href="https://www.arcountydata.com/county.asp?county=pulaski&amp;directlogin=true" target="_blank" rel="noopener" ` +
+    `title="ARCountyData Pulaski property records">parcel</a> · ` +
+    `<a href="https://pulaskicountyassessor.net/" target="_blank" rel="noopener" ` +
+    `title="Pulaski County Assessor">assessor</a> · ` +
+    `<a href="https://public.pulaskicountytreasurer.net/" target="_blank" rel="noopener" ` +
+    `title="Pulaski County Treasurer property tax records">taxes</a></div>`;
+}
+
+function searchRun(qRaw) {
+  const box = $("searchResults");
+  const q = normAddrJS(qRaw);                                     // for names
+  const qU = String(qRaw || "").toUpperCase().replace(/\s+/g, " ").trim(); // for addresses
+  if (q.length < 2) { box.hidden = true; box.innerHTML = ""; return; }
+  const MAX = 8;
+  const oStart = [], oIn = [], aStart = [], aIn = [];
+  for (let oi = 0; oi < own.owners.length; oi++) {
+    const nn = own.namesN[oi];
+    if (nn) {
+      const i = nn.indexOf(q);
+      if (i === 0) { if (oStart.length < MAX) oStart.push(oi); }
+      else if (i > 0 && oIn.length < MAX) oIn.push(oi);
+    }
+    const props = own.owners[oi][1];
+    for (let pi = 0; pi < props.length; pi++) {
+      const ad = props[pi][0];
+      if (!ad) continue;
+      const i = ad.indexOf(qU);
+      if (i === 0) { if (aStart.length < MAX) aStart.push([oi, pi]); }
+      else if (i > 0 && aIn.length < MAX) aIn.push([oi, pi]);
+    }
+    if (oStart.length >= MAX && aStart.length >= MAX) break;
+  }
+  const owners = oStart.concat(oIn).slice(0, MAX);
+  const addrs = aStart.concat(aIn).slice(0, MAX);
+  let html = "";
+  if (owners.length) {
+    html += `<div class="sr-head">Owners</div>`;
+    for (const oi of owners) {
+      const [name, props] = own.owners[oi];
+      const n = props.length;
+      let tot = 0;
+      for (const pr of props) tot += pr[4] || 0;
+      html += `<div class="sr-item" data-k="o:${oi}"><b>${esc(name)}</b>` +
+        `<span class="sr-sub">${n} propert${n === 1 ? "y" : "ies"}` +
+        `${tot > 0 ? " · " + fmtUSD.format(tot) + " total value" : ""}</span></div>`;
+    }
+  }
+  if (addrs.length) {
+    html += `<div class="sr-head">Addresses</div>`;
+    for (const [oi, pi] of addrs) {
+      const [name, props] = own.owners[oi];
+      const pr = props[pi];
+      const city = pr[1] >= 0 ? own.cities[pr[1]] : "";
+      html += `<div class="sr-item" data-k="a:${oi}:${pi}"><b>${esc(pr[0])}${city ? ", " + esc(city) : ""}</b>` +
+        `<span class="sr-sub">${name ? esc(name) : "—"}</span></div>`;
+    }
+  }
+  if (!html) html = `<div class="sr-none">No owner or address matches "${esc(qRaw.trim())}"</div>`;
+  box.innerHTML = html;
+  box.hidden = false;
+}
+
+function hitFeatures(list) {
+  return list.map((h) => ({
+    type: "Feature",
+    geometry: { type: "Point", coordinates: [h.lon, h.lat] },
+    properties: { a: h.addr, c: h.city, o: h.owner, v: h.val },
+  }));
+}
+
+function setHits(list, label) {
+  const feats = hitFeatures(list.filter((h) => h.lon && h.lat));
+  const apply = () => map.getSource("hits").setData({ type: "FeatureCollection", features: feats });
+  if (map.getSource("hits")) apply(); else map.once("load", apply);
+  if (feats.length) {
+    if (feats.length === 1) {
+      map.flyTo({ center: feats[0].geometry.coordinates, zoom: Math.max(map.getZoom(), 16.8), duration: 1400 });
+    } else {
+      let minX = 180, minY = 90, maxX = -180, maxY = -90;
+      for (const f of feats) {
+        const [x, y] = f.geometry.coordinates;
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+      }
+      const panelOpen = window.innerWidth > 640 && !$("panel").classList.contains("hidden");
+      const pad = { top: 70, bottom: 70, right: 70, left: panelOpen ? 330 : 70 };
+      try {
+        map.fitBounds([[minX, minY], [maxX, maxY]], { padding: pad, maxZoom: 16.5, duration: 1400 });
+      } catch (e) {
+        // padding can exceed the map size (narrow windows, hidden tabs) — retry bare
+        map.fitBounds([[minX, minY], [maxX, maxY]], { maxZoom: 16.5, duration: 1400 });
+      }
+    }
+  }
+  $("searchHitsTxt").textContent = label;
+  $("searchHits").hidden = false;
+}
+
+function clearHits() {
+  if (map.getSource("hits")) map.getSource("hits").setData({ type: "FeatureCollection", features: [] });
+  $("searchHits").hidden = true;
+  $("searchResults").hidden = true;
+}
+
+function selectResult(kind, oi, pi) {
+  const [name, props] = own.owners[oi];
+  const toHit = (pr) => ({ addr: pr[0], city: pr[1] >= 0 ? own.cities[pr[1]] : "",
+                           lon: pr[2], lat: pr[3], val: pr[4], owner: name });
+  if (kind === "o") {
+    setHits(props.map(toHit), `${name} — ${props.length} propert${props.length === 1 ? "y" : "ies"}`);
+  } else {
+    const h = toHit(props[pi]);
+    setHits([h], h.addr ? h.addr + (h.city ? ", " + h.city : "") : name);
+  }
+  $("searchResults").hidden = true;
+  // on phones the panel covers the map — tuck it away so the result is visible
+  if (window.matchMedia("(max-width: 640px)").matches) {
+    $("panel").classList.add("hidden");
+    $("panelToggle").classList.add("show");
+  }
+}
+
+window.__ownerSearch = (enc) => {
+  const name = decodeURIComponent(enc);
+  $("searchBox").value = name;
+  $("panel").classList.remove("hidden");
+  $("panelToggle").classList.remove("show");
+  ownersLoad().then((ok) => {
+    if (!ok) return;
+    const oi = own.owners.findIndex((o) => o[0] === name);
+    if (oi >= 0) selectResult("o", oi);
+  });
+};
+
+function initSearch() {
+  const sb = $("searchBox"), box = $("searchResults");
+  let t = null, sel = -1;
+  const items = () => [...box.querySelectorAll(".sr-item")];
+  const run = () => {
+    sel = -1;
+    if (!own.loaded) { ownersLoad().then((ok) => { if (ok && sb.value) searchRun(sb.value); }); return; }
+    searchRun(sb.value);
+  };
+  sb.oninput = () => { clearTimeout(t); t = setTimeout(run, 140); };
+  sb.onfocus = () => { ownersLoad(); if (sb.value) run(); };
+  const pick = (el) => {
+    const k = el.dataset.k.split(":");
+    selectResult(k[0], Number(k[1]), k[2] !== undefined ? Number(k[2]) : undefined);
+  };
+  sb.onkeydown = (e) => {
+    const it = items();
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      if (!it.length) return;
+      e.preventDefault();
+      sel = e.key === "ArrowDown" ? Math.min(sel + 1, it.length - 1) : Math.max(sel - 1, 0);
+      it.forEach((x, i) => x.classList.toggle("sel", i === sel));
+      it[sel].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter") {
+      if (it.length) pick(it[Math.max(sel, 0)]);
+      sb.blur();
+    } else if (e.key === "Escape") {
+      box.hidden = true;
+    }
+  };
+  box.onclick = (e) => {
+    const el = e.target.closest(".sr-item");
+    if (el) pick(el);
+  };
+  document.addEventListener("click", (e) => {
+    if (!$("searchSec").contains(e.target)) box.hidden = true;
+  });
+  $("searchHitsClear").onclick = () => { clearHits(); sb.value = ""; };
+  // warm the index in the background once things settle (not on data-saver)
+  if (!(navigator.connection && navigator.connection.saveData)) {
+    setTimeout(ownersLoad, 3500);
+  }
+}
+
 /* ------------------------------------------------- hover + click */
 function featHTML(p, compactOnly) {
   const cat = CATS[p.cat] || CATS[0];
   const yr = p.yr > 0 ? p.yr : "unknown";
   let rows = "";
   const add = (k, v) => { rows += `<span class="k">${k}</span><span>${v}</span>`; };
+  if (!compactOnly) {
+    const names = ownerAtAddr(p);
+    if (names) {
+      add("Owner", ownerLinkHTML(names[0]) +
+        (names.length > 1 ? ` <span style="color:var(--txt-dim)">+${names.length - 1} more</span>` : ""));
+    }
+  }
   add("Year built", `<b>${yr}</b>`);
   add("Type", cat.label);
   if (p.st) add("Stories", p.st);
@@ -385,14 +632,21 @@ function wireHover() {
   }
   map.on("click", (e) => {
     // overlay features sit above buildings — they win the click
-    const ovLayers = ["pm-pts", "deed-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
+    const ovLayers = ["hit-ring", "pm-pts", "deed-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
     if (ovLayers.length) {
       const df = map.queryRenderedFeatures(e.point, { layers: ovLayers });
       if (df.length) {
         if (popup) popup.remove();
         const p = df[0].properties;
         let html;
-        if (df[0].layer.id === "pm-pts") {
+        if (df[0].layer.id === "hit-ring") {
+          const where = p.a ? esc(p.a) + (p.c ? ", " + esc(p.c) : "") : "(no situs address)";
+          html = `<div class="pp-addr">${where}</div><div class="pp-grid">` +
+            (p.o ? `<span class="k">Owner</span><span>${ownerLinkHTML(p.o)}</span>` : "") +
+            (p.v > 0 ? `<span class="k">Parcel value</span><span>${fmtUSD.format(p.v)}</span>` : "") +
+            `</div>` + recordLinks() +
+            `<div class="tt-veh">Owner per county parcel roll · unofficial</div>`;
+        } else if (df[0].layer.id === "pm-pts") {
           const d = String(p.d);
           html = `<div class="pp-addr">${PM_CATS[p.t].label} permit</div><div class="pp-grid">` +
             `<span class="k">Where</span><span>${p.a}</span>` +
@@ -437,7 +691,7 @@ function wireHover() {
     popup = new maplibregl.Popup({ closeButton: true, maxWidth: "310px" })
       .setLngLat(e.lngLat)
       .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` +
-               veh + permitTimeline(fs[0].properties))
+               veh + permitTimeline(fs[0].properties) + deedsTimeline(fs[0].properties) + recordLinks())
       .addTo(map);
   });
 }
@@ -585,6 +839,7 @@ function initUI() {
   $("aboutClose").onclick = () => { $("about").hidden = true; };
   $("about").onclick = (e) => { if (e.target === $("about")) $("about").hidden = true; };
 
+  initSearch();
   initDispatch();
   initPermits();
   initDeeds();
@@ -664,6 +919,7 @@ async function dspLoad() {
       "circle-opacity": 0.92,
     },
   });
+  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring"); // keep search hits on top
   dsp.loaded = true;
   return true;
 }
@@ -784,6 +1040,7 @@ async function pmLoad() {
         "circle-opacity": 0.9,
       },
     });
+    if (map.getLayer("hit-ring")) map.moveLayer("hit-ring"); // keep search hits on top
     pm.loaded = true;
     return true;
   } catch (e) {
@@ -882,7 +1139,15 @@ const DEED_TYPES = {
   BFD: { label: "Beneficiary deed", color: "#6fa8dc" },
   OTD: { label: "Other deed", color: "#b39ddb" },
 };
-const deed = { on: false, types: new Set(Object.keys(DEED_TYPES)), loaded: false };
+const deed = {
+  on: false,
+  types: new Set(Object.keys(DEED_TYPES)),
+  loaded: false,
+  loading: null,
+  stats: null,
+  data: null,
+  byAddr: null,
+};
 
 function deedStats() {
   return fetch(DEED_BASE + "/stats.json", { cache: "no-store" })
@@ -901,18 +1166,54 @@ function deedFilter() {
     ? null : ["in", ["get", "t"], ["literal", [...deed.types]]];
 }
 
+function deedMetaText(s) {
+  if (!s) return "· no data collected yet";
+  const earliest = s.earliest ? String(s.earliest) : "";
+  return `· ${fmt.format(s.total_documents || 0)} docs` +
+    (earliest ? ` since ${earliest.slice(0, 4)}-${earliest.slice(4, 6)}-${earliest.slice(6, 8)}` : "");
+}
+
+function deedLabel(p) {
+  return p.dt || (DEED_TYPES[p.t] && DEED_TYPES[p.t].label) || "Recorded document";
+}
+
+function partyShort(s) {
+  return String(s || "").split(";")[0].trim();
+}
+
+async function deedDataLoad() {
+  if (deed.loading) return deed.loading;
+  deed.loading = Promise.all([
+    deedStats(),
+    fetch(DEED_BASE + "/recent_activity.geojson", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null)).catch(() => null),
+  ]).then(([s, g]) => {
+    deed.stats = s;
+    $("deedMeta").textContent = deedMetaText(s);
+    if (!g || !Array.isArray(g.features)) return false;
+    deed.data = g;
+    deed.byAddr = new Map();
+    for (const f of g.features) {
+      const p = f.properties || {};
+      const key = normAddrJS(p.a);
+      if (!key) continue;
+      const rows = deed.byAddr.get(key);
+      if (rows) rows.push(p); else deed.byAddr.set(key, [p]);
+    }
+    for (const rows of deed.byAddr.values()) rows.sort((a, b) => (b.d || 0) - (a.d || 0));
+    return true;
+  }).catch(() => {
+    $("deedMeta").textContent = "· data unavailable";
+    return false;
+  });
+  return deed.loading;
+}
+
 async function deedLoad() {
   if (deed.loaded) return true;
-  const s = await deedStats();
-  if (!s) {
-    $("deedMeta").textContent = "· no data collected yet";
-    return false;
-  }
-  const earliest = s.earliest ? String(s.earliest) : "";
-  $("deedMeta").textContent =
-    `· ${fmt.format(s.total_documents || 0)} docs` +
-    (earliest ? ` since ${earliest.slice(0, 4)}-${earliest.slice(4, 6)}-${earliest.slice(6, 8)}` : "");
-  map.addSource("deed", { type: "geojson", data: DEED_BASE + "/recent_activity.geojson" });
+  const ok = await deedDataLoad();
+  if (!ok || !deed.data) return false;
+  map.addSource("deed", { type: "geojson", data: deed.data });
   map.addLayer({
     id: "deed-pts", type: "circle", source: "deed", layout: { visibility: "none" },
     paint: {
@@ -922,6 +1223,7 @@ async function deedLoad() {
       "circle-opacity": 0.88,
     },
   });
+  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring"); // keep search hits on top
   deed.loaded = true;
   return true;
 }
@@ -967,6 +1269,30 @@ function initDeeds() {
       $("deedMeta").textContent = `· ${fmt.format(s.total_documents)} docs`;
     }
   });
+  setTimeout(deedDataLoad, 2500);
+}
+
+function deedsTimeline(bldProps) {
+  if (!bldProps.addr) return "";
+  if (!deed.byAddr) {
+    return `<div class="tt-veh">Recent recorded-document index is loading; click again for deed history.</div>`;
+  }
+  const docs = deed.byAddr.get(normAddrJS(bldProps.addr));
+  if (!docs || !docs.length) {
+    return `<div class="tt-veh">No recent recorded deeds matched at this address.</div>`;
+  }
+  const items = [];
+  for (const p of docs) {
+    const d = String(p.d || "");
+    const left = partyShort(p.g1);
+    const right = partyShort(p.g2);
+    items.push(`<div>${d.slice(0, 4)}-${d.slice(4, 6)} · ${esc(deedLabel(p))}` +
+      `${left || right ? " · " + esc(left || "?") + " → " + esc(right || "?") : ""}` +
+      `${p.n ? " · #" + esc(p.n) : ""}</div>`);
+    if (items.length >= 8) break;
+  }
+  return `<div class="tt-veh pm-tl"><b>Recent recorded documents</b>${items.join("")}` +
+    `<div>Use the instrument number at pulaskideeds.com/search for full details.</div></div>`;
 }
 
 /* re-render legend once map ready (colors already set at layer creation) */
