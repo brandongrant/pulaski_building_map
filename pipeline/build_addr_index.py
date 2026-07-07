@@ -9,7 +9,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
+ROOT = Path(__file__).resolve().parent.parent
 WS = re.compile(r"\s+")
 
 

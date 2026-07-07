@@ -385,7 +385,7 @@ function wireHover() {
   }
   map.on("click", (e) => {
     // overlay features sit above buildings — they win the click
-    const ovLayers = ["pm-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
+    const ovLayers = ["pm-pts", "deed-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
     if (ovLayers.length) {
       const df = map.queryRenderedFeatures(e.point, { layers: ovLayers });
       if (df.length) {
@@ -403,6 +403,14 @@ function wireHover() {
             `<span class="k">Permit #</span><span>${p.n}</span></div>` +
             (p.ds ? `<div class="tt-veh">${esc(p.ds)}</div>` : "") +
             `<div class="tt-veh">City of Little Rock permit record · unofficial</div>`;
+        } else if (df[0].layer.id === "deed-pts") {
+          const d = String(p.d);
+          html = `<div class="pp-addr">${esc(p.dt || DEED_TYPES[p.t]?.label || "Deed activity")}</div><div class="pp-grid">` +
+            `<span class="k">Where</span><span>${esc(p.a || "Matched location")}</span>` +
+            `<span class="k">Recorded</span><span>${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}</span>` +
+            `<span class="k">Document #</span><span>${esc(p.n || "")}</span>` +
+            `<span class="k">Match</span><span>${esc(p.mq || "geocoded")}</span></div>` +
+            `<div class="tt-veh">Pulaski County deed index match · party names omitted · unofficial</div>`;
         } else if (df[0].layer.id === "dsp-pts") {
           html = `<div class="pp-addr">${p.t}</div><div class="pp-grid">` +
             `<span class="k">Where</span><span>${p.loc}</span>` +
@@ -579,6 +587,7 @@ function initUI() {
 
   initDispatch();
   initPermits();
+  initDeeds();
   renderLegend();
 }
 
@@ -863,6 +872,101 @@ function initPermits() {
   fetch("data/permits/permits_meta.json").then((r) => (r.ok ? r.json() : null))
     .then((m) => { if (m) $("pmMeta").textContent = `· ${fmt.format(m.count)} permits 2019–${String(m.date_max).slice(0, 4)}`; })
     .catch(() => {});
+}
+
+/* ------------------------------------------------- deed activity overlay */
+const DEED_BASE = "https://raw.githubusercontent.com/brandongrant/pulaski_building_map/data/deeds/out";
+const DEED_TYPES = {
+  WAD: { label: "Warranty deed", color: "#4ac16d" },
+  QCD: { label: "Quit claim", color: "#f3d54c" },
+  BFD: { label: "Beneficiary deed", color: "#6fa8dc" },
+  OTD: { label: "Other deed", color: "#b39ddb" },
+};
+const deed = { on: false, types: new Set(Object.keys(DEED_TYPES)), loaded: false };
+
+function deedStats() {
+  return fetch(DEED_BASE + "/stats.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+}
+
+function deedColor() {
+  const m = ["match", ["get", "t"]];
+  for (const [k, d] of Object.entries(DEED_TYPES)) m.push(k, d.color);
+  m.push("#cfcfcf");
+  return m;
+}
+
+function deedFilter() {
+  return deed.types.size === Object.keys(DEED_TYPES).length
+    ? null : ["in", ["get", "t"], ["literal", [...deed.types]]];
+}
+
+async function deedLoad() {
+  if (deed.loaded) return true;
+  const s = await deedStats();
+  if (!s) {
+    $("deedMeta").textContent = "· no data collected yet";
+    return false;
+  }
+  const earliest = s.earliest ? String(s.earliest) : "";
+  $("deedMeta").textContent =
+    `· ${fmt.format(s.total_documents || 0)} docs` +
+    (earliest ? ` since ${earliest.slice(0, 4)}-${earliest.slice(4, 6)}-${earliest.slice(6, 8)}` : "");
+  map.addSource("deed", { type: "geojson", data: DEED_BASE + "/recent_activity.geojson" });
+  map.addLayer({
+    id: "deed-pts", type: "circle", source: "deed", layout: { visibility: "none" },
+    paint: {
+      "circle-color": deedColor(),
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2, 13, 4.5, 16, 7.5],
+      "circle-stroke-color": "#000000", "circle-stroke-width": 0.8,
+      "circle-opacity": 0.88,
+    },
+  });
+  deed.loaded = true;
+  return true;
+}
+
+function deedRefresh() {
+  if (!deed.loaded) return;
+  map.setLayoutProperty("deed-pts", "visibility", deed.on ? "visible" : "none");
+  map.setFilter("deed-pts", deedFilter());
+}
+
+function initDeeds() {
+  const chips = $("deedTypes");
+  for (const [k, d] of Object.entries(DEED_TYPES)) {
+    const el = document.createElement("div");
+    el.className = "chip on";
+    el.textContent = d.label;
+    el.style.background = d.color;
+    el.style.borderColor = d.color;
+    el.onclick = () => {
+      if (deed.types.has(k)) {
+        deed.types.delete(k);
+        el.classList.remove("on");
+        el.style.background = "var(--ctl-bg)";
+        el.style.borderColor = "var(--ctl-border)";
+      } else {
+        deed.types.add(k);
+        el.classList.add("on");
+        el.style.background = d.color;
+        el.style.borderColor = d.color;
+      }
+      deedRefresh();
+    };
+    chips.appendChild(el);
+  }
+  $("deedOn").onchange = async () => {
+    deed.on = $("deedOn").checked;
+    $("deedControls").hidden = !deed.on;
+    if (deed.on) await deedLoad();
+    deedRefresh();
+  };
+  deedStats().then((s) => {
+    if (s && s.total_documents) {
+      $("deedMeta").textContent = `· ${fmt.format(s.total_documents)} docs`;
+    }
+  });
 }
 
 /* re-render legend once map ready (colors already set at layer creation) */

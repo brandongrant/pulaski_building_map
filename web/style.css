@@ -96,8 +96,8 @@ input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer;
 .bgsw.on { border-color: var(--accent); }
 
 .fineprint { color: var(--txt-dim); font-size: 10.5px; line-height: 1.45; margin-top: 7px; }
-#dspCats, #pmCats { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-#dspSince, #pmMeta, #pmYrShow { text-transform: none; letter-spacing: 0; }
+#dspCats, #pmCats, #deedTypes { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+#dspSince, #pmMeta, #pmYrShow, #deedMeta { text-transform: none; letter-spacing: 0; }
 .pm-tl div { margin-top: 3px; }
 .pm-tl b { color: var(--txt); }
 

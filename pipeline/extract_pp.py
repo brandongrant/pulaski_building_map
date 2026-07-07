@@ -2,15 +2,16 @@
 
 Output: data/processed/pp_rows.pkl (rows with Assess Year >= 2023)
 """
-import os
 import time
 from collections import Counter
+from pathlib import Path
 
 import openpyxl
 import pandas as pd
 
-BASE = r"D:\Claude Code Projects\Building_Map\data\raw"
-OUT = r"D:\Claude Code Projects\Building_Map\data\processed"
+ROOT = Path(__file__).resolve().parent.parent
+BASE = ROOT / "data" / "raw"
+OUT = ROOT / "data" / "processed"
 
 KEEP = ["PPAN", "PPAN Status", "PPAN Type", "Assess Year", "Address1", "Address2",
         "City", "Zip", "Assessed Value", "Make", "Model", "Description",
@@ -22,7 +23,7 @@ rows = []
 t0 = time.time()
 total = 0
 for f in ["PP_Dump1.xlsx", "PP_Dump2.xlsx"]:
-    wb = openpyxl.load_workbook(os.path.join(BASE, f), read_only=True)
+    wb = openpyxl.load_workbook(BASE / f, read_only=True)
     ws = wb[wb.sheetnames[0]]
     it = ws.iter_rows(values_only=True)
     hdr = [str(h).strip() if h else "" for h in next(it)]
@@ -47,8 +48,8 @@ for f in ["PP_Dump1.xlsx", "PP_Dump2.xlsx"]:
     print(f"{f} done: cumulative {total} rows, kept {len(rows)}, {time.time() - t0:.0f}s", flush=True)
 
 df = pd.DataFrame(rows, columns=KEEP)
-os.makedirs(OUT, exist_ok=True)
-df.to_pickle(os.path.join(OUT, "pp_rows.pkl"))
+OUT.mkdir(parents=True, exist_ok=True)
+df.to_pickle(OUT / "pp_rows.pkl")
 print(f"\nwrote pp_rows.pkl: {len(df)} rows of {total}")
 for k, c in stats.items():
     top = ", ".join(f"{v or '<blank>'}:{n}" for v, n in c.most_common(8))

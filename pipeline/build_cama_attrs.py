@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
+ROOT = Path(__file__).resolve().parent.parent
 ZIP = ROOT / "data" / "raw" / "CamaExport.zip"
 OUT = ROOT / "data" / "processed"
 OUT.mkdir(parents=True, exist_ok=True)

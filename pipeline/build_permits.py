@@ -16,7 +16,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).parent))
 from dispatch_collect import Geocoder  # reuse the PAgis address index matcher
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
+ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "web" / "data" / "permits"
 OUT.mkdir(parents=True, exist_ok=True)
 

@@ -19,7 +19,7 @@ from shapely.validation import make_valid
 from pmtiles.tile import Compression, TileType, zxy_to_tileid
 from pmtiles.writer import Writer
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
+ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "web" / "data"
 OUT.mkdir(parents=True, exist_ok=True)
 

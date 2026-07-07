@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
+ROOT = Path(__file__).resolve().parent.parent
 PROC = ROOT / "data" / "processed"
 
 YEAR_MIN = 2025          # an account's fleet is "current" if last assessed >= this

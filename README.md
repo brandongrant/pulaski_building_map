@@ -95,7 +95,22 @@ gets a permit overlay (year / type / min-value filters) and building popups
 show an address-matched permit timeline. To refresh: grab the newest CSV link
 from the city page (the filename is date-stamped), save as
 `data/raw/lr_permits.csv`, rerun the script, commit. North Little Rock permits
-are deferred to Phase 4 (their WP File Download portal needs JS-driven scraping).
+are deferred to Phase 4: their WP File Download portal exposes monthly CSV/XLSX
+reports, but those side-by-side report tables still need a dedicated parser.
+
+## Deed activity overlay
+
+The map can also show recent Pulaski County deed-index activity from the
+`data` branch:
+
+- `deeds/out/recent_activity.geojson` - matched deed document points
+- `deeds/out/stats.json` - collection totals, earliest document date, match rate
+
+The frontend reads those files from `raw.githubusercontent.com`, so new deed
+outputs can appear without a Pages redeploy. Popups show document type, matched
+address, record date, document number, and match quality, but intentionally omit
+grantor/grantee names from the map UI. The current dataset is a seeded harvest;
+the recurring collector is still a follow-up item.
 
 ## Data notes & caveats
 

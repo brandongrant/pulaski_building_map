@@ -9,7 +9,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
+ROOT = Path(__file__).resolve().parent.parent
 RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "processed"
 
 CAT_CODE = {"unknown": 0, "sfr": 1, "condo": 2, "plex": 3, "mobile": 4,
