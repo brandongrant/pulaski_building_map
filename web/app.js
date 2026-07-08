@@ -345,6 +345,11 @@ function renderLegend() {
 
 /* ------------------------------------------------- owner index + search */
 const PULASKI_DEEDS_BASE = "https://pulaskideeds.com/search/";
+// Deployed Cloudflare Worker that returns a parcel's deed history as JSON
+// (worker/pulaski-deeds.js). Set to your Worker URL, no trailing slash, e.g.
+// "https://pulaski-deeds.yourname.workers.dev". Empty = feature off (the deeds
+// link falls back to the plain PulaskiDeeds hand-off).
+const DEEDS_API = "";
 const ARCOUNTY_PARCEL_BASE = "https://www.arcountydata.com/parcel.asp?County=Pulaski&ParcelID=";
 const TREASURER_MOBILE_BASE = "https://public.pulaskicountytreasurer.net/mobile/pulaski/";
 const PULASKI_INST_CODES = [
@@ -359,7 +364,7 @@ const PULASKI_INST_CODES = [
   "SUM", "SUS", "SUT", "SUU", "TEU", "TMU", "UCC", "WAD",
 ];
 
-const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null };
+const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null, subs: [] };
 
 function ownersLoad() {
   if (own.loading) return own.loading;
@@ -369,6 +374,7 @@ function ownersLoad() {
     .then((r) => { if (!r.ok) throw new Error("owners.json missing"); return r.json(); })
     .then((d) => {
       own.cities = d.cities;
+      own.subs = d.subs || [];
       own.owners = d.owners;
       own.namesN = new Array(d.owners.length);
       own.byAddr = new Map();
@@ -610,7 +616,10 @@ function parcelAtAddr(p) {
     for (const pr of props) {
       const city = pr[1] >= 0 ? own.cities[pr[1]] : "";
       if (normAddrJS(pr[0]) === normAddrJS(p.addr) && normAddrJS(city) === normAddrJS(p.city || "")) {
-        return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0 };
+        const sub = pr[6] ? (own.subs[pr[6]] || "") : "";
+        const blc = pr[8] && pr[8] !== "0" ? pr[8] : "";
+        return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0,
+                 sub, lot: pr[7] || "", blc };
       }
     }
   }
@@ -942,12 +951,17 @@ function wireHover() {
     const { addr, rows, veh } = featHTML(fs[0].properties, false);
     const docs = deedsForBuilding(fs[0].properties);
     const parcel = parcelAtAddr(fs[0].properties);
+    // when the deeds proxy is configured, its live parcel history replaces the
+    // sparse local-archive timeline
+    const useWorker = deedHistoryAvailable(parcel);
     popup = new maplibregl.Popup({ closeButton: true, maxWidth: "310px" })
       .setLngLat(e.lngLat)
       .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` +
-               veh + permitTimeline(fs[0].properties) + deedsTimeline(fs[0].properties, docs) +
+               veh + permitTimeline(fs[0].properties) +
+               (useWorker ? deedHistorySection(parcel) : deedsTimeline(fs[0].properties, docs)) +
                recordLinks({ parcel, address: fs[0].properties.addr, docs }))
       .addTo(map);
+    if (useWorker) loadDeedHistory(popup, parcel);
   });
 }
 
@@ -1548,6 +1562,88 @@ function deedsTimeline(bldProps, docs = undefined) {
   }
   return `<div class="tt-veh pm-tl"><b>Recent recorded documents</b>${items.join("")}` +
     `<div>Document links open PulaskiDeeds details and image pages.</div></div>`;
+}
+
+/* -------------------------------- live deed history via the proxy Worker */
+const DEED_CACHE = new Map(); // legal key -> promise (dedupe/reuse within a session)
+
+function deedHistoryAvailable(parcel) {
+  return !!(DEEDS_API && parcel && parcel.sub && parcel.lot);
+}
+
+// placeholder rendered synchronously in the popup; filled by loadDeedHistory
+function deedHistorySection(parcel) {
+  if (!deedHistoryAvailable(parcel)) return "";
+  return `<div class="tt-veh deedhist" data-sub="${esc(parcel.sub)}" data-lot="${esc(parcel.lot)}" ` +
+    `data-blc="${esc(parcel.blc || "")}"><b>Recorded deeds &amp; mortgages</b>` +
+    `<div class="dh-load"><span class="dh-spin"></span>Reading county records… (up to ~15 s the first time)</div></div>`;
+}
+
+function deedFullSearchLink() {
+  return `<a href="${PULASKI_DEEDS_BASE}" target="_blank" rel="noopener">PulaskiDeeds ↗</a>`;
+}
+
+const DH_MONTH = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function dhDate(d) {
+  const s = String(d || "");
+  if (s.length < 6) return s;
+  return `${DH_MONTH[+s.slice(4, 6)] || s.slice(4, 6)} ${s.slice(0, 4)}`;
+}
+function dhParties(list) {
+  const a = (list || []).filter(Boolean);
+  if (!a.length) return "";
+  return esc(a.slice(0, 3).join("; ") + (a.length > 3 ? " …" : ""));
+}
+
+function renderDeedHistory(d) {
+  if (!d || d.error || !d.docs) {
+    return `<b>Recorded deeds &amp; mortgages</b><div>Couldn't reach the county records service. ` +
+      `Look this parcel up on ${deedFullSearchLink()}.</div>`;
+  }
+  if (!d.docs.length) {
+    return `<b>Recorded deeds &amp; mortgages</b><div>No documents recorded against this parcel's ` +
+      `legal description since ${d.since}. Older records may exist on ${deedFullSearchLink()}.</div>`;
+  }
+  const row = (x) => {
+    const parties = (x.grantor && x.grantor.length) || (x.grantee && x.grantee.length)
+      ? `<div class="dh-parties">${dhParties(x.grantor)} <span class="dh-arrow">→</span> ${dhParties(x.grantee)}</div>` : "";
+    return `<div class="dh-row${x.chain ? " dh-chain" : ""}">` +
+      `<div class="dh-top"><span class="dh-date">${dhDate(x.date)}</span>` +
+      `<span class="dh-type">${esc((x.type || "").toLowerCase())}</span>` +
+      `<span class="dh-inst">${esc(x.inst)}</span></div>${parties}</div>`;
+  };
+  const chain = d.docs.filter((x) => x.chain);
+  const rest = d.docs.filter((x) => !x.chain);
+  let html = `<b>Recorded deeds &amp; mortgages</b>`;
+  if (d.owner && d.owner.length) {
+    html += `<div class="dh-owner">Current owner (per deeds): <b>${dhParties(d.owner)}</b></div>`;
+  }
+  if (chain.length) html += `<div class="dh-group">${chain.map(row).join("")}</div>`;
+  if (rest.length) {
+    html += `<div class="dh-sub">Other records on this parcel</div>` +
+      `<div class="dh-group dh-dim">${rest.map(row).join("")}</div>`;
+  }
+  html += `<div class="dh-foot">Since ${d.since} · full record &amp; images on ${deedFullSearchLink()} · unofficial</div>`;
+  return html;
+}
+
+function loadDeedHistory(popup, parcel) {
+  const el = popup.getElement && popup.getElement();
+  const box = el && el.querySelector(".deedhist");
+  if (!box) return;
+  const key = `${parcel.sub}|${parcel.lot}|${parcel.blc || ""}`;
+  let p = DEED_CACHE.get(key);
+  if (!p) {
+    const u = `${DEEDS_API}/deeds?sub=${encodeURIComponent(parcel.sub)}` +
+      `&lot=${encodeURIComponent(parcel.lot)}&blc=${encodeURIComponent(parcel.blc || "")}`;
+    p = fetch(u).then((r) => r.json()).catch(() => ({ error: true, docs: null }));
+    DEED_CACHE.set(key, p);
+  }
+  p.then((d) => {
+    // the popup may have been closed/replaced while we waited
+    if (!box.isConnected) return;
+    box.innerHTML = renderDeedHistory(d);
+  });
 }
 
 /* re-render legend once map ready (colors already set at layer creation) */

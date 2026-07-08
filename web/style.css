@@ -100,6 +100,25 @@ section { margin: 13px 0; }
 .row { display: flex; gap: 10px; align-items: center; }
 .row.wrap { flex-wrap: wrap; row-gap: 6px; }
 
+/* live deed history (proxy Worker) in the building popup */
+.deedhist { max-height: 260px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #333d52 transparent; }
+.dh-load { display: flex; align-items: center; gap: 7px; color: var(--txt-dim); margin-top: 5px; }
+.dh-spin { width: 12px; height: 12px; border: 2px solid #2c3547; border-top-color: var(--accent); border-radius: 50%; animation: sp 0.8s linear infinite; flex: none; }
+.dh-owner { margin: 4px 0 6px; color: #c6ccd9; }
+.dh-owner b { color: var(--txt); }
+.dh-group { display: flex; flex-direction: column; gap: 5px; }
+.dh-sub { margin: 9px 0 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--txt-dim); }
+.dh-dim { opacity: 0.72; }
+.dh-row { border-left: 2px solid var(--ctl-border); padding: 1px 0 2px 7px; }
+.dh-row.dh-chain { border-left-color: var(--accent); }
+.dh-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 7px; }
+.dh-date { color: var(--txt); font-weight: 600; font-size: 11.5px; min-width: 46px; }
+.dh-type { color: #c6ccd9; text-transform: capitalize; }
+.dh-inst { margin-left: auto; color: var(--txt-dim); font: 10.5px ui-monospace, "Consolas", monospace; }
+.dh-parties { color: var(--txt-dim); font-size: 11px; line-height: 1.35; margin-top: 1px; }
+.dh-arrow { color: var(--accent); }
+.dh-foot { margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--panel-border); color: var(--txt-dim); font-size: 10.5px; }
+
 select {
   width: 100%; padding: 6px 8px; border-radius: 7px;
   background: var(--ctl-bg); color: var(--txt);

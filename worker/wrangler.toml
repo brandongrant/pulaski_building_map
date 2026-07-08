@@ -1,0 +1,8 @@
+name = "pulaski-deeds"
+main = "pulaski-deeds.js"
+compatibility_date = "2024-11-01"
+
+# Free plan is plenty for this. After `wrangler deploy` the Worker is reachable
+# at https://pulaski-deeds.<your-subdomain>.workers.dev — put that URL in
+# web/app.js (DEEDS_API). The Cache API used for the 7-day per-parcel cache
+# needs no binding.
