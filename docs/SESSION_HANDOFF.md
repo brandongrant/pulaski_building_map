@@ -3,6 +3,34 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-07 seventh follow-up — REVERTED the legal-description deeds link
+
+The sixth follow-up (legal-description "property" search, `5d6f321`) is
+REVERTED on `origin/main` (revert commit `9bc014a`). The user reported the
+deeds link's reliability "diminished a lot over the past couple of updates"
+and asked to go back to the behavior from before this session. So the
+building-popup deeds link is back to the `fcbf070` behavior: matched-archive
+instrument link → owner-name index search → bare PulaskiDeeds link, driven by
+the first-party popup in `openPulaskiDeed` / `openPulaskiOwnerIndex`, with the
+passive `deeds-open.html` spinner.
+
+Known trade-off the user accepted: owner-name search again misses trusts /
+companies whose assessor string is not a clerk party entity (the original
+18 Toulouse / "WEBSTER FAMILY LIVING TRUST" complaint returns to being
+hit-or-miss). The user prioritized overall reliability over that case.
+
+DO NOT silently re-apply the property search. The reverse-engineering in the
+sixth follow-up is still 100% valid and is the RIGHT eventual approach
+(owner-independent, returns the full title history) — it was reverted for
+POPUP RELIABILITY, not because the search was wrong. The whole implementation
+is recoverable with `git show 5d6f321` / `git revert 9bc014a`. If you revisit
+it, first fix the reliability, don't just reship: likely culprits are (a) the
+tight `PULASKI_SPINNER_MS + 1600 ms` gap racing a slow `index.php` load before
+the content.php POST, and (b) `deeds-open.html`'s 2200 ms self-drive possibly
+opening a SECOND popup when the opener is already driving the window. Prove
+the popup end-to-end in a REAL browser (the hidden preview tab can't) before
+shipping to the public site next time.
+
 ## 2026-07-07 sixth follow-up — deeds by LEGAL DESCRIPTION (major fix)
 
 Shipped to `origin/main` (`5d6f321`). Fixes the user's report that some deed
