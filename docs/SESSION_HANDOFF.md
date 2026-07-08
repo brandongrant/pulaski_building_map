@@ -3,6 +3,59 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-07 eighth follow-up — deed history via a proxy Worker (THE fix)
+
+Committed `129b285` on `claude/sharp-payne-7096cd`, **NOT pushed to main yet**
+— the feature is dormant (`DEEDS_API=""`) until the user deploys the Worker.
+
+The user showed the result they want: a NAME-search Index List — the current
+owner's 3-doc chain of title (18 Toulouse: bought 2021, mortgaged, quitclaimed
+to the family trust 2022) with grantor/grantee, NOT the 27-row property search.
+Root obstacle: the assessor owner ("WEBSTER FAMILY LIVING TRUST") is not a
+clerk party entity; the clerk indexes the individuals (WEBSTER CODY/TAYLOR),
+which aren't in our data. And a static site CANNOT run the search + read the
+cross-origin result. So: a backend was the only way to "automatically pull
+them up." User explicitly chose "Build the backend."
+
+**`worker/pulaski-deeds.js`** (Cloudflare Worker) — `GET /deeds?sub=&lot=&blc=`
+returns `{owner, since, docs:[{date,type,inst,grantor,grantee,chain,legal}]}`.
+Hard-won mechanics (all measured live, verified in the real workerd runtime via
+`npx wrangler dev`):
+- The **property (legal) search returns EMPTY party columns** — grantor/grantee
+  are NOT in it. Party names live only on each document's DETAILS page
+  (`GET content.php?searchType=details&noImage=1&inst_num=N` with a session
+  cookie; names split on `<br/>`, Party 1 = grantor, Party 2 = grantee).
+- So: property search (date-windowed to last 20 yrs → ~5 rows, ~3s, vs 27 rows
+  ~10s for all history) → fetch details ONLY for the recent docs (the current
+  owner's chain is always recent), each on its OWN session because PHP session
+  locking serializes same-cookie requests (~2s each).
+- current owner = grantee of the most recent ownership-transfer deed (WARRANTY/
+  QUIT CLAIM…, excluding DEED OF TRUST which is a mortgage); `chain` flags docs
+  whose parties token-overlap the owner (so "WEBSTER CODY" ~ "WEBSTER CODY
+  BRANDON"). Cold ~15s, then Cache API 7-day cache (polite: one hit/parcel/wk).
+- Verified: 18 Toulouse → exact 3-doc Webster chain; Highland Park lot 13 blk 2
+  (block case) filters right; caching works.
+
+**App side**: restored ONLY the client legal-data layer that the revert removed
+(`pipeline/pulaski_legal.py`, `pulaski_subdivisions.json`, `build_owner_index.py
+--rebuild-web` → owners.json 18.4 MB with per-parcel SUB/lot/block,
+`parcelAtAddr → {sub,lot,blc}`) — NOT the fragile auto-driving popup (the Worker
+replaces it). `app.js`: `DEEDS_API` const (empty = off, graceful fallback);
+`deedHistorySection`/`loadDeedHistory`/`renderDeedHistory` render the chain
+inline (current-owner docs highlighted, others dimmed). `style.css` deed styles.
+
+**TO GO LIVE** (needs the user — Cloudflare account): from `worker/`,
+`npx wrangler login` then `npx wrangler deploy`; set `DEEDS_API` in
+`web/app.js` to the printed `https://pulaski-deeds.<sub>.workers.dev`; push to
+main. Steps in `worker/README.md`. In-browser popup rendering is UNVERIFIED
+here (hidden preview tab can't run MapLibre) — but every logic layer is
+verified headlessly (Worker runtime, both HTML parsers, parcelAtAddr,
+renderDeedHistory against real Worker JSON). Ask the user to confirm the popup
+after deploy.
+
+Tunables if needed (worker/pulaski-deeds.js): `WINDOW_YEARS` (20 — widen if a
+long-held parcel misses its purchase deed), `MAX_DETAILS` (8), `FETCH_MS`.
+
 ## 2026-07-07 seventh follow-up — REVERTED the legal-description deeds link
 
 The sixth follow-up (legal-description "property" search, `5d6f321`) is
