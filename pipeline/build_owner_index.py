@@ -9,30 +9,21 @@ Output:
       (parcel id, owner, situs address, subdivision/lot/block, legal,
        values, owner mailing city/state, representative lon/lat)
   web/data/owners.json               compact client search index
-      {"generated", "count", "cities": [...], "subs": [...clerk SUB terms...],
-       "owners": [[name, [[addr, cityIdx, lon, lat, totalValue, parcelId,
-                           subIdx, lot, block], ...]], ...]}
+      {"generated", "count", "cities": [...],
+       "owners": [[name, [[addr, cityIdx, lon, lat, totalValue, parcelId], ...]], ...]}
 
 parcel_owners.pkl is the seed of the property_crosswalk described in
 docs/recorded_documents_plan.md: SUBDIV/LOT/BLOCK are the join keys the
-Pulaski Deeds property search uses (it has no street-address search). The
-web index carries a PulaskiDeeds-resolved SUB term (see pulaski_legal.py) per
-property so the map can open a parcel's full deed history by legal description.
-
-Usage:
-  python build_owner_index.py                 # full PAgis download + rebuild
-  python build_owner_index.py --rebuild-web   # re-emit owners.json from the
-                                              # existing parcel_owners.pkl only
+Pulaski Deeds property search uses (it has no street-address search).
 """
 import json
-import sys
 import time
 from datetime import date
 from pathlib import Path
 
 import pandas as pd
-
-from pulaski_legal import SubResolver
+import requests
+from shapely.geometry import shape
 
 ROOT = Path(r"D:\Claude Code Projects\Building_Map")          # shared data/ (gitignored)
 REPO = Path(__file__).resolve().parent.parent                  # this checkout's web/
@@ -44,7 +35,7 @@ FIELDS = ("PARCELID,OWNERNAME,ADRLABEL,ADRCITY,SUBDIV,LOT,BLOCK,PARCELLGL,"
           "TOTALVALUE,IMPVALUE,ASSESSVAL,PARCELTYPE,OWNER_CITY,OWNER_ST")
 PAGE = 1000
 
-REBUILD_ONLY = "--rebuild-web" in sys.argv
+s = requests.Session()
 
 
 def get(params, tries=6):
@@ -68,64 +59,56 @@ def clean(v):
     return " ".join(str(v).split()) if v not in (None, "", "Null") else ""
 
 
-if REBUILD_ONLY:
-    print("--rebuild-web: loading existing parcel_owners.pkl (no download)", flush=True)
-    df = pd.read_pickle(OUT_PKL)
-else:
-    import requests
-    from shapely.geometry import shape
+count = get({"where": "1=1", "returnCountOnly": "true", "f": "json"})["count"]
+npages = (count + PAGE - 1) // PAGE
+print(f"parcels: {count} features, {npages} pages", flush=True)
 
-    s = requests.Session()
-    count = get({"where": "1=1", "returnCountOnly": "true", "f": "json"})["count"]
-    npages = (count + PAGE - 1) // PAGE
-    print(f"parcels: {count} features, {npages} pages", flush=True)
-
-    rows = []
-    t0 = time.time()
-    for p in range(npages):
-        d = get({
-            "where": "1=1", "outFields": FIELDS, "returnGeometry": "true",
-            "f": "geojson", "outSR": "4326",
-            # search markers only need ~2 m accuracy; generalizing saves ~10x bytes
-            "geometryPrecision": 6, "maxAllowableOffset": 0.00002,
-            "resultOffset": p * PAGE, "resultRecordCount": PAGE,
+rows = []
+t0 = time.time()
+for p in range(npages):
+    d = get({
+        "where": "1=1", "outFields": FIELDS, "returnGeometry": "true",
+        "f": "geojson", "outSR": "4326",
+        # search markers only need ~2 m accuracy; generalizing saves ~10x bytes
+        "geometryPrecision": 6, "maxAllowableOffset": 0.00002,
+        "resultOffset": p * PAGE, "resultRecordCount": PAGE,
+    })
+    for ft in d.get("features", []):
+        pr = ft.get("properties", {})
+        g = ft.get("geometry")
+        if not g:
+            continue
+        try:
+            pt = shape(g).representative_point()
+        except Exception:
+            continue
+        rows.append({
+            "parcelid": clean(pr.get("PARCELID")),
+            "owner": clean(pr.get("OWNERNAME")),
+            "addr": clean(pr.get("ADRLABEL")),
+            "city": clean(pr.get("ADRCITY")),
+            "subdiv": clean(pr.get("SUBDIV")),
+            "lot": clean(pr.get("LOT")),
+            "block": clean(pr.get("BLOCK")),
+            "legal": clean(pr.get("PARCELLGL")),
+            "total_value": pr.get("TOTALVALUE") or 0,
+            "imp_value": pr.get("IMPVALUE") or 0,
+            "assess_value": pr.get("ASSESSVAL") or 0,
+            "parcel_type": clean(pr.get("PARCELTYPE")),
+            "owner_city": clean(pr.get("OWNER_CITY")),
+            "owner_st": clean(pr.get("OWNER_ST")),
+            "lon": round(pt.x, 5),
+            "lat": round(pt.y, 5),
         })
-        for ft in d.get("features", []):
-            pr = ft.get("properties", {})
-            g = ft.get("geometry")
-            if not g:
-                continue
-            try:
-                pt = shape(g).representative_point()
-            except Exception:
-                continue
-            rows.append({
-                "parcelid": clean(pr.get("PARCELID")),
-                "owner": clean(pr.get("OWNERNAME")),
-                "addr": clean(pr.get("ADRLABEL")),
-                "city": clean(pr.get("ADRCITY")),
-                "subdiv": clean(pr.get("SUBDIV")),
-                "lot": clean(pr.get("LOT")),
-                "block": clean(pr.get("BLOCK")),
-                "legal": clean(pr.get("PARCELLGL")),
-                "total_value": pr.get("TOTALVALUE") or 0,
-                "imp_value": pr.get("IMPVALUE") or 0,
-                "assess_value": pr.get("ASSESSVAL") or 0,
-                "parcel_type": clean(pr.get("PARCELTYPE")),
-                "owner_city": clean(pr.get("OWNER_CITY")),
-                "owner_st": clean(pr.get("OWNER_ST")),
-                "lon": round(pt.x, 5),
-                "lat": round(pt.y, 5),
-            })
-        if p % 15 == 0:
-            print(f"  page {p + 1}/{npages}  rows={len(rows)}  {time.time() - t0:.0f}s", flush=True)
+    if p % 15 == 0:
+        print(f"  page {p + 1}/{npages}  rows={len(rows)}  {time.time() - t0:.0f}s", flush=True)
 
-    df = pd.DataFrame(rows).drop_duplicates("parcelid", keep="first")
-    print(f"unique parcels: {len(df)}  owners named: {(df.owner != '').mean() * 100:.1f}%  "
-          f"addressed: {(df.addr != '').mean() * 100:.1f}%")
-    OUT_PKL.parent.mkdir(parents=True, exist_ok=True)
-    df.to_pickle(OUT_PKL)
-    print("wrote", OUT_PKL)
+df = pd.DataFrame(rows).drop_duplicates("parcelid", keep="first")
+print(f"unique parcels: {len(df)}  owners named: {(df.owner != '').mean() * 100:.1f}%  "
+      f"addressed: {(df.addr != '').mean() * 100:.1f}%")
+OUT_PKL.parent.mkdir(parents=True, exist_ok=True)
+df.to_pickle(OUT_PKL)
+print("wrote", OUT_PKL)
 
 # ---------------------------------------------------------------- web index
 idx = df[(df.owner != "") | (df.addr != "")].copy()
@@ -133,41 +116,22 @@ cities = sorted(c for c in idx.city.unique() if c)
 city_i = {c: i for i, c in enumerate(cities)}
 city_i[""] = -1
 
-# resolve each parcel's subdivision to a PulaskiDeeds SUB search term, shared
-# through a string table (subs) so owners.json stays compact
-resolver = SubResolver()
-sub_terms = [""]                       # index 0 = no legal search available
-sub_i = {"": 0}
-
-
-def sub_index(subdiv):
-    term = resolver.resolve(subdiv) if subdiv else ""
-    if term not in sub_i:
-        sub_i[term] = len(sub_terms)
-        sub_terms.append(term)
-    return sub_i[term]
-
-
 owners = []
 for name, grp in idx.groupby("owner", sort=True):
-    props = [[r.addr, city_i[r.city], r.lon, r.lat, int(r.total_value or 0),
-              r.parcelid, sub_index(r.subdiv), r.lot, r.block]
+    props = [[r.addr, city_i[r.city], r.lon, r.lat, int(r.total_value or 0), r.parcelid]
              for r in grp.itertuples()]
     owners.append([name, props])
 
-resolved = sum(1 for _, ps in owners for p in ps if p[6] > 0)
 out = {
     "generated": date.today().isoformat(),
     "count": len(idx),
     "cities": cities,
-    "subs": sub_terms,
     "owners": owners,
 }
 OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
 OUT_JSON.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
 print(f"wrote {OUT_JSON} ({OUT_JSON.stat().st_size / 1e6:.1f} MB, "
-      f"{len(owners)} owners, {len(idx)} properties, "
-      f"{len(sub_terms)} SUB terms, {resolved} props with a legal search)")
+      f"{len(owners)} owners, {len(idx)} properties)")
 
 # validation: how many buildings will resolve an owner in the popup?
 bf = ROOT / "data" / "processed" / "buildings_final.pkl"

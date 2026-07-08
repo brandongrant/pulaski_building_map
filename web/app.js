@@ -359,7 +359,7 @@ const PULASKI_INST_CODES = [
   "SUM", "SUS", "SUT", "SUU", "TEU", "TMU", "UCC", "WAD",
 ];
 
-const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null, subs: [] };
+const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null };
 
 function ownersLoad() {
   if (own.loading) return own.loading;
@@ -369,7 +369,6 @@ function ownersLoad() {
     .then((r) => { if (!r.ok) throw new Error("owners.json missing"); return r.json(); })
     .then((d) => {
       own.cities = d.cities;
-      own.subs = d.subs || [];
       own.owners = d.owners;
       own.namesN = new Array(d.owners.length);
       own.byAddr = new Map();
@@ -458,13 +457,7 @@ const PULASKI_SPINNER_MS = 1500;
 
 function pulaskiLoadingURL(kind, value) {
   const u = new URL("deeds-open.html", location.href);
-  if (kind === "prop" && value && typeof value === "object") {
-    u.searchParams.set("sub", value.sub);
-    if (value.lot) u.searchParams.set("lot", value.lot);
-    if (value.blc) u.searchParams.set("blc", value.blc);
-  } else {
-    u.searchParams.set(kind === "inst" ? "inst" : "owner", value);
-  }
+  u.searchParams.set(kind === "inst" ? "inst" : "owner", value);
   return u.href;
 }
 
@@ -582,81 +575,12 @@ function openPulaskiOwnerIndex(owner) {
   return true;
 }
 
-// A parcel's full recorded-document history, searched by legal description
-// (subdivision + lot + block). This is owner-name-independent, so it works
-// even when the assessor owner string doesn't match any clerk party entity
-// (e.g. "WEBSTER FAMILY LIVING TRUST" vs the clerk's "WEBSTER FAMILY TRUST").
-// Verified: SUB "ST CHARLES ADN" + LOT 373 returns 18 Toulouse Ct's 27 docs.
-function pulaskiPropertyFields(sub, lot, blc) {
-  const f = {
-    searchType: "property", LOT: lot || "", BLC: blc && blc !== "0" ? blc : "",
-    RNG: "", SEC: "", QTR: "", SUB: sub, TWP: "", PD: "", TRCT: "", UNIT: "",
-    BLD: "", PH: "", CON: "",
-    prop_start_date: "01/01/1903", prop_end_date: pulaskiTodayMDY(),
-  };
-  const fields = Object.entries(f);
-  // send every instrument code (the site does NOT expand instType[ALL])
-  fields.push(["instType[ALL]", "ALL"]);
-  for (const c of PULASKI_INST_CODES) fields.push([`instType[${c}]`, c]);
-  return fields;
-}
-
-// direct POST to content.php (property search renders from the POST itself —
-// no storeDataString/storeEID dance is needed for the legal search)
-function postPulaskiContent(target, fields) {
-  const form = document.createElement("form");
-  form.method = "post";
-  form.action = `${PULASKI_DEEDS_BASE}content.php`;
-  form.target = target;
-  form.hidden = true;
-  for (const [name, value] of fields) {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  }
-  document.body.appendChild(form);
-  form.submit();
-  window.setTimeout(() => form.remove(), 2500);
-}
-
-function openPulaskiProperty(sub, lot, blc) {
-  if (!sub) return false;
-  const target = pulaskiWindowName("prop");
-  const w = window.open(pulaskiLoadingURL("prop", { sub, lot, blc }), target);
-  if (!w) return false;
-  // 1) establish the session (GET index.php), 2) POST the property search
-  window.setTimeout(() => {
-    try { w.location.href = `${PULASKI_DEEDS_BASE}index.php`; } catch (e) {}
-  }, PULASKI_SPINNER_MS);
-  window.setTimeout(() => {
-    postPulaskiContent(target, pulaskiPropertyFields(sub, lot, blc));
-    try { w.focus(); } catch (e) {}
-  }, PULASKI_SPINNER_MS + 1600);
-  return true;
-}
-
 function deedDocLink(inst, label) {
   const clean = pulaskiInst(inst);
   if (!clean) return "";
   return `<a class="doc-link" data-pulaski-inst="${clean}" href="${pulaskiOpenURL("inst", clean)}" target="_blank" rel="noopener" ` +
     `title="Open PulaskiDeeds document details for instrument ${clean}">` +
     `${esc(label || clean)}</a>`;
-}
-
-function deedPropertyLink(legal, label) {
-  if (!legal || !legal.sub) return "";
-  const u = new URL("deeds-open.html", location.href);
-  u.searchParams.set("sub", legal.sub);
-  if (legal.lot) u.searchParams.set("lot", legal.lot);
-  if (legal.blc) u.searchParams.set("blc", legal.blc);
-  const where = legal.sub + (legal.lot ? " lot " + legal.lot : "");
-  return `<a class="doc-link" data-pulaski-sub="${esc(legal.sub)}" ` +
-    `data-pulaski-lot="${esc(legal.lot || "")}" data-pulaski-blc="${esc(legal.blc || "")}" ` +
-    `href="${u.href}" target="_blank" rel="noopener" ` +
-    `title="Open this parcel's full deed &amp; mortgage history (${esc(where)})">` +
-    `${esc(label || "deeds")}</a>`;
 }
 
 function deedOwnerLink(owner, label) {
@@ -668,17 +592,11 @@ function deedOwnerLink(owner, label) {
 }
 
 document.addEventListener("click", (e) => {
-  const a = e.target && e.target.closest
-    ? e.target.closest("a[data-pulaski-inst],a[data-pulaski-owner],a[data-pulaski-sub]") : null;
+  const a = e.target && e.target.closest ? e.target.closest("a[data-pulaski-inst],a[data-pulaski-owner]") : null;
   if (!a) return;
-  let handled = false;
-  if (a.dataset.pulaskiInst) {
-    handled = openPulaskiDeed(a.dataset.pulaskiInst);
-  } else if (a.dataset.pulaskiSub) {
-    handled = openPulaskiProperty(a.dataset.pulaskiSub, a.dataset.pulaskiLot, a.dataset.pulaskiBlc);
-  } else {
-    handled = openPulaskiOwnerIndex(decodeURIComponent(a.dataset.pulaskiOwner || ""));
-  }
+  const handled = a.dataset.pulaskiInst
+    ? openPulaskiDeed(a.dataset.pulaskiInst)
+    : openPulaskiOwnerIndex(decodeURIComponent(a.dataset.pulaskiOwner || ""));
   if (handled) e.preventDefault();
 });
 
@@ -692,10 +610,7 @@ function parcelAtAddr(p) {
     for (const pr of props) {
       const city = pr[1] >= 0 ? own.cities[pr[1]] : "";
       if (normAddrJS(pr[0]) === normAddrJS(p.addr) && normAddrJS(city) === normAddrJS(p.city || "")) {
-        const sub = pr[6] ? (own.subs[pr[6]] || "") : "";
-        const blc = pr[8] && pr[8] !== "0" ? pr[8] : "";
-        return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0,
-                 sub, lot: pr[7] || "", blc };
+        return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0 };
       }
     }
   }
@@ -709,15 +624,12 @@ function deedsForBuilding(bldProps) {
 
 function recordLinks(ctx = {}) {
   const docs = Array.isArray(ctx.docs) ? ctx.docs : null;
-  const parcel = ctx.parcel || null;
-  const parcelId = parcelIdForURL(ctx.parcelId || (parcel && parcel.id));
-  const owner = ctx.owner || (parcel && parcel.owner) || "";
+  const deedDoc = docs && docs.find((p) => p.n);
+  const parcelId = parcelIdForURL(ctx.parcelId || (ctx.parcel && ctx.parcel.id));
+  const owner = ctx.owner || (ctx.parcel && ctx.parcel.owner) || "";
   const address = ctx.address || "";
-  // Prefer the parcel's legal-description search (full deed/mortgage history,
-  // owner-independent); fall back to owner-name search, then the bare site.
-  const legal = parcel && parcel.sub && parcel.lot ? parcel : null;
-  const deedsLink = legal
-    ? deedPropertyLink(legal, "deeds")
+  const deedsLink = deedDoc
+    ? deedDocLink(deedDoc.n, "deeds")
     : owner ? deedOwnerLink(owner, "deeds")
     : `<a href="${PULASKI_DEEDS_BASE}" target="_blank" rel="noopener" ` +
       `title="Pulaski County recorded documents - deeds, mortgages, liens (1994+)">deeds</a>`;
@@ -984,8 +896,7 @@ function wireHover() {
           html = `<div class="pp-addr">${where}</div><div class="pp-grid">` +
             (p.o ? `<span class="k">Owner</span><span>${ownerLinkHTML(p.o)}</span>` : "") +
             (p.v > 0 ? `<span class="k">Parcel value</span><span>${fmtUSD.format(p.v)}</span>` : "") +
-            `</div>` + recordLinks({ parcel: parcelAtAddr({ addr: p.a, city: p.c }),
-                                     parcelId: p.pid, address: p.a, owner: p.o, docs }) +
+            `</div>` + recordLinks({ parcelId: p.pid, address: p.a, owner: p.o, docs }) +
             `<div class="tt-veh">Owner per county parcel roll · unofficial</div>`;
         } else if (df[0].layer.id === "pm-pts") {
           const d = String(p.d);

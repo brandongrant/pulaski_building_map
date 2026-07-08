@@ -27,19 +27,16 @@
   }
   @keyframes sp { to { transform: rotate(360deg); } }
   h1 { margin: 0 0 6px; font-size: 18px; }
-  .ctx { margin: 0 0 14px; color: #f3d54c; font-weight: 600; word-break: break-word; }
+  .ctx {
+    margin: 0 0 14px; color: #f3d54c; font-weight: 600;
+    word-break: break-word;
+  }
   p { margin: 0 0 12px; color: #b8c0d2; }
   .hint { font-size: 12.5px; color: #8b93a7; }
   .dots::after { content: ""; animation: dots 1.4s steps(4, end) infinite; }
   @keyframes dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
   a { color: #f3d54c; }
   .fallback { margin-top: 16px; font-size: 12.5px; }
-  button {
-    border: 1px solid rgba(243, 213, 76, 0.5); background: #f3d54c; color: #101217;
-    border-radius: 7px; padding: 10px 16px; margin-top: 4px;
-    font: 600 13px/1 "Segoe UI", system-ui, -apple-system, sans-serif; cursor: pointer;
-  }
-  button:disabled { cursor: wait; opacity: 0.6; }
 </style>
 </head>
 <body>
@@ -47,155 +44,33 @@
   <div class="spin" role="status" aria-label="Loading"></div>
   <h1>Opening Pulaski County records<span class="dots"></span></h1>
   <p class="ctx" id="ctx"></p>
-  <p id="lead">Fetching this record from <b>PulaskiDeeds</b>, the county's recorded-document
+  <p>Fetching this record from <b>PulaskiDeeds</b>, the county's recorded-document
      system. Their site is slow — this usually takes <b>10–15 seconds</b>.</p>
-  <p class="hint" id="hint">Please keep this window open. The record will appear here automatically.</p>
-  <p id="manual" hidden><button id="openBtn" type="button">Open records</button></p>
+  <p class="hint">Please keep this window open. The record will appear here automatically.</p>
   <p class="fallback">Nothing after ~20&nbsp;seconds?
      <a href="https://pulaskideeds.com/search/" target="_blank" rel="noopener">Open the PulaskiDeeds search page</a>.</p>
 </main>
 <script>
 "use strict";
-// First-party loading screen shown INSTANTLY in the popup. Two ways it runs:
-//  (1) Normal map click: app.js opens this page AND drives the PulaskiDeeds
-//      session in this same window (navigates it to index.php, then posts the
-//      search). This page's own timer sees the navigation and never fires.
-//  (2) Standalone open (middle-click / new tab / direct URL): no opener is
-//      driving us, so after a short wait we self-drive a child popup using the
-//      exact same session sequence. A button is offered too (popup blockers
-//      require a user gesture for the child window).
+// This page is a first-party loading screen shown INSTANTLY in the popup so the
+// user knows the request is working. The map page (app.js) drives the actual
+// PulaskiDeeds session sequence and navigates this window to the record when
+// ready — see openPulaskiDeed / openPulaskiOwnerIndex.
 (function () {
-  var BASE = "https://pulaskideeds.com/search/";
-  var INST_CODES = ["ALA","AMU","ARM","ARS","ASM","ASR","AST","ASU","BAS","BFD",
-    "CAD","CCL","CNU","COD","COM","CRC","CRD","CRF","CSR","CTY","CVJ","DCH","DTM",
-    "EAD","EXD","FJL","FTL","INT","IRD","IRL","IRM","IRT","LPL","LTD","MAD","MEL",
-    "MGM","MID","MML","MRB","NJA","NJC","NJD","NJF","NJL","NJP","NJS","NOB","NOL",
-    "OAO","ORS","ORU","OTB","OTC","OTD","OTI","OTJ","OTL","OUF","PAG","PLAT","POA",
-    "PRL","PRM","PRR","PRU","PSJ","QCD","RAR","RBA","RDD","REL","REM","REU","RML",
-    "RPA","RTL","SAJ","SALE","SML","SUM","SUS","SUT","SUU","TEU","TMU","UCC","WAD"];
-
   var p = new URLSearchParams(location.search);
   var inst = (p.get("inst") || "").replace(/[^0-9A-Za-z-]/g, "");
   var owner = (p.get("owner") || "").trim();
-  var sub = (p.get("sub") || "").trim();
-  var lot = (p.get("lot") || "").trim();
-  var blc = (p.get("blc") || "").trim();
   var ctx = document.getElementById("ctx");
-
-  var label = "";
-  if (inst) label = "Instrument #" + inst;
-  else if (sub) label = "Deed history · " + sub + (lot ? " lot " + lot : "");
-  else if (owner) {
-    var names = owner.split(/[\/;]+/).map(function (s) { return s.replace(/\s+/g, " ").trim(); }).filter(Boolean);
-    label = names.length ? names.join(" / ") : owner;
+  if (inst) {
+    ctx.textContent = "Instrument #" + inst;
+  } else if (owner) {
+    var names = owner.split(/[\/;]+/).map(function (s) { return s.replace(/\s+/g, " ").trim(); })
+      .filter(Boolean);
+    ctx.textContent = names.length ? names.join(" / ") : owner;
+  } else {
+    ctx.textContent = "";
   }
-  ctx.textContent = label;
-  try { document.title = label ? "Opening " + label + "…" : document.title; } catch (e) {}
-
-  function todayMDY() {
-    var d = new Date();
-    return ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + "/" + d.getFullYear();
-  }
-  function ownerCandidates(o) {
-    var out = [];
-    o.split(/[\/;]+/).forEach(function (part) {
-      var c = part.replace(/\s+/g, " ").trim();
-      if (c && out.every(function (v) { return v.toUpperCase() !== c.toUpperCase(); })) out.push(c);
-    });
-    return out.length ? out : [o.trim()].filter(Boolean);
-  }
-  function entityId(name) {
-    var c = name.toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "");
-    return c ? c + ":" : "";
-  }
-  function entityVal(name) { return name.toUpperCase().replace(/[^A-Z0-9]+/g, ""); }
-
-  function postWin(target, action, fields) {
-    var form = document.createElement("form");
-    form.method = "post";
-    form.action = BASE + action;
-    form.target = target;
-    form.hidden = true;
-    fields.forEach(function (kv) {
-      var i = document.createElement("input");
-      i.type = "hidden"; i.name = kv[0]; i.value = kv[1];
-      form.appendChild(i);
-    });
-    document.body.appendChild(form);
-    form.submit();
-    setTimeout(function () { form.remove(); }, 2500);
-  }
-  function contentURL() { return BASE + "content.php?embedded=1&" + Date.now(); }
-
-  function propFields() {
-    var f = [["searchType", "property"], ["LOT", lot], ["BLC", blc && blc !== "0" ? blc : ""],
-      ["RNG", ""], ["SEC", ""], ["QTR", ""], ["SUB", sub], ["TWP", ""], ["PD", ""],
-      ["TRCT", ""], ["UNIT", ""], ["BLD", ""], ["PH", ""], ["CON", ""],
-      ["prop_start_date", "01/01/1903"], ["prop_end_date", todayMDY()], ["instType[ALL]", "ALL"]];
-    INST_CODES.forEach(function (c) { f.push(["instType[" + c + "]", c]); });
-    return f;
-  }
-  function ownerDataString(names) {
-    var d = new URLSearchParams();
-    d.set("searchType", "name"); d.set("start_date", "01/01/1903"); d.set("end_date", todayMDY());
-    d.set("sort_type", "Name"); d.set("search_type", "Standard");
-    d.set("last_name", names[names.length - 1].toLowerCase());
-    d.set("party_type", "Both"); d.set("entity_type", "Both"); d.set("instType[ALL][ALL]", "ALL");
-    INST_CODES.forEach(function (c) { d.set("instType[" + c + "][" + c + "]", c); });
-    d.set("plresults_length", "100");
-    names.forEach(function (n) { d.append("name[]", entityVal(n)); });
-    return d.toString();
-  }
-
-  // Self-drive a fresh child popup (used only in the standalone case).
-  function drive() {
-    var name = "pdw_" + Date.now() + "_" + Math.floor(Math.random() * 1e5);
-    var w = window.open(BASE + "index.php", name);
-    if (!w) return false;
-    if (sub) {
-      setTimeout(function () { postWin(name, "content.php", propFields()); }, 1600);
-    } else if (inst) {
-      setTimeout(function () {
-        postWin(name, "ajaxActions.php",
-          [["dataString", "searchType=details&inst_num=" + inst], ["action", "storeDataString"]]);
-      }, 1200);
-      setTimeout(function () { try { w.location.href = contentURL(); } catch (e) {} }, 5600);
-    } else if (owner) {
-      var names = ownerCandidates(owner);
-      names.forEach(function (n, i) {
-        setTimeout(function () { postWin(name, "ajaxActions.php", [["entityID", entityId(n)], ["action", "storeEID"]]); }, 1200 + i * 900);
-      });
-      setTimeout(function () { postWin(name, "ajaxActions.php", [["dataString", ownerDataString(names)], ["action", "storeDataString"]]); }, 1200 + names.length * 900);
-      setTimeout(function () { try { w.location.href = contentURL(); } catch (e) {} }, 11000 + names.length * 1200);
-    } else { return false; }
-    try { w.focus(); } catch (e) {}
-    return true;
-  }
-
-  if (!label) {
-    document.getElementById("lead").textContent = "No record was specified.";
-    return;
-  }
-
-  // If an opener is driving THIS window, it will navigate us to index.php within
-  // ~1.5 s and this page unloads. If we're still here after that, we're standalone.
-  var manual = document.getElementById("manual");
-  var openBtn = document.getElementById("openBtn");
-  openBtn.addEventListener("click", function () {
-    openBtn.disabled = true;
-    document.getElementById("hint").textContent = "Opening the county record in a new window…";
-    if (!drive()) {
-      openBtn.disabled = false;
-      document.getElementById("hint").textContent = "Popup blocked — allow popups, then try again.";
-    }
-  });
-  setTimeout(function () {
-    // still here → nobody drove us; offer/attempt the self-driven path
-    manual.hidden = false;
-    document.getElementById("hint").textContent =
-      "If the record does not open on its own, use the button below.";
-    drive();
-  }, 2200);
+  try { document.title = ctx.textContent ? "Opening " + ctx.textContent + "…" : document.title; } catch (e) {}
 }());
 </script>
 </body>
