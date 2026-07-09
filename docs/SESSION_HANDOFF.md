@@ -18,9 +18,9 @@ the local Wrangler runtime. A real `ST CHARLES ADN` / lot `373` request returned
 the Webster owner and five recorded documents, including three chain documents.
 Cloudflare is not authenticated on this machine (`wrangler whoami` reports that
 `wrangler login` is required), so the Worker has not been published and
-`DEEDS_API` remains empty until that account authorization is completed. The live
-Pages site still serves `origin/main` until the integrated branch is pushed to
-`main`.
+`DEEDS_API` remains empty until that account authorization is completed. The
+integrated commit `216e5fe` is now pushed to `origin/main`; Pages checks confirmed
+the vehicle panel, live `app.js`, and the 10.6 MB `vehicles.json` asset are live.
 
 ## 2026-07-07 eighth follow-up — deed history via a proxy Worker (THE fix)
 
