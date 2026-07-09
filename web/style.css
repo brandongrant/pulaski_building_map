@@ -158,7 +158,43 @@ input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer;
 
 .fineprint { color: var(--txt-dim); font-size: 10.5px; line-height: 1.45; margin-top: 7px; }
 #dspCats, #pmCats, #deedTypes { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-#dspSince, #pmMeta, #pmYrShow, #deedMeta { text-transform: none; letter-spacing: 0; }
+#dspSince, #pmMeta, #pmYrShow, #deedMeta, #vehMeta { text-transform: none; letter-spacing: 0; }
+
+/* ---------- vehicle search ---------- */
+#vehSec input[type="text"], #vehSec input[type="number"] {
+  width: 100%; padding: 6px 8px; border-radius: 7px;
+  background: var(--ctl-bg); color: var(--txt);
+  border: 1px solid var(--ctl-border); font: inherit;
+}
+#vehSec input:focus { outline: 1px solid var(--accent); }
+#vehSec input::placeholder { color: #6b7488; }
+.veh-form { display: flex; flex-direction: column; gap: 7px; }
+.veh-years input { width: 100%; }
+.veh-years input::-webkit-outer-spin-button,
+.veh-years input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.veh-years input { -moz-appearance: textfield; }
+.btn {
+  flex: 1; padding: 7px 10px; border-radius: 7px; cursor: pointer; font: inherit;
+  font-weight: 600; background: var(--accent); color: #0c0e14; border: 1px solid var(--accent);
+  transition: filter 0.12s;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: var(--ctl-bg); color: var(--txt-dim); border-color: var(--ctl-border); font-weight: 400; }
+.btn.ghost:hover { color: var(--txt); filter: none; }
+#vehResults { margin-top: 9px; }
+.veh-sum { font-size: 12px; color: var(--txt-dim); margin-bottom: 6px; }
+.veh-sum b { color: var(--txt); }
+.veh-list { max-height: 220px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #333d52 transparent; }
+.veh-item {
+  display: flex; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 6px;
+  cursor: pointer; font-size: 12px;
+}
+.veh-item:hover { background: rgba(255, 46, 166, 0.14); }
+.veh-a { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.veh-n {
+  flex: none; min-width: 20px; text-align: center; color: #0c0e14; font-weight: 600;
+  font-size: 11px; background: var(--accent); border-radius: 10px; padding: 1px 7px;
+}
 .pm-tl div { margin-top: 3px; }
 .pm-tl b { color: var(--txt); }
 
@@ -236,7 +272,9 @@ footer a:hover { color: var(--accent); }
     padding: 14px 15px 10px;
   }
   /* 16px+ inputs stop iOS Safari from zooming the page on focus */
-  select, #searchBox { font-size: 16px; padding: 9px 10px; }
+  select, #searchBox, #vehSec input[type="text"], #vehSec input[type="number"] { font-size: 16px; padding: 9px 10px; }
+  .btn { padding: 10px; }
+  .veh-item { padding: 8px 6px; }
   .chk { font-size: 14px; min-height: 30px; }
   .chk input { width: 18px; height: 18px; }
   .chip { padding: 6px 12px 7px; font-size: 13px; }

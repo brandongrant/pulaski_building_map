@@ -91,7 +91,9 @@ def veh_list(s):
     out = "; ".join(vs[:VEH_LIST_MAX])
     if len(vs) > VEH_LIST_MAX:
         out += f"; +{len(vs) - VEH_LIST_MAX} more"
-    return out.replace("<", "").replace(">", "").replace("&", "and")[:180]
+    # VEH_LIST_MAX already bounds the entry count; a character cap can cut the
+    # final vehicle or the "+N more" marker into a false make/model token.
+    return out.replace("<", "").replace(">", "").replace("&", "and")
 
 
 agg = pp.sort_values("av", ascending=False).groupby(["ak", "ck"]).agg(

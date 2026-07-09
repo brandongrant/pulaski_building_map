@@ -3,6 +3,25 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-09 current integration audit
+
+The deployable work is being combined on branch `codex/integrate-vehicle-deed-proxy`,
+based on the deed-proxy branch and `origin/main`. The vehicle-search feature from
+the separate `vehicle-search` checkout has been ported without replacing the live
+owner/deed code: `web/data/vehicles.json`, `pipeline/build_vehicle_index.py`, the
+pipeline hook, panel controls, clustered pins, and mobile result-row behavior are
+now present in this branch. `node --check web/app.js`, `node --check
+worker/pulaski-deeds.js`, and Python compilation all pass.
+
+The Worker was bundle-validated with `npx wrangler deploy --dry-run` and tested in
+the local Wrangler runtime. A real `ST CHARLES ADN` / lot `373` request returned
+the Webster owner and five recorded documents, including three chain documents.
+Cloudflare is not authenticated on this machine (`wrangler whoami` reports that
+`wrangler login` is required), so the Worker has not been published and
+`DEEDS_API` remains empty until that account authorization is completed. The live
+Pages site still serves `origin/main` until the integrated branch is pushed to
+`main`.
+
 ## 2026-07-07 eighth follow-up — deed history via a proxy Worker (THE fix)
 
 Committed `129b285` on `claude/sharp-payne-7096cd`, **NOT pushed to main yet**

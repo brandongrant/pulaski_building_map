@@ -45,4 +45,5 @@ run(sys.executable, PIPE / "make_tiles.py")
 # owner/address search index — streams the parcel layer itself (~5 min),
 # independent of the raw downloads above
 run(sys.executable, PIPE / "build_owner_index.py")
+run(sys.executable, PIPE / "build_vehicle_index.py")
 print("\nPipeline complete. Start the map with:  python serve.py")

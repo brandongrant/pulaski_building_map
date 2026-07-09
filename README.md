@@ -30,6 +30,7 @@ online basemaps.
 | **Main buildings only** | Hides garages/sheds (largest footprint per parcel wins) |
 | **3D height** | Extrudes by assessor story count (± exaggeration) — try pitch + rotate (right-drag) |
 | **Basemap / background** | Pure black default; optional CARTO dark / light / OSM raster underlay |
+| **Find vehicles** | Search assessor personal-property vehicles by make, model, and/or year; matches pin to its situs address |
 | **H key** | Hide/show the panel |
 | Hover / click | Tooltip / pinned popup with address, year, type, size, value |
 
@@ -62,7 +63,12 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 6. `make_tiles.py` — pure-Python vector tiler → `web/data/buildings.pmtiles`
    (z9–z15, tiny-building dilation at low zooms so every house stays a visible speck)
    + `web/data/config.json` (stats, histograms, domains for the UI).
-7. `build_owner_index.py` — streams the PAgis parcel layer (owner name, situs
+7. `build_vehicle_index.py` — parses the per-building `veh` strings into
+   `web/data/vehicles.json`: one representative footprint per normalized address,
+   interned makes/models/cities, and a flat table the browser filters client-side.
+   Up to 6 vehicles are indexed per address, so busy apartment/dealer lots are only
+   partially covered.
+8. `build_owner_index.py` — streams the PAgis parcel layer (owner name, situs
    address, subdivision/lot/block, values, centroid — no bulk file kept on disk)
    → `web/data/owners.json` (the in-app owner/address search index) and
    `data/processed/parcel_owners.pkl` (parcel crosswalk seed for the

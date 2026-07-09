@@ -30,6 +30,27 @@
     </div>
   </section>
 
+  <section id="vehSec">
+    <label class="lbl">Find vehicles <span id="vehMeta"></span></label>
+    <div class="veh-form">
+      <input type="text" id="vehMake" placeholder="Make - e.g. Toyota" list="vehMakeList" autocomplete="off" spellcheck="false">
+      <datalist id="vehMakeList"></datalist>
+      <input type="text" id="vehModel" placeholder="Model - e.g. Camry" autocomplete="off" spellcheck="false">
+      <div class="row veh-years">
+        <input type="number" id="vehYrLo" placeholder="Year from" inputmode="numeric">
+        <input type="number" id="vehYrHi" placeholder="to" inputmode="numeric">
+      </div>
+      <div class="row">
+        <button id="vehSearch" class="btn">Search</button>
+        <button id="vehClear" class="btn ghost">Clear</button>
+      </div>
+    </div>
+    <div id="vehResults" hidden></div>
+    <div class="fineprint" id="vehNote">Assessor personal-property records matched to
+      each account's situs address. Up to 6 vehicles are indexed per address, so the
+      busiest apartment/dealer lots are only partially covered. Unofficial.</div>
+  </section>
+
   <section>
     <label class="lbl" for="attr">Color by</label>
     <select id="attr"></select>
