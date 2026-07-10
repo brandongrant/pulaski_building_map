@@ -37,12 +37,15 @@
   <p id="status">Ready to open the county record.</p>
   <p id="detail"></p>
   <p><button id="openBtn" type="button">Open records</button></p>
-  <p>If the popup is blocked, <a id="fallback" href="https://pulaskideeds.com/search/">open PulaskiDeeds search</a>.</p>
+  <p>If the popup is blocked, <a id="fallback" href="https://pulaskideeds.com/search/index.php?Accept=Accept">open PulaskiDeeds search</a>.</p>
 </main>
 <script>
 "use strict";
 
 const BASE = "https://pulaskideeds.com/search/";
+// index.php honors Accept via GET — lands past the legal disclaimer with an
+// accepted session in one top-level GET (see openPulaskiDeed in app.js).
+const ACCEPT_URL = `${BASE}index.php?Accept=Accept`;
 const params = new URLSearchParams(window.location.search);
 const statusEl = document.getElementById("status");
 const detailEl = document.getElementById("detail");
@@ -138,17 +141,18 @@ function ownerDataString(names) {
 
 function openInstrument(inst) {
   const target = targetName("inst");
-  const w = window.open(`${BASE}index.php`, target);
+  // Two top-level GETs: accept the disclaimer, then request the record —
+  // content.php takes the details params in the query string. GETs always
+  // carry the session cookie under SameSite=Lax, unlike cross-site POSTs.
+  const w = window.open(ACCEPT_URL, target);
   if (!w) return false;
-  const dataString = new URLSearchParams({ searchType: "details", inst_num: inst }).toString();
   statusEl.textContent = `Opening instrument ${inst}...`;
-  window.setTimeout(() => postWindow(target, { dataString, action: "storeDataString" }), 1100);
   window.setTimeout(() => {
     try {
-      w.location.href = contentURL();
+      w.location.href = `${BASE}content.php?searchType=details&inst_num=${encodeURIComponent(inst)}`;
       w.focus();
     } catch (e) {}
-  }, 5600);
+  }, 5500);
   return true;
 }
 
@@ -156,7 +160,9 @@ function openOwner(owner) {
   const names = ownerCandidates(owner);
   const dataString = ownerDataString(names);
   const target = targetName("owner");
-  const w = window.open(`${BASE}index.php`, target);
+  // Start on the accept URL so the session is past the disclaimer before the
+  // storeEID/storeDataString POSTs — un-accepted sessions get rejected.
+  const w = window.open(ACCEPT_URL, target);
   if (!w) return false;
   statusEl.textContent = `Opening records for ${names.join(" / ")}...`;
   names.forEach((name, i) => {

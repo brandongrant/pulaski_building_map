@@ -358,6 +358,10 @@ function renderLegend() {
 
 /* ------------------------------------------------- owner index + search */
 const PULASKI_DEEDS_BASE = "https://pulaskideeds.com/search/";
+// index.php gates everything behind a legal-disclaimer page and only marks
+// the session accepted itself — but it honors Accept via GET, so this URL
+// lands users on a working search page in one hop instead of the disclaimer.
+const PULASKI_DEEDS_ACCEPT_URL = `${PULASKI_DEEDS_BASE}index.php?Accept=Accept`;
 // Deployed Cloudflare Worker that returns a parcel's deed history as JSON
 // (worker/pulaski-deeds.js). The URL lives in data/services.json — separate
 // from the pipeline-generated config.json so a data refresh can't clobber it.
@@ -426,7 +430,7 @@ function ownerLinkHTML(name) {
 
 function recordLinksLegacy() {
   return `<div class="tt-veh pp-links">Public records: ` +
-    `<a href="https://pulaskideeds.com/search/" target="_blank" rel="noopener" ` +
+    `<a href="${PULASKI_DEEDS_ACCEPT_URL}" target="_blank" rel="noopener" ` +
     `title="Pulaski County recorded documents — deeds, mortgages, liens (1994+)">deeds</a> · ` +
     `<a href="https://www.arcountydata.com/county.asp?county=pulaski&amp;directlogin=true" target="_blank" rel="noopener" ` +
     `title="ARCountyData Pulaski property records">parcel</a> · ` +
@@ -510,19 +514,20 @@ function openPulaskiDeed(inst) {
   // Show our loading screen first; then drive PulaskiDeeds in the same window.
   const w = window.open(pulaskiLoadingURL("inst", clean), target);
   if (!w) return false;
-  const dataString = new URLSearchParams({ searchType: "details", inst_num: clean }).toString();
+  // Two top-level GETs: accept the disclaimer (which also establishes the
+  // session), then ask content.php for the record directly — it takes the
+  // details params in the query string. Top-level GETs always carry the
+  // session cookie under SameSite=Lax, unlike the cross-site POST dance this
+  // used to rely on, which browsers increasingly refuse to attach cookies to.
   window.setTimeout(() => {
-    try { w.location.href = `${PULASKI_DEEDS_BASE}index.php`; } catch (e) {}
+    try { w.location.href = PULASKI_DEEDS_ACCEPT_URL; } catch (e) {}
   }, PULASKI_SPINNER_MS);
   window.setTimeout(() => {
-    postPulaskiWindow(target, { dataString, action: "storeDataString" });
-  }, PULASKI_SPINNER_MS + 1100);
-  window.setTimeout(() => {
     try {
-      w.location.href = pulaskiDeedContentURL();
+      w.location.href = `${PULASKI_DEEDS_BASE}content.php?searchType=details&inst_num=${encodeURIComponent(clean)}`;
       w.focus();
     } catch (e) {}
-  }, PULASKI_SPINNER_MS + 5600);
+  }, PULASKI_SPINNER_MS + 5500);
   return true;
 }
 
@@ -575,8 +580,10 @@ function openPulaskiOwnerIndex(owner) {
   // Show our loading screen first; then drive PulaskiDeeds in the same window.
   const w = window.open(pulaskiLoadingURL("owner", String(owner || "")), target);
   if (!w) return false;
+  // Land on the accept URL so the session is past the disclaimer before the
+  // storeEID/storeDataString POSTs — un-accepted sessions get rejected.
   window.setTimeout(() => {
-    try { w.location.href = `${PULASKI_DEEDS_BASE}index.php`; } catch (e) {}
+    try { w.location.href = PULASKI_DEEDS_ACCEPT_URL; } catch (e) {}
   }, PULASKI_SPINNER_MS);
   names.forEach((name, i) => {
     window.setTimeout(() => {
@@ -654,7 +661,7 @@ function recordLinks(ctx = {}) {
   const deedsLink = deedDoc
     ? deedDocLink(deedDoc.n, "deeds")
     : owner ? deedOwnerLink(owner, "deeds")
-    : `<a href="${PULASKI_DEEDS_BASE}" target="_blank" rel="noopener" ` +
+    : `<a href="${PULASKI_DEEDS_ACCEPT_URL}" target="_blank" rel="noopener" ` +
       `title="Pulaski County recorded documents - deeds, mortgages, liens (1994+)">deeds</a>`;
   const parcelLink = parcelId
     ? `<a href="${arCountyParcelURL(parcelId)}" target="_blank" rel="noopener" ` +
@@ -1618,7 +1625,7 @@ function deedHistorySection(parcel) {
 }
 
 function deedFullSearchLink() {
-  return `<a href="${PULASKI_DEEDS_BASE}" target="_blank" rel="noopener">PulaskiDeeds ↗</a>`;
+  return `<a href="${PULASKI_DEEDS_ACCEPT_URL}" target="_blank" rel="noopener">PulaskiDeeds ↗</a>`;
 }
 
 const DH_MONTH = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -1648,7 +1655,7 @@ function renderDeedHistory(d) {
     return `<div class="dh-row${x.chain ? " dh-chain" : ""}">` +
       `<div class="dh-top"><span class="dh-date">${dhDate(x.date)}</span>` +
       `<span class="dh-type">${esc((x.type || "").toLowerCase())}</span>` +
-      `<span class="dh-inst">${esc(x.inst)}</span></div>${parties}</div>`;
+      `<span class="dh-inst">${deedDocLink(x.inst, x.inst) || esc(x.inst)}</span></div>${parties}</div>`;
   };
   const chain = d.docs.filter((x) => x.chain);
   const rest = d.docs.filter((x) => !x.chain);
