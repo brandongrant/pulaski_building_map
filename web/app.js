@@ -68,6 +68,18 @@ const state = {
 };
 
 /* ------------------------------------------------- boot */
+// Runtime service endpoints. Optional — the map works without it, deed
+// history just stays off. Loaded in parallel with config.json; DEEDS_API is
+// only read on popup open, well after both fetches settle.
+fetch("data/services.json")
+  .then((r) => (r.ok ? r.json() : null))
+  .then((s) => {
+    if (s?.services?.deeds_api && s.features?.deed_history !== false) {
+      DEEDS_API = s.services.deeds_api.replace(/\/+$/, "");
+    }
+  })
+  .catch(() => {});
+
 fetch("data/config.json")
   .then((r) => {
     if (!r.ok) throw new Error("config.json not found — run the pipeline first");
@@ -347,10 +359,11 @@ function renderLegend() {
 /* ------------------------------------------------- owner index + search */
 const PULASKI_DEEDS_BASE = "https://pulaskideeds.com/search/";
 // Deployed Cloudflare Worker that returns a parcel's deed history as JSON
-// (worker/pulaski-deeds.js). Set to your Worker URL, no trailing slash, e.g.
-// "https://pulaski-deeds.yourname.workers.dev". Empty = feature off (the deeds
-// link falls back to the plain PulaskiDeeds hand-off).
-const DEEDS_API = "";
+// (worker/pulaski-deeds.js). The URL lives in data/services.json — separate
+// from the pipeline-generated config.json so a data refresh can't clobber it.
+// Empty = feature off (the deeds link falls back to the plain PulaskiDeeds
+// hand-off).
+let DEEDS_API = "";
 const ARCOUNTY_PARCEL_BASE = "https://www.arcountydata.com/parcel.asp?County=Pulaski&ParcelID=";
 const TREASURER_MOBILE_BASE = "https://public.pulaskicountytreasurer.net/mobile/pulaski/";
 const PULASKI_INST_CODES = [

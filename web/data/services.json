@@ -1,0 +1,8 @@
+{
+  "services": {
+    "deeds_api": ""
+  },
+  "features": {
+    "deed_history": true
+  }
+}
