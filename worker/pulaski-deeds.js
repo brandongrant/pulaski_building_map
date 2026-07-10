@@ -125,28 +125,51 @@ async function fetchWithTimeout(url, opts) {
   }
 }
 
+const SESSION_HDRS = {
+  "User-Agent": UA,
+  "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+  "Accept-Language": "en-US,en;q=0.9",
+};
+
+function sessionCookieFrom(res) {
+  const sc = typeof res.headers.getSetCookie === "function"
+    ? res.headers.getSetCookie().join("; ")
+    : (res.headers.get("set-cookie") || "");
+  const m = sc.match(/PHPSESSID=[^;]+/);
+  return m ? m[0] : null;
+}
+
 async function newSession() {
-  // redirect:"manual" — fetch() silently follows redirects and drops the
-  // Set-Cookie from the hop that issued it, which reads as "no cookie"
+  // 1) GET serves the legal-disclaimer page and issues the PHP session.
+  //    redirect:"manual" — fetch() silently follows redirects and drops the
+  //    Set-Cookie from the hop that issued it, which reads as "no cookie".
   const idx = await fetchWithTimeout(BASE + "index.php", {
+    redirect: "manual", headers: SESSION_HDRS,
+  });
+  let cookie = sessionCookieFrom(idx);
+  try { await idx.body?.cancel(); } catch (e) {}
+  // 2) content.php rejects sessions that haven't accepted the disclaimer —
+  //    submit the Accept form exactly as the page's button does.
+  const acc = await fetchWithTimeout(BASE + "index.php", {
+    method: "POST",
     redirect: "manual",
     headers: {
-      "User-Agent": UA,
-      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      "Accept-Language": "en-US,en;q=0.9",
+      ...SESSION_HDRS,
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Referer": BASE + "index.php",
+      ...(cookie ? { "Cookie": cookie } : {}),
     },
+    body: "Accept=Accept",
   });
-  const setCookie = typeof idx.headers.getSetCookie === "function"
-    ? idx.headers.getSetCookie().join("; ")
-    : (idx.headers.get("set-cookie") || "");
-  const cookie = setCookie.match(/PHPSESSID=[^;]+/);
+  cookie = sessionCookieFrom(acc) || cookie;
   if (!cookie) {
     // surface what the county site actually served so failures are diagnosable
-    const body = (await idx.text()).slice(0, 300).replace(/\s+/g, " ");
-    const loc = idx.headers.get("location") || "";
-    throw new Error(`no session cookie (HTTP ${idx.status}${loc ? " -> " + loc : ""}): ${body}`);
+    const body = (await acc.text()).slice(0, 300).replace(/\s+/g, " ");
+    throw new Error(`no session cookie (HTTP ${idx.status}/${acc.status}): ${body}`);
   }
-  return cookie[0];
+  // the Accept POST returns the full ~1 MB search page — don't buffer it
+  try { await acc.body?.cancel(); } catch (e) {}
+  return cookie;
 }
 
 function mdy(d) {
