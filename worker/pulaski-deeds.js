@@ -126,9 +126,26 @@ async function fetchWithTimeout(url, opts) {
 }
 
 async function newSession() {
-  const idx = await fetchWithTimeout(BASE + "index.php", { headers: { "User-Agent": UA } });
-  const cookie = (idx.headers.get("set-cookie") || "").match(/PHPSESSID=[^;]+/);
-  if (!cookie) throw new Error("no session cookie");
+  // redirect:"manual" — fetch() silently follows redirects and drops the
+  // Set-Cookie from the hop that issued it, which reads as "no cookie"
+  const idx = await fetchWithTimeout(BASE + "index.php", {
+    redirect: "manual",
+    headers: {
+      "User-Agent": UA,
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9",
+    },
+  });
+  const setCookie = typeof idx.headers.getSetCookie === "function"
+    ? idx.headers.getSetCookie().join("; ")
+    : (idx.headers.get("set-cookie") || "");
+  const cookie = setCookie.match(/PHPSESSID=[^;]+/);
+  if (!cookie) {
+    // surface what the county site actually served so failures are diagnosable
+    const body = (await idx.text()).slice(0, 300).replace(/\s+/g, " ");
+    const loc = idx.headers.get("location") || "";
+    throw new Error(`no session cookie (HTTP ${idx.status}${loc ? " -> " + loc : ""}): ${body}`);
+  }
   return cookie[0];
 }
 
