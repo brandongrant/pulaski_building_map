@@ -382,7 +382,7 @@ const PULASKI_INST_CODES = [
   "SUM", "SUS", "SUT", "SUU", "TEU", "TMU", "UCC", "WAD",
 ];
 
-const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null, subs: [] };
+const own = { loaded: false, loading: null, cities: [], owners: [], namesN: [], byAddr: null, byParcel: null, subs: [] };
 
 function ownersLoad() {
   if (own.loading) return own.loading;
@@ -396,9 +396,11 @@ function ownersLoad() {
       own.owners = d.owners;
       own.namesN = new Array(d.owners.length);
       own.byAddr = new Map();
+      own.byParcel = new Map();
       d.owners.forEach(([name, props], oi) => {
         own.namesN[oi] = normAddrJS(name);
         for (const pr of props) {
+          if (pr[5]) own.byParcel.set(pr[5], [oi, pr]);
           if (!pr[0]) continue;
           const key = normAddrJS(pr[0]) + "|" + (pr[1] >= 0 ? normAddrJS(d.cities[pr[1]]) : "");
           const a = own.byAddr.get(key);
@@ -627,6 +629,13 @@ document.addEventListener("click", (e) => {
   if (handled) e.preventDefault();
 });
 
+function parcelFromRow(oi, pr) {
+  const sub = pr[6] ? (own.subs[pr[6]] || "") : "";
+  const blc = pr[8] && pr[8] !== "0" ? pr[8] : "";
+  return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0,
+           sub, lot: pr[7] || "", blc };
+}
+
 function parcelAtAddr(p) {
   if (!own.loaded || !p.addr) return null;
   const key = normAddrJS(p.addr) + "|" + normAddrJS(p.city || "");
@@ -637,14 +646,30 @@ function parcelAtAddr(p) {
     for (const pr of props) {
       const city = pr[1] >= 0 ? own.cities[pr[1]] : "";
       if (normAddrJS(pr[0]) === normAddrJS(p.addr) && normAddrJS(city) === normAddrJS(p.city || "")) {
-        const sub = pr[6] ? (own.subs[pr[6]] || "") : "";
-        const blc = pr[8] && pr[8] !== "0" ? pr[8] : "";
-        return { id: pr[5] || "", owner: own.owners[oi][0], value: pr[4] || 0,
-                 sub, lot: pr[7] || "", blc };
+        return parcelFromRow(oi, pr);
       }
     }
   }
   return null;
+}
+
+// Popup identity resolution: prefer the stable parcel id baked into high-zoom
+// tiles (ID-001) over normalized-address matching. Address stays as fallback
+// for one release; counters measure coverage so it can be retired once pid
+// resolution is proven (roadmap §6.2 migration behavior).
+const parcelResolveStats = { pid: 0, addr: 0, miss: 0 };
+
+function parcelForFeature(p) {
+  if (own.loaded && p.pid && own.byParcel) {
+    const hit = own.byParcel.get(p.pid);
+    if (hit) {
+      parcelResolveStats.pid++;
+      return parcelFromRow(hit[0], hit[1]);
+    }
+  }
+  const viaAddr = parcelAtAddr(p);
+  parcelResolveStats[viaAddr ? "addr" : "miss"]++;
+  return viaAddr;
 }
 
 function deedsForBuilding(bldProps) {
@@ -993,7 +1018,7 @@ function wireHover() {
     tt.hidden = true;
     const { addr, rows, veh } = featHTML(fs[0].properties, false);
     const docs = deedsForBuilding(fs[0].properties);
-    const parcel = parcelAtAddr(fs[0].properties);
+    const parcel = parcelForFeature(fs[0].properties);
     // when the deeds proxy is configured, its live parcel history replaces the
     // sparse local-archive timeline
     const useWorker = deedHistoryAvailable(parcel);
