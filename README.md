@@ -41,13 +41,18 @@ pip install -r requirements.txt
 python pipeline/run_all.py
 ```
 
+Paths and rotating source URLs are centralized in `pipeline/common/settings.py`;
+set `PULASKI_DATA_ROOT` to keep the (gitignored) data tree on another drive
+(defaults to `./data` — all knobs documented in `.env.example`). Run the test
+suite with `pip install -r requirements-dev.txt && python -m pytest tests/`.
+
 Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 
 1. `download_layer.py` — paginated GeoJSON pulls of PAgis **Building** (layer 21) and
    **Parcel** (layer 68) from `pagis.org/arcgis/rest/services/MAPS/BaseMap/MapServer`.
 2. CAMA zip — Pulaski County Assessor raw **Real Property export** (Dropbox link on
    [the assessor's raw-data page](https://pulaskicountyassessor.net/services/raw-data-export/);
-   update the URL in `run_all.py` if it rotates).
+   set `PULASKI_CAMA_URL` if it rotates — see `.env.example`).
 3. `build_cama_attrs.py` — per-parcel `year_built / stories / sqft / category` from
    `Residential_Buildings`, `Commercial_Sections`, `MobileHomeData`, `Improvements`,
    `UseCodesForParcels` (pipe-delimited, latin-1, dashes row 2).

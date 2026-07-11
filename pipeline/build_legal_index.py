@@ -22,13 +22,13 @@ PH VI A" vs "FOXWOOD PH 6A"), so three tiers are emitted:
 import gzip
 import json
 import re
-from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
-SRC = ROOT / "data" / "processed" / "parcel_owners.pkl"
-OUT = ROOT / "data" / "processed" / "legal_index.json.gz"
+from common.settings import PROCESSED_DIR
+
+SRC = PROCESSED_DIR / "parcel_owners.pkl"
+OUT = PROCESSED_DIR / "legal_index.json.gz"
 
 WS = re.compile(r"\s+")
 STOP = {"ADN", "ADDN", "ADDITION", "SUB", "SUBD", "SUBDIVISION", "REPLAT",

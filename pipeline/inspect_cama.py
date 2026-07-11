@@ -1,11 +1,11 @@
 """Print value distributions from CAMA tables to inform extraction mappings."""
 import zipfile
-from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-ZIP = ROOT / "data" / "raw" / "CamaExport.zip"
+from common.settings import RAW_DIR
+
+ZIP = RAW_DIR / "CamaExport.zip"
 z = zipfile.ZipFile(ZIP)
 
 

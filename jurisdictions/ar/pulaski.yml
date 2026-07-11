@@ -1,0 +1,152 @@
+# Source manifest for Pulaski County, Arkansas.
+#
+# Single place that records, for every dataset the pipeline touches: who owns
+# it, where it comes from, what one record means (grain), how often it
+# refreshes, how sensitive it is, and what the public map is allowed to show.
+# Connectors and freshness displays should read this file rather than
+# hard-coding URLs or dates (roadmap DATA-002; see
+# docs/IMPLEMENTATION_ROADMAP.md §5.2).
+#
+# sensitivity classes (roadmap §16.1):
+#   public_property         parcel/building facts about property, not people
+#   public_property_event   dated public events attached to property
+#   sensitive_location_event  person-adjacent events at exact locations —
+#                             display policy required
+
+jurisdiction:
+  id: us-ar-pulaski
+  name: Pulaski County, Arkansas
+  timezone: America/Chicago
+  parcel_id_normalizer: alphanumeric_upper
+
+sources:
+  pagis_buildings:
+    name: PAgis building footprints (BaseMap layer 21)
+    source_owner: Pulaski Area GIS (PAgis)
+    entity_grain: building
+    source_type: arcgis_feature_layer
+    service_url: https://www.pagis.org/arcgis/rest/services/MAPS/BaseMap/MapServer/21
+    primary_key: OBJECTID
+    fields_used: [OBJECTID, BO_UNIQ, BO_NAME, STR_CODE, BO_CODE, SASC]
+    refresh: monthly
+    sensitivity: public_property
+    redistribution_reviewed: false
+    connector: pipeline/download_layer.py (via run_all.py)
+
+  pagis_parcels:
+    name: PAgis parcels (BaseMap layer 68)
+    source_owner: Pulaski Area GIS (PAgis)
+    entity_grain: parcel
+    source_type: arcgis_feature_layer
+    service_url: https://www.pagis.org/arcgis/rest/services/MAPS/BaseMap/MapServer/68
+    primary_key: PARCELID
+    fields_used: [OBJECTID, PARCELID, CAMA_PIN, PROPLOOKUP, ADRLABEL, ADRCITY,
+                  PARCELTYPE, IMPVALUE, LANDVALUE, TOTALVALUE, OWNERNAME,
+                  SUBDIV, LOT, BLOCK, PARCELLGL, ASSESSVAL, OWNER_CITY, OWNER_ST]
+    refresh: monthly
+    sensitivity: public_property
+    redistribution_reviewed: false
+    connector: pipeline/download_layer.py + pipeline/build_owner_index.py
+
+  pagis_address_points:
+    name: PAgis address points
+    source_owner: Pulaski Area GIS (PAgis)
+    entity_grain: address_point
+    source_type: arcgis_feature_layer
+    raw_file: addresspoints.geojson
+    refresh: with_parcel_refresh
+    sensitivity: public_property
+    redistribution_reviewed: false
+    connector: pipeline/build_addr_index.py
+
+  assessor_cama:
+    name: Pulaski County Assessor CAMA export (Real Property)
+    source_owner: Pulaski County Assessor
+    entity_grain: parcel_improvement
+    source_type: downloadable_archive
+    discovery_url: https://pulaskicountyassessor.net/services/raw-data-export/
+    download_url_env: PULASKI_CAMA_URL   # rotates; see .env.example
+    raw_file: CamaExport.zip
+    refresh: on_publication
+    sensitivity: public_property
+    redistribution_reviewed: false
+    connector: pipeline/build_cama_attrs.py
+    notes: >
+      Values are assessment snapshots, not timeless facts; keep the export's
+      effective date with every derived record (roadmap §5.3).
+
+  assessor_personal_property:
+    name: Pulaski County Assessor personal-property dumps
+    source_owner: Pulaski County Assessor
+    entity_grain: personal_property_account
+    source_type: downloadable_archive
+    download_url_env: [PULASKI_PP_DUMP1_URL, PULASKI_PP_DUMP2_URL]
+    raw_file: [PP_Dump1.xlsx, PP_Dump2.xlsx]
+    refresh: on_publication
+    sensitivity: public_person
+    redistribution_reviewed: false
+    connector: pipeline/extract_pp.py + pipeline/enrich_pp.py
+    display_policy:
+      max_vehicles_listed_per_address: 6
+      no_bulk_export: true
+      raw_dumps_deleted_after_run: true
+    notes: >
+      Vehicle data policy (roadmap §16.3): no bulk make/model/address exports,
+      no sensitive-characteristic inference. Re-evaluate the public
+      make/model search before broader marketing.
+
+  little_rock_permits:
+    name: City of Little Rock building permits
+    source_owner: City of Little Rock Planning & Development
+    entity_grain: permit
+    source_type: downloadable_csv
+    discovery_url: https://littlerock.gov/government/mayors-office/initiatives/city-of-lr-data/
+    raw_file: lr_permits.csv
+    coverage_start: 2019
+    refresh: weekly_manual   # manual download; automate in SRC-track work
+    sensitivity: public_property_event
+    redistribution_reviewed: false
+    connector: pipeline/build_permits.py
+    display_policy:
+      exclude_fields: [contractor_name, applicant_name]
+
+  little_rock_dispatch:
+    name: City of Little Rock police CAD events (calls for service)
+    source_owner: City of Little Rock / LRPD
+    entity_grain: call_for_service
+    source_type: live_feed
+    service_url: https://web.littlerock.state.ar.us/pub/Home/CadEvents
+    refresh: 15_minutes    # .github/workflows/dispatch.yml
+    sensitivity: sensitive_location_event
+    redistribution_reviewed: false
+    connector: pipeline/dispatch_collect.py
+    storage: data branch (append-only JSONL archive + short-lived GeoJSON)
+    display_policy:
+      exact_point_ttl_hours: 24
+      language: calls for service   # never implied as confirmed crime
+      never_show_exact_categories:  # SENSITIVE_RE in dispatch_collect.py
+        - medical
+        - welfare
+        - death
+        - sexual_offense
+        - domestic
+      historical_use: aggregate_only
+
+  recorded_documents:
+    name: Pulaski County Circuit/County Clerk recorded-document index
+    source_owner: Pulaski County Circuit/County Clerk (pulaskideeds.com)
+    entity_grain: recorded_document
+    source_type: polite_scrape
+    service_url: https://pulaskideeds.com/search/
+    coverage_start: 1994
+    refresh: 15_minutes_2_queries   # deeds_collect.py --max-queries 2
+    sensitivity: public_property_event
+    redistribution_reviewed: false
+    connector: pipeline/deeds_collect.py + worker/pulaski-deeds.js
+    storage: data branch (append-only) + Worker 7-day per-parcel cache
+    display_policy:
+      exclude_document_types:
+        - DCH   # military discharges
+        - ARM   # medical-record authorizations
+      no_document_images: true
+      current_owner_detection: labeled_heuristic

@@ -7,9 +7,8 @@ import gzip
 import json
 import re
 from collections import defaultdict
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+from common.settings import PROCESSED_DIR, RAW_DIR
 WS = re.compile(r"\s+")
 
 
@@ -17,7 +16,7 @@ def norm(s):
     return WS.sub(" ", (s or "").upper().strip()).strip()
 
 
-src = json.loads((ROOT / "data" / "raw" / "addresspoints.geojson").read_text(encoding="utf-8"))
+src = json.loads((RAW_DIR / "addresspoints.geojson").read_text(encoding="utf-8"))
 feats = src["features"]
 print(len(feats), "address points")
 
@@ -53,7 +52,7 @@ for k, pts in streets.items():
     step = max(1, len(pts) // 400)
     streets_out[k] = [list(p) for p in pts[::step]][:400]
 
-out = ROOT / "data" / "processed" / "address_index.json.gz"
+out = PROCESSED_DIR / "address_index.json.gz"
 with gzip.open(out, "wt", encoding="utf-8") as f:
     json.dump({"addr": addr, "streets": streets_out}, f, separators=(",", ":"))
 print(f"addr keys: {len(addr)}, streets: {len(streets_out)}, "

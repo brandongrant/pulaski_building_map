@@ -7,7 +7,6 @@ import gzip
 import json
 import math
 import time
-from pathlib import Path
 
 import geopandas as gpd
 import mapbox_vector_tile
@@ -19,8 +18,9 @@ from shapely.validation import make_valid
 from pmtiles.tile import Compression, TileType, zxy_to_tileid
 from pmtiles.writer import Writer
 
-ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "web" / "data"
+from common.settings import PROCESSED_DIR, WEB_DATA_DIR
+
+OUT = WEB_DATA_DIR
 OUT.mkdir(parents=True, exist_ok=True)
 
 MINZ, MAXZ, EXTENT = 8, 15, 4096  # z8 so a phone can fit the whole county on screen
@@ -29,7 +29,7 @@ TINY_UNITS = 2.5           # min speck size in tile units at low zooms
 ORIGIN = 20037508.342789244
 
 print("loading...", flush=True)
-gdf = pd.read_pickle(ROOT / "data" / "processed" / "buildings_final.pkl")
+gdf = pd.read_pickle(PROCESSED_DIR / "buildings_final.pkl")
 gdf = gdf.set_geometry(shapely.force_2d(gdf.geometry.values), crs=gdf.crs)
 merc = gdf.to_crs(3857)
 gm = np.asarray(merc.geometry.values)
@@ -49,8 +49,8 @@ def build_props(full):
     it = zip(gdf.yr.tolist(), gdf.cat.tolist(), gdf.st.tolist(), gdf.main.tolist(),
              gdf.sqft.tolist(), gdf.fpa.tolist(), gdf.val.tolist(),
              gdf.addr.tolist(), gdf.city.tolist(),
-             col("nveh", 0), col("ppv", 0), col("veh", ""))
-    for yr, cat, st, main, sqft, fpa, val, addr, city, nveh, ppv, veh in it:
+             col("nveh", 0), col("ppv", 0), col("veh", ""), col("pid", ""))
+    for yr, cat, st, main, sqft, fpa, val, addr, city, nveh, ppv, veh, pid in it:
         p = {"yr": int(yr), "cat": int(cat), "main": int(main)}
         if st == st:  # not NaN
             p["st"] = round(float(st), 1)
@@ -75,6 +75,10 @@ def build_props(full):
                 p["city"] = city
             if veh:
                 p["veh"] = veh
+            # stable parcel identity at popup zooms — lets the popup resolve
+            # owner/deed context by parcel id instead of address matching
+            if pid:
+                p["pid"] = pid
         else:
             if sqft:
                 p["sqft"] = int(round(sqft, -1))

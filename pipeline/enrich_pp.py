@@ -4,13 +4,11 @@ Reads  data/processed/pp_rows.pkl (from extract_pp.py)
 Updates data/processed/buildings_final.pkl with: nveh, ppv, veh
 """
 import re
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-PROC = ROOT / "data" / "processed"
+from common.settings import PROCESSED_DIR as PROC
 
 YEAR_MIN = 2025          # an account's fleet is "current" if last assessed >= this
 OPEN_ONLY = True         # drop CLOSED accounts

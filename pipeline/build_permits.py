@@ -16,8 +16,9 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).parent))
 from dispatch_collect import Geocoder  # reuse the PAgis address index matcher
 
-ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "web" / "data" / "permits"
+from common.settings import PROCESSED_DIR, RAW_DIR, WEB_DATA_DIR
+
+OUT = WEB_DATA_DIR / "permits"
 OUT.mkdir(parents=True, exist_ok=True)
 
 CAT_LABEL = {"new": "New construction", "add": "Addition", "rem": "Remodel/repair",
@@ -71,7 +72,7 @@ def norm_addr(s):
 
 
 print("reading csv...", flush=True)
-df = pd.read_csv(ROOT / "data" / "raw" / "lr_permits.csv", dtype=str,
+df = pd.read_csv(RAW_DIR / "lr_permits.csv", dtype=str,
                  encoding="utf-8-sig", low_memory=False)
 df = df.drop_duplicates("Permit Number", keep="first")
 df = df[~df["Permit Status"].isin(["Void", "Deleted"])]
@@ -83,7 +84,7 @@ date = issue.fillna(appl)
 df = df[date.notna()]
 date = date[date.notna()]
 
-geo = Geocoder(ROOT / "data" / "processed" / "address_index.json.gz")
+geo = Geocoder(PROCESSED_DIR / "address_index.json.gz")
 STATUS = {"Open": "O", "Closed": "C", "Stop Work": "W"}
 
 feats = []

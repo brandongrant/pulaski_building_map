@@ -3,14 +3,12 @@
 Output: data/processed/buildings_final.pkl  (GeoDataFrame, EPSG:4326)
 """
 import re
-from pathlib import Path
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "processed"
+from common.settings import PROCESSED_DIR as OUT, RAW_DIR as RAW
 
 CAT_CODE = {"unknown": 0, "sfr": 1, "condo": 2, "plex": 3, "mobile": 4,
             "com": 5, "exempt": 6, "obyi": 7}
@@ -44,7 +42,8 @@ print(f"  {len(bld)} buildings; BO_CODE counts:\n{bld.BO_CODE.value_counts().hea
 pts = bld[["OBJECTID"]].copy()
 pts = gpd.GeoDataFrame(pts, geometry=bld.geometry.representative_point(), crs=bld.crs)
 keep = ["year_built", "stories", "sqft", "category", "ADRLABEL", "ADRCITY",
-        "PARCELTYPE", "IMPVALUE", "TOTALVALUE", "geometry"]
+        "PARCELTYPE", "IMPVALUE", "TOTALVALUE", "PARCELID", "CAMA_PIN",
+        "LANDVALUE", "geometry"]
 j = gpd.sjoin(pts, par[keep], how="left", predicate="within")
 # stacked/duplicate parcels (condos): prefer the match that has a year
 j = j.sort_values(["OBJECTID", "year_built"], na_position="last")
@@ -81,12 +80,21 @@ out = gpd.GeoDataFrame({
     "sqft": clean_num(bld.sqft, 5_000_000),
     "fpa": bld.fpa,
     "val": clean_num(bld.IMPVALUE, 2_000_000_000),
+    "lval": clean_num(bld.LANDVALUE, 2_000_000_000),
+    "tval": clean_num(bld.TOTALVALUE, 4_000_000_000),
     "addr": bld.ADRLABEL.fillna(""),
     "city": bld.ADRCITY.fillna(""),
     "main": bld.main.astype("int16"),
+    # stable property identity (roadmap ID-001): official parcel id + CAMA pin
+    # from the point-in-parcel match, plus the match method so downstream
+    # never has to guess how a building got its parcel
+    "pid": bld.PARCELID.fillna("").astype(str).str.strip(),
+    "cama_pin": bld.CAMA_PIN.fillna("").astype(str).str.strip(),
+    "pmatch": np.where(bld._pk.notna(), "point_in_parcel", ""),
 }, geometry=bld.geometry, crs="EPSG:4326")
 
 # sanity
+print(f"  parcel id coverage: {(out.pid != '').mean() * 100:.1f}% of buildings")
 print("\nyear distribution (buildings):")
 yb = out.yr[out.yr > 0]
 print(yb.describe().to_string())
