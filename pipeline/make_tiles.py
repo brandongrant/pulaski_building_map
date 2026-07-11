@@ -49,8 +49,8 @@ def build_props(full):
     it = zip(gdf.yr.tolist(), gdf.cat.tolist(), gdf.st.tolist(), gdf.main.tolist(),
              gdf.sqft.tolist(), gdf.fpa.tolist(), gdf.val.tolist(),
              gdf.addr.tolist(), gdf.city.tolist(),
-             col("nveh", 0), col("ppv", 0), col("veh", ""))
-    for yr, cat, st, main, sqft, fpa, val, addr, city, nveh, ppv, veh in it:
+             col("nveh", 0), col("ppv", 0), col("veh", ""), col("pid", ""))
+    for yr, cat, st, main, sqft, fpa, val, addr, city, nveh, ppv, veh, pid in it:
         p = {"yr": int(yr), "cat": int(cat), "main": int(main)}
         if st == st:  # not NaN
             p["st"] = round(float(st), 1)
@@ -75,6 +75,10 @@ def build_props(full):
                 p["city"] = city
             if veh:
                 p["veh"] = veh
+            # stable parcel identity at popup zooms — lets the popup resolve
+            # owner/deed context by parcel id instead of address matching
+            if pid:
+                p["pid"] = pid
         else:
             if sqft:
                 p["sqft"] = int(round(sqft, -1))
