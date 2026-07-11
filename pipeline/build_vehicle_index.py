@@ -17,13 +17,13 @@ Output: web/data/vehicles.json
 import json
 import re
 import time
-from pathlib import Path
 
 import pandas as pd
 import shapely
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")
-OUT = ROOT / "web" / "data"
+from common.settings import PROCESSED_DIR, WEB_DATA_DIR
+
+OUT = WEB_DATA_DIR
 OUT.mkdir(parents=True, exist_ok=True)
 
 YEAR_RE = re.compile(r"^(\d{4})\s+(.*)$")
@@ -62,7 +62,7 @@ def nkey(a, c):
 
 
 t0 = time.time()
-b = pd.read_pickle(ROOT / "data" / "processed" / "buildings_final.pkl")
+b = pd.read_pickle(PROCESSED_DIR / "buildings_final.pkl")
 sub = b[(b.get("nveh", 0) > 0) & (b["veh"].astype(str).str.len() > 0)].copy()
 print(f"{len(sub)} building footprints carry vehicle strings", flush=True)
 

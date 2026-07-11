@@ -4,14 +4,11 @@ Output: data/processed/pp_rows.pkl (rows with Assess Year >= 2023)
 """
 import time
 from collections import Counter
-from pathlib import Path
 
 import openpyxl
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-BASE = ROOT / "data" / "raw"
-OUT = ROOT / "data" / "processed"
+from common.settings import PROCESSED_DIR as OUT, RAW_DIR as BASE
 
 KEEP = ["PPAN", "PPAN Status", "PPAN Type", "Assess Year", "Address1", "Address2",
         "City", "Zip", "Assessed Value", "Make", "Model", "Description",

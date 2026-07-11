@@ -7,7 +7,6 @@ import gzip
 import json
 import math
 import time
-from pathlib import Path
 
 import geopandas as gpd
 import mapbox_vector_tile
@@ -19,8 +18,9 @@ from shapely.validation import make_valid
 from pmtiles.tile import Compression, TileType, zxy_to_tileid
 from pmtiles.writer import Writer
 
-ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "web" / "data"
+from common.settings import PROCESSED_DIR, WEB_DATA_DIR
+
+OUT = WEB_DATA_DIR
 OUT.mkdir(parents=True, exist_ok=True)
 
 MINZ, MAXZ, EXTENT = 8, 15, 4096  # z8 so a phone can fit the whole county on screen
@@ -29,7 +29,7 @@ TINY_UNITS = 2.5           # min speck size in tile units at low zooms
 ORIGIN = 20037508.342789244
 
 print("loading...", flush=True)
-gdf = pd.read_pickle(ROOT / "data" / "processed" / "buildings_final.pkl")
+gdf = pd.read_pickle(PROCESSED_DIR / "buildings_final.pkl")
 gdf = gdf.set_geometry(shapely.force_2d(gdf.geometry.values), crs=gdf.crs)
 merc = gdf.to_crs(3857)
 gm = np.asarray(merc.geometry.values)

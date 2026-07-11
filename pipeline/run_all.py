@@ -8,12 +8,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).parent))
+from common.settings import (CAMA_URL, PAGIS_BASE as PAGIS, PP_DUMP_URLS,
+                             RAW_DIR as RAW, REPO_ROOT as ROOT)
+
 PIPE = ROOT / "pipeline"
-RAW = ROOT / "data" / "raw"
-CAMA_URL = ("https://www.dropbox.com/scl/fi/iogswewv3za77ocqcznj4/CamaExport.zip"
-            "?dl=1&rlkey=8yh1qcm4ckw8y3t5oe5mlxdu3&st=byptnjxq")
-PAGIS = "https://www.pagis.org/arcgis/rest/services/MAPS/BaseMap/MapServer"
 
 
 def run(*args):
@@ -32,8 +31,7 @@ if not skip_dl:
         "OBJECTID,PARCELID,CAMA_PIN,PROPLOOKUP,ADRLABEL,ADRCITY,PARCELTYPE,IMPVALUE,LANDVALUE,TOTALVALUE", "1000")
 
 if not skip_dl:
-    for n, u in [("PP_Dump1.xlsx", "https://www.dropbox.com/s/2q59jy8xs1j97ql/PP_Dump1.xlsx?dl=1"),
-                 ("PP_Dump2.xlsx", "https://www.dropbox.com/s/hyucgbvkii5secf/PP_Dump2.xlsx?dl=1")]:
+    for n, u in PP_DUMP_URLS.items():
         if not (RAW / n).exists():
             run("curl", "-SL", "-o", RAW / n, u)
 

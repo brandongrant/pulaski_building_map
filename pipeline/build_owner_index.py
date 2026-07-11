@@ -28,16 +28,15 @@ import json
 import sys
 import time
 from datetime import date
-from pathlib import Path
 
 import pandas as pd
 
 from pulaski_legal import SubResolver
 
-ROOT = Path(r"D:\Claude Code Projects\Building_Map")          # shared data/ (gitignored)
-REPO = Path(__file__).resolve().parent.parent                  # this checkout's web/
-OUT_PKL = ROOT / "data" / "processed" / "parcel_owners.pkl"
-OUT_JSON = REPO / "web" / "data" / "owners.json"
+from common.settings import PROCESSED_DIR, WEB_DATA_DIR
+
+OUT_PKL = PROCESSED_DIR / "parcel_owners.pkl"
+OUT_JSON = WEB_DATA_DIR / "owners.json"
 
 URL = "https://www.pagis.org/arcgis/rest/services/MAPS/BaseMap/MapServer/68/query"
 FIELDS = ("PARCELID,OWNERNAME,ADRLABEL,ADRCITY,SUBDIV,LOT,BLOCK,PARCELLGL,"
@@ -170,7 +169,7 @@ print(f"wrote {OUT_JSON} ({OUT_JSON.stat().st_size / 1e6:.1f} MB, "
       f"{len(sub_terms)} SUB terms, {resolved} props with a legal search)")
 
 # validation: how many buildings will resolve an owner in the popup?
-bf = ROOT / "data" / "processed" / "buildings_final.pkl"
+bf = PROCESSED_DIR / "buildings_final.pkl"
 if bf.exists():
     import re as _re
 

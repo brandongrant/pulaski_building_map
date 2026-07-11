@@ -3,14 +3,12 @@
 Output: data/processed/buildings_final.pkl  (GeoDataFrame, EPSG:4326)
 """
 import re
-from pathlib import Path
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "processed"
+from common.settings import PROCESSED_DIR as OUT, RAW_DIR as RAW
 
 CAT_CODE = {"unknown": 0, "sfr": 1, "condo": 2, "plex": 3, "mobile": 4,
             "com": 5, "exempt": 6, "obyi": 7}
