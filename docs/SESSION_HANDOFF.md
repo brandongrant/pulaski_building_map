@@ -3,6 +3,93 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-10/11 — Foundation release shipped (READ THIS FIRST; supersedes older facts below)
+
+A remote Claude Code session (claude.ai/code) executed roadmap Phase 0 end to
+end. Six PRs merged to `main` (#1–#6), all deployed and verified live. The
+platform plan lives at `docs/IMPLEMENTATION_ROADMAP.md` — treat it as the
+source of truth for what to build next.
+
+**What is now LIVE on the public map:**
+
+- **Deed-history Worker deployed** (PR #2): `https://pulaski-deeds.brandongrant.workers.dev`
+  (user created the Cloudflare account 2026-07-10). The old "dormant /
+  DEEDS_API empty" state below is HISTORY. The URL lives in
+  `web/data/services.json` (runtime config, pipeline never touches it) —
+  never hard-code it in `app.js` again. Root-cause fix that made it work in
+  production: the county serves a **Legal Disclaimer interstitial** to fresh
+  sessions and `content.php` rejects sessions that haven't accepted it;
+  `newSession()` in `worker/pulaski-deeds.js` now GETs `index.php`, then
+  POSTs `Accept=Accept`, taking PHPSESSID from whichever response sets it.
+  Local `wrangler dev` testing had masked this (browser session already
+  accepted). Popup shows the Webster 3-doc chain for the reference parcel;
+  cold ~15 s, cached <1 s.
+- **PulaskiDeeds hand-offs are deterministic** (PR #3) — supersedes the
+  "cold deep links are blocked" fact below. Two newly measured behaviors:
+  (1) `GET index.php?Accept=Accept` accepts the disclaimer AND returns the
+  search UI in one top-level GET; (2) `GET content.php?searchType=details&
+  inst_num=N` serves the record from query params on an accepted session
+  (searches, unlike details, are still POST-only — GET returns 500).
+  `openPulaskiDeed` is now two idempotent top-level GETs (SameSite=Lax
+  always attaches cookies to those, unlike the old cross-site POST dance);
+  all bare "deeds" links point at the accept URL; the Worker's deed-history
+  rows link their instrument numbers via this flow.
+- **Rebuilt data published** (PR #6, pipeline run IN the remote session):
+  225,785 buildings, **94.6 % carrying official parcel id (`pid`) in
+  high-zoom tile features** (ID-001), `cama_date` (2026-07-10) now derived
+  from the CAMA zip's internal file dates (the hard-coded constant is gone),
+  vehicles.json rebuilt. `owners.json` intentionally NOT rebuilt: PAgis
+  layer-68 `/query` was returning 500s that day — rerun
+  `build_owner_index.py` when the county endpoint recovers (the committed
+  July-6 index already carries parcelIds, so pid resolution works).
+- **Popup resolves owner by parcel id first** (`parcelForFeature` in
+  app.js): `own.byParcel` map keyed by owners.json `pr[5]`; normalized
+  address remains fallback for one release; `parcelResolveStats` counts
+  pid/addr/miss so the address path can be retired on evidence
+  (roadmap §6.2). Verified live: 170/176 rendered features carried pid and
+  resolved without fallback.
+
+**Pipeline / repo structure changes (PRs #4–#5):**
+
+- `pipeline/common/settings.py` is the single path/URL source —
+  `PULASKI_DATA_ROOT` env var replaces every `D:\Claude Code Projects\...`
+  constant (those references below are HISTORY). Rotating CAMA/PP URLs come
+  from `PULASKI_CAMA_URL` etc.; knobs documented in `.env.example`.
+- `jurisdictions/ar/pulaski.yml` — source manifest: all 8 sources with
+  grain, cadence, sensitivity, display policy (DATA-002).
+- `pipeline/common/provenance.py` — sha256/retrieval fingerprints per source
+  (`data/raw/source_meta.json`) merged into
+  `data/processed/build_manifest.json` per run (build id + git commit).
+- Parquet/GeoParquet twins now written beside every pickle (DATA-004).
+- `pipeline/check_quality.py` — release gate at the end of `run_all.py`;
+  non-zero exit = do NOT push web/data. Calibration note: parcel→CAMA match
+  is naturally ~0.842 (≈16 % of parcels are vacant land, no improvement
+  rows) — floor is 0.80, don't "fix" the rate. It correctly blocked one
+  publish during calibration; building count/±10 % vs the git-HEAD config
+  and year-coverage floors did the real guarding.
+- `tests/` — 46 passing (`python -m pytest tests/`): subdivision resolver,
+  dispatch sensitive-category filter (privacy guarantee), settings
+  overrides, provenance, quality-gate rules, and a synthetic-mini-county
+  integration run of `join_buildings.py` (fixture coords MUST sit in UTM
+  15N or reprojection NaNs — see test file comment). `requirements-dev.txt`.
+- `join_buildings.py` output gained `pid`, `cama_pin`, `lval`, `tval`,
+  `pmatch`; `make_tiles.py` emits `pid` at `FULL_PROPS_Z`. `openpyxl` was
+  missing from requirements (extract_pp needs it) — fixed.
+
+**Environment notes for future remote sessions:** the full pipeline RUNS in
+the claude.ai/code container (PAgis + Dropbox reachable through the proxy;
+~30 GB disk; ~25 min total; 67 MB pmtiles push is fine). workers.dev and
+github.io are NOT reachable via plain curl from the sandbox (proxy policy) —
+use the WebFetch tool for those. Playwright + local `serve.py` works for
+app-function verification exactly like the preview-tab recipe below.
+
+**Next up (user has been briefed):** Phase 1 — PostGIS canonical model +
+property-profile API. Blocked on the user picking a Postgres host (Neon/
+Supabase free tier suggested). Infrastructure-free alternative queued:
+split `web/app.js` into ES modules (roadmap §15.1). Also pending: rerun
+`build_owner_index.py` when PAgis recovers; retire the address-matching
+fallback once `parcelResolveStats` shows pid coverage holding.
+
 ## 2026-07-09 current integration audit
 
 The deployable work is being combined on branch `codex/integrate-vehicle-deed-proxy`,
