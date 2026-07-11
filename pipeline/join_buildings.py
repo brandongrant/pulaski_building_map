@@ -8,6 +8,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 
+from common.provenance import record_output, update_build_manifest
 from common.settings import PROCESSED_DIR as OUT, RAW_DIR as RAW
 
 CAT_CODE = {"unknown": 0, "sfr": 1, "condo": 2, "plex": 3, "mobile": 4,
@@ -101,3 +102,19 @@ print(yb.describe().to_string())
 print("cat counts:", out.cat.value_counts().to_dict())
 out.to_pickle(OUT / "buildings_final.pkl")
 print("wrote", OUT / "buildings_final.pkl", len(out))
+
+# GeoParquet twin of the pickle (roadmap DATA-004) — cross-tool readable
+# staging; pickle stays the in-pipeline interchange for one transition release
+out.to_parquet(OUT / "buildings_final.parquet", index=False)
+print("wrote", OUT / "buildings_final.parquet")
+
+update_build_manifest(
+    "quality",
+    parcel_to_cama_match_rate=round(float(match), 4),
+    building_year_rate=round(float((out.yr > 0).mean()), 4),
+    building_to_parcel_match_rate=round(float((out.pid != "").mean()), 4),
+    building_count=int(len(out)),
+    parcel_count=int(len(par)),
+)
+record_output("buildings_final", OUT / "buildings_final.parquet",
+              record_count=int(len(out)))

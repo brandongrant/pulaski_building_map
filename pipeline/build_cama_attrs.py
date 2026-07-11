@@ -8,6 +8,7 @@ import zipfile
 import numpy as np
 import pandas as pd
 
+from common.provenance import update_build_manifest, zip_effective_date
 from common.settings import PROCESSED_DIR, RAW_DIR
 
 ZIP = RAW_DIR / "CamaExport.zip"
@@ -140,4 +141,9 @@ print("\ncategory counts:\n", out.category.value_counts().to_string())
 print("\nyear_built coverage: %.1f%% of %d parcels" % (out.year_built.notna().mean() * 100, len(out)))
 print("stories coverage: %.1f%%" % (out.stories.notna().mean() * 100))
 out.to_pickle(OUT / "cama_parcel_attrs.pkl")
-print("wrote", OUT / "cama_parcel_attrs.pkl", len(out), "rows")
+out.to_parquet(OUT / "cama_parcel_attrs.parquet", index=False)
+print("wrote", OUT / "cama_parcel_attrs.pkl", len(out), "rows (+ parquet twin)")
+update_build_manifest("quality",
+                      cama_parcel_count=int(len(out)),
+                      cama_year_built_rate=round(float(out.year_built.notna().mean()), 4))
+update_build_manifest("sources", assessor_cama_effective_date=zip_effective_date(ZIP))

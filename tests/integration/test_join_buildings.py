@@ -81,34 +81,39 @@ def pipeline_output(tmp_path_factory):
         [sys.executable, str(REPO_ROOT / "pipeline" / "join_buildings.py")],
         env=env, cwd=REPO_ROOT, capture_output=True, text=True)
     assert proc.returncode == 0, proc.stderr + proc.stdout
-    return pd.read_pickle(processed / "buildings_final.pkl").set_index("id")
+    return processed
 
 
-def test_all_buildings_survive_the_join(pipeline_output):
-    assert sorted(pipeline_output.index) == [11, 12, 13, 14]
+@pytest.fixture(scope="module")
+def joined(pipeline_output):
+    return pd.read_pickle(pipeline_output / "buildings_final.pkl").set_index("id")
 
 
-def test_parcel_id_carried_through(pipeline_output):
-    out = pipeline_output
+def test_all_buildings_survive_the_join(joined):
+    assert sorted(joined.index) == [11, 12, 13, 14]
+
+
+def test_parcel_id_carried_through(joined):
+    out = joined
     assert out.loc[11, "pid"] == "34L-010.00-001.00"
     assert out.loc[12, "pid"] == "34L-010.00-001.00"
     assert out.loc[13, "pid"] == "34L-010.00-002.00"
     assert out.loc[14, "pid"] == ""
 
 
-def test_cama_pin_carried_through(pipeline_output):
-    assert pipeline_output.loc[11, "cama_pin"] == "1001"
-    assert pipeline_output.loc[14, "cama_pin"] == ""
+def test_cama_pin_carried_through(joined):
+    assert joined.loc[11, "cama_pin"] == "1001"
+    assert joined.loc[14, "cama_pin"] == ""
 
 
-def test_match_method_recorded(pipeline_output):
-    out = pipeline_output
+def test_match_method_recorded(joined):
+    out = joined
     assert set(out.loc[[11, 12, 13], "pmatch"]) == {"point_in_parcel"}
     assert out.loc[14, "pmatch"] == ""
 
 
-def test_parcel_values_carried_through(pipeline_output):
-    out = pipeline_output
+def test_parcel_values_carried_through(joined):
+    out = joined
     assert out.loc[11, "lval"] == 40000
     assert out.loc[11, "tval"] == 190000
     assert out.loc[13, "lval"] == 250000
@@ -116,15 +121,33 @@ def test_parcel_values_carried_through(pipeline_output):
     assert out.loc[14, "lval"] == 0
 
 
-def test_cama_attributes_join_by_normalized_key(pipeline_output):
-    out = pipeline_output
+def test_cama_attributes_join_by_normalized_key(joined):
+    out = joined
     assert out.loc[11, "yr"] == 1962          # CAMA matched P1
     assert out.loc[13, "yr"] == 0             # P2 has no CAMA row
 
 
-def test_main_building_is_largest_per_parcel(pipeline_output):
-    out = pipeline_output
+def test_main_building_is_largest_per_parcel(joined):
+    out = joined
     assert out.loc[11, "main"] == 1           # 5x5 house
     assert out.loc[12, "main"] == 0           # 1x1 shed on same parcel
     assert out.loc[13, "main"] == 1
     assert out.loc[14, "main"] == 1           # unmatched counts as main
+
+
+def test_parquet_twin_matches_pickle(pipeline_output, joined):
+    pq = pd.read_parquet(pipeline_output / "buildings_final.parquet").set_index("id")
+    assert sorted(pq.index) == sorted(joined.index)
+    assert pq.loc[11, "pid"] == joined.loc[11, "pid"]
+
+
+def test_build_manifest_written_with_quality_and_output(pipeline_output):
+    m = json.loads((pipeline_output / "build_manifest.json").read_text())
+    q = m["quality"]
+    assert q["building_count"] == 4
+    assert q["parcel_to_cama_match_rate"] == 0.5      # 1 of 2 parcels has CAMA
+    assert q["building_to_parcel_match_rate"] == 0.75 # 3 of 4 buildings matched
+    out = m["outputs"]["buildings_final"]
+    assert out["record_count"] == 4
+    assert len(out["sha256"]) == 64
+    assert m["code_commit"]

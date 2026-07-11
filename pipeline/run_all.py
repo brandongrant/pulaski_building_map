@@ -9,6 +9,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+from common.provenance import (read_source_meta, record_source,
+                               start_build_manifest, update_build_manifest,
+                               zip_effective_date)
 from common.settings import (CAMA_URL, PAGIS_BASE as PAGIS, PP_DUMP_URLS,
                              RAW_DIR as RAW, REPO_ROOT as ROOT)
 
@@ -21,6 +24,7 @@ def run(*args):
 
 
 skip_dl = "--skip-downloads" in sys.argv
+start_build_manifest()
 if not skip_dl:
     RAW.mkdir(parents=True, exist_ok=True)
     if not (RAW / "CamaExport.zip").exists():
@@ -35,6 +39,19 @@ if not skip_dl:
         if not (RAW / n).exists():
             run("curl", "-SL", "-o", RAW / n, u)
 
+# fingerprint whatever source assets exist (freshly downloaded or reused) so
+# the build manifest ties every output to source hashes (roadmap DATA-003)
+for slug, fn in [("assessor_cama", "CamaExport.zip"),
+                 ("pagis_buildings", "buildings.geojson"),
+                 ("pagis_parcels", "parcels.geojson"),
+                 ("assessor_pp_dump1", "PP_Dump1.xlsx"),
+                 ("assessor_pp_dump2", "PP_Dump2.xlsx")]:
+    p = RAW / fn
+    if p.exists():
+        extra = {"effective_date": zip_effective_date(p)} if fn.endswith(".zip") else {}
+        record_source(slug, p, **extra)
+update_build_manifest("sources", **read_source_meta())
+
 run(sys.executable, PIPE / "build_cama_attrs.py")
 run(sys.executable, PIPE / "join_buildings.py")
 run(sys.executable, PIPE / "extract_pp.py")
@@ -44,4 +61,6 @@ run(sys.executable, PIPE / "make_tiles.py")
 # independent of the raw downloads above
 run(sys.executable, PIPE / "build_owner_index.py")
 run(sys.executable, PIPE / "build_vehicle_index.py")
+# release gate (roadmap QA-002): non-zero exit = do NOT commit/push web/data
+run(sys.executable, PIPE / "check_quality.py")
 print("\nPipeline complete. Start the map with:  python serve.py")
