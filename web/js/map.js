@@ -1,7 +1,7 @@
 /* Pulaski County Building Map — MapLibre map, color/filter expressions, legend */
 import { $, fmt } from "./util.js";
 import { cfg, ATTRS, CATS, PALETTES, UNKNOWN_COLOR } from "./config.js";
-import { state } from "./state.js";
+import { state, ui } from "./state.js";
 
 export let map = null;
 
@@ -83,6 +83,13 @@ export function initMap(onReady) {
     compact: true,
     customAttribution: "Footprints © PAgis · Attributes © Pulaski County Assessor",
   }), "bottom-right");
+
+  // phones: touching or panning the map slides the drawer out of the way
+  const autoHidePanel = () => {
+    if (window.matchMedia("(max-width: 640px)").matches && ui.setPanel) ui.setPanel(true);
+  };
+  map.on("click", autoHidePanel);
+  map.on("dragstart", autoHidePanel);
 
   map.on("load", () => {
     map.addSource("bld", { type: "vector", url: "pmtiles://" + pmUrl, promoteId: undefined });
