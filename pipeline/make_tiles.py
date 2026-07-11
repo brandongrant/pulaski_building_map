@@ -18,10 +18,28 @@ from shapely.validation import make_valid
 from pmtiles.tile import Compression, TileType, zxy_to_tileid
 from pmtiles.writer import Writer
 
-from common.settings import PROCESSED_DIR, WEB_DATA_DIR
+from common.provenance import (read_source_meta, record_output,
+                               update_build_manifest, zip_effective_date)
+from common.settings import PROCESSED_DIR, RAW_DIR, WEB_DATA_DIR
 
 OUT = WEB_DATA_DIR
 OUT.mkdir(parents=True, exist_ok=True)
+
+
+def cama_effective_date():
+    """Real CAMA export date from source metadata (roadmap §5.3) — never a
+    constant embedded in code. Falls back to reading the zip directly, then
+    to the previously published config so a partial rerun can't blank it."""
+    meta = read_source_meta().get("assessor_cama", {})
+    d = meta.get("effective_date", "")
+    if not d and (RAW_DIR / "CamaExport.zip").exists():
+        d = zip_effective_date(RAW_DIR / "CamaExport.zip")
+    if not d:
+        try:
+            d = json.loads((OUT / "config.json").read_text()).get("cama_date", "")
+        except Exception:
+            d = ""
+    return d
 
 MINZ, MAXZ, EXTENT = 8, 15, 4096  # z8 so a phone can fit the whole county on screen
 FULL_PROPS_Z = 13          # zoom at which addr/city strings appear
@@ -235,7 +253,7 @@ hist = dec.value_counts().sort_index()
 cats = gdf.cat.value_counts().to_dict()
 cfg = {
     "generated": time.strftime("%Y-%m-%d"),
-    "cama_date": "2026-06-28",
+    "cama_date": cama_effective_date(),
     "count": int(n),
     "bounds": [round(float(v), 5) for v in (lon0, lat0, lon1, lat1)],
     "center": [round(float(clon), 5), round(float(clat), 5)],
@@ -266,3 +284,7 @@ if "nveh" in gdf.columns:
     cfg["ppv"] = {"p5": int(pv.quantile(0.05)), "p99": int(pv.quantile(0.99))}
 (OUT / "config.json").write_text(json.dumps(cfg, indent=1), encoding="utf-8")
 print("wrote config.json:", json.dumps(cfg)[:300], flush=True)
+
+record_output("buildings_pmtiles", OUT / "buildings.pmtiles", record_count=int(n))
+record_output("web_config", OUT / "config.json")
+update_build_manifest(completed_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))

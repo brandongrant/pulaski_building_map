@@ -124,7 +124,8 @@ else:
           f"addressed: {(df.addr != '').mean() * 100:.1f}%")
     OUT_PKL.parent.mkdir(parents=True, exist_ok=True)
     df.to_pickle(OUT_PKL)
-    print("wrote", OUT_PKL)
+    df.to_parquet(OUT_PKL.with_suffix(".parquet"), index=False)
+    print("wrote", OUT_PKL, "(+ parquet twin)")
 
 # ---------------------------------------------------------------- web index
 idx = df[(df.owner != "") | (df.addr != "")].copy()
