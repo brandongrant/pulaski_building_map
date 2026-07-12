@@ -115,6 +115,26 @@ index lags recording by ~2–4 weeks). Design, source recon, and roadmap:
 [docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
 Military discharges and medical-record authorizations are never collected.
 
+## 311 service-request overlay
+
+The same cron also runs `pipeline/sr311_collect.py` against the City of
+Little Rock's public 311 citizen portal (Motorola CWI,
+littlerock-cwiprod.motorolasolutions.com). The portal's list API is public
+and paginated but only exposes requests **updated in the last ~30 days**
+(~16k rows), so the collector accumulates history on the **`data` branch**
+(`sr311/raw/*.jsonl`, one line per observed request version) — seeded
+2026-07-11 with the full window then extended a few hundred rows per day.
+Opened/closed dates are *observed*: a request first seen with an open status
+was just created (older untouched requests can't enter the update window),
+and the update that moves it to a closed status is its closure. Outputs
+(`sr311/out/requests.geojson` + `stats.json`) geocode ~96% of requests via
+the shared PAgis address index. The map gets a 311 overlay (9 category
+chips, open-only filter), building popups show the address's request
+history with opened/closed dates, and "Color by → 311 requests at address"
+shades buildings by accumulated request count (address joins render from
+z13 up, where tiles carry address strings). Citizen-submitted free text and
+photos are never collected — only type, status, dates, channel, and address.
+
 ## Permit overlay
 
 `pipeline/build_permits.py` normalizes the City of Little Rock

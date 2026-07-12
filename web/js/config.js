@@ -86,4 +86,15 @@ export function buildAttrConfig(c) {
                   domain: [Math.max(500, cfg.ppv.p5), cfg.ppv.p99], scale: "log",
                   fmtV: (v) => "$" + fmt.format(Math.round(v)) };
   }
+  // 311 requests join buildings by address at render time via feature-state
+  // (overlays/requests311.js sets one state per address once the collected
+  // data loads). Addresses appear in tiles from z13 up, so below that — and
+  // anywhere without a collected request — buildings render as unknown.
+  ATTRS.sr311 = {
+    label: "311 requests at address (collected)", type: "cont",
+    domain: [1, 10], scale: "linear",
+    valueExpr: ["coalesce", ["feature-state", "sr"], 0],
+    unknownExpr: ["<=", ["coalesce", ["feature-state", "sr"], 0], 0],
+    fmtV: (v) => (v >= 10 ? "10+" : String(Math.round(v))),
+  };
 }

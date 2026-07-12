@@ -3,6 +3,61 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-11 (later) — LR 311 service requests: collector + overlay + color-by
+
+Same branch/session as the module split below (stacked on it). User asked
+for 311 requests as a color-by option, accumulated over time, attached to
+addresses, with opened/closed info in the building popup.
+
+**Source recon (hard-won, don't re-derive):** the city's 311 portal is
+Motorola CWI at littlerock-cwiprod.motorolasolutions.com (behind Imperva,
+but plain `requests` GETs work — no session/disclaimer).
+`GET /api/srstatus/list/<MMDDYYYY>?filter=&pnum=N&psize=500&count=y` —
+the date path segment is IGNORED (SPA passes today as a cache key);
+ordering is updated_date DESC; `psize=500` works; the window is rows
+UPDATED in the last ~30 days (~16k). `updated_date` says Z but is really
+America/Chicago. List rows have no created/closed dates and no coords;
+`GET /api/apphub/srdatabynumber/<prc>` adds XY/LatLng + ward/neighborhood
++ Cloudinary photo URLs but STILL no dates, and only covers the same
+window — so there is NO deep backfill and no reason to fetch details at
+all. `blacklisted:"Y"` rows are city-flagged spam (skipped). 68 request
+types (`/api/srdefslist/en`), all municipal (no sensitive classes).
+
+**Dates are observed, not served:** first version of a number seen with an
+Open-class status ⇒ that update was its creation (an old untouched request
+has an old updated_date and cannot enter the window); the update that moves
+a row into a closed-class status is its closure; a later non-closed version
+clears it (reopen). Seed coverage: 5,707/15,940 with opened, 8,969 closed.
+
+**Collector:** `pipeline/sr311_collect.py` (--seed / --max-pages /
+--rebuild-only), archives one JSONL line per (number, updated) on the data
+branch under `sr311/raw/YYYY-MM.jsonl`, folds versions per request, geocodes
+via the SHARED `dispatch/address_index.json.gz` (imports dispatch_collect's
+Geocoder; 96.4%), emits `sr311/out/requests.geojson` (~4.5 MB, props
+n/t/ty/s/sd/o/cl/u/ch/a/gq) + `stats.json`. Wired into dispatch.yml with
+continue-on-error. Data branch SEEDED (commit 0b5310b) with the full
+2026-06-12→07-11 window, so the app has data before the workflow merge;
+cron walks pages until it dips below the archive watermark (verified: an
+incremental run right after seeding fetched 1 page, 0 new).
+
+**Web:** `web/js/overlays/requests311.js` (pm/dsp pattern): srSec section +
+9 category chips + open-only filter + sr-pts layer; `sr311Timeline()` in the
+building popup ("2026-07-12 · High Grass & Weeds · Open", "… · closed
+2026-07-06"); sr-pts click popup with opened/closed/status/channel/request#.
+**Color-by** entry `ATTRS.sr311` uses feature-state: `map.js` now creates
+the bld source with `promoteId: "addr"` (tiles carry addr from z13 up →
+below z13 no ids, buildings stay unknown-colored — the overlay is the
+zoomed-out view), and `sr311EnsureStates()` does one setFeatureState per
+address with the request count; colorExpr needed NO changes (valueExpr/
+unknownExpr already supported). Same-address-text collisions across cities
+are accepted (same trade-off the permit timeline already makes).
+
+**Verified headlessly** on serve.py against the seeded data branch: meta
+line, chips, dropdown option, timelines (open, closed, none) — layer adds
+and feature-state application can't run in the hidden pane (MapLibre never
+loads); ask the user for one visual pass: toggle the 311 overlay, click a
+point, click a building with requests, and switch Color by → 311 requests.
+
 ## 2026-07-11 — web/app.js split into ES modules (roadmap §15.1)
 
 Local session on the user's machine, branch
