@@ -3,6 +3,43 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-11 — PAgis owner-index refresh recovered (draft PR #9)
+
+PAgis BaseMap layer 68 recovered, so the previously deferred owner-index
+refresh is now rebuilt and isolated from the web-module refactor:
+
+- The full `build_owner_index.py` fetch completed all 181 pages (180,282
+  features / 180,225 unique parcels) and retained
+  `data/processed/parcel_owners.pkl`. It initially stopped at
+  `df.to_parquet(...)` because this Windows Python 3.13 environment lacked
+  `pyarrow`. `requirements.txt` already declares `pyarrow`; install the
+  declared dependency rather than changing requirements. The Parquet twin and
+  `web/data/owners.json` were then emitted from that saved pickle, with **no
+  second PAgis download**.
+- Fresh `owners.json` is dated 2026-07-11: 18.4 MB, 180,224 searchable parcel
+  rows, 133,333 owner groups, 26 cities, and 4,175 PulaskiDeeds SUB terms.
+  Every row has the expected 9-field schema and every parcel id is unique. The
+  one-row difference from the pickle is a fully blank owner/address record
+  intentionally excluded from the web index.
+- **Draft PR #9** is open against `main`:
+  https://github.com/brandongrant/pulaski_building_map/pull/9
+  (`codex/owner-index-refresh-20260711`, starting commit `cb098ff`). It
+  contains the refreshed `web/data/owners.json` and this handoff update; it
+  deliberately does NOT include the ES-module refactor in still-open PR #8.
+- App validation passed: `ownersLoad()` built 133,333 owner groups and 180,224
+  parcel-id entries with no browser errors. Reference parcel
+  `43L-109.00-373.00` resolved through the PID path to WEBSTER FAMILY LIVING
+  TRUST (the `pid` counter incremented while `addr` and `miss` stayed zero).
+  `node --check web/app.js` and `git diff --check` passed.
+- `python -m pytest tests/` currently reports 45 passing / 1 failing. The
+  failure is pre-existing and platform-specific: `tests/test_provenance.py`
+  expects 8 bytes after `write_text("a,b\\n1,2\\n")`, while Windows writes CRLF
+  and records 10 bytes. This data-refresh PR does not touch that test.
+- **Next:** review/merge PR #9 independently. PR #8
+  (https://github.com/brandongrant/pulaski_building_map/pull/8) remains open;
+  after its merge, do the still-pending visual/live-building-click pass on
+  Pages before considering the ES-module work complete.
+
 ## 2026-07-10/11 — Foundation release shipped (READ THIS FIRST; supersedes older facts below)
 
 A remote Claude Code session (claude.ai/code) executed roadmap Phase 0 end to
