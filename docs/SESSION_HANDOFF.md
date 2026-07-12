@@ -40,9 +40,15 @@ infrastructure-free item instead.
   screens, map click/dragstart tucks the drawer away. Separate commit so
   it can be dropped if unwanted. The WIP's launch.json edits (stale
   worktree servers) were NOT ported.
-- Still pending from the list below: rerun `build_owner_index.py` when
-  PAgis layer-68 recovers; retire the address fallback on
-  `parcelResolveStats` evidence; Phase 1 host decision.
+- PAgis layer-68 recovered same day (count 180,282): full owner-index
+  rebuild ran on this machine → PR #10 (`claude/owner-index-refresh`,
+  independent of this branch). 133,333 owners / 180,224 properties,
+  100% addressed-building match held; 18 Toulouse value moves
+  375,560→462,915 on the fresher data. Local env note: requirements.txt
+  already lists pyarrow but this machine predated Phase 0B — now
+  installed (the Parquet-twin write needs it).
+- Still pending: retire the address fallback on `parcelResolveStats`
+  evidence; Phase 1 host decision (Neon/Supabase suggested).
 
 ## 2026-07-10/11 — Foundation release shipped (READ THIS FIRST; supersedes older facts below)
 
