@@ -1,0 +1,11 @@
+name = "pulaski-profile"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+
+# Read-only property-profile API over the Phase 1 Neon database.
+# Deploy:  cd worker/profile-api
+#          npm install
+#          npx wrangler secret put DATABASE_URL   (paste the Neon connection string)
+#          npx wrangler deploy
+# Then put the printed workers.dev URL into web/data/services.json as
+# services.profile_api. The Cache API (6 h per profile) needs no binding.

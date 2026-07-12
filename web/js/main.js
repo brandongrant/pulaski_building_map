@@ -5,6 +5,7 @@ import { state } from "./state.js";
 import { map, initMap } from "./map.js";
 import { initUI } from "./controls.js";
 import { wireHover, featHTML } from "./property-panel.js";
+import { initProfile, openProfile } from "./profile.js";
 import { loadServices } from "./api.js";
 import { ownersLoad, searchRun, selectResult, parcelResolveStats } from "./search.js";
 import { vehRun } from "./vehicle-search.js";
@@ -24,6 +25,7 @@ fetch("data/config.json")
     state.yrHi = cfg.year.max;
     initUI();
     initMap(wireHover);
+    initProfile();
   })
   .catch((e) => {
     $("loading").innerHTML = "⚠ " + e.message;
@@ -42,4 +44,5 @@ window.__app = {
   selectResult,
   featHTML,
   vehRun,
+  openProfile,
 };

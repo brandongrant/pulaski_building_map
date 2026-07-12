@@ -1,0 +1,8 @@
+{
+  "name": "pulaski-profile-api",
+  "private": true,
+  "description": "Property-profile API for the Pulaski building map (roadmap §6.5)",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}

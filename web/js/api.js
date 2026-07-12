@@ -13,6 +13,9 @@ export const PULASKI_DEEDS_ACCEPT_URL = `${PULASKI_DEEDS_BASE}index.php?Accept=A
 // Empty = feature off (the deeds link falls back to the plain PulaskiDeeds
 // hand-off).
 let DEEDS_API = "";
+// Property-profile API (worker/profile-api over the Phase 1 database). Same
+// contract: URL lives in data/services.json, empty = feature off.
+let PROFILE_API = "";
 const ARCOUNTY_PARCEL_BASE = "https://www.arcountydata.com/parcel.asp?County=Pulaski&ParcelID=";
 const TREASURER_MOBILE_BASE = "https://public.pulaskicountytreasurer.net/mobile/pulaski/";
 const PULASKI_INST_CODES = [
@@ -37,8 +40,15 @@ export function loadServices() {
       if (s?.services?.deeds_api && s.features?.deed_history !== false) {
         DEEDS_API = s.services.deeds_api.replace(/\/+$/, "");
       }
+      if (s?.services?.profile_api && s.features?.property_profiles !== false) {
+        PROFILE_API = s.services.profile_api.replace(/\/+$/, "");
+      }
     })
     .catch(() => {});
+}
+
+export function profileApi() {
+  return PROFILE_API;
 }
 
 export function parcelIdForURL(parcelId) {

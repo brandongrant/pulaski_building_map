@@ -9,3 +9,4 @@ mapbox-vector-tile
 pmtiles
 pyarrow
 openpyxl
+psycopg[binary]>=3.1

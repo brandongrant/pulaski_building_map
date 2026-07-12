@@ -1,8 +1,10 @@
 {
   "services": {
-    "deeds_api": "https://pulaski-deeds.brandongrant.workers.dev"
+    "deeds_api": "https://pulaski-deeds.brandongrant.workers.dev",
+    "profile_api": ""
   },
   "features": {
-    "deed_history": true
+    "deed_history": true,
+    "property_profiles": true
   }
 }

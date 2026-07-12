@@ -6,3 +6,7 @@ data/processed/
 
 __pycache__/
 *.pyc
+
+# credentials (Neon connection string etc.)
+.env
+worker/profile-api/node_modules/

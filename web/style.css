@@ -282,3 +282,45 @@ footer a:hover { color: var(--accent); }
   .bgsw { width: 34px; height: 34px; }
   footer a { display: inline-block; padding: 6px 0; }
 }
+
+/* ---------------- property-profile drawer (Phase 1) ---------------- */
+#profileDrawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 380px; max-width: 100vw;
+  background: var(--panel-bg, rgba(13, 16, 24, 0.97)); color: var(--txt, #dfe5f0);
+  border-left: 1px solid var(--ctl-border, #2a3040); z-index: 30;
+  display: flex; flex-direction: column; box-shadow: -8px 0 24px rgba(0,0,0,0.45);
+}
+#profileDrawer header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 14px; border-bottom: 1px solid var(--ctl-border, #2a3040);
+}
+#profileDrawer h2 { font-size: 15px; margin: 0; flex: 1; line-height: 1.25; }
+#pfClose {
+  background: none; border: none; color: inherit; font-size: 22px;
+  cursor: pointer; padding: 2px 8px; min-width: 40px; min-height: 40px;
+}
+#pfBody { overflow-y: auto; padding: 10px 14px 18px; flex: 1; }
+#pfBody section { margin-bottom: 14px; }
+#pfBody h3 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--txt-dim, #9aa3b5); margin: 0 0 6px;
+}
+.pf-asof { color: var(--txt-dim, #9aa3b5); font-size: 11px; margin-top: 5px; }
+.pf-list { display: flex; flex-direction: column; gap: 7px; font-size: 12.5px; }
+.pf-item { line-height: 1.35; }
+.pf-date { color: var(--txt-dim, #9aa3b5); font-variant-numeric: tabular-nums; }
+.pf-sub { color: var(--txt-dim, #9aa3b5); font-size: 11.5px; }
+.pf-src { font-size: 11px; color: var(--txt-dim, #9aa3b5); }
+.pf-src a { color: #7fb4e8; }
+.pf-low { opacity: 0.72; }
+.pf-dim { color: var(--txt-dim, #9aa3b5); font-size: 11.5px; }
+.pf-warn {
+  background: rgba(243, 213, 76, 0.12); border: 1px solid rgba(243, 213, 76, 0.4);
+  border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-bottom: 12px;
+}
+.pf-load { display: flex; align-items: center; gap: 8px; padding: 20px 0; }
+.pf-retry { text-decoration: underline; cursor: pointer; }
+.pf-foot { color: var(--txt-dim, #9aa3b5); font-size: 10.5px; margin-top: 6px; }
+.pf-open { color: #7fb4e8; cursor: pointer; }
+.pf-open-row { margin-top: 4px; }
+@media (max-width: 640px) { #profileDrawer { width: 100vw; } }

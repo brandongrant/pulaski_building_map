@@ -6,6 +6,7 @@ import { ownerAtAddr, ownerLinkHTML, parcelForFeature } from "./search.js";
 import { PM_CATS, permitTimeline } from "./overlays/permits.js";
 import { DEED_TYPES, deedsForBuilding, deedsTimeline } from "./overlays/deeds.js";
 import { sr311Timeline, srDate } from "./overlays/requests311.js";
+import { profileLinkHTML } from "./profile.js";
 import {
   PULASKI_DEEDS_ACCEPT_URL, parcelIdForURL, arCountyParcelURL, treasurerURL,
   deedDocLink, deedOwnerLink, deedHistoryAvailable, fetchDeedHistory,
@@ -150,6 +151,7 @@ export function wireHover() {
             (p.o ? `<span class="k">Owner</span><span>${ownerLinkHTML(p.o)}</span>` : "") +
             (p.v > 0 ? `<span class="k">Parcel value</span><span>${fmtUSD.format(p.v)}</span>` : "") +
             `</div>` + recordLinks({ parcelId: p.pid, address: p.a, owner: p.o, docs }) +
+            profileLinkHTML(p.pid) +
             `<div class="tt-veh">Owner per county parcel roll · unofficial</div>`;
         } else if (df[0].layer.id === "pm-pts") {
           const d = String(p.d);
@@ -213,7 +215,8 @@ export function wireHover() {
       .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` +
                veh + permitTimeline(fs[0].properties) + sr311Timeline(fs[0].properties) +
                (useWorker ? deedHistorySection(parcel) : deedsTimeline(fs[0].properties, docs)) +
-               recordLinks({ parcel, address: fs[0].properties.addr, docs }))
+               recordLinks({ parcel, address: fs[0].properties.addr, docs }) +
+               profileLinkHTML(fs[0].properties.pid || (parcel && parcel.id)))
       .addTo(map);
     if (useWorker) loadDeedHistory(popup, parcel);
   });

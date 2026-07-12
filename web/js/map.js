@@ -61,7 +61,9 @@ export function initMap(onReady) {
 
   map = new maplibregl.Map({
     container: "map",
-    hash: true,
+    // named hash ("#map=z/lat/lng") so other hash params can coexist —
+    // the profile drawer adds "&property=<id>" for shareable links
+    hash: "map",
     attributionControl: false,
     style: {
       version: 8,
