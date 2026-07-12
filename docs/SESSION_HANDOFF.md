@@ -3,6 +3,53 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-11 — web/app.js split into ES modules (roadmap §15.1)
+
+Local session on the user's machine, branch
+`claude/pulaski-building-map-continue-398465`. Phase 1 (PostGIS) is still
+blocked on the user picking a Postgres host, so this shipped the queued
+infrastructure-free item instead.
+
+- `web/app.js` is GONE. The app is 13 ES modules under `web/js/` —
+  `util / config / state / api / map / search / controls / property-panel /
+  vehicle-search / overlays/{dispatch,permits,deeds} / main` — loaded by
+  `<script type="module" src="js/main.js">` after the classic vendor
+  scripts (modules read `maplibregl`/`pmtiles` as globals; keep that
+  order). `query-builder.js` from the roadmap list is deliberately
+  absent until Phase 2 code exists.
+- Pure re-layout, four seams only: `buildAttrConfig(c)` takes the parsed
+  config.json and `main.js` sets `state.yrLo/yrHi`; `setPanelFn` became
+  `ui.setPanel` (state.js); the deed-Worker fetch+cache is
+  `api.fetchDeedHistory` (render half stays in property-panel.js); the
+  services.json fetch is `api.loadServices()`.
+- **Verification recipes changed**: bare globals like `searchRun(...)`
+  no longer exist. Use `window.__app`
+  (map/cfg/state/searchRun/selectResult/featHTML/ownersLoad/vehRun/
+  parcelResolveStats) or `await import("./js/<mod>.js")` in the page for
+  anything unexported there. `window.__ownerSearch` is still global —
+  popup inline onclick needs it.
+- `serve.py` already served `.js` as `text/javascript`, so nothing else
+  changed; ES modules do NOT load over `file://` (use serve.py, as ever).
+- Verified headlessly on serve.py (hidden pane still can't render
+  MapLibre): module graph loads clean, boot/controls populate, owner
+  search rows, pid-first + addr-fallback resolution on the 18 Toulouse
+  reference parcel, recordLinks, renderDeedHistory chain rows, vehicle
+  index (290,130 rows). NOT verified: real click popups / visual pass —
+  ask the user to click a building on the live site after merge.
+- Also ported the main checkout's parked WIP (d201acc): on ≤640 px
+  screens, map click/dragstart tucks the drawer away. Separate commit so
+  it can be dropped if unwanted. The WIP's launch.json edits (stale
+  worktree servers) were NOT ported.
+- PAgis layer-68 recovered same day (count 180,282): full owner-index
+  rebuild ran on this machine → PR #10 (`claude/owner-index-refresh`,
+  independent of this branch). 133,333 owners / 180,224 properties,
+  100% addressed-building match held; 18 Toulouse value moves
+  375,560→462,915 on the fresher data. Local env note: requirements.txt
+  already lists pyarrow but this machine predated Phase 0B — now
+  installed (the Parquet-twin write needs it).
+- Still pending: retire the address fallback on `parcelResolveStats`
+  evidence; Phase 1 host decision (Neon/Supabase suggested).
+
 ## 2026-07-10/11 — Foundation release shipped (READ THIS FIRST; supersedes older facts below)
 
 A remote Claude Code session (claude.ai/code) executed roadmap Phase 0 end to
