@@ -135,6 +135,21 @@
     </div>
   </section>
 
+  <section id="srSec">
+    <label class="lbl">311 service requests <span id="srMeta"></span></label>
+    <label class="chk"><input type="checkbox" id="srOn"> show 311 overlay</label>
+    <div id="srControls" hidden>
+      <div id="srCats"></div>
+      <label class="chk"><input type="checkbox" id="srOpenOnly"> only open requests</label>
+      <div class="fineprint">City of Little Rock 311 service requests from the city's
+        citizen portal. The city only exposes a rolling ~30-day window, so history
+        accumulates here from July 2026 onward; opened/closed dates are observed from
+        status changes. Matched by address (≈96%). Citizen-submitted descriptions and
+        photos are not collected. Also available under "Color by" as requests per
+        address. Unofficial.</div>
+    </div>
+  </section>
+
   <section id="deedSec">
     <label class="lbl">Recent deed activity <span id="deedMeta"></span></label>
     <label class="chk"><input type="checkbox" id="deedOn"> show deed overlay</label>
@@ -184,6 +199,10 @@
       <li><b>Owner names</b> — PAgis parcel records (public county records, as
           published by the assessor). The search box finds properties by owner
           name or address; popups link to official deed/assessor/tax lookups.</li>
+      <li><b>311 service requests</b> — City of Little Rock citizen request
+          portal, collected continuously (the city feed exposes ~30 days at a
+          time). Opened/closed dates are observed from status changes, matched
+          to buildings by address.</li>
     </ul>
     <h3>Caveats</h3>
     <ul>

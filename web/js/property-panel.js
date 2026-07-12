@@ -5,6 +5,7 @@ import { map } from "./map.js";
 import { ownerAtAddr, ownerLinkHTML, parcelForFeature } from "./search.js";
 import { PM_CATS, permitTimeline } from "./overlays/permits.js";
 import { DEED_TYPES, deedsForBuilding, deedsTimeline } from "./overlays/deeds.js";
+import { sr311Timeline, srDate } from "./overlays/requests311.js";
 import {
   PULASKI_DEEDS_ACCEPT_URL, parcelIdForURL, arCountyParcelURL, treasurerURL,
   deedDocLink, deedOwnerLink, deedHistoryAvailable, fetchDeedHistory,
@@ -135,7 +136,7 @@ export function wireHover() {
       }
     }
     // overlay features sit above buildings — they win the click
-    const ovLayers = ["hit-ring", "pm-pts", "deed-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
+    const ovLayers = ["hit-ring", "pm-pts", "sr-pts", "deed-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
     if (ovLayers.length) {
       const df = map.queryRenderedFeatures(e.point, { layers: ovLayers });
       if (df.length) {
@@ -161,6 +162,16 @@ export function wireHover() {
             `<span class="k">Permit #</span><span>${p.n}</span></div>` +
             (p.ds ? `<div class="tt-veh">${esc(p.ds)}</div>` : "") +
             `<div class="tt-veh">City of Little Rock permit record · unofficial</div>`;
+        } else if (df[0].layer.id === "sr-pts") {
+          html = `<div class="pp-addr">${esc(p.ty)}</div><div class="pp-grid">` +
+            `<span class="k">Where</span><span>${esc(p.a || "")}${p.c ? ", " + esc(p.c) : ""}</span>` +
+            (p.o ? `<span class="k">Opened</span><span>${srDate(p.o)}</span>` : "") +
+            (p.cl ? `<span class="k">Closed</span><span>${srDate(p.cl)}</span>`
+                  : `<span class="k">Status</span><span>${esc(p.sd || "—")}</span>`) +
+            `<span class="k">Updated</span><span>${srDate(p.u)}</span>` +
+            (p.ch ? `<span class="k">Via</span><span>${esc(p.ch)}</span>` : "") +
+            `<span class="k">Request #</span><span>${esc(p.n)}</span></div>` +
+            `<div class="tt-veh">City of Little Rock 311 service request · unofficial</div>`;
         } else if (df[0].layer.id === "deed-pts") {
           const d = String(p.d);
           html = `<div class="pp-addr">${esc(p.dt || DEED_TYPES[p.t]?.label || "Deed activity")}</div><div class="pp-grid">` +
@@ -200,7 +211,7 @@ export function wireHover() {
     popup = new maplibregl.Popup({ closeButton: true, maxWidth: "310px" })
       .setLngLat(e.lngLat)
       .setHTML(`<div class="pp-addr">${addr}</div><div class="pp-grid">${rows}</div>` +
-               veh + permitTimeline(fs[0].properties) +
+               veh + permitTimeline(fs[0].properties) + sr311Timeline(fs[0].properties) +
                (useWorker ? deedHistorySection(parcel) : deedsTimeline(fs[0].properties, docs)) +
                recordLinks({ parcel, address: fs[0].properties.addr, docs }))
       .addTo(map);

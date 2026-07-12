@@ -92,7 +92,10 @@ export function initMap(onReady) {
   map.on("dragstart", autoHidePanel);
 
   map.on("load", () => {
-    map.addSource("bld", { type: "vector", url: "pmtiles://" + pmUrl, promoteId: undefined });
+    // promote the tile address string to the feature id so address-keyed
+    // feature-state joins (311 request counts) color every footprint sharing
+    // an address; tiles only carry addr from z13 up, lower zooms get no id
+    map.addSource("bld", { type: "vector", url: "pmtiles://" + pmUrl, promoteId: "addr" });
 
     map.addLayer({
       id: "bld-fill", type: "fill", source: "bld", "source-layer": "buildings",

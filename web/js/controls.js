@@ -7,6 +7,7 @@ import { initSearch } from "./search.js";
 import { initDispatch } from "./overlays/dispatch.js";
 import { initPermits } from "./overlays/permits.js";
 import { initDeeds } from "./overlays/deeds.js";
+import { initRequests311, sr311EnsureStates } from "./overlays/requests311.js";
 import { initVehicleSearch } from "./vehicle-search.js";
 
 export function initUI() {
@@ -23,7 +24,12 @@ export function initUI() {
     $("attr").appendChild(o);
   }
   $("attr").value = state.attr;
-  $("attr").onchange = () => { state.attr = $("attr").value; refreshColors(); };
+  $("attr").onchange = () => {
+    state.attr = $("attr").value;
+    // the 311 color-by needs the collected data joined to buildings first
+    if (state.attr === "sr311") sr311EnsureStates();
+    refreshColors();
+  };
 
   // ramp select
   for (const [k, p] of Object.entries(PALETTES)) {
@@ -155,6 +161,7 @@ export function initUI() {
   initSearch();
   initDispatch();
   initPermits();
+  initRequests311();
   initVehicleSearch();
   initDeeds();
   renderLegend();

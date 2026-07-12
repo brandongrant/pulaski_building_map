@@ -23,7 +23,7 @@ online basemaps.
 | Control | What it does |
 |---|---|
 | **Search** | Owner name or street address across all ~180k parcels — flags every property of an owner, flies to addresses; building popups show the owner (click it to see their other properties) plus deed/assessor/tax lookup links |
-| **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value |
+| **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value · 311 requests at address (from z13, where tiles carry addresses) |
 | **Palette + flip** | Colouring-London, Amsterdam-fire, Viridis, Magma, Turbo, Cividis, Cool-Warm |
 | **Year built filter** | Range sliders + "include undated" |
 | **Building types** | Toggle chips (single-family, commercial, condo, mobile…) |
@@ -31,6 +31,7 @@ online basemaps.
 | **3D height** | Extrudes by assessor story count (± exaggeration) — try pitch + rotate (right-drag) |
 | **Basemap / background** | Pure black default; optional CARTO dark / light / OSM raster underlay |
 | **Find vehicles** | Search assessor personal-property vehicles by make, model, and/or year; matches pin to its situs address |
+| **311 requests** | Overlay of LR 311 service requests (9 categories, open-only filter); building popups list each request with opened/closed dates |
 | **H key** | Hide/show the panel |
 | Hover / click | Tooltip / pinned popup with address, year, type, size, value |
 
@@ -114,6 +115,26 @@ currently covers recordings from 2026-04-01 forward (the clerk's verified
 index lags recording by ~2–4 weeks). Design, source recon, and roadmap:
 [docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
 Military discharges and medical-record authorizations are never collected.
+
+## 311 service-request overlay
+
+The same cron also runs `pipeline/sr311_collect.py` against the City of
+Little Rock's public 311 citizen portal (Motorola CWI,
+littlerock-cwiprod.motorolasolutions.com). The portal's list API is public
+and paginated but only exposes requests **updated in the last ~30 days**
+(~16k rows), so the collector accumulates history on the **`data` branch**
+(`sr311/raw/*.jsonl`, one line per observed request version) — seeded
+2026-07-11 with the full window then extended a few hundred rows per day.
+Opened/closed dates are *observed*: a request first seen with an open status
+was just created (older untouched requests can't enter the update window),
+and the update that moves it to a closed status is its closure. Outputs
+(`sr311/out/requests.geojson` + `stats.json`) geocode ~96% of requests via
+the shared PAgis address index. The map gets a 311 overlay (9 category
+chips, open-only filter), building popups show the address's request
+history with opened/closed dates, and "Color by → 311 requests at address"
+shades buildings by accumulated request count (address joins render from
+z13 up, where tiles carry address strings). Citizen-submitted free text and
+photos are never collected — only type, status, dates, channel, and address.
 
 ## Permit overlay
 

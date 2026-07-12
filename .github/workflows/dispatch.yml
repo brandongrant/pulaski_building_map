@@ -29,6 +29,9 @@ jobs:
       - name: Collect recorded documents (pulaskideeds.com, 2 gentle queries)
         continue-on-error: true
         run: python pipeline/deeds_collect.py --store datastore --max-queries 2
+      - name: Collect 311 service requests (CWI portal)
+        continue-on-error: true
+        run: python pipeline/sr311_collect.py --store datastore
       - name: Commit collected data
         run: |
           cd datastore
