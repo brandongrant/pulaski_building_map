@@ -23,7 +23,7 @@ online basemaps.
 | Control | What it does |
 |---|---|
 | **Search** | Owner name or street address across all ~180k parcels — flags every property of an owner, flies to addresses; building popups show the owner (click it to see their other properties) plus deed/assessor/tax lookup links |
-| **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value |
+| **Color by** | Year built · Building type · Stories · Building sq ft · Footprint area · Improvement value · Vehicles at address · Personal property value · 311 requests at address (from z13, where tiles carry addresses) |
 | **Palette + flip** | Colouring-London, Amsterdam-fire, Viridis, Magma, Turbo, Cividis, Cool-Warm |
 | **Year built filter** | Range sliders + "include undated" |
 | **Building types** | Toggle chips (single-family, commercial, condo, mobile…) |
@@ -31,6 +31,7 @@ online basemaps.
 | **3D height** | Extrudes by assessor story count (± exaggeration) — try pitch + rotate (right-drag) |
 | **Basemap / background** | Pure black default; optional CARTO dark / light / OSM raster underlay |
 | **Find vehicles** | Search assessor personal-property vehicles by make, model, and/or year; matches pin to its situs address |
+| **311 requests** | Overlay of LR 311 service requests (9 categories, open-only filter); building popups list each request with opened/closed dates |
 | **H key** | Hide/show the panel |
 | Hover / click | Tooltip / pinned popup with address, year, type, size, value |
 
