@@ -120,17 +120,23 @@ sources:
     sensitivity: sensitive_location_event
     redistribution_reviewed: false
     connector: pipeline/dispatch_collect.py
-    storage: data branch (append-only JSONL archive + short-lived GeoJSON)
+    storage: data branch (append-only JSONL archive + GeoJSON, incl. all-time)
     display_policy:
-      exact_point_ttl_hours: 24
       language: calls for service   # never implied as confirmed crime
-      never_show_exact_categories:  # SENSITIVE_RE in dispatch_collect.py
+      geocode: verified_only        # exact address or house-number interpolation;
+                                    # never a street-centroid guess (fixed 2026-07-13)
+      # 2026-07-13 (site-owner decision, was aggregate_only): all call types are
+      # mapped as precise points, indefinitely, including the categories below.
+      # SENSITIVE_RE still FLAGS them (`sens`) to drive a popup note, but no
+      # longer suppresses points.
+      sensitive_categories_flagged:  # informational only now
         - medical
         - welfare
         - death
         - sexual_offense
         - domestic
-      historical_use: aggregate_only
+        - juvenile
+      historical_use: all_time_points
 
   recorded_documents:
     name: Pulaski County Circuit/County Clerk recorded-document index

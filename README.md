@@ -83,21 +83,38 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 
 [dispatch.yml](.github/workflows/dispatch.yml) runs every ~15 minutes: it pulls the
 City of Little Rock public CAD feed (`/pub/Home/CadEvents`), dedupes by
-`hash(type+location+time)`, categorizes call types, geocodes against a PAgis
-address-point index (`pipeline/build_addr_index.py`, ~97% match), and appends
-JSONL archives to the **`data` branch**, republishing:
+`hash(type+location+time)`, categorizes call types into ~20 buckets, geocodes
+against a PAgis address-point index, and appends JSONL archives to the
+**`data` branch**, republishing:
 
-- `dispatch/out/recent_24h.geojson` — points (sensitive call types excluded)
+- `dispatch/out/recent_24h.geojson` — points, last 24 h
 - `dispatch/out/recent_7d.geojson` — bare points for the heatmap
 - `dispatch/out/grid_30d.geojson` — ~500 ft cells with per-category counts
-- `dispatch/out/stats.json` — totals + collection start date
+- `dispatch/out/all.geojson` — every geocoded call, all-time (indefinite)
+- `dispatch/out/stats.json` — totals, geocode-quality breakdown, per-category counts
+
+**Geocoding (verified-address, fixed 2026-07-13):** the location string is
+canonicalized so street-type/direction synonyms match the address index
+("CHENAL PKY" → "CHENAL PKWY"), looked up exactly, then interpolated by house
+number along the street (`pipeline/build_addr_index.py` now streams PAgis
+address points with house numbers into the street index). A call is pinned only
+at a *verified* position — an exact match, a house-number interpolation, or a
+real intersection; anything else is counted but not placed. The old
+street-centroid fallback is gone: it used to drop every un-matched call on a
+street onto one averaged point, which read as a phantom hotspot at the wrong
+address. Outputs are re-geocoded from the archived location string on every run,
+so this fix (and future ones) re-scores all history. ~98% of calls place.
 
 The map fetches these from `raw.githubusercontent.com` (no Pages redeploy per
-collection). Privacy rules follow the project plan: exact points only for the
-last 24 h, aggregates beyond that, medical/welfare/death call types never shown
-as points, and calls-for-service language throughout (a dispatch is not a
-confirmed crime). Note: GitHub disables cron workflows after ~60 days without
-repo activity — any commit re-enables it.
+collection). Calls-for-service language throughout (a dispatch is not a
+confirmed crime, report, or arrest). **Display policy:** as of 2026-07-13 the
+site owner opted to map every call type as a precise point, indefinitely,
+including medical/welfare/mental-health/death/sex/domestic calls; the collector
+still flags those (`sens`) to show a "sensitive call type" note in the popup.
+Rebuilding the index: `python pipeline/build_addr_index.py` (streams PAgis, no
+raw file), commit the refreshed `address_index.json.gz` to the `data` branch.
+Note: GitHub disables cron workflows after ~60 days without repo activity — any
+commit re-enables it.
 
 ## Recorded documents collector
 

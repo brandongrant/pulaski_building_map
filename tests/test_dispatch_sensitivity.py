@@ -1,6 +1,11 @@
-"""The dispatch sensitive-category filter is a privacy guarantee: these call
-types must never appear as exact public points (see jurisdictions/ar/pulaski.yml
-display_policy and docs/IMPLEMENTATION_ROADMAP.md §16.2)."""
+"""`SENSITIVE_RE` classifies medical/welfare/mental-health/death/sex/domestic/
+juvenile call types.
+
+Until 2026-07-13 this flag suppressed those calls from the precise point layers.
+The site owner then chose to map every call type (see jurisdictions/ar/
+pulaski.yml display_policy), so the flag is now informational metadata (it drives
+the "sensitive call type" note in popups) rather than a display filter. These
+tests still pin the classification so the labeling stays correct."""
 import pytest
 
 from dispatch_collect import SENSITIVE_RE

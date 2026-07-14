@@ -960,7 +960,7 @@ function wireHover() {
       }
     }
     // overlay features sit above buildings — they win the click
-    const ovLayers = ["hit-ring", "pm-pts", "deed-pts", "dsp-pts", "dsp-grid"].filter((l) => map.getLayer(l));
+    const ovLayers = ["hit-ring", "pm-pts", "deed-pts", "dsp-pts", "dsp-all", "dsp-grid"].filter((l) => map.getLayer(l));
     if (ovLayers.length) {
       const df = map.queryRenderedFeatures(e.point, { layers: ovLayers });
       if (df.length) {
@@ -994,12 +994,15 @@ function wireHover() {
             `<span class="k">Document #</span><span>${p.n ? deedDocLink(p.n, p.n) : ""}</span>` +
             `<span class="k">Match</span><span>${esc(p.mq || "geocoded")}</span></div>` +
             `<div class="tt-veh">Pulaski County deed index match · party names omitted · unofficial</div>`;
-        } else if (df[0].layer.id === "dsp-pts") {
-          html = `<div class="pp-addr">${p.t}</div><div class="pp-grid">` +
-            `<span class="k">Where</span><span>${p.loc}</span>` +
+        } else if (df[0].layer.id === "dsp-pts" || df[0].layer.id === "dsp-all") {
+          const cat = DSP_CATS[p.c];
+          html = `<div class="pp-addr">${esc(p.t || "Dispatch")}</div><div class="pp-grid">` +
+            `<span class="k">Where</span><span>${esc(p.loc || "")}</span>` +
             `<span class="k">When</span><span>${new Date(p.ts).toLocaleString()}</span>` +
-            `<span class="k">Category</span><span>${p.c}</span></div>` +
-            `<div class="tt-veh">Call-for-service record, delayed 30 min–8 hr. Not a confirmed crime or report.</div>`;
+            `<span class="k">Category</span><span>${esc(cat ? cat.label : p.c)}</span>` +
+            (p.gq && p.gq !== "exact_address" ? `<span class="k">Location</span><span>${p.gq === "interpolated" ? "interpolated to house number" : esc(p.gq)}</span>` : "") +
+            `</div><div class="tt-veh">Call-for-service record, delayed 30 min–8 hr. ` +
+            `Not a confirmed crime or report${p.sens ? "; sensitive call type" : ""}.</div>`;
         } else {
           html = `<div class="pp-addr">${p.n} dispatches · last 30 days</div>` +
             `<div class="tt-veh">${p.top || ""}<br>≈500 ft grid cell</div>`;
@@ -1187,22 +1190,38 @@ function initUI() {
 
 /* ------------------------------------------------- public dispatch overlay */
 const DSP_BASE = "https://raw.githubusercontent.com/brandongrant/pulaski_building_map/data/dispatch/out";
+// Full call-type taxonomy — keyed by the category code the collector emits in
+// each point's `c` (and as the per-category count fields on grid cells). Keep
+// these keys/labels in sync with CAT_RULES in pipeline/dispatch_collect.py.
 const DSP_CATS = {
-  "Alarm": { k: "al", color: "#e8c15a" },
-  "Traffic": { k: "tr", color: "#6fa8dc" },
-  "Property": { k: "pr", color: "#e07a5f" },
-  "Disturbance": { k: "di", color: "#f28cb1" },
-  "Person/Welfare": { k: "pw", color: "#8bd3c7" },
-  "Suspicious": { k: "su", color: "#b39ddb" },
-  "Animal": { k: "an", color: "#90be6d" },
-  "Administrative": { k: "ad", color: "#9aa3b5" },
-  "Other": { k: "ot", color: "#cfcfcf" },
+  shots:       { label: "Shots / weapon", color: "#ff4d4d" },
+  assault:     { label: "Assault / battery", color: "#e0564d" },
+  robbery:     { label: "Robbery", color: "#d1477a" },
+  burglary:    { label: "Burglary / breaking", color: "#e07a5f" },
+  theft:       { label: "Theft / stolen", color: "#ef9f4a" },
+  fraud:       { label: "Fraud / forgery", color: "#d7b26a" },
+  vandalism:   { label: "Vandalism", color: "#f3c14a" },
+  drugs:       { label: "Drugs", color: "#a98cd6" },
+  alarm:       { label: "Alarm", color: "#e8c15a" },
+  traffic:     { label: "Traffic / vehicle", color: "#6fa8dc" },
+  disturbance: { label: "Disturbance / noise", color: "#f28cb1" },
+  trespass:    { label: "Trespass / loitering", color: "#c98a5e" },
+  suspicious:  { label: "Suspicious", color: "#9fb0d0" },
+  domestic:    { label: "Domestic", color: "#d98c8c" },
+  sex:         { label: "Sex offense", color: "#c77dae" },
+  juvenile:    { label: "Juvenile", color: "#7ec8a0" },
+  welfare:     { label: "Welfare / medical", color: "#8bd3c7" },
+  animal:      { label: "Animal", color: "#90be6d" },
+  assist:      { label: "Assist / admin", color: "#8b93a5" },
+  other:       { label: "Other", color: "#cfcfcf" },
 };
-const dsp = { on: false, mode: "24h", cats: new Set(Object.keys(DSP_CATS)), loaded: false };
+// modes: 24h points · 7d heat · 30d grid · all-time points (indefinite)
+const dsp = { on: false, mode: "24h", cats: new Set(Object.keys(DSP_CATS)),
+              loaded: false, allAdded: false };
 
 function dspCircleColor() {
   const m = ["match", ["get", "c"]];
-  for (const [name, d] of Object.entries(DSP_CATS)) m.push(name, d.color);
+  for (const [k, d] of Object.entries(DSP_CATS)) m.push(k, d.color);
   m.push("#cfcfcf");
   return m;
 }
@@ -1214,11 +1233,20 @@ function dspFilter() {
 
 function dspGridColor() {
   const sum = ["+"];
-  for (const name of dsp.cats) sum.push(["coalesce", ["get", DSP_CATS[name].k], 0]);
+  for (const k of dsp.cats) sum.push(["coalesce", ["get", k], 0]);
   const v = sum.length > 1 ? sum : 0;
   return ["interpolate", ["linear"], v,
           0, "rgba(70,80,100,0.08)", 1, "#27476b", 5, "#3d7fb0",
           15, "#e8c15a", 40, "#e07a5f", 100, "#ff4d4d"];
+}
+
+function dspPointPaint() {
+  return {
+    "circle-color": dspCircleColor(),
+    "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2.5, 13, 5.5, 16, 8],
+    "circle-stroke-color": "#000000", "circle-stroke-width": 0.8,
+    "circle-opacity": 0.92,
+  };
 }
 
 function dspStats() {
@@ -1251,50 +1279,61 @@ async function dspLoad() {
   });
   map.addLayer({
     id: "dsp-pts", type: "circle", source: "dsp24", layout: { visibility: "none" },
-    paint: {
-      "circle-color": dspCircleColor(),
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2.5, 13, 5.5, 16, 8],
-      "circle-stroke-color": "#000000", "circle-stroke-width": 0.8,
-      "circle-opacity": 0.92,
-    },
+    paint: dspPointPaint(),
   });
   if (map.getLayer("hit-ring")) map.moveLayer("hit-ring"); // keep search hits on top
   dsp.loaded = true;
   return true;
 }
 
+// The all-time layer can be large and grows over time, so it's only fetched
+// the first time the user selects the all-time mode.
+function dspEnsureAll() {
+  if (dsp.allAdded) return;
+  map.addSource("dspAll", { type: "geojson", data: DSP_BASE + "/all.geojson" });
+  map.addLayer({
+    id: "dsp-all", type: "circle", source: "dspAll", layout: { visibility: "none" },
+    paint: dspPointPaint(),
+  });
+  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
+  dsp.allAdded = true;
+}
+
 function dspRefresh() {
   if (!dsp.loaded) return;
+  if (dsp.on && dsp.mode === "all") dspEnsureAll();
   const vis = {
     "dsp-pts": dsp.on && dsp.mode === "24h",
     "dsp-heat": dsp.on && dsp.mode === "7d",
     "dsp-grid": dsp.on && dsp.mode === "30d",
+    "dsp-all": dsp.on && dsp.mode === "all",
   };
   for (const [l, v] of Object.entries(vis)) {
-    map.setLayoutProperty(l, "visibility", v ? "visible" : "none");
+    if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", v ? "visible" : "none");
   }
   const f = dspFilter();
   map.setFilter("dsp-pts", f);
   map.setFilter("dsp-heat", f);
+  if (map.getLayer("dsp-all")) map.setFilter("dsp-all", f);
   map.setPaintProperty("dsp-grid", "fill-color", dspGridColor());
 }
 
 function initDispatch() {
   const chips = $("dspCats");
-  for (const [name, d] of Object.entries(DSP_CATS)) {
+  for (const [key, d] of Object.entries(DSP_CATS)) {
     const el = document.createElement("div");
     el.className = "chip on";
-    el.textContent = name;
+    el.textContent = d.label;
     el.style.background = d.color;
     el.style.borderColor = d.color;
     el.onclick = () => {
-      if (dsp.cats.has(name)) {
-        dsp.cats.delete(name);
+      if (dsp.cats.has(key)) {
+        dsp.cats.delete(key);
         el.classList.remove("on");
         el.style.background = "var(--ctl-bg)";
         el.style.borderColor = "var(--ctl-border)";
       } else {
-        dsp.cats.add(name);
+        dsp.cats.add(key);
         el.classList.add("on");
         el.style.background = d.color;
         el.style.borderColor = d.color;
