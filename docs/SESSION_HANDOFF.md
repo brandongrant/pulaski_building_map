@@ -3,6 +3,69 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-13 — dispatch geocoding fix + all-time + all categories (branch off MAIN)
+
+User reported (with a screenshot) that the dispatch heatmap had a phantom
+hotspot: a "Theft" call showed "16105 Chenal Pky" but its marker sat ~1.2 km
+away in a cul-de-sac. Root cause: the CAD feed spells street types differently
+from the PAgis index ("CHENAL PKY" vs "CHENAL PKWY"), so the exact lookup
+missed and the geocoder fell back to the **street centroid** — averaging every
+point on the street to one coordinate. Every un-matched call on a street piled
+onto that one wrong point. Measured: 84% exact, but 5% (139 rows) were these
+centroid guesses.
+
+**This branch is based on `origin/main` (the LIVE single-file `web/app.js`),
+NOT the module stack** — so the fix ships to the live site in one PR without
+waiting on PR #8. The same web changes must later be ported to
+`web/js/overlays/dispatch.js` on the module branch (or #8 rebased after this
+merges). Pipeline files are branch-independent.
+
+Fix (all verified):
+- `pipeline/addr_norm.py` (new) — folds USPS street-type + compass-direction
+  synonyms to the PAgis spelling. Shared by the index builder and the geocoder.
+- `pipeline/build_addr_index.py` — rewritten to STREAM PAgis layer 20 (230k
+  address points, no raw file kept) and store per-street house-number lists as
+  `[lon, lat, num]` (backward compatible: old code reads [0]/[1] and averages;
+  new code uses [2] to interpolate). Rebuilt index = 4.5 MB, 377k addr keys.
+  Run `python pipeline/build_addr_index.py`; commit the gz to the `data` branch.
+- `pipeline/dispatch_collect.py` — new `Geocoder`: canonicalize → exact →
+  house-number interpolation → intersection → **failed (no centroid)**. Quality
+  is exact_address / interpolated / intersection / failed. On every run it
+  **re-geocodes the whole archive from the stored `loc` string** and rewrites
+  outputs, so the fix re-scores history (and future geocoder gains do too).
+  Result on the current archive: the 16105 Chenal call resolves EXACT; all 139
+  centroid rows moved 85 m–4 km to verified points or dropped; 98% placed, none
+  wrong.
+- Categories expanded 9 → 20 (`CAT_RULES`, ordered; specific/person categories
+  beat generic "disturbance"). `all.geojson` added (all-time points).
+  `stats.json` gains geocode_quality + by_category.
+- `web/app.js` DSP overlay: `DSP_CATS` re-keyed to the 20 category CODES the
+  collector emits in `c` (was label-keyed); added the "all-time points" mode
+  (`dsp-all`, lazy-loaded — `all.geojson` grows); popup shows the raw call
+  type + category label + geocode quality + a sensitive-type note.
+- **Privacy policy CHANGED by explicit user choice** (I asked; they picked
+  "pin every category"): sensitive call types (medical/welfare/death/sex/
+  domestic/juvenile) are now shown as precise indefinite points. `SENSITIVE_RE`
+  and the `sens` flag REMAIN but are now informational (drive the popup note),
+  not a suppressor. Updated `jurisdictions/ar/pulaski.yml` display_policy,
+  index.html fineprint, README, and `tests/test_dispatch_sensitivity.py`
+  docstring so this is a deliberate documented reversal, not a silent one.
+- Tests: `tests/test_geocode.py` (new) pins suffix folding, interpolation, and
+  that unknown/street-only addresses return `failed` (no centroid regression).
+  54 pass; the 1 failing `test_provenance` is a **pre-existing Windows CRLF**
+  byte-count flake (fails with my changes stashed too), not from this work.
+
+DEPLOY ORDERING (important — output format changed): the new outputs key `c`
+by category CODE and grid cells by code; the OLD live app.js expects labels/
+short-keys. So do NOT push new-format outputs to the `data` branch until the
+new app.js is live. The new INDEX is backward compatible and was pushed to the
+`data` branch already (safe for the old collector). After merging this PR:
+either wait ≤15 min for the cron or run the "Collect dispatch + deeds data"
+workflow via workflow_dispatch so the data-branch outputs regenerate in the new
+format. Map rendering itself is unverified here (hidden preview tab can't run
+MapLibre) — ask the user to eyeball the overlay live: the Chenal hotspot should
+be gone, 20 category chips, and an "all-time points" mode.
+
 ## 2026-07-10/11 — Foundation release shipped (READ THIS FIRST; supersedes older facts below)
 
 A remote Claude Code session (claude.ai/code) executed roadmap Phase 0 end to
