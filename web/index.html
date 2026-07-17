@@ -109,13 +109,22 @@
         <label class="chk"><input type="radio" name="dspMode" value="7d"> 7-day heat</label>
         <label class="chk"><input type="radio" name="dspMode" value="30d"> 30-day grid</label>
         <label class="chk"><input type="radio" name="dspMode" value="all"> all-time points</label>
+        <label class="chk"><input type="radio" name="dspMode" value="crime"> reported crimes ’17–’25</label>
+      </div>
+      <div id="dspCrimeYr" hidden>
+        <label class="lbl">Crime years <span id="crimeYrShow"></span></label>
+        <div class="row range2">
+          <input type="range" id="crimeLo" min="2017" max="2025" value="2017" step="1">
+          <input type="range" id="crimeHi" min="2017" max="2025" value="2025" step="1">
+        </div>
       </div>
       <div id="dspCats"></div>
-      <div class="fineprint">Calls-for-service published by the City of Little Rock,
-        delayed 30 min–8 hr. A dispatch is not a confirmed crime, report, or arrest.
-        Each call is placed only at its verified address (exact or house-number
-        interpolated); un-verifiable ones are counted but not pinned. All call
-        types are shown, including medical/welfare. Unofficial.</div>
+      <div class="fineprint">Recent modes are City of Little Rock calls-for-service
+        (delayed 30 min–8 hr, placed only at a verified address; all call types
+        shown). The <b>reported crimes ’17–’25</b> mode adds LRPD's public
+        index-offense statistics (violent + property, ~115k incidents) at LRPD's
+        own coordinates — suppressed-location incidents (e.g. sexual offenses) are
+        omitted. A dispatch or reported offense is not a conviction. Unofficial.</div>
     </div>
   </section>
 
@@ -145,24 +154,6 @@
       <div class="fineprint">Pulaski County deed index documents, matched to map
         locations from public legal/address records. Point locations are approximate;
         overlay popups omit party names. Unofficial.</div>
-    </div>
-  </section>
-
-  <section id="crimeSec">
-    <label class="lbl">Reported crimes (LRPD) <span id="crimeMeta"></span></label>
-    <label class="chk"><input type="checkbox" id="crimeOn"> show reported-crime overlay</label>
-    <div id="crimeControls" hidden>
-      <label class="lbl">Reported <span id="crimeYrShow"></span></label>
-      <div class="row range2">
-        <input type="range" id="crimeLo" min="2017" max="2025" value="2017" step="1">
-        <input type="range" id="crimeHi" min="2017" max="2025" value="2025" step="1">
-      </div>
-      <div id="crimeCats"></div>
-      <div class="fineprint">Little Rock Police Department reported index offenses
-        (violent + property), 2017 – Feb 2025, as published in LRPD's public
-        statistics export. Points use LRPD's own coordinates; incidents LRPD
-        suppresses the location of (e.g. sexual offenses) are omitted. A reported
-        offense is not a conviction. Unofficial.</div>
     </div>
   </section>
 

@@ -11,8 +11,27 @@ LATITUDE/LONGITUDE, so no geocoding — 114,742 plot; ~6,073 are dropped because
 LRPD suppresses their coordinates (notably ALL 1,543 RAPE rows — victim
 privacy; respected, not worked around). 14 offense descriptions → 9 categories.
 
-Built as a SEPARATE overlay (reported offenses ≠ calls-for-service, and 45× the
-live dispatch volume — merging would swamp it):
+CORRECTION (same day): first shipped as a separate "Reported crimes" overlay
+(PR #13, went live). User then said it "was supposed to be added INTO the
+dispatch overlay, not a separate new crime overlay." Reworked (PR #14,
+`claude/crime-into-dispatch`) so it's a MODE of the dispatch overlay:
+- build_crime.py now maps each offense to a DISPATCH category key
+  (assault/robbery/sex/burglary/theft — RAPE→sex but all rape rows are
+  suppressed, so plotted crime is assault/theft/burglary/robbery). crimes.json
+  `off_cat` holds dispatch keys.
+- app.js: removed the standalone `CRIME_CATS`/crime section; the crime code is
+  now driven by the dispatch overlay. New dispatch mode radio `value="crime"`
+  ("reported crimes ’17–’25"); dspRefresh shows a clustered crime layer
+  (crime-cluster/crime-point, colored by `dspCircleColor` = dispatch cats),
+  filtered by the SHARED dsp.cats chips + a crime-year slider (`dspCrimeYr`,
+  shown only in crime mode). crimeRun rebuilds the clustered source on chip/year
+  change. index.html `crimeSec` deleted; the year slider moved into dspControls.
+- Verified headlessly: no separate section, 20 dispatch chips, mode list
+  includes "crime", data path + integrated filter reproduce pipeline by_cat
+  (theft 73,688 / assault 22,834 / …). The crime-mode branch is gated behind
+  `dsp.loaded` (needs the map), so the hidden preview tab can't exercise the
+  live render — ask the user to eyeball it. Pushed live via #14 merge.
+Original build details (still accurate for the pipeline):
 - `pipeline/build_crime.py` (`--csv <path>`, default `data/raw/lrpd_crime.csv`)
   → `web/data/crime/crimes.json` — a compact INTERNED FLAT TABLE
   `crime:[[lon,lat,offIdx,yyyymmdd,statusIdx,weaponIdx],…]` + parallel `off_cat`

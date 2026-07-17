@@ -29,23 +29,27 @@ from datetime import date, datetime
 
 from common.settings import RAW_DIR, WEB_DATA_DIR
 
-# offense description -> category key. Categories + colors are mirrored in the
-# web overlay (CRIME_CATS in app.js); keep the keys in sync.
+# Offense description -> DISPATCH category key (DSP_CATS / CAT_RULES in
+# dispatch_collect.py + app.js). The crime points fold INTO the dispatch overlay
+# and are filtered by the same category chips, so these map onto the dispatch
+# taxonomy: the 14 index offenses are all violent or property crime, which land
+# in assault / robbery / sex / burglary / theft. The specific offense
+# description is preserved for the popup.
 OFFENSE_CAT = {
-    "MURDER & NONNEGLIGENT MANSLAUGHTER": "homicide",
+    "MURDER & NONNEGLIGENT MANSLAUGHTER": "assault",  # dispatch assault covers homicide/murder
     "AGGRAVATED ASSAULT": "assault",
     "ROBBERY": "robbery",
-    "RAPE": "rape",
+    "PURSE-SNATCHING": "robbery",
+    "RAPE": "sex",
     "BURGLARY/B&E": "burglary",
-    "MOTOR VEHICLE THEFT": "mv_theft",
-    "THEFT FROM MOTOR VEHICLE": "theft_from_vehicle",
-    "THEFT OF MOTOR VEHICLE PARTS": "theft_from_vehicle",
-    "SHOPLIFTING": "shoplifting",
-    "ALL OTHER LARCENY": "larceny",
-    "THEFT FROM BUILDING": "larceny",
-    "POCKET-PICKING": "larceny",
-    "THEFT FROM COIN-OPERATED MACHINE": "larceny",
-    "PURSE-SNATCHING": "larceny",
+    "MOTOR VEHICLE THEFT": "theft",
+    "THEFT FROM MOTOR VEHICLE": "theft",
+    "THEFT OF MOTOR VEHICLE PARTS": "theft",
+    "SHOPLIFTING": "theft",
+    "ALL OTHER LARCENY": "theft",
+    "THEFT FROM BUILDING": "theft",
+    "POCKET-PICKING": "theft",
+    "THEFT FROM COIN-OPERATED MACHINE": "theft",
 }
 
 
