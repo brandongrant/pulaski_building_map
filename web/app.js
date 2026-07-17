@@ -959,6 +959,23 @@ function wireHover() {
         return;
       }
     }
+    // reported-crime clusters/points sit above the base overlays
+    if (map.getLayer("crime-point")) {
+      const cf = map.queryRenderedFeatures(e.point, { layers: ["crime-cluster", "crime-point"] });
+      if (cf.length) {
+        if (popup) { popup.remove(); popup = null; }
+        const f = cf[0];
+        if (f.layer.id === "crime-cluster") {
+          map.getSource("crime-src").getClusterExpansionZoom(f.properties.cluster_id, (err, z) => {
+            if (!err) map.easeTo({ center: f.geometry.coordinates, zoom: Math.min(z, 18), duration: 600 });
+          });
+        } else {
+          popup = new maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
+            .setLngLat(f.geometry.coordinates).setHTML(crimePopupHTML(f.properties)).addTo(map);
+        }
+        return;
+      }
+    }
     // overlay features sit above buildings — they win the click
     const ovLayers = ["hit-ring", "pm-pts", "deed-pts", "dsp-pts", "dsp-all", "dsp-grid"].filter((l) => map.getLayer(l));
     if (ovLayers.length) {
@@ -1185,6 +1202,7 @@ function initUI() {
   initPermits();
   initVehicleSearch();
   initDeeds();
+  initCrime();
   renderLegend();
 }
 
@@ -1945,6 +1963,184 @@ function initVehicleSearch() {
   ids.forEach((id) => $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") vehRun(); }));
   $("vehSearch").onclick = vehRun;
   $("vehClear").onclick = vehClear;
+}
+
+/* ------------------------------------------------- reported crimes overlay */
+// Historical LRPD index-crime incidents (2017-2025) from a bulk statistics CSV,
+// built by pipeline/build_crime.py into a compact interned flat table the
+// browser filters client-side and renders as a clustered point layer (same
+// approach as vehicle search — ~115k points stay ~1 MB on the wire). Distinct
+// from the live dispatch overlay: these are reported offenses, not calls.
+const CRIME_BASE = "data/crime";
+const CRIME_CATS = {   // keys mirror OFFENSE_CAT in pipeline/build_crime.py
+  homicide:           { label: "Homicide", color: "#ff2d2d" },
+  assault:            { label: "Aggravated assault", color: "#ff6a4d" },
+  robbery:            { label: "Robbery", color: "#e0568f" },
+  rape:               { label: "Rape", color: "#c94fae" },
+  burglary:           { label: "Burglary / B&E", color: "#ef8f4a" },
+  mv_theft:           { label: "Vehicle theft", color: "#6fa8dc" },
+  theft_from_vehicle: { label: "Theft from vehicle", color: "#4aa8ff" },
+  shoplifting:        { label: "Shoplifting", color: "#f3c14a" },
+  larceny:            { label: "Other larceny", color: "#90be6d" },
+};
+const CRIME_STATUS = { OP: "Open", AR: "Cleared by arrest", EX: "Cleared (exceptional)",
+                       AJ: "Cleared (juvenile)", IN: "Inactive", UP: "Unfounded", VD: "Void" };
+const crime = { on: false, idx: null, loading: null, added: false,
+                cats: new Set(Object.keys(CRIME_CATS)), lo: 2017, hi: 2025, offCat: null };
+
+function crimeColorExpr() {
+  const m = ["match", ["get", "c"]];
+  for (const [k, d] of Object.entries(CRIME_CATS)) m.push(k, d.color);
+  m.push("#cfcfcf");
+  return m;
+}
+
+function crimeDate(n) {
+  const s = String(n);
+  return s.length === 8 ? `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}` : s;
+}
+
+function crimePopupHTML(p) {
+  const cat = CRIME_CATS[p.c];
+  const st = CRIME_STATUS[p.st] || p.st || "";
+  return `<div class="pp-addr">${esc(p.off || (cat ? cat.label : "Incident"))}</div><div class="pp-grid">` +
+    `<span class="k">Date</span><span>${crimeDate(p.d)}</span>` +
+    (st ? `<span class="k">Status</span><span>${esc(st)}</span>` : "") +
+    (p.w ? `<span class="k">Weapon</span><span>${esc(titleCase(p.w))}</span>` : "") +
+    `</div><div class="tt-veh">LRPD reported offense · location as published by LRPD · unofficial</div>`;
+}
+
+function crimeLoad() {
+  if (crime.idx) return Promise.resolve(crime.idx);
+  if (crime.loading) return crime.loading;
+  $("crimeMeta").textContent = "· loading…";
+  crime.loading = fetch(`${CRIME_BASE}/crimes.json`)
+    .then((r) => { if (!r.ok) throw new Error("crimes.json unavailable"); return r.json(); })
+    .then((d) => {
+      crime.idx = d;
+      crime.offCat = d.off_cat;                 // offenseIdx -> category key
+      crime.lo = d.year_min; crime.hi = d.year_max;
+      const lo = $("crimeLo"), hi = $("crimeHi");
+      lo.min = hi.min = d.year_min; lo.max = hi.max = d.year_max;
+      lo.value = d.year_min; hi.value = d.year_max;
+      $("crimeYrShow").textContent = `${d.year_min} – ${d.year_max}`;
+      $("crimeMeta").textContent = `· ${fmt.format(d.count)} incidents ${d.year_min}–${d.year_max}`;
+      return d;
+    })
+    .catch((e) => { crime.loading = null; $("crimeMeta").textContent = "· unavailable"; throw e; });
+  return crime.loading;
+}
+
+function crimeEnsureLayers() {
+  if (map.getSource("crime-src")) return;
+  map.addSource("crime-src", {
+    type: "geojson", data: { type: "FeatureCollection", features: [] },
+    cluster: true, clusterRadius: 46, clusterMaxZoom: 14,
+  });
+  map.addLayer({
+    id: "crime-cluster", type: "circle", source: "crime-src", filter: ["has", "point_count"],
+    layout: { visibility: "none" },
+    paint: {
+      "circle-color": ["step", ["get", "point_count"], "#5679b0", 50, "#f3a13b", 250, "#e0564d", 1000, "#ff2d2d"],
+      "circle-opacity": 0.8,
+      "circle-radius": ["interpolate", ["linear"], ["get", "point_count"], 2, 11, 100, 18, 2000, 30],
+      "circle-stroke-color": "#0a0e17", "circle-stroke-width": 1,
+    },
+  });
+  map.addLayer({
+    id: "crime-point", type: "circle", source: "crime-src", filter: ["!", ["has", "point_count"]],
+    layout: { visibility: "none" },
+    paint: {
+      "circle-color": crimeColorExpr(),
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2, 13, 4, 16, 6.5],
+      "circle-stroke-color": "#000000", "circle-stroke-width": 0.5, "circle-opacity": 0.9,
+    },
+  });
+  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
+  crime.added = true;
+}
+
+function crimeSetVisible(on) {
+  for (const l of ["crime-cluster", "crime-point"]) {
+    if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", on ? "visible" : "none");
+  }
+}
+
+function crimeRun() {
+  if (!crime.idx) return;
+  crimeEnsureLayers();
+  const d = crime.idx;
+  const cats = crime.cats, lo = crime.lo, hi = crime.hi;
+  const all = cats.size === Object.keys(CRIME_CATS).length;
+  const feats = [];
+  for (let i = 0; i < d.crime.length; i++) {
+    const r = d.crime[i];
+    const yr = Math.floor(r[3] / 10000);
+    if (yr < lo || yr > hi) continue;
+    const cat = crime.offCat[r[2]];
+    if (!all && !cats.has(cat)) continue;
+    feats.push({
+      type: "Feature",
+      geometry: { type: "Point", coordinates: [r[0], r[1]] },
+      properties: { c: cat, off: titleCase(d.offenses[r[2]] || ""), d: r[3],
+                    st: d.statuses[r[4]] || "", w: d.weapons[r[5]] || "" },
+    });
+  }
+  map.getSource("crime-src").setData({ type: "FeatureCollection", features: feats });
+  crimeSetVisible(crime.on);
+  for (const l of ["crime-cluster", "crime-point"]) if (map.getLayer(l)) map.moveLayer(l);
+  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
+  $("crimeMeta").textContent = `· ${fmt.format(feats.length)} of ${fmt.format(d.count)} shown`;
+}
+
+function initCrime() {
+  const chips = $("crimeCats");
+  for (const [key, d] of Object.entries(CRIME_CATS)) {
+    const el = document.createElement("div");
+    el.className = "chip on";
+    el.textContent = d.label;
+    el.style.background = d.color;
+    el.style.borderColor = d.color;
+    el.onclick = () => {
+      if (crime.cats.has(key)) {
+        crime.cats.delete(key);
+        el.classList.remove("on");
+        el.style.background = "var(--ctl-bg)";
+        el.style.borderColor = "var(--ctl-border)";
+      } else {
+        crime.cats.add(key);
+        el.classList.add("on");
+        el.style.background = d.color;
+        el.style.borderColor = d.color;
+      }
+      if (crime.on) crimeRun();
+    };
+    chips.appendChild(el);
+  }
+  const lo = $("crimeLo"), hi = $("crimeHi");
+  let t = null;
+  const onYr = (ev) => {
+    let a = Number(lo.value), b = Number(hi.value);
+    if (a > b) { if (ev.target === lo) b = a; else a = b; lo.value = a; hi.value = b; }
+    crime.lo = a; crime.hi = b;
+    $("crimeYrShow").textContent = `${a} – ${b}`;
+    if (crime.on) { clearTimeout(t); t = setTimeout(crimeRun, 200); }  // debounce heavy rebuild
+  };
+  lo.oninput = onYr;
+  hi.oninput = onYr;
+  $("crimeOn").onchange = async () => {
+    crime.on = $("crimeOn").checked;
+    $("crimeControls").hidden = !crime.on;
+    if (crime.on) {
+      try { await crimeLoad(); crimeRun(); }
+      catch (e) { /* meta shows "unavailable" */ }
+    } else {
+      crimeSetVisible(false);
+    }
+  };
+  fetch(`${CRIME_BASE}/crimes_meta.json`).then((r) => (r.ok ? r.json() : null))
+    .then((m) => { if (m) $("crimeMeta").textContent = `· ${fmt.format(m.count)} incidents ${m.year_min}–${m.year_max}`; })
+    .catch(() => {});
 }
 
 /* re-render legend once map ready (colors already set at layer creation) */

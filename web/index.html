@@ -148,6 +148,24 @@
     </div>
   </section>
 
+  <section id="crimeSec">
+    <label class="lbl">Reported crimes (LRPD) <span id="crimeMeta"></span></label>
+    <label class="chk"><input type="checkbox" id="crimeOn"> show reported-crime overlay</label>
+    <div id="crimeControls" hidden>
+      <label class="lbl">Reported <span id="crimeYrShow"></span></label>
+      <div class="row range2">
+        <input type="range" id="crimeLo" min="2017" max="2025" value="2017" step="1">
+        <input type="range" id="crimeHi" min="2017" max="2025" value="2025" step="1">
+      </div>
+      <div id="crimeCats"></div>
+      <div class="fineprint">Little Rock Police Department reported index offenses
+        (violent + property), 2017 – Feb 2025, as published in LRPD's public
+        statistics export. Points use LRPD's own coordinates; incidents LRPD
+        suppresses the location of (e.g. sexual offenses) are omitted. A reported
+        offense is not a conviction. Unofficial.</div>
+    </div>
+  </section>
+
   <section>
     <label class="lbl" for="basemap">Basemap</label>
     <select id="basemap">
@@ -186,6 +204,10 @@
       <li><b>Owner names</b> — PAgis parcel records (public county records, as
           published by the assessor). The search box finds properties by owner
           name or address; popups link to official deed/assessor/tax lookups.</li>
+      <li><b>Reported crimes</b> — Little Rock Police Department public
+          index-offense statistics (2017–2025), plotted at LRPD's own published
+          coordinates; suppressed-location incidents are omitted. A reported
+          offense is not a conviction.</li>
     </ul>
     <h3>Caveats</h3>
     <ul>

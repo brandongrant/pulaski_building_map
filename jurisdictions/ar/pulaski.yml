@@ -156,3 +156,19 @@ sources:
         - ARM   # medical-record authorizations
       no_document_images: true
       current_owner_detection: labeled_heuristic
+
+  lrpd_reported_crime:
+    name: Little Rock Police Department reported index offenses (2017-YTD)
+    source_owner: City of Little Rock / LRPD
+    entity_grain: reported_offense
+    source_type: bulk_csv          # public statistics export, one-time/periodic
+    coverage_start: 2017
+    refresh: manual_on_new_export  # drop a newer CSV, rerun build_crime.py
+    sensitivity: public_property_event
+    redistribution_reviewed: false
+    connector: pipeline/build_crime.py
+    storage: web/data/crime/crimes.json (committed; served by Pages)
+    display_policy:
+      coordinates: as_published_by_lrpd   # LRPD suppresses some (all rape rows)
+      plot_suppressed: false
+      language: reported offense           # not a conviction
