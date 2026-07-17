@@ -216,6 +216,14 @@ function initMap() {
     customAttribution: "Footprints © PAgis · Attributes © Pulaski County Assessor",
   }), "bottom-right");
 
+  // phones: touching or panning the map tucks the drawer away, so you don't
+  // have to scroll back up to the close button (desktop panel is unaffected)
+  const autoHidePanel = () => {
+    if (window.matchMedia("(max-width: 640px)").matches && setPanelFn) setPanelFn(true);
+  };
+  map.on("click", autoHidePanel);
+  map.on("dragstart", autoHidePanel);
+
   map.on("load", () => {
     map.addSource("bld", { type: "vector", url: "pmtiles://" + pmUrl, promoteId: undefined });
 
