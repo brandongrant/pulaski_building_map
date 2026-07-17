@@ -959,23 +959,6 @@ function wireHover() {
         return;
       }
     }
-    // reported-crime clusters/points sit above the base overlays
-    if (map.getLayer("crime-point")) {
-      const cf = map.queryRenderedFeatures(e.point, { layers: ["crime-cluster", "crime-point"] });
-      if (cf.length) {
-        if (popup) { popup.remove(); popup = null; }
-        const f = cf[0];
-        if (f.layer.id === "crime-cluster") {
-          map.getSource("crime-src").getClusterExpansionZoom(f.properties.cluster_id, (err, z) => {
-            if (!err) map.easeTo({ center: f.geometry.coordinates, zoom: Math.min(z, 18), duration: 600 });
-          });
-        } else {
-          popup = new maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
-            .setLngLat(f.geometry.coordinates).setHTML(crimePopupHTML(f.properties)).addTo(map);
-        }
-        return;
-      }
-    }
     // overlay features sit above buildings — they win the click
     const ovLayers = ["hit-ring", "pm-pts", "deed-pts", "dsp-pts", "dsp-all", "dsp-grid"].filter((l) => map.getLayer(l));
     if (ovLayers.length) {
@@ -1013,13 +996,25 @@ function wireHover() {
             `<div class="tt-veh">Pulaski County deed index match · party names omitted · unofficial</div>`;
         } else if (df[0].layer.id === "dsp-pts" || df[0].layer.id === "dsp-all") {
           const cat = DSP_CATS[p.c];
-          html = `<div class="pp-addr">${esc(p.t || "Dispatch")}</div><div class="pp-grid">` +
-            `<span class="k">Where</span><span>${esc(p.loc || "")}</span>` +
-            `<span class="k">When</span><span>${new Date(p.ts).toLocaleString()}</span>` +
-            `<span class="k">Category</span><span>${esc(cat ? cat.label : p.c)}</span>` +
-            (p.gq && p.gq !== "exact_address" ? `<span class="k">Location</span><span>${p.gq === "interpolated" ? "interpolated to house number" : esc(p.gq)}</span>` : "") +
-            `</div><div class="tt-veh">Call-for-service record, delayed 30 min–8 hr. ` +
-            `Not a confirmed crime or report${p.sens ? "; sensitive call type" : ""}.</div>`;
+          if (p.ts) {                                   // live calls-for-service record
+            html = `<div class="pp-addr">${esc(p.t || "Dispatch")}</div><div class="pp-grid">` +
+              `<span class="k">Where</span><span>${esc(p.loc || "")}</span>` +
+              `<span class="k">When</span><span>${new Date(p.ts).toLocaleString()}</span>` +
+              `<span class="k">Category</span><span>${esc(cat ? cat.label : p.c)}</span>` +
+              (p.gq && p.gq !== "exact_address" ? `<span class="k">Location</span><span>${p.gq === "interpolated" ? "interpolated to house number" : esc(p.gq)}</span>` : "") +
+              `</div><div class="tt-veh">Call-for-service record, delayed 30 min–8 hr. ` +
+              `Not a confirmed crime or report${p.sens ? "; sensitive call type" : ""}.</div>`;
+          } else {                                      // 2017–2025 LRPD reported offense
+            const st = CRIME_STATUS[p.st] || p.st || "";
+            html = `<div class="pp-addr">${esc(p.t || "Reported offense")}</div><div class="pp-grid">` +
+              (p.loc ? `<span class="k">Where</span><span>${esc(p.loc)}</span>` : "") +
+              `<span class="k">When</span><span>${crimeDate(p.d)}</span>` +
+              `<span class="k">Category</span><span>${esc(cat ? cat.label : p.c)}</span>` +
+              (st ? `<span class="k">Status</span><span>${esc(st)}</span>` : "") +
+              (p.w ? `<span class="k">Weapon</span><span>${esc(titleCase(p.w))}</span>` : "") +
+              `</div><div class="tt-veh">LRPD reported offense · location as published by LRPD · ` +
+              `not a conviction · unofficial</div>`;
+          }
         } else {
           html = `<div class="pp-addr">${p.n} dispatches · last 30 days</div>` +
             `<div class="tt-veh">${p.top || ""}<br>≈500 ft grid cell</div>`;
@@ -1232,9 +1227,13 @@ const DSP_CATS = {
   assist:      { label: "Assist / admin", color: "#8b93a5" },
   other:       { label: "Other", color: "#cfcfcf" },
 };
-// modes: 24h points · 7d heat · 30d grid · all-time points (indefinite)
+// modes: 24h points · 7d heat · 30d grid · all-time points (live archive +
+// the 2017–2025 LRPD reported offenses, merged into one layer)
+const DSP_YR_MIN = 2017;
+const DSP_YR_MAX = new Date().getFullYear();
 const dsp = { on: false, mode: "24h", cats: new Set(Object.keys(DSP_CATS)),
-              loaded: false, allAdded: false };
+              loaded: false, allAdded: false, allLoading: null,
+              yrLo: DSP_YR_MIN, yrHi: DSP_YR_MAX };
 
 function dspCircleColor() {
   const m = ["match", ["get", "c"]];
@@ -1303,23 +1302,69 @@ async function dspLoad() {
   return true;
 }
 
-// The all-time layer can be large and grows over time, so it's only fetched
-// the first time the user selects the all-time mode.
+// All-time = the live dispatch archive PLUS the 2017–2025 LRPD reported
+// offenses, merged into ONE layer so the historical points behave exactly like
+// the newer dispatch records (same chips, same paint, same click handling).
+// Both datasets are sizable and grow, so they're fetched only the first time
+// the mode is selected; every feature gets a `yr` property for the year filter.
 function dspEnsureAll() {
-  if (dsp.allAdded) return;
-  map.addSource("dspAll", { type: "geojson", data: DSP_BASE + "/all.geojson" });
-  map.addLayer({
-    id: "dsp-all", type: "circle", source: "dspAll", layout: { visibility: "none" },
-    paint: dspPointPaint(),
-  });
-  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
-  dsp.allAdded = true;
+  if (dsp.allAdded) return Promise.resolve(true);
+  if (dsp.allLoading) return dsp.allLoading;
+  $("dspSince").textContent = "· loading history…";
+  dsp.allLoading = Promise.all([
+    fetch(DSP_BASE + "/all.geojson", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    crimeLoad().catch(() => null),
+  ]).then(([live, cr]) => {
+    const feats = [];
+    for (const f of (live && live.features) || []) {
+      f.properties.yr = Number(String(f.properties.ts || "").slice(0, 4)) || 0;
+      feats.push(f);
+    }
+    if (cr) {
+      for (let i = 0; i < cr.crime.length; i++) {
+        const r = cr.crime[i];
+        feats.push({
+          type: "Feature",
+          geometry: { type: "Point", coordinates: [r[0], r[1]] },
+          properties: { t: titleCase(cr.offenses[r[2]] || ""), c: crime.offCat[r[2]],
+                        d: r[3], yr: Math.floor(r[3] / 10000),
+                        loc: titleCase(cr.locs[r[6]] || ""),
+                        st: cr.statuses[r[4]] || "", w: cr.weapons[r[5]] || "" },
+        });
+      }
+    }
+    map.addSource("dspAll", { type: "geojson",
+                              data: { type: "FeatureCollection", features: feats } });
+    map.addLayer({
+      id: "dsp-all", type: "circle", source: "dspAll", layout: { visibility: "none" },
+      paint: dspPointPaint(),
+    });
+    if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
+    dsp.allAdded = true;
+    if (cr) dsp.statsLine = (dsp.statsLine || "") + ` + ${fmt.format(cr.count)} offenses ’17–’25`;
+    dspStatsLine();
+    return true;
+  }).catch(() => { dsp.allLoading = null; dspStatsLine(); return false; });
+  return dsp.allLoading;
+}
+
+function dspAllFilter() {
+  const f = ["all"];
+  const cf = dspFilter();
+  if (cf) f.push(cf);
+  if (dsp.yrLo > DSP_YR_MIN || dsp.yrHi < DSP_YR_MAX) {
+    f.push([">=", ["get", "yr"], dsp.yrLo], ["<=", ["get", "yr"], dsp.yrHi]);
+  }
+  return f.length > 1 ? f : null;
 }
 
 function dspRefresh() {
   if (!dsp.loaded) return;
-  if (dsp.on && dsp.mode === "all") dspEnsureAll();
-  const crimeMode = dsp.on && dsp.mode === "crime";
+  if (dsp.on && dsp.mode === "all" && !dsp.allAdded) {
+    // first selection: fetch + merge, then re-apply visibility/filters
+    dspEnsureAll().then((ok) => { if (ok) dspRefresh(); });
+  }
   const vis = {
     "dsp-pts": dsp.on && dsp.mode === "24h",
     "dsp-heat": dsp.on && dsp.mode === "7d",
@@ -1332,13 +1377,11 @@ function dspRefresh() {
   const f = dspFilter();
   map.setFilter("dsp-pts", f);
   map.setFilter("dsp-heat", f);
-  if (map.getLayer("dsp-all")) map.setFilter("dsp-all", f);
+  if (map.getLayer("dsp-all")) map.setFilter("dsp-all", dspAllFilter());
   map.setPaintProperty("dsp-grid", "fill-color", dspGridColor());
-  // historical reported crimes (2017-2025): a dispatch mode, shared category chips
-  const yrCtl = $("dspCrimeYr");
-  if (yrCtl) yrCtl.hidden = !crimeMode;
-  if (crimeMode) crimeLoad().then(crimeRun).catch(() => {});
-  else crimeSetVisible(false);
+  // the year-range control only applies to the all-time layer
+  const yrCtl = $("dspYears");
+  if (yrCtl) yrCtl.hidden = dsp.mode !== "all";
 }
 
 function initDispatch() {
@@ -1374,13 +1417,39 @@ function initDispatch() {
   document.querySelectorAll('input[name="dspMode"]').forEach((r) => {
     r.onchange = () => { dsp.mode = r.value; dspRefresh(); };
   });
-  initCrimeControls();
+  initDspYears();
   dspStats().then((s) => {
     if (s && s.collecting_since) {
-      $("dspSince").textContent =
+      dsp.statsLine =
         `· ${fmt.format(s.total_collected)} calls since ${s.collecting_since.slice(0, 10)}`;
+      dspStatsLine();
     }
   });
+}
+
+function dspStatsLine() {
+  if (dsp.statsLine) $("dspSince").textContent = dsp.statsLine;
+}
+
+// all-time year-range sliders (2017 = start of the LRPD offense history)
+function initDspYears() {
+  const lo = $("dspYrLo"), hi = $("dspYrHi");
+  if (!lo || !hi) return;
+  lo.min = hi.min = DSP_YR_MIN;
+  lo.max = hi.max = DSP_YR_MAX;
+  lo.value = dsp.yrLo;
+  hi.value = dsp.yrHi;
+  const show = () => { $("dspYrShow").textContent = `${dsp.yrLo} – ${dsp.yrHi}`; };
+  show();
+  const onYr = (ev) => {
+    let a = Number(lo.value), b = Number(hi.value);
+    if (a > b) { if (ev.target === lo) b = a; else a = b; lo.value = a; hi.value = b; }
+    dsp.yrLo = a; dsp.yrHi = b;
+    show();
+    dspRefresh();
+  };
+  lo.oninput = onYr;
+  hi.oninput = onYr;
 }
 
 /* ------------------------------------------------- permits overlay */
@@ -1971,30 +2040,19 @@ function initVehicleSearch() {
   $("vehClear").onclick = vehClear;
 }
 
-/* -------- 2017–2025 reported crimes — folded into the dispatch overlay ----- */
-// Historical LRPD index offenses (pipeline/build_crime.py) shown as a MODE of
-// the dispatch overlay, not a separate layer: each offense is categorized with
-// the DISPATCH taxonomy (assault/robbery/sex/burglary/theft) so the same
-// category chips filter it, and the ~115k points render as a clustered layer
-// (~1 MB on the wire). The popup keeps the specific offense description.
+/* -------- 2017–2025 reported crimes — merged into the all-time dispatch layer */
+// Historical LRPD index offenses (pipeline/build_crime.py) load as a compact
+// interned flat table (~1.5 MB on the wire) and are merged into the dispatch
+// overlay's all-time source by dspEnsureAll(), where they behave exactly like
+// the newer dispatch records: same category chips, colors, and click handling.
 const CRIME_BASE = "data/crime";
 const CRIME_STATUS = { OP: "Open", AR: "Cleared by arrest", EX: "Cleared (exceptional)",
                        AJ: "Cleared (juvenile)", IN: "Inactive", UP: "Unfounded", VD: "Void" };
-// filtered by the shared dsp.cats chips; only the year range is crime-local
-const crime = { idx: null, loading: null, offCat: null, lo: 2017, hi: 2025 };
+const crime = { idx: null, loading: null, offCat: null };
 
 function crimeDate(n) {
   const s = String(n);
   return s.length === 8 ? `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}` : s;
-}
-
-function crimePopupHTML(p) {
-  const st = CRIME_STATUS[p.st] || p.st || "";
-  return `<div class="pp-addr">${esc(p.off || "Reported offense")}</div><div class="pp-grid">` +
-    `<span class="k">Date</span><span>${crimeDate(p.d)}</span>` +
-    (st ? `<span class="k">Status</span><span>${esc(st)}</span>` : "") +
-    (p.w ? `<span class="k">Weapon</span><span>${esc(titleCase(p.w))}</span>` : "") +
-    `</div><div class="tt-veh">LRPD reported offense 2017–2025 · location as published by LRPD · not a conviction · unofficial</div>`;
 }
 
 function crimeLoad() {
@@ -2005,90 +2063,10 @@ function crimeLoad() {
     .then((d) => {
       crime.idx = d;
       crime.offCat = d.off_cat;                 // offenseIdx -> dispatch category key
-      crime.lo = d.year_min; crime.hi = d.year_max;
-      const lo = $("crimeLo"), hi = $("crimeHi");
-      lo.min = hi.min = d.year_min; lo.max = hi.max = d.year_max;
-      lo.value = d.year_min; hi.value = d.year_max;
-      $("crimeYrShow").textContent = `${d.year_min} – ${d.year_max}`;
       return d;
     })
     .catch((e) => { crime.loading = null; throw e; });
   return crime.loading;
-}
-
-function crimeEnsureLayers() {
-  if (map.getSource("crime-src")) return;
-  map.addSource("crime-src", {
-    type: "geojson", data: { type: "FeatureCollection", features: [] },
-    cluster: true, clusterRadius: 46, clusterMaxZoom: 14,
-  });
-  map.addLayer({
-    id: "crime-cluster", type: "circle", source: "crime-src", filter: ["has", "point_count"],
-    layout: { visibility: "none" },
-    paint: {
-      "circle-color": ["step", ["get", "point_count"], "#5679b0", 50, "#f3a13b", 250, "#e0564d", 1000, "#ff2d2d"],
-      "circle-opacity": 0.8,
-      "circle-radius": ["interpolate", ["linear"], ["get", "point_count"], 2, 11, 100, 18, 2000, 30],
-      "circle-stroke-color": "#0a0e17", "circle-stroke-width": 1,
-    },
-  });
-  map.addLayer({
-    id: "crime-point", type: "circle", source: "crime-src", filter: ["!", ["has", "point_count"]],
-    layout: { visibility: "none" },
-    paint: {
-      "circle-color": dspCircleColor(),   // dispatch category colors — shared taxonomy
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2, 13, 4, 16, 6.5],
-      "circle-stroke-color": "#000000", "circle-stroke-width": 0.5, "circle-opacity": 0.9,
-    },
-  });
-  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
-}
-
-function crimeSetVisible(on) {
-  for (const l of ["crime-cluster", "crime-point"]) {
-    if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", on ? "visible" : "none");
-  }
-}
-
-// rebuild the clustered crime source under the current dispatch chips + years
-function crimeRun() {
-  if (!crime.idx) return;
-  crimeEnsureLayers();
-  const d = crime.idx, cats = dsp.cats, lo = crime.lo, hi = crime.hi;
-  const feats = [];
-  for (let i = 0; i < d.crime.length; i++) {
-    const r = d.crime[i];
-    const yr = Math.floor(r[3] / 10000);
-    if (yr < lo || yr > hi) continue;
-    const cat = crime.offCat[r[2]];
-    if (!cats.has(cat)) continue;
-    feats.push({
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [r[0], r[1]] },
-      properties: { c: cat, off: titleCase(d.offenses[r[2]] || ""), d: r[3],
-                    st: d.statuses[r[4]] || "", w: d.weapons[r[5]] || "" },
-    });
-  }
-  map.getSource("crime-src").setData({ type: "FeatureCollection", features: feats });
-  crimeSetVisible(true);
-  for (const l of ["crime-cluster", "crime-point"]) if (map.getLayer(l)) map.moveLayer(l);
-  if (map.getLayer("hit-ring")) map.moveLayer("hit-ring");
-}
-
-// crime year-range sliders live inside the dispatch controls (crime mode only)
-function initCrimeControls() {
-  const lo = $("crimeLo"), hi = $("crimeHi");
-  if (!lo || !hi) return;
-  let t = null;
-  const onYr = (ev) => {
-    let a = Number(lo.value), b = Number(hi.value);
-    if (a > b) { if (ev.target === lo) b = a; else a = b; lo.value = a; hi.value = b; }
-    crime.lo = a; crime.hi = b;
-    $("crimeYrShow").textContent = `${a} – ${b}`;
-    if (dsp.on && dsp.mode === "crime") { clearTimeout(t); t = setTimeout(crimeRun, 200); }
-  };
-  lo.oninput = onYr;
-  hi.oninput = onYr;
 }
 
 /* re-render legend once map ready (colors already set at layer creation) */

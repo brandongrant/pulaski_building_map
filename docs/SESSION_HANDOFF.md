@@ -3,6 +3,43 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-17 (later) — crime→all-time merge + collapsible panel redesign (PR #15)
+
+Second correction pass on the crime data placement, plus the panel redesign the
+user asked for, on `claude/panel-redesign` off main (post-#14):
+
+**Crime → all-time points.** User: "move the 2017-2025 points into the all-time
+points button. They should act just as the newer dispatch records do." So the
+"reported crimes ’17–’25" MODE from #14 is gone; instead `dspEnsureAll()` now
+fetches BOTH `dispatch/out/all.geojson` (live archive) and `data/crime/
+crimes.json`, converts crime rows to dispatch-shaped features, and builds ONE
+merged source (`dspAll`) — same chips, same colors (`dspPointPaint`), same
+click branch (`dsp-all`). Every merged feature gets a `yr` property; a
+years slider (`dspYears`, 2017→current year, `initDspYears`) shows only in
+all-time mode and filters the combined layer via `dspAllFilter()` (cats AND
+years). Crime features are told apart in the popup by `p.d` (no `p.ts`):
+offense/Where/When/Category/Status/Weapon + "not a conviction" line.
+build_crime.py now also interns INCIDENT_LOCATION (`locs` table, row[6]) so
+crime popups can show a Where like dispatch popups — crimes.json is 5.3 MB /
+1.47 MB gz. Removed: crimeRun/crimeEnsureLayers/crimeSetVisible/
+initCrimeControls/crimePopupHTML/crime-cluster/crime-point/`value="crime"`
+radio/dspCrimeYr. The stats line appends "+ N offenses ’17–’25" after merge.
+NOTE: merged layer is ~117k plain (non-clustered) circles — renders fine
+(the buildings layer is 225k), but the first all-time selection parses ~6 MB
+and takes a couple seconds ("· loading history…" shown in the summary meta).
+
+**Panel redesign.** Whole left menu restructured into native
+`<details class="sec">` accordions (no JS framework): Search stays always
+visible; then Buildings (open by default: color-by/palette/legend/year/types/
+3D/opacity), Police & crime, Permits, Deed activity, Find vehicles
+(= the requested collapsible vehicle search), Map style (basemap+background) —
+all collapsed by default, chevron summaries with right-aligned meta counts
+(`.sum-meta` spans keep ids dspSince/pmMeta/deedMeta/vehMeta so existing JS
+just works). ALL 68 element ids referenced by app.js verified present after
+the restructure. Overlay enable checkboxes are now a uniform "show on map"
+row inside each section. CSS: details.sec/summary/secBody/.ctl block in
+style.css + mobile summary sizing.
+
 ## 2026-07-17 — LRPD reported-crime overlay (bulk CSV, branch off MAIN)
 
 User dropped an LRPD statistics CSV (index/Part-I offenses 2017→Feb 2025,
