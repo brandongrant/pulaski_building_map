@@ -3,6 +3,41 @@
 Written 2026-07-06 (evening). Read this top-to-bottom before touching code;
 it encodes a full day of reverse-engineering you should not repeat.
 
+## 2026-07-17 — LRPD reported-crime overlay (bulk CSV, branch off MAIN)
+
+User dropped an LRPD statistics CSV (index/Part-I offenses 2017→Feb 2025,
+120,815 rows) and asked to add its items as points. It ALREADY has
+LATITUDE/LONGITUDE, so no geocoding — 114,742 plot; ~6,073 are dropped because
+LRPD suppresses their coordinates (notably ALL 1,543 RAPE rows — victim
+privacy; respected, not worked around). 14 offense descriptions → 9 categories.
+
+Built as a SEPARATE overlay (reported offenses ≠ calls-for-service, and 45× the
+live dispatch volume — merging would swamp it):
+- `pipeline/build_crime.py` (`--csv <path>`, default `data/raw/lrpd_crime.csv`)
+  → `web/data/crime/crimes.json` — a compact INTERNED FLAT TABLE
+  `crime:[[lon,lat,offIdx,yyyymmdd,statusIdx,weaponIdx],…]` + parallel `off_cat`
+  (offIdx→category key) + interned offenses/statuses/weapons. 4.1 MB file,
+  **~1 MB gzipped** on the wire (vehicles.json approach, NOT a 12 MB geojson).
+  Plus `crimes_meta.json` (tiny label). Committed to web/data → served by Pages.
+- `web/app.js` `crime` overlay: lazy-loads on toggle, filters the flat table
+  client-side by category chips + a year-range slider, `setData`s a CLUSTERED
+  geojson source (crime-cluster/crime-point) — same pattern as vehicle search.
+  Click handler gains a crime cluster/point branch. `CRIME_CATS` mirrors
+  `OFFENSE_CAT` in build_crime.py (consistency check passed). Popup: offense,
+  date, LRPD clearance status (`CRIME_STATUS` maps the codes I'm confident of),
+  weapon. index.html `crimeSec` + about-panel source line; README + pulaski.yml
+  (`lrpd_reported_crime`) documented.
+- Verified headlessly on serve.py: 9 chips, meta 114,742, sliders 2017-2025,
+  both files fetch 200, console clean, and the client filter reproduces the
+  pipeline's `by_cat` exactly (homicide 418, assault 22,416, year-2020 13,024,
+  burglary-2019-21 5,174). The clustered MAP RENDER is unverified (hidden tab
+  can't run MapLibre) — ask the user to eyeball it.
+- Raw 18 MB CSV lives at the main-checkout root (user placed it there);
+  NOT committed. To refresh: put a newer export at `data/raw/lrpd_crime.csv`,
+  rerun build_crime.py, commit `web/data/crime/`.
+- Branch `claude/lrpd-crime-layer` off origin/main (post-#12). No `data` branch
+  or cron involved — it's a static committed dataset like permits.
+
 ## 2026-07-13 — dispatch geocoding fix + all-time + all categories (branch off MAIN)
 
 User reported (with a screenshot) that the dispatch heatmap had a phantom

@@ -163,6 +163,26 @@ document type, matched address, record date, document number, and match quality
 without grantor/grantee names. The current dataset is a seeded harvest; the
 recurring collector is still a follow-up item.
 
+## Reported-crime overlay
+
+`pipeline/build_crime.py` turns a bulk **LRPD incident-statistics CSV** (index /
+Part-I offenses — violent + property — 2017 to Feb 2025) into a compact, interned
+flat table `web/data/crime/crimes.json` (114,742 points, ~1 MB gzipped on the
+wire — same client-expanded approach as `vehicles.json`, not a heavy GeoJSON).
+The CSV already carries LRPD's own `LATITUDE`/`LONGITUDE`, so no geocoding is
+needed; incidents LRPD suppresses the location of (all RAPE rows, plus a few
+thousand others — ~6k total) are counted but not plotted. The 14 offense
+descriptions collapse to 9 categories.
+
+The map gets a **Reported crimes (LRPD)** overlay: a clustered point layer with
+offense-category chips and a year-range filter, all applied client-side (the
+browser filters the flat table and re-clusters, like vehicle search). Point
+popups show the offense, date, LRPD clearance status, and weapon. This is
+distinct from the live dispatch overlay — these are *reported offenses*, not
+calls for service, and a report is not a conviction. To refresh: drop a newer
+LRPD export at `data/raw/lrpd_crime.csv` (or pass `--csv`), rerun the script,
+commit `web/data/crime/`.
+
 ## Data notes & caveats
 
 - Assessor attributes are **parcel-level**: every structure on a parcel inherits the
