@@ -9,13 +9,14 @@ Columns used: INCIDENT_DATE, OFFENSE_DESCRIPTION, WEAPON_TYPE,
 INCIDENT_LOCATION, LATITUDE, LONGITUDE, Offense Status.
 
 Output (web/data/crime/):
-  crimes.json       compact interned flat table the browser filters + clusters
-                    (same shape idea as vehicles.json — small on the wire):
+  crimes.json       compact interned flat table; the browser merges these rows
+                    into the dispatch overlay's all-time layer (small on the
+                    wire — same shape idea as vehicles.json):
     { generated, count, not_plotted, bbox, year_min, year_max,
       offenses:[desc,...], off_cat:[cat_key,...],   # parallel to offenses
-      statuses:[code,...], weapons:[desc,...],
+      statuses:[code,...], weapons:[desc,...], locs:[address,...],
       by_cat:{...}, by_year:{...},
-      crime:[[lon,lat,offIdx,yyyymmdd,statusIdx,weaponIdx], ...] }
+      crime:[[lon,lat,offIdx,yyyymmdd,statusIdx,weaponIdx,locIdx], ...] }
   crimes_meta.json  tiny summary for the panel label (no big fetch)
 
 Usage:
@@ -81,7 +82,7 @@ def main():
     ap.add_argument("--csv", default=str(RAW_DIR / "lrpd_crime.csv"))
     args = ap.parse_args()
 
-    offenses, statuses, weapons = Intern(), Intern(), Intern()
+    offenses, statuses, weapons, locs = Intern(), Intern(), Intern(), Intern()
     rows = []
     total = not_plotted = 0
     by_cat, by_year = Counter(), Counter()
@@ -113,10 +114,11 @@ def main():
                 unmapped[off] += 1
             status = (row.get("Offense Status") or "").strip().upper()
             weapon = (row.get("WEAPON_TYPE") or "").strip().upper()
+            loc = " ".join((row.get("INCIDENT_LOCATION") or "").upper().split())
 
             rows.append([lon, lat, offenses.idx(off),
                          d.year * 10000 + d.month * 100 + d.day,
-                         statuses.idx(status), weapons.idx(weapon)])
+                         statuses.idx(status), weapons.idx(weapon), locs.idx(loc)])
             by_cat[cat] += 1
             by_year[d.year] += 1
             minlon, maxlon = min(minlon, lon), max(maxlon, lon)
@@ -133,7 +135,7 @@ def main():
         "bbox": [round(minlon, 5), round(minlat, 5), round(maxlon, 5), round(maxlat, 5)],
         "year_min": ymin, "year_max": ymax,
         "offenses": offenses.list, "off_cat": off_cat,
-        "statuses": statuses.list, "weapons": weapons.list,
+        "statuses": statuses.list, "weapons": weapons.list, "locs": locs.list,
         "by_cat": dict(by_cat), "by_year": {str(k): v for k, v in sorted(by_year.items())},
         "crime": rows,
     }

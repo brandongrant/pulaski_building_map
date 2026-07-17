@@ -163,26 +163,26 @@ document type, matched address, record date, document number, and match quality
 without grantor/grantee names. The current dataset is a seeded harvest; the
 recurring collector is still a follow-up item.
 
-## Reported crimes (a dispatch-overlay mode)
+## Reported crimes 2017–2025 (inside all-time points)
 
 `pipeline/build_crime.py` turns a bulk **LRPD incident-statistics CSV** (index /
 Part-I offenses — violent + property — 2017 to Feb 2025) into a compact, interned
-flat table `web/data/crime/crimes.json` (114,742 points, ~1 MB gzipped on the
-wire — same client-expanded approach as `vehicles.json`, not a heavy GeoJSON).
-The CSV already carries LRPD's own `LATITUDE`/`LONGITUDE`, so no geocoding is
-needed; incidents LRPD suppresses the location of (all RAPE rows, plus a few
-thousand others — ~6k total) are counted but not plotted. Each offense is
-categorized with the **dispatch taxonomy** (assault / robbery / sex / burglary /
-theft) so it folds into the dispatch overlay rather than standing alone.
+flat table `web/data/crime/crimes.json` (114,742 points with addresses,
+~1.5 MB gzipped on the wire — same client-expanded approach as `vehicles.json`,
+not a heavy GeoJSON). The CSV already carries LRPD's own
+`LATITUDE`/`LONGITUDE`, so no geocoding is needed; incidents LRPD suppresses
+the location of (all RAPE rows, plus a few thousand others — ~6k total) are
+counted but not plotted. Each offense is categorized with the **dispatch
+taxonomy** (assault / robbery / sex / burglary / theft).
 
-These historical offenses are a **mode of the dispatch overlay** ("reported
-crimes ’17–’25" alongside 24 h / 7-day / 30-day / all-time), not a separate
-layer: selecting it shows the ~115k incidents as a clustered layer filtered by
-the same dispatch category chips plus a crime-year slider (filtered client-side
-and re-clustered, like vehicle search). Point popups show the specific offense,
-date, LRPD clearance status, and weapon. A reported offense is not a conviction.
-To refresh: drop a newer LRPD export at `data/raw/lrpd_crime.csv` (or pass
-`--csv`), rerun the script, commit `web/data/crime/`.
+On the map these historical offenses live **inside the dispatch overlay's
+"all-time points" mode**: the browser merges them with the live
+calls-for-service archive into one layer, so they behave exactly like the newer
+dispatch records — same category chips, same colors, same click popups (offense,
+address, date, LRPD clearance status, weapon), plus a year-range slider
+(2017 → now) that filters the combined layer. A reported offense is not a
+conviction. To refresh: drop a newer LRPD export at `data/raw/lrpd_crime.csv`
+(or pass `--csv`), rerun the script, commit `web/data/crime/`.
 
 ## Data notes & caveats
 

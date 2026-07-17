@@ -30,147 +30,165 @@
     </div>
   </section>
 
-  <section id="vehSec">
-    <label class="lbl">Find vehicles <span id="vehMeta"></span></label>
-    <div class="veh-form">
-      <input type="text" id="vehMake" placeholder="Make - e.g. Toyota" list="vehMakeList" autocomplete="off" spellcheck="false">
-      <datalist id="vehMakeList"></datalist>
-      <input type="text" id="vehModel" placeholder="Model - e.g. Camry" autocomplete="off" spellcheck="false">
-      <div class="row veh-years">
-        <input type="number" id="vehYrLo" placeholder="Year from" inputmode="numeric">
-        <input type="number" id="vehYrHi" placeholder="to" inputmode="numeric">
+  <div id="panelSecs">
+
+  <details class="sec" id="secBuildings" open>
+    <summary>Buildings</summary>
+    <div class="secBody">
+      <div class="ctl">
+        <label class="lbl" for="attr">Color by</label>
+        <select id="attr"></select>
       </div>
-      <div class="row">
-        <button id="vehSearch" class="btn">Search</button>
-        <button id="vehClear" class="btn ghost">Clear</button>
-      </div>
-    </div>
-    <div id="vehResults" hidden></div>
-    <div class="fineprint" id="vehNote">Assessor personal-property records matched to
-      each account's situs address. Up to 6 vehicles are indexed per address, so the
-      busiest apartment/dealer lots are only partially covered. Unofficial.</div>
-  </section>
-
-  <section>
-    <label class="lbl" for="attr">Color by</label>
-    <select id="attr"></select>
-  </section>
-
-  <section id="rampRow">
-    <label class="lbl" for="ramp">Palette</label>
-    <div class="row">
-      <select id="ramp"></select>
-      <label class="chk"><input type="checkbox" id="reverse"> flip</label>
-    </div>
-  </section>
-
-  <section id="legendBox">
-    <canvas id="legendGrad" width="248" height="14"></canvas>
-    <div id="legendLabels"></div>
-    <canvas id="hist" width="248" height="52"></canvas>
-    <div id="catLegend"></div>
-  </section>
-
-  <section>
-    <label class="lbl">Year built filter <span id="yrShow"></span></label>
-    <div class="row range2">
-      <input type="range" id="yrLo" step="1">
-      <input type="range" id="yrHi" step="1">
-    </div>
-    <label class="chk"><input type="checkbox" id="showUnk" checked> include undated buildings</label>
-  </section>
-
-  <section>
-    <label class="lbl">Building types shown</label>
-    <div id="catChips"></div>
-  </section>
-
-  <section class="row wrap">
-    <label class="chk"><input type="checkbox" id="mainOnly"> main buildings only</label>
-    <label class="chk"><input type="checkbox" id="threeD"> 3D height</label>
-  </section>
-
-  <section id="threeDOpts" hidden>
-    <label class="lbl">Height exaggeration ×<span id="hMultV">5</span></label>
-    <input type="range" id="hMult" min="1" max="25" value="5">
-  </section>
-
-  <section>
-    <label class="lbl">Building opacity <span id="opV">100%</span></label>
-    <input type="range" id="opacity" min="10" max="100" value="100">
-  </section>
-
-  <section id="dispatchSec">
-    <label class="lbl">Public dispatch activity <span id="dspSince"></span></label>
-    <label class="chk"><input type="checkbox" id="dspOn"> show dispatch overlay</label>
-    <div id="dspControls" hidden>
-      <div class="row wrap" id="dspModes">
-        <label class="chk"><input type="radio" name="dspMode" value="24h" checked> 24 h points</label>
-        <label class="chk"><input type="radio" name="dspMode" value="7d"> 7-day heat</label>
-        <label class="chk"><input type="radio" name="dspMode" value="30d"> 30-day grid</label>
-        <label class="chk"><input type="radio" name="dspMode" value="all"> all-time points</label>
-        <label class="chk"><input type="radio" name="dspMode" value="crime"> reported crimes ’17–’25</label>
-      </div>
-      <div id="dspCrimeYr" hidden>
-        <label class="lbl">Crime years <span id="crimeYrShow"></span></label>
-        <div class="row range2">
-          <input type="range" id="crimeLo" min="2017" max="2025" value="2017" step="1">
-          <input type="range" id="crimeHi" min="2017" max="2025" value="2025" step="1">
+      <div class="ctl" id="rampRow">
+        <label class="lbl" for="ramp">Palette</label>
+        <div class="row">
+          <select id="ramp"></select>
+          <label class="chk"><input type="checkbox" id="reverse"> flip</label>
         </div>
       </div>
-      <div id="dspCats"></div>
-      <div class="fineprint">Recent modes are City of Little Rock calls-for-service
-        (delayed 30 min–8 hr, placed only at a verified address; all call types
-        shown). The <b>reported crimes ’17–’25</b> mode adds LRPD's public
-        index-offense statistics (violent + property, ~115k incidents) at LRPD's
-        own coordinates — suppressed-location incidents (e.g. sexual offenses) are
-        omitted. A dispatch or reported offense is not a conviction. Unofficial.</div>
-    </div>
-  </section>
-
-  <section id="permitSec">
-    <label class="lbl">Permits & improvements <span id="pmMeta"></span></label>
-    <label class="chk"><input type="checkbox" id="pmOn"> show permit overlay</label>
-    <div id="pmControls" hidden>
-      <label class="lbl">Issued <span id="pmYrShow"></span></label>
-      <div class="row range2">
-        <input type="range" id="pmLo" min="2019" max="2026" value="2019" step="1">
-        <input type="range" id="pmHi" min="2019" max="2026" value="2026" step="1">
+      <div class="ctl" id="legendBox">
+        <canvas id="legendGrad" width="248" height="14"></canvas>
+        <div id="legendLabels"></div>
+        <canvas id="hist" width="248" height="52"></canvas>
+        <div id="catLegend"></div>
       </div>
-      <div id="pmCats"></div>
-      <label class="lbl" style="margin-top:8px">Min declared value: <span id="pmValV">any</span></label>
-      <input type="range" id="pmVal" min="0" max="6" value="0" step="1">
-      <div class="fineprint">City of Little Rock Planning & Development permits,
-        2019 – Apr 2026, matched by address (≈98%). Contractor names omitted.
-        Click a building for its permit timeline. Unofficial.</div>
+      <div class="ctl">
+        <label class="lbl">Year built <span id="yrShow"></span></label>
+        <div class="row range2">
+          <input type="range" id="yrLo" step="1">
+          <input type="range" id="yrHi" step="1">
+        </div>
+        <label class="chk"><input type="checkbox" id="showUnk" checked> include undated buildings</label>
+      </div>
+      <div class="ctl">
+        <label class="lbl">Building types</label>
+        <div id="catChips"></div>
+      </div>
+      <div class="ctl row wrap">
+        <label class="chk"><input type="checkbox" id="mainOnly"> main buildings only</label>
+        <label class="chk"><input type="checkbox" id="threeD"> 3D height</label>
+      </div>
+      <div class="ctl" id="threeDOpts" hidden>
+        <label class="lbl">Height exaggeration ×<span id="hMultV">5</span></label>
+        <input type="range" id="hMult" min="1" max="25" value="5">
+      </div>
+      <div class="ctl">
+        <label class="lbl">Opacity <span id="opV">100%</span></label>
+        <input type="range" id="opacity" min="10" max="100" value="100">
+      </div>
     </div>
-  </section>
+  </details>
 
-  <section id="deedSec">
-    <label class="lbl">Recent deed activity <span id="deedMeta"></span></label>
-    <label class="chk"><input type="checkbox" id="deedOn"> show deed overlay</label>
-    <div id="deedControls" hidden>
-      <div id="deedTypes"></div>
-      <div class="fineprint">Pulaski County deed index documents, matched to map
-        locations from public legal/address records. Point locations are approximate;
-        overlay popups omit party names. Unofficial.</div>
+  <details class="sec" id="dispatchSec">
+    <summary>Police &amp; crime <span class="sum-meta" id="dspSince"></span></summary>
+    <div class="secBody">
+      <label class="chk"><input type="checkbox" id="dspOn"> show on map</label>
+      <div id="dspControls" hidden>
+        <div class="row wrap" id="dspModes">
+          <label class="chk"><input type="radio" name="dspMode" value="24h" checked> 24 h points</label>
+          <label class="chk"><input type="radio" name="dspMode" value="7d"> 7-day heat</label>
+          <label class="chk"><input type="radio" name="dspMode" value="30d"> 30-day grid</label>
+          <label class="chk"><input type="radio" name="dspMode" value="all"> all-time points</label>
+        </div>
+        <div class="ctl" id="dspYears" hidden>
+          <label class="lbl">Years <span id="dspYrShow"></span></label>
+          <div class="row range2">
+            <input type="range" id="dspYrLo" min="2017" max="2026" value="2017" step="1">
+            <input type="range" id="dspYrHi" min="2017" max="2026" value="2026" step="1">
+          </div>
+        </div>
+        <div id="dspCats"></div>
+        <div class="fineprint">Recent modes show City of Little Rock calls-for-service
+          (delayed 30 min–8 hr, placed only at a verified address; all call types
+          shown). <b>All-time points</b> also include LRPD's published index
+          offenses 2017–2025 (~115k, at LRPD's own coordinates; suppressed-location
+          incidents such as sexual offenses are omitted) — they behave exactly like
+          the live records. A call or reported offense is not a conviction.
+          Unofficial.</div>
+      </div>
     </div>
-  </section>
+  </details>
 
-  <section>
-    <label class="lbl" for="basemap">Basemap</label>
-    <select id="basemap">
-      <option value="none" selected>None — pure black</option>
-      <option value="carto-dark">Dark streets (online)</option>
-      <option value="carto-light">Light streets (online)</option>
-      <option value="osm">OpenStreetMap (online)</option>
-    </select>
-  </section>
+  <details class="sec" id="permitSec">
+    <summary>Permits <span class="sum-meta" id="pmMeta"></span></summary>
+    <div class="secBody">
+      <label class="chk"><input type="checkbox" id="pmOn"> show on map</label>
+      <div id="pmControls" hidden>
+        <div class="ctl">
+          <label class="lbl">Issued <span id="pmYrShow"></span></label>
+          <div class="row range2">
+            <input type="range" id="pmLo" min="2019" max="2026" value="2019" step="1">
+            <input type="range" id="pmHi" min="2019" max="2026" value="2026" step="1">
+          </div>
+        </div>
+        <div id="pmCats"></div>
+        <div class="ctl">
+          <label class="lbl">Min declared value: <span id="pmValV">any</span></label>
+          <input type="range" id="pmVal" min="0" max="6" value="0" step="1">
+        </div>
+        <div class="fineprint">City of Little Rock Planning & Development permits,
+          2019 – Apr 2026, matched by address (≈98%). Contractor names omitted.
+          Click a building for its permit timeline. Unofficial.</div>
+      </div>
+    </div>
+  </details>
 
-  <section>
-    <label class="lbl">Background</label>
-    <div id="bgSwatches"></div>
-  </section>
+  <details class="sec" id="deedSec">
+    <summary>Deed activity <span class="sum-meta" id="deedMeta"></span></summary>
+    <div class="secBody">
+      <label class="chk"><input type="checkbox" id="deedOn"> show on map</label>
+      <div id="deedControls" hidden>
+        <div id="deedTypes"></div>
+        <div class="fineprint">Pulaski County deed index documents, matched to map
+          locations from public legal/address records. Point locations are approximate;
+          overlay popups omit party names. Unofficial.</div>
+      </div>
+    </div>
+  </details>
+
+  <details class="sec" id="vehSec">
+    <summary>Find vehicles <span class="sum-meta" id="vehMeta"></span></summary>
+    <div class="secBody">
+      <div class="veh-form">
+        <input type="text" id="vehMake" placeholder="Make - e.g. Toyota" list="vehMakeList" autocomplete="off" spellcheck="false">
+        <datalist id="vehMakeList"></datalist>
+        <input type="text" id="vehModel" placeholder="Model - e.g. Camry" autocomplete="off" spellcheck="false">
+        <div class="row veh-years">
+          <input type="number" id="vehYrLo" placeholder="Year from" inputmode="numeric">
+          <input type="number" id="vehYrHi" placeholder="to" inputmode="numeric">
+        </div>
+        <div class="row">
+          <button id="vehSearch" class="btn">Search</button>
+          <button id="vehClear" class="btn ghost">Clear</button>
+        </div>
+      </div>
+      <div id="vehResults" hidden></div>
+      <div class="fineprint" id="vehNote">Assessor personal-property records matched to
+        each account's situs address. Up to 6 vehicles are indexed per address, so the
+        busiest apartment/dealer lots are only partially covered. Unofficial.</div>
+    </div>
+  </details>
+
+  <details class="sec" id="styleSec">
+    <summary>Map style</summary>
+    <div class="secBody">
+      <div class="ctl">
+        <label class="lbl" for="basemap">Basemap</label>
+        <select id="basemap">
+          <option value="none" selected>None — pure black</option>
+          <option value="carto-dark">Dark streets (online)</option>
+          <option value="carto-light">Light streets (online)</option>
+          <option value="osm">OpenStreetMap (online)</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label class="lbl">Background</label>
+        <div id="bgSwatches"></div>
+      </div>
+    </div>
+  </details>
+
+  </div>
 
   <footer>
     <a href="#" id="aboutLink">About & data sources</a>
