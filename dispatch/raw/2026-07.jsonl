@@ -4161,3 +4161,9 @@
 {"id": "9fe624c66ad702db1966", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "12 WOODCLIFF CIR", "ts": "2026-07-19T12:39:47Z", "sens": 0, "seen": "2026-07-19T14:12:10Z"}
 {"id": "0ecbc27dd3a84cdfc63c", "src": "CLR-CAD", "jur": "Little Rock", "type": "VEHICLE DWOC", "cat": "traffic", "loc": "5601 DREHER LN", "ts": "2026-07-19T12:23:55Z", "sens": 0, "seen": "2026-07-19T14:12:10Z"}
 {"id": "00a1cfe6ff0219b1035f", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "12200 WESTHAVEN DR", "ts": "2026-07-19T12:13:54Z", "sens": 0, "seen": "2026-07-19T14:12:10Z"}
+{"id": "ae0fc77205a14e59d7c7", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "1605 N FILLMORE ST", "ts": "2026-07-19T14:16:50Z", "sens": 0, "seen": "2026-07-19T15:15:59Z"}
+{"id": "b7180fd509570916736a", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "9301 FRAZIER PIKE", "ts": "2026-07-19T14:12:05Z", "sens": 0, "seen": "2026-07-19T15:15:59Z"}
+{"id": "dcd48fec1d2a35432e9e", "src": "CLR-CAD", "jur": "Little Rock", "type": "ANIMAL VICIOUS ANIMAL", "cat": "animal", "loc": "3212 W 13TH ST", "ts": "2026-07-19T13:54:33Z", "sens": 0, "seen": "2026-07-19T15:15:59Z"}
+{"id": "a09cf30aae79dc8bb0dc", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY WITH WEAPON", "cat": "shots", "loc": "507 MIMI LN", "ts": "2026-07-19T13:48:38Z", "sens": 0, "seen": "2026-07-19T15:15:59Z"}
+{"id": "54d3750c66f2fa61bcc1", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "2703 DR MARTIN LUTHER KING DR", "ts": "2026-07-19T13:44:55Z", "sens": 0, "seen": "2026-07-19T15:15:59Z"}
+{"id": "beec496a160d380e2532", "src": "CLR-CAD", "jur": "Little Rock", "type": "FOUND PROPERTY", "cat": "other", "loc": "4111 W 25TH ST", "ts": "2026-07-19T13:42:40Z", "sens": 0, "seen": "2026-07-19T15:15:59Z"}
