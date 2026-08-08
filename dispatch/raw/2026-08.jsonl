@@ -2341,3 +2341,6 @@
 {"id": "3ed63962a5d0ab0f1ad8", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "45 WELLFORD DR", "ts": "2026-08-08T08:47:25Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
 {"id": "798dec8cc2dee0079951", "src": "CLR-CAD", "jur": "Little Rock", "type": "THEFT", "cat": "theft", "loc": "1324 JOHN BARROW RD", "ts": "2026-08-08T08:36:29Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
 {"id": "e3de15d4f9210b935ddc", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "6201 W MARKHAM ST", "ts": "2026-08-08T08:29:19Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
+{"id": "61218bea029ab81382d1", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - SUBJECT DOWN", "cat": "welfare", "loc": "7501 INTERSTATE 30", "ts": "2026-08-08T09:56:24Z", "sens": 1, "seen": "2026-08-08T10:29:50Z"}
+{"id": "1be65d53ac06c13f3e52", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "901 FAIR PARK BLVD", "ts": "2026-08-08T09:42:57Z", "sens": 0, "seen": "2026-08-08T10:29:50Z"}
+{"id": "c3f0edef0340f34e235a", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "10909 MARA LYNN RD", "ts": "2026-08-08T09:31:31Z", "sens": 0, "seen": "2026-08-08T10:29:50Z"}
