@@ -2335,3 +2335,9 @@
 {"id": "09040e9f78b7ef3cfac2", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "UNIVERSITY/FIRST TEE", "ts": "2026-08-08T07:44:58Z", "sens": 0, "seen": "2026-08-08T08:59:09Z"}
 {"id": "3a3e68e012de545435a5", "src": "CLR-CAD", "jur": "Little Rock", "type": "VEHICLE ABANDONED VEHICLE", "cat": "traffic", "loc": "S ARCH ST / W ROOSEVELT RD", "ts": "2026-08-08T07:35:52Z", "sens": 0, "seen": "2026-08-08T08:59:09Z"}
 {"id": "bf1bc898c82808012f41", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "1223 COLLEGE ST", "ts": "2026-08-08T07:33:46Z", "sens": 0, "seen": "2026-08-08T08:59:09Z"}
+{"id": "3105b4244f26174d0472", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "1225 GEYER ST", "ts": "2026-08-08T09:12:42Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
+{"id": "3a5f79b5ca96756daff5", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY", "cat": "assault", "loc": "1 CHILDRENS WAY", "ts": "2026-08-08T08:55:33Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
+{"id": "72cf8ae3e36826023145", "src": "CLR-CAD", "jur": "Little Rock", "type": "DWI", "cat": "traffic", "loc": "3507 COFFER LN", "ts": "2026-08-08T08:52:48Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
+{"id": "3ed63962a5d0ab0f1ad8", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "45 WELLFORD DR", "ts": "2026-08-08T08:47:25Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
+{"id": "798dec8cc2dee0079951", "src": "CLR-CAD", "jur": "Little Rock", "type": "THEFT", "cat": "theft", "loc": "1324 JOHN BARROW RD", "ts": "2026-08-08T08:36:29Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
+{"id": "e3de15d4f9210b935ddc", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "6201 W MARKHAM ST", "ts": "2026-08-08T08:29:19Z", "sens": 0, "seen": "2026-08-08T09:47:05Z"}
