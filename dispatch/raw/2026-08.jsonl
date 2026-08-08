@@ -2388,3 +2388,6 @@
 {"id": "68b7b62278c62a7167c9", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "9600 W 36TH ST", "ts": "2026-08-08T13:49:49Z", "sens": 0, "seen": "2026-08-08T14:33:05Z"}
 {"id": "f24bc35e67bfcd8a2f82", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "7000 W MARKHAM ST", "ts": "2026-08-08T13:29:34Z", "sens": 0, "seen": "2026-08-08T14:33:05Z"}
 {"id": "5cd808ab5430dd61f865", "src": "CLR-CAD", "jur": "Little Rock", "type": "THEFT JUST OCCURRED", "cat": "theft", "loc": "6201 COLONEL GLENN RD", "ts": "2026-08-08T13:27:00Z", "sens": 0, "seen": "2026-08-08T14:33:05Z"}
+{"id": "ff86bb0ace503efc28dd", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL IN PROGRESS", "cat": "welfare", "loc": "1 STADIUM DR", "ts": "2026-08-08T14:28:30Z", "sens": 1, "seen": "2026-08-08T15:03:31Z"}
+{"id": "153a5be418dc9200fcfb", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "2700 DORCHESTER DR", "ts": "2026-08-08T14:14:19Z", "sens": 0, "seen": "2026-08-08T15:03:31Z"}
+{"id": "bbbb58c26f26d4f697ea", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "3321 S BOWMAN RD", "ts": "2026-08-08T14:11:46Z", "sens": 0, "seen": "2026-08-08T15:03:31Z"}
