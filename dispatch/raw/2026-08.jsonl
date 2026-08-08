@@ -2404,3 +2404,8 @@
 {"id": "02af0989ae1c8dff6cd6", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "10100 N RODNEY PARHAM RD", "ts": "2026-08-08T14:46:37Z", "sens": 0, "seen": "2026-08-08T15:45:03Z"}
 {"id": "3de52ed2b5571e4e367a", "src": "CLR-CAD", "jur": "Little Rock", "type": "STANDBY TO PREVENT DISTURBANCE", "cat": "disturbance", "loc": "3619 W MARKHAM ST", "ts": "2026-08-08T14:42:39Z", "sens": 0, "seen": "2026-08-08T15:45:03Z"}
 {"id": "2940430205ec92eae083", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "500 N POLK ST", "ts": "2026-08-08T14:40:51Z", "sens": 0, "seen": "2026-08-08T15:45:03Z"}
+{"id": "bd3c898164fd41173adf", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "2100 E 6TH ST", "ts": "2026-08-08T15:41:18Z", "sens": 0, "seen": "2026-08-08T16:11:58Z"}
+{"id": "ba07cb03e7d45f91397a", "src": "CLR-CAD", "jur": "Little Rock", "type": "NARCOTICS LAW VIOLATIONS", "cat": "drugs", "loc": "1924 S BUCHANAN ST", "ts": "2026-08-08T15:37:37Z", "sens": 0, "seen": "2026-08-08T16:11:58Z"}
+{"id": "86405f8f7771a375f21d", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "3618 W ROOSEVELT RD", "ts": "2026-08-08T15:23:15Z", "sens": 1, "seen": "2026-08-08T16:11:58Z"}
+{"id": "eb1d956b862fd72e9572", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "824 LEWIS ST", "ts": "2026-08-08T15:21:47Z", "sens": 0, "seen": "2026-08-08T16:11:58Z"}
+{"id": "bceb05eb20551d3162d1", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "7423 MARCIA DR", "ts": "2026-08-08T15:15:25Z", "sens": 0, "seen": "2026-08-08T16:11:58Z"}
