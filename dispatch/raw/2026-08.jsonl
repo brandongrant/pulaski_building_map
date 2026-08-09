@@ -2711,3 +2711,8 @@
 {"id": "5b071596cf0e1dd934f8", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "5001 W 21ST ST", "ts": "2026-08-09T14:27:14Z", "sens": 0, "seen": "2026-08-09T15:29:08Z"}
 {"id": "1083018849e5571940aa", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "1010 WOLFE ST", "ts": "2026-08-09T14:26:42Z", "sens": 1, "seen": "2026-08-09T15:29:08Z"}
 {"id": "73e9009889e3a28b9e89", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "900 S BOWMAN RD", "ts": "2026-08-09T14:24:15Z", "sens": 0, "seen": "2026-08-09T15:29:08Z"}
+{"id": "9b4483dca9b65a4c867f", "src": "CLR-CAD", "jur": "Little Rock", "type": "LOUD MUSIC", "cat": "disturbance", "loc": "2 HATFIELD DR", "ts": "2026-08-09T15:28:08Z", "sens": 0, "seen": "2026-08-09T16:00:11Z"}
+{"id": "4aba480956a9586c204d", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "8820 BASELINE RD", "ts": "2026-08-09T15:21:03Z", "sens": 0, "seen": "2026-08-09T16:00:11Z"}
+{"id": "93fac706bf0aaf3cba89", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "5325 SOUTHBORO CT", "ts": "2026-08-09T15:02:37Z", "sens": 0, "seen": "2026-08-09T16:00:11Z"}
+{"id": "5f0b4b758bc0c346d74f", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "21 FALCON CT", "ts": "2026-08-09T15:01:12Z", "sens": 0, "seen": "2026-08-09T16:00:11Z"}
+{"id": "e9aabf82e57882dd14e2", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "STAGECOACH RD / BASELINE RD", "ts": "2026-08-09T15:00:02Z", "sens": 0, "seen": "2026-08-09T16:00:11Z"}
