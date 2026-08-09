@@ -2678,3 +2678,6 @@
 {"id": "030f5558c3e8589d8640", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE WITH WEAPON IN PROGRESS", "cat": "shots", "loc": "11701 MARA LYNN RD", "ts": "2026-08-09T10:57:28Z", "sens": 0, "seen": "2026-08-09T11:44:40Z"}
 {"id": "78bcff2f113576f95b65", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - OVERDOSE", "cat": "drugs", "loc": "3301 TATUM ST", "ts": "2026-08-09T10:47:08Z", "sens": 1, "seen": "2026-08-09T11:44:40Z"}
 {"id": "1ee62ad8891e003ea682", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "2375 S CEDAR ST", "ts": "2026-08-09T10:46:40Z", "sens": 1, "seen": "2026-08-09T11:44:40Z"}
+{"id": "95cc6e201d61dd176bee", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - SUBJECT DOWN", "cat": "welfare", "loc": "GUM SPRINGS RD / W 55TH ST", "ts": "2026-08-09T11:45:01Z", "sens": 1, "seen": "2026-08-09T12:16:32Z"}
+{"id": "c66ad9f2d371cee2b347", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "KANIS RD / MARLYN DR", "ts": "2026-08-09T11:36:25Z", "sens": 1, "seen": "2026-08-09T12:16:32Z"}
+{"id": "6668d157c04586f99e0e", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "2300 S STATE ST", "ts": "2026-08-09T11:33:18Z", "sens": 0, "seen": "2026-08-09T12:16:32Z"}
