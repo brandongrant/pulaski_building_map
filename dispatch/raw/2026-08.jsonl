@@ -2669,3 +2669,5 @@
 {"id": "69b31a64972bd0bef480", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "600 S BOWMAN RD", "ts": "2026-08-09T09:31:14Z", "sens": 0, "seen": "2026-08-09T10:35:47Z"}
 {"id": "82940352fa88bd8711cd", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "2319 S CEDAR ST", "ts": "2026-08-09T09:29:34Z", "sens": 0, "seen": "2026-08-09T10:35:47Z"}
 {"id": "37d93628cef6cd2265fd", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "1850 S IZARD ST", "ts": "2026-08-09T09:27:21Z", "sens": 0, "seen": "2026-08-09T10:35:47Z"}
+{"id": "6f23921c803c64cdecd9", "src": "CLR-CAD", "jur": "Little Rock", "type": "PROPERTY CHECK", "cat": "assist", "loc": "4724 W 13TH ST", "ts": "2026-08-09T10:16:54Z", "sens": 0, "seen": "2026-08-09T11:07:18Z"}
+{"id": "459107b16351cf65529b", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "6900 CANTRELL RD", "ts": "2026-08-09T10:15:47Z", "sens": 0, "seen": "2026-08-09T11:07:18Z"}
