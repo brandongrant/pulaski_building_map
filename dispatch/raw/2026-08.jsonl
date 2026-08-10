@@ -2958,3 +2958,7 @@
 {"id": "3ec3bf9d9e91f2d63382", "src": "CLR-CAD", "jur": "Little Rock", "type": "THEFT", "cat": "theft", "loc": "15000 CHENAL PKY", "ts": "2026-08-10T09:37:48Z", "sens": 0, "seen": "2026-08-10T11:10:22Z"}
 {"id": "2b0c5bcb31d426239f56", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "7620 BASELINE RD", "ts": "2026-08-10T09:36:32Z", "sens": 0, "seen": "2026-08-10T11:10:22Z"}
 {"id": "4ed09cb07c18783b45ca", "src": "CLR-CAD", "jur": "Little Rock", "type": "ROBBERY ALARM", "cat": "alarm", "loc": "719 BROADWAY ST", "ts": "2026-08-10T09:35:32Z", "sens": 0, "seen": "2026-08-10T11:10:22Z"}
+{"id": "82a2247d4f76cee38fe9", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST PARTY", "cat": "disturbance", "loc": "W 3RD ST / S VICTORY ST", "ts": "2026-08-10T11:10:39Z", "sens": 0, "seen": "2026-08-10T11:58:25Z"}
+{"id": "a912fb70a1fa130a8c50", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "6421 S UNIVERSITY AVE", "ts": "2026-08-10T11:07:25Z", "sens": 0, "seen": "2026-08-10T11:58:25Z"}
+{"id": "c448c6847b3bc9bd9ec1", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "4101 HOLT ST", "ts": "2026-08-10T11:04:50Z", "sens": 1, "seen": "2026-08-10T11:58:25Z"}
+{"id": "b9436889112f028ba0f2", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "1800 BROADWAY ST", "ts": "2026-08-10T11:01:03Z", "sens": 0, "seen": "2026-08-10T11:58:25Z"}
