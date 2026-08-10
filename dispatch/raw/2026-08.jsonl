@@ -3146,3 +3146,9 @@
 {"id": "303c28c0015531ce8dba", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "12115 OTTER CREEK RD", "ts": "2026-08-10T21:34:44Z", "sens": 0, "seen": "2026-08-10T22:44:01Z"}
 {"id": "c5bbc07f08f11bf83037", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY", "cat": "assault", "loc": "322 S OAK ST", "ts": "2026-08-10T21:31:12Z", "sens": 0, "seen": "2026-08-10T22:44:01Z"}
 {"id": "7b7ab5d184f160e09169", "src": "CLR-CAD", "jur": "Little Rock", "type": "VEHICLE ABANDONED VEHICLE", "cat": "traffic", "loc": "4 COLT AVE", "ts": "2026-08-10T21:29:18Z", "sens": 0, "seen": "2026-08-10T22:44:01Z"}
+{"id": "5c7d60e1d9eeaa08d40f", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "7206 W 43RD ST", "ts": "2026-08-10T22:39:11Z", "sens": 0, "seen": "2026-08-10T23:19:41Z"}
+{"id": "ff322f7a12371b248e47", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "5103 ASHER AVE", "ts": "2026-08-10T22:38:21Z", "sens": 0, "seen": "2026-08-10T23:19:41Z"}
+{"id": "ed13804690b2a015ca84", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "S UNIVERSITY AVE / ASHER AVE", "ts": "2026-08-10T22:29:37Z", "sens": 0, "seen": "2026-08-10T23:19:41Z"}
+{"id": "2c488bda40aaae2531e6", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "KAVANAUGH BLVD / NEWTON ST", "ts": "2026-08-10T22:22:05Z", "sens": 0, "seen": "2026-08-10T23:19:41Z"}
+{"id": "125c0b48bf5c41502ed0", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "15000 CHENAL PKY", "ts": "2026-08-10T22:21:08Z", "sens": 0, "seen": "2026-08-10T23:19:41Z"}
+{"id": "5ccfb8e7d3a31e7fb7e9", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "16 COURTFIELD DR", "ts": "2026-08-10T22:16:20Z", "sens": 0, "seen": "2026-08-10T23:19:41Z"}
