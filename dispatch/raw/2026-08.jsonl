@@ -3290,3 +3290,5 @@
 {"id": "dd2c664b4083b6fcba94", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "12002 STAGECOACH RD", "ts": "2026-08-11T09:34:53Z", "sens": 0, "seen": "2026-08-11T10:55:04Z"}
 {"id": "eeeefc6e6c2ec30182bc", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY", "cat": "burglary", "loc": "12600 CHENAL PKY", "ts": "2026-08-11T09:33:57Z", "sens": 0, "seen": "2026-08-11T10:55:04Z"}
 {"id": "23d1d82bbf3030289559", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - SUBJECT DOWN", "cat": "welfare", "loc": "4111 S UNIVERSITY AVE", "ts": "2026-08-11T09:32:51Z", "sens": 1, "seen": "2026-08-11T10:55:04Z"}
+{"id": "0e8c8038c377829204ae", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "5411 WESTMINISTER DR", "ts": "2026-08-11T11:09:29Z", "sens": 0, "seen": "2026-08-11T11:41:49Z"}
+{"id": "d1d64c65a53c6ddc2823", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "6554 GEYER SPRINGS RD", "ts": "2026-08-11T10:58:28Z", "sens": 1, "seen": "2026-08-11T11:41:49Z"}
