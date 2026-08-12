@@ -3555,3 +3555,8 @@
 {"id": "5ef4b91c940e30cad296", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "3600 J E DAVIS DR", "ts": "2026-08-12T08:47:16Z", "sens": 0, "seen": "2026-08-12T10:00:55Z"}
 {"id": "1aa013c5c468bf664cdb", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "10700 COLONEL GLENN RD", "ts": "2026-08-12T08:26:10Z", "sens": 0, "seen": "2026-08-12T10:00:55Z"}
 {"id": "6cecf8ecb73714140561", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "501 S BOWMAN RD", "ts": "2026-08-12T08:25:13Z", "sens": 0, "seen": "2026-08-12T10:00:55Z"}
+{"id": "b53f37bed83498e88ad2", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "13111 W MARKHAM ST", "ts": "2026-08-12T10:17:18Z", "sens": 0, "seen": "2026-08-12T11:10:02Z"}
+{"id": "f946841d0ef7dd9f93f8", "src": "CLR-CAD", "jur": "Little Rock", "type": "FOUND PROPERTY", "cat": "other", "loc": "3917 W 12TH ST", "ts": "2026-08-12T10:09:06Z", "sens": 0, "seen": "2026-08-12T11:10:02Z"}
+{"id": "43057a15074d95875b8d", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "5914 TRENTON LN", "ts": "2026-08-12T10:06:14Z", "sens": 0, "seen": "2026-08-12T11:10:02Z"}
+{"id": "d063e1db0721cd994bac", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - SUBJECT DOWN", "cat": "welfare", "loc": "5805 BUTLER RD", "ts": "2026-08-12T09:50:23Z", "sens": 1, "seen": "2026-08-12T11:10:02Z"}
+{"id": "9aa2bfedefe7da5dbed4", "src": "CLR-CAD", "jur": "Little Rock", "type": "SHOTS FIRED", "cat": "shots", "loc": "3101 BOYLE PARK RD", "ts": "2026-08-12T09:41:03Z", "sens": 0, "seen": "2026-08-12T11:10:02Z"}
