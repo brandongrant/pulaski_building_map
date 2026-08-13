@@ -3893,3 +3893,6 @@
 {"id": "8f7b0e3551e5d95e68fd", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "10701 INTERSTATE 30", "ts": "2026-08-13T10:01:13Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
 {"id": "5cc0dad370f59be83b1c", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "6301 MURRAY ST", "ts": "2026-08-13T09:35:23Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
 {"id": "85d8c5f599ceac7fa029", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY JUST OCCURRED", "cat": "assault", "loc": "42 NANDINA LN", "ts": "2026-08-13T08:06:44Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
+{"id": "a3e40930357ab58aadd9", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "8800 BASELINE RD", "ts": "2026-08-13T11:26:16Z", "sens": 0, "seen": "2026-08-13T11:59:20Z"}
+{"id": "e004734f898d9bec4b1d", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "1000 CENTER ST", "ts": "2026-08-13T11:25:11Z", "sens": 0, "seen": "2026-08-13T11:59:20Z"}
+{"id": "890435805035e9f0e001", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "800 BROOKSIDE DR", "ts": "2026-08-13T10:55:08Z", "sens": 1, "seen": "2026-08-13T11:59:20Z"}
