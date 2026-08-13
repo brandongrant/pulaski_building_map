@@ -3889,3 +3889,7 @@
 {"id": "57fd420561e279d2e781", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "1409 S JACKSON ST", "ts": "2026-08-13T08:51:33Z", "sens": 0, "seen": "2026-08-13T10:02:09Z"}
 {"id": "6c2043eb6759e7164d03", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "10610 CHICOT RD", "ts": "2026-08-13T08:38:48Z", "sens": 1, "seen": "2026-08-13T10:02:09Z"}
 {"id": "bc9ca9131a25243339ee", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "17116 CHENAL PKY", "ts": "2026-08-13T08:18:55Z", "sens": 0, "seen": "2026-08-13T10:02:09Z"}
+{"id": "b3e5becd60565e18a21e", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "2 SAINT VINCENT CIR", "ts": "2026-08-13T10:39:41Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
+{"id": "8f7b0e3551e5d95e68fd", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "10701 INTERSTATE 30", "ts": "2026-08-13T10:01:13Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
+{"id": "5cc0dad370f59be83b1c", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "6301 MURRAY ST", "ts": "2026-08-13T09:35:23Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
+{"id": "85d8c5f599ceac7fa029", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY JUST OCCURRED", "cat": "assault", "loc": "42 NANDINA LN", "ts": "2026-08-13T08:06:44Z", "sens": 0, "seen": "2026-08-13T11:10:32Z"}
