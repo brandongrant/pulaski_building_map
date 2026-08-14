@@ -4180,3 +4180,9 @@
 {"id": "a62809698fe0d09b3f34", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "5300 BASELINE RD", "ts": "2026-08-14T08:22:16Z", "sens": 0, "seen": "2026-08-14T09:44:23Z"}
 {"id": "ad06c2ed0096fdc21f61", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "3917 W 12TH ST", "ts": "2026-08-14T08:20:11Z", "sens": 0, "seen": "2026-08-14T09:44:23Z"}
 {"id": "7bc8165a24139fc33f26", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "10010 KANIS RD", "ts": "2026-08-14T08:04:52Z", "sens": 0, "seen": "2026-08-14T09:44:23Z"}
+{"id": "d1b99015dc3ab8a865c6", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "1400 LEANDER DR", "ts": "2026-08-14T10:04:59Z", "sens": 1, "seen": "2026-08-14T10:41:28Z"}
+{"id": "c4b386d95855d0fc8498", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "4523 HOFFMAN RD", "ts": "2026-08-14T10:04:24Z", "sens": 0, "seen": "2026-08-14T10:41:28Z"}
+{"id": "95989a8a997c8527f50a", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "6513 SHIRLEY DR", "ts": "2026-08-14T09:56:09Z", "sens": 0, "seen": "2026-08-14T10:41:28Z"}
+{"id": "38932b1013d66efa569a", "src": "CLR-CAD", "jur": "Little Rock", "type": "SHOTS FIRED", "cat": "shots", "loc": "14008 QUAIL RUN DR", "ts": "2026-08-14T09:52:39Z", "sens": 0, "seen": "2026-08-14T10:41:28Z"}
+{"id": "3b8e732e3875e9b956f9", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "S WOODROW ST / INTERSTATE 630", "ts": "2026-08-14T09:51:12Z", "sens": 1, "seen": "2026-08-14T10:41:28Z"}
+{"id": "75d5b3a878189682f89f", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "3322 S BOWMAN RD", "ts": "2026-08-14T09:34:09Z", "sens": 0, "seen": "2026-08-14T10:41:28Z"}
