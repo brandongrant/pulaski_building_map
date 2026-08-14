@@ -4190,3 +4190,7 @@
 {"id": "aebfc759eecee255044e", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "8100 FRAZIER PIKE", "ts": "2026-08-14T10:33:45Z", "sens": 0, "seen": "2026-08-14T11:28:55Z"}
 {"id": "d3bb6b79689fb92bc320", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "201 KEIGHTLEY DR", "ts": "2026-08-14T10:13:43Z", "sens": 0, "seen": "2026-08-14T11:28:55Z"}
 {"id": "bab4aa7296a85214e6fd", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "11710 PLEASANT RIDGE TER", "ts": "2026-08-14T10:13:00Z", "sens": 0, "seen": "2026-08-14T11:28:55Z"}
+{"id": "f42abd710cf6f4987a0a", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "813 S SPRING ST", "ts": "2026-08-14T11:30:06Z", "sens": 0, "seen": "2026-08-14T12:11:39Z"}
+{"id": "f7fda0a377a9052efb51", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "9525 INTERSTATE 30", "ts": "2026-08-14T11:20:35Z", "sens": 0, "seen": "2026-08-14T12:11:39Z"}
+{"id": "34e0de3d91b4628e7b50", "src": "CLR-CAD", "jur": "Little Rock", "type": "ROBBERY ALARM", "cat": "alarm", "loc": "11525 CANTRELL RD", "ts": "2026-08-14T11:08:24Z", "sens": 0, "seen": "2026-08-14T12:11:39Z"}
+{"id": "cd99cdf9d3578c52383c", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "S WOODROW ST / W 7TH ST", "ts": "2026-08-14T11:04:46Z", "sens": 1, "seen": "2026-08-14T12:11:39Z"}
