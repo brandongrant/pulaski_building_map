@@ -4518,3 +4518,8 @@
 {"id": "46da75ab4d09333621f0", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "104 S UNIVERSITY AVE", "ts": "2026-08-15T08:02:52Z", "sens": 1, "seen": "2026-08-15T08:54:52Z"}
 {"id": "ddb1961989d009d6b9fa", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "W MARKHAM ST / PEARL AVE", "ts": "2026-08-15T08:02:13Z", "sens": 0, "seen": "2026-08-15T08:54:52Z"}
 {"id": "9dce4517e0f2ac2da927", "src": "CLR-CAD", "jur": "Little Rock", "type": "ADMINISTRATIVE", "cat": "assist", "loc": "720 W MARKHAM ST", "ts": "2026-08-15T08:01:41Z", "sens": 0, "seen": "2026-08-15T08:54:52Z"}
+{"id": "f173063bb63e45c51c1b", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "2402 CANTRELL RD", "ts": "2026-08-15T08:45:37Z", "sens": 0, "seen": "2026-08-15T09:22:47Z"}
+{"id": "5b1e5879c8d63646c527", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "W 12TH ST / S WOODROW ST", "ts": "2026-08-15T08:38:06Z", "sens": 0, "seen": "2026-08-15T09:22:47Z"}
+{"id": "26b9c64a4a136f588c3b", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "8400 W MARKHAM ST", "ts": "2026-08-15T08:32:14Z", "sens": 0, "seen": "2026-08-15T09:22:47Z"}
+{"id": "9f5fdcc1dd283a40f2a4", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "46 EAGLE NEST CT", "ts": "2026-08-15T08:30:21Z", "sens": 0, "seen": "2026-08-15T09:22:47Z"}
+{"id": "c0b01d072c6aae782bdc", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "1200 S UNIVERSITY AVE", "ts": "2026-08-15T08:28:25Z", "sens": 0, "seen": "2026-08-15T09:22:47Z"}
