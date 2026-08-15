@@ -4553,3 +4553,6 @@
 {"id": "2bce396f55416150b0ee", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "E 21ST ST / S ROCK ST", "ts": "2026-08-15T13:15:40Z", "sens": 0, "seen": "2026-08-15T13:53:15Z"}
 {"id": "e1b22b2b750cb76a20cc", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL MISCHIEF", "cat": "vandalism", "loc": "2420 RIVERFRONT DR", "ts": "2026-08-15T13:05:43Z", "sens": 0, "seen": "2026-08-15T13:53:15Z"}
 {"id": "51718314f1c8da06ac9e", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "238 BUCKLAND CIR", "ts": "2026-08-15T13:01:59Z", "sens": 0, "seen": "2026-08-15T13:53:15Z"}
+{"id": "96a88be309f1e68b67b3", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "3912 WEST ST", "ts": "2026-08-15T13:45:10Z", "sens": 0, "seen": "2026-08-15T14:19:38Z"}
+{"id": "45d4a8f1ea6e81011ee1", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "9101 AUXOR RD", "ts": "2026-08-15T13:42:36Z", "sens": 0, "seen": "2026-08-15T14:19:38Z"}
+{"id": "d1c878a2fc49abd241ac", "src": "CLR-CAD", "jur": "Little Rock", "type": "STANDBY TO PREVENT DISTURBANCE", "cat": "disturbance", "loc": "27 RAHLING CIR", "ts": "2026-08-15T13:34:23Z", "sens": 0, "seen": "2026-08-15T14:19:38Z"}
