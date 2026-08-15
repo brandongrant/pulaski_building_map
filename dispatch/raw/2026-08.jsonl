@@ -4534,3 +4534,6 @@
 {"id": "b9533d8440a2e4c6624b", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "10703 EXCALIBUR DR", "ts": "2026-08-15T10:11:21Z", "sens": 1, "seen": "2026-08-15T10:47:49Z"}
 {"id": "9fd063e2f199c8189078", "src": "CLR-CAD", "jur": "Little Rock", "type": "STANDBY TO PREVENT DISTURBANCE", "cat": "disturbance", "loc": "10100 N RODNEY PARHAM RD", "ts": "2026-08-15T09:58:13Z", "sens": 0, "seen": "2026-08-15T10:47:49Z"}
 {"id": "f185129612a2170fb555", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "1200 S UNIVERSITY AVE", "ts": "2026-08-15T10:23:10Z", "sens": 0, "seen": "2026-08-15T11:17:40Z"}
+{"id": "e83487c462edefd0f326", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - SUBJECT DOWN", "cat": "welfare", "loc": "N RODNEY PARHAM RD / INTERSTATE 430", "ts": "2026-08-15T11:10:15Z", "sens": 1, "seen": "2026-08-15T11:44:14Z"}
+{"id": "d0c8dc3ccedad55bed8b", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "8800 BASELINE RD", "ts": "2026-08-15T11:08:42Z", "sens": 0, "seen": "2026-08-15T11:44:14Z"}
+{"id": "c6c7e775a1fc47a00e94", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "2817 W 6TH ST", "ts": "2026-08-15T10:56:16Z", "sens": 0, "seen": "2026-08-15T11:44:14Z"}
