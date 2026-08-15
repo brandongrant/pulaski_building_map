@@ -140,7 +140,9 @@ body.view-pulse .maplibregl-control-container { display: none !important; }
 /* =============================================================== leaderboard */
 .pCats { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 30px; }
 .pCatRow {
-  display: grid; grid-template-columns: 15px minmax(96px, 1fr) 62px 74px;
+  /* minmax(0, …) so the label column can shrink below its text on a narrow
+     phone — it already ellipsises — instead of forcing the row wider than the card */
+  display: grid; grid-template-columns: 15px minmax(0, 1fr) 62px 74px;
   align-items: center; gap: 10px;
   padding: 7px 8px; border-radius: 8px; cursor: pointer; border: 0; width: 100%;
   background: none; color: inherit; font: inherit; text-align: left;
@@ -175,6 +177,36 @@ body.view-pulse .maplibregl-control-container { display: none !important; }
 .pStreetBar { display: flex; height: 9px; border-radius: 4px; overflow: hidden; }
 .pStreetBar i { display: block; height: 100%; }
 .pStreetN { text-align: right; font-size: 11.5px; color: var(--txt-dim); font-variant-numeric: tabular-nums; }
+
+/* ========================================================= risk assessment */
+/* min(...) keeps the track from exceeding the container on a narrow phone,
+   which is what makes an auto-fill grid blow out sideways */
+.pRisk { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(330px, 100%), 1fr)); gap: 14px; }
+.pRiskCard {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 16px 17px 15px; border-radius: 13px;
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid var(--panel-border); border-left: 3px solid var(--c, #8b93a5);
+}
+.pRiskHead { font-size: 15px; line-height: 1.45; }
+.pRiskHead b { color: var(--c, var(--txt)); font-weight: 700; }
+.pRiskHead .when { color: var(--txt); font-weight: 700; }
+.pRiskWhere { font-size: 11.5px; color: var(--txt-dim); text-transform: capitalize; }
+.pRiskStat { font-size: 11.5px; color: #b9c1d2; line-height: 1.5; }
+.pRiskStat b { color: var(--txt); font-weight: 600; }
+.pRiskCharts { display: grid; grid-template-columns: 108px 1fr; gap: 14px; align-items: end; }
+.pRiskCharts svg { width: 100%; height: auto; display: block; }
+.pRiskCharts text { fill: var(--txt-dim); font-size: 7.5px; }
+.pRiskSrc { font-size: 10.5px; color: #7d8697; line-height: 1.45; }
+.pRiskFoot { display: flex; gap: 14px; align-items: center; }
+.pRiskFoot button {
+  appearance: none; background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; font-size: 11px; color: var(--accent);
+  border-bottom: 1px solid rgba(243, 213, 76, 0.35);
+}
+.pRiskFoot button:hover { border-bottom-color: var(--accent); }
+.pRiskFine { border-top: 1px solid var(--panel-border); padding-top: 13px; margin-top: 18px; }
+.pRiskFine b { color: #c8cfdd; }
 
 /* ============================================================== case files */
 .pCases { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
