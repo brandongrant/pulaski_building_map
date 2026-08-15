@@ -54,6 +54,18 @@ NAME_RADIUS_M = 45
 DSP_RADIUS_M = 80         # dispatch calls counted as "at" a hotspot
 MIN_PLACE_HOURS = 25      # dispatch calls needed before using a place's own clock
 MIN_CAT_FOR_LIFT = 12     # per-category floor before quoting a day-of-week lift
+# A place with no 2017-2024 record can still earn a card on current activity
+# alone — somewhere that opened since the export, or is busy right now. It needs
+# more evidence than a historical entry does, because the window is weeks not years.
+#
+# The threshold counts FOCUS_CATS only, and that matters: rank the raw call
+# volume instead and the list fills with the county jail (63 prisoner-transport
+# "assist" calls) and a homeless shelter (welfare checks). Those are places the
+# police are sent *to help*, and putting them on a risk board would be both
+# wrong and unfair.
+MIN_RECENT = 14           # reportable-category calls in the live archive
+TOP_RECENT = 25
+RECENT_CELL_M = 55        # clustering size for finding those places
 
 # Categories that describe a crime rather than an errand. The clock, the mosaic
 # and the leaderboard use this set so "assist / admin" traffic (a third of all
@@ -124,19 +136,25 @@ def peak_window(profile, width=2):
     return best_h
 
 
-def build_hotspots(hist, full_years, places, calls, city_hours):
-    """Where reported offenses concentrate, and when they land there.
+def build_hotspots(hist, full_years, places, calls, city_hours,
+                   archive_days=0, reports=()):
+    """Where offenses concentrate, and when they land there.
 
-    Two datasets with complementary gaps: LRPD's published offenses go back to
-    2017 and carry a date but no time of day, while the dispatch archive has
-    real timestamps but only a few weeks of them. So a place's *day* comes from
-    eight years of offenses at that spot, and its *hour* comes from its own
-    dispatch calls when there are enough of them and from the citywide profile
-    for that category when there are not — flagged either way, because the two
-    are not the same claim.
+    Three datasets with complementary gaps. LRPD's published offenses go back to
+    2017 and carry a date but no time of day. The live dispatch archive has real
+    timestamps and is current, but is only weeks long and records calls for
+    service rather than confirmed offenses. The daily incident reports are richer
+    still and far rarer.
+
+    So a place's *day* comes from eight years of offenses at that spot where it
+    has them, its *hour* from its own recent calls once there are enough, and a
+    place with no historical record at all can still earn a card on current
+    activity alone. Every card carries which of those it rests on, because they
+    are not the same strength of claim.
     """
-    if not hist:
+    if not hist and not calls:
         return None
+    hist = hist or {"crime": [], "off_cat": [], "locs": []}
     off_cat = hist.get("off_cat") or []
     locs = hist.get("locs") or []
     years = set(full_years)
@@ -168,12 +186,65 @@ def build_hotspots(hist, full_years, places, calls, city_hours):
 
     # metres per degree at Little Rock's latitude, good enough for a 45 m test
     MX, MY = 91_000.0, 111_000.0
-    out = []
-    for _n, li in ranked:
-        g = groups[li]
-        lon = sorted(g["lon"])[len(g["lon"]) // 2]
-        lat = sorted(g["lat"])[len(g["lat"]) // 2]
+    sites = [{"key": li, "lon": sorted(groups[li]["lon"])[len(groups[li]["lon"]) // 2],
+              "lat": sorted(groups[li]["lat"])[len(groups[li]["lat"]) // 2],
+              "hist": groups[li]} for _n, li in ranked]
 
+    # ---- current activity: attach every live call to its site, and let the
+    # leftovers form sites of their own so somewhere busy *now* can qualify
+    # even with no 2017-2024 record at all.
+    def blank_recent():
+        return {"n": 0, "cat": Counter(), "dow": [0] * 7, "hours": [0] * 24,
+                "lon": [], "lat": []}
+
+    for s in sites:
+        s["recent"] = blank_recent()
+    r2 = DSP_RADIUS_M ** 2
+    leftovers = defaultdict(blank_recent)
+    for clon, clat, chour, cdow, ccat in calls:
+        home = None
+        best = r2
+        for s in sites:
+            dx, dy = (clon - s["lon"]) * MX, (clat - s["lat"]) * MY
+            d2 = dx * dx + dy * dy
+            if d2 <= best:
+                best, home = d2, s
+        rec = home["recent"] if home else leftovers[hex_cell(*merc(clon, clat), RECENT_CELL_M)]
+        rec["n"] += 1
+        rec["cat"][ccat] += 1
+        rec["dow"][cdow] += 1
+        rec["hours"][chour] += 1
+        rec["lon"].append(clon)
+        rec["lat"].append(clat)
+
+    def focus_n(counter):
+        return sum(counter[c] for c in FOCUS_CATS)
+
+    fresh = sorted(((focus_n(rec["cat"]), cell, rec) for cell, rec in leftovers.items()),
+                   key=lambda t: -t[0])
+    for n_focus, cell, rec in fresh[:TOP_RECENT]:
+        if n_focus < MIN_RECENT:
+            break
+        sites.append({"key": ("recent",) + cell, "hist": None, "recent": rec,
+                      "lon": sorted(rec["lon"])[len(rec["lon"]) // 2],
+                      "lat": sorted(rec["lat"])[len(rec["lat"]) // 2]})
+
+    # ---- daily incident reports, attached to whichever site they land on
+    for r in reports or ():
+        if r.get("lon") is None:
+            continue
+        for s in sites:
+            dx, dy = (r["lon"] - s["lon"]) * MX, (r["lat"] - s["lat"]) * MY
+            if dx * dx + dy * dy <= r2:
+                s.setdefault("reports", []).append(
+                    {k: r.get(k) for k in ("no", "date", "cat", "call_type_label",
+                                           "url", "pdf_page")})
+                break
+
+    weeks = max(1.0, (archive_days or 1) / 7.0)
+    out = []
+    for s in sites:
+        lon, lat = s["lon"], s["lat"]
         name, best = None, NAME_RADIUS_M ** 2
         for pname, px, py in places:
             dx, dy = (px - lon) * MX, (py - lat) * MY
@@ -181,37 +252,72 @@ def build_hotspots(hist, full_years, places, calls, city_hours):
             if d2 < best:
                 best, name = d2, pname
 
-        # the place's own recent clock, if the dispatch archive has enough of it
-        hours = [0] * 24
-        dsp_n = 0
-        r2 = DSP_RADIUS_M ** 2
-        for clon, clat, chour in calls:
-            dx, dy = (clon - lon) * MX, (clat - lat) * MY
-            if dx * dx + dy * dy <= r2:
-                hours[chour] += 1
-                dsp_n += 1
-
-        span = max(1, g["last"] - g["first"] + 1)
-        cat_dow = {c: v for c, v in g["cat_dow"].items() if sum(v) >= MIN_CAT_FOR_LIFT}
-        out.append({
-            "addr": locs[li] if li < len(locs) else "",
+        g, rec = s["hist"], s["recent"]
+        dsp_n = rec["n"]
+        entry = {
             "name": name,
             "lon": round(lon, 5), "lat": round(lat, 5),
-            "n": g["n"],
-            "per_year": round(g["n"] / span, 1),
-            "first": g["first"], "last": g["last"],
-            "by_cat": dict(g["cat"]),
-            "dow": g["dow"],
-            "cat_dow": cat_dow,
             "dsp_n": dsp_n,
-            "hours": hours if dsp_n >= MIN_PLACE_HOURS else None,
-            "peak": (peak_window(hours) if dsp_n >= MIN_PLACE_HOURS else None),
-        })
+            "hours": rec["hours"] if dsp_n >= MIN_PLACE_HOURS else None,
+            "peak": peak_window(rec["hours"]) if dsp_n >= MIN_PLACE_HOURS else None,
+            "recent": {
+                "n": dsp_n,
+                "per_week": round(dsp_n / weeks, 1),
+                "by_cat": dict(rec["cat"]),
+                "dow": rec["dow"],
+            },
+            "reports": s.get("reports", [])[:4],
+        }
+        if g:
+            span = max(1, g["last"] - g["first"] + 1)
+            entry.update({
+                "addr": locs[s["key"]] if s["key"] < len(locs) else "",
+                "n": g["n"],
+                "per_year": round(g["n"] / span, 1),
+                "first": g["first"], "last": g["last"],
+                "by_cat": dict(g["cat"]),
+                "dow": g["dow"],
+                "cat_dow": {c: v for c, v in g["cat_dow"].items()
+                            if sum(v) >= MIN_CAT_FOR_LIFT},
+                "src": "history",
+            })
+        else:
+            # Current-only: the day comes from the live archive, so it is a
+            # weeks-long claim and the card has to say so. by_cat is narrowed to
+            # the reportable categories, because that is what the headline picks
+            # from — "higher risk of assist / admin" would be nonsense.
+            focus = {c: n for c, n in rec["cat"].items() if c in FOCUS_CATS and n}
+            entry.update({
+                "addr": "", "n": 0, "per_year": 0.0,
+                "first": None, "last": None,
+                "by_cat": focus,
+                "dow": rec["dow"],
+                "cat_dow": {c: rec["dow"] for c, n in focus.items()
+                            if n >= MIN_CAT_FOR_LIFT},
+                "src": "recent",
+            })
+        out.append(entry)
+
+    out.sort(key=lambda e: (-(e["n"] or 0), -e["dsp_n"]))
+
+    # Ranking a call-based entry against an offense-based one needs them on the
+    # same axis: citywide, reportable calls for service run several times more
+    # frequent than reported offenses, so an unscaled rate would put every
+    # current-only place above every historical one. This ratio converts a call
+    # rate into offense-equivalent terms.
+    hist_per_year = (sum(g["n"] for g in groups.values()) / len(full_years)
+                     if full_years else 0.0)
+    city_calls_per_year = (
+        sum(1 for c in calls if c[4] in FOCUS_CATS) * 365.0 / max(1, archive_days))
+    ratio = round(city_calls_per_year / hist_per_year, 2) if hist_per_year else 1.0
 
     return {
         "min_events": MIN_HOTSPOT,
+        "min_recent": MIN_RECENT,
         "name_radius_m": NAME_RADIUS_M,
         "min_place_hours": MIN_PLACE_HOURS,
+        "archive_days": archive_days,
+        "call_to_offense": ratio,
         "years": [min(full_years), max(full_years)] if full_years else None,
         # fallback clocks: the citywide hour profile per category, so a place
         # without its own dispatch history still gets an honest time window
@@ -304,7 +410,7 @@ def main():
             q, r = hex_cell(*merc(lon, lat), HEX_M)
             hexes[(q, r)][cat] += 1
             hexes[(q, r)]["_n"] += 1
-            call_pts.append((lon, lat, local.hour))
+            call_pts.append((lon, lat, local.hour, local.weekday(), cat))
 
     # order categories by how much of the recent picture they actually are
     cat_totals = Counter()
@@ -376,8 +482,11 @@ def main():
 
     # ------------------------------------------------------------- hotspots --
     places = (load_json(WEB_DATA_DIR / "places.json", {}) or {}).get("places", [])
-    hotspots = build_hotspots(hist, full_years if hist else [], places, call_pts,
-                              {c: v for c, v in city_hours.items() if any(v)})
+    hotspots = build_hotspots(
+        hist, full_years if hist else [], places, call_pts,
+        {c: v for c, v in city_hours.items() if any(v)},
+        archive_days=len(day_counts),
+        reports=(rep.get("incidents") or []))
     if hist and not places:
         print("WARNING: web/data/places.json missing — hotspots will be unnamed. "
               "Run pipeline/build_place_index.py")
