@@ -624,6 +624,90 @@
     return { cat, n, dow, peakDow, lift, hours, peakHr, ownClock };
   }
 
+  function riskCard(p) {
+    const r = riskFor(p);
+    if (!r) return null;
+    const H = D.hotspots;
+    const recent = p.recent || { n: 0, per_week: 0, by_cat: {} };
+    const isRecent = p.src === "recent";
+    const col = catColor(r.cat);
+    const where = p.name || (p.addr || "").toLowerCase() || "this block";
+    const card = document.createElement("div");
+    card.className = "pRiskCard" + (isRecent ? " isNow" : "");
+    card.style.setProperty("--c", col);
+
+    const window2 = r.peakHr == null ? null
+      : `${hourLabel(r.peakHr)} and ${hourLabel((r.peakHr + 2) % 24)}`;
+    card.innerHTML =
+      `<div class="pRiskHead">Higher risk of <b>${catLabel(r.cat).toLowerCase()}</b> ` +
+      `at <b>${where}</b> on <span class="when">${DOWFULL[r.peakDow]}</span>` +
+      (window2 ? `, most likely between <span class="when">${window2}</span>` : "") +
+      `.</div>` +
+      (p.name && p.addr ? `<div class="pRiskWhere">${p.addr.toLowerCase()}</div>` : "");
+
+    const stat = document.createElement("div");
+    stat.className = "pRiskStat";
+    stat.innerHTML = isRecent
+      ? `<b>${fmt(r.n)}</b> ${catLabel(r.cat).toLowerCase()} calls for service · ` +
+        `about <b>${recent.per_week}</b> calls a week here · ` +
+        `<b>${r.lift.toFixed(1)}×</b> more likely on a ${DOWFULL[r.peakDow]} ` +
+        `than an average day here.`
+      : `<b>${fmt(r.n)}</b> ${catLabel(r.cat).toLowerCase()} reports · ` +
+        `<b>${p.per_year}</b> a year across all offenses · ` +
+        `<b>${r.lift.toFixed(1)}×</b> more likely on a ${DOWFULL[r.peakDow]} than an ` +
+        `average day here.`;
+    card.appendChild(stat);
+
+    const charts = document.createElement("div");
+    charts.className = "pRiskCharts";
+    charts.appendChild(dowChart(r, col));
+    if (r.hours) charts.appendChild(hourChart(r, col));
+    card.appendChild(charts);
+
+    // what the place looks like currently, alongside its longer record
+    if (!isRecent) {
+      const top = Object.entries(recent.by_cat || {})
+        .sort((a, b) => b[1] - a[1]).slice(0, 2)
+        .map(([k, v]) => `${catLabel(k).toLowerCase()} ${v}`).join(", ");
+      const now = document.createElement("div");
+      now.className = "pRiskNow";
+      now.innerHTML = recent.n
+        ? `<b>Currently:</b> ${recent.per_week} calls for service a week here` +
+          (top ? ` — ${top}.` : ".")
+        : `<b>Currently:</b> no calls for service here.`;
+      card.appendChild(now);
+    }
+
+    const src = document.createElement("div");
+    src.className = "pRiskSrc";
+    src.textContent = isRecent
+      ? `Built from current calls for service at this spot — a live pattern rather ` +
+        `than an established one.`
+      : r.ownClock
+        ? `Hour measured here, from ${fmt(p.dsp_n)} dispatch calls at this location.`
+        : `Hour is the citywide pattern for ${catLabel(r.cat).toLowerCase()} — not ` +
+          `enough calls at this address yet to time it here.`;
+    card.appendChild(src);
+
+    const foot = document.createElement("div");
+    foot.className = "pRiskFoot";
+    const b = document.createElement("button");
+    b.textContent = "see it on the map →";
+    b.addEventListener("click", () => zoomTo(p));
+    foot.appendChild(b);
+    for (const rep of (p.reports || [])) {
+      if (!rep.url) continue;
+      const a = document.createElement("a");
+      a.href = rep.url + (rep.pdf_page ? "#page=" + rep.pdf_page : "");
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = `report ${rep.date || rep.no} ↗`;
+      foot.appendChild(a);
+    }
+    card.appendChild(foot);
+    return card;
+  }
+
   function renderRisk() {
     const box = $("pRisk");
     box.innerHTML = "";
@@ -635,67 +719,44 @@
     }
     let list = H.places.slice();
     if (sel) list = list.filter((p) => (p.cat_dow || {})[sel]);
-    list.sort((a, b) => (sel ? (b.by_cat[sel] || 0) - (a.by_cat[sel] || 0) : b.n - a.n));
+
+    // One ranking, both records in it. Raw counts cannot be compared across the
+    // two — a place on the long record has years behind it, a current one has
+    // weeks — so rank on an annualised rate, which puts them on the same axis.
+    const ratio = H.call_to_offense || 1;
+    const yearRate = (p) => {
+      if (p.src === "recent") {
+        const n = sel ? (p.by_cat[sel] || 0) : sum(Object.values(p.by_cat));
+        // scaled into offense-equivalent terms, or every call-based entry would
+        // outrank every offense-based one purely because calls are commoner
+        return n * (365 / Math.max(1, H.archive_days)) / ratio;
+      }
+      const n = sel ? (p.by_cat[sel] || 0) : p.n;
+      const span = Math.max(1, (p.last || 0) - (p.first || 0) + 1);
+      return n / span;
+    };
+    list.sort((a, b) => yearRate(b) - yearRate(a));
 
     $("pRiskNote").innerHTML =
-      `Every address with at least <b>${H.min_events}</b> reported offenses across ` +
-      `<b>${H.years ? H.years[0] + "–" + H.years[1] : "the record"}</b>, ranked by volume` +
-      (sel ? ` and filtered to ${catLabel(sel).toLowerCase()}` : "") +
-      `. The day comes from that location's own eight-year record; the hour from ` +
-      `its dispatch calls where there are at least ${H.min_place_hours}, otherwise ` +
-      `from the citywide pattern for that offense.`;
+      `Locations with enough on record to say something: at least ` +
+      `<b>${H.min_events}</b> reported offenses, or <b>${H.min_recent}</b> ` +
+      `reportable calls for service where the offense record is thin` +
+      (sel ? `, filtered to ${catLabel(sel).toLowerCase()}` : "") +
+      `. Ranked by rate, so a place that is busy now sits alongside one with a ` +
+      `long history. The day is that location's own pattern; the hour is measured ` +
+      `there once there are at least ${H.min_place_hours} calls to measure, and is ` +
+      `the citywide pattern for that offense until then.`;
 
     if (!list.length) {
-      box.innerHTML = `<p class="pCaseNone">No location has enough ` +
-        `${catLabel(sel).toLowerCase()} on record to say anything useful.</p>`;
+      box.innerHTML = `<p class="pCaseNone">Nothing has enough ` +
+        `${sel ? catLabel(sel).toLowerCase() : "activity"} on record to say ` +
+        `anything useful.</p>`;
       return;
     }
 
-    for (const p of list.slice(0, 12)) {
-      const r = riskFor(p);
-      if (!r) continue;
-      const col = catColor(r.cat);
-      const where = p.name || (p.addr || "").toLowerCase();
-      const card = document.createElement("div");
-      card.className = "pRiskCard";
-      card.style.setProperty("--c", col);
-
-      const window2 = r.peakHr == null ? null
-        : `${hourLabel(r.peakHr)} and ${hourLabel((r.peakHr + 2) % 24)}`;
-      card.innerHTML =
-        `<div class="pRiskHead">Higher risk of <b>${catLabel(r.cat).toLowerCase()}</b> ` +
-        `at <b>${where}</b> on <span class="when">${DOWFULL[r.peakDow]}</span>` +
-        (window2 ? `, most likely between <span class="when">${window2}</span>` : "") +
-        `.</div>` +
-        (p.name ? `<div class="pRiskWhere">${(p.addr || "").toLowerCase()}</div>` : "") +
-        `<div class="pRiskStat"><b>${fmt(r.n)}</b> ${catLabel(r.cat).toLowerCase()} ` +
-        `reports ${p.first}–${p.last} · <b>${p.per_year}</b> a year across all offenses · ` +
-        `<b>${r.lift.toFixed(1)}×</b> more likely on a ${DOWFULL[r.peakDow]} than an ` +
-        `average day here.</div>`;
-
-      const charts = document.createElement("div");
-      charts.className = "pRiskCharts";
-      charts.appendChild(dowChart(r, col));
-      if (r.hours) charts.appendChild(hourChart(r, col));
-      card.appendChild(charts);
-
-      const src = document.createElement("div");
-      src.className = "pRiskSrc";
-      src.textContent = r.ownClock
-        ? `Hour window measured here, from ${fmt(p.dsp_n)} dispatch calls at this location.`
-        : `Hour window is the citywide pattern for ${catLabel(r.cat).toLowerCase()} — ` +
-          `only ${fmt(p.dsp_n)} dispatch calls here so far, so the time of day is not ` +
-          `yet measured at this address.`;
-      card.appendChild(src);
-
-      const foot = document.createElement("div");
-      foot.className = "pRiskFoot";
-      const b = document.createElement("button");
-      b.textContent = "see it on the map →";
-      b.addEventListener("click", () => zoomTo(p));
-      foot.appendChild(b);
-      card.appendChild(foot);
-      box.appendChild(card);
+    for (const p of list.slice(0, 15)) {
+      const card = riskCard(p);
+      if (card) box.appendChild(card);
     }
   }
 

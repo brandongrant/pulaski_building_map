@@ -127,17 +127,71 @@ def test_hotspot_names_only_within_the_radius():
     assert hot_far["places"][0]["addr"] == "100 TEST ST"
 
 
+def _calls(n, lon=-92.30, lat=34.72, hour=13, dow=0, cat="theft"):
+    return [(lon, lat, hour, dow, cat)] * n
+
+
 def test_hotspot_hours_fall_back_to_the_city_when_the_place_is_thin():
     hist = {
         "off_cat": ["theft"], "locs": ["100 TEST ST"],
         "crime": [[-92.30, 34.72, 0, 20200106, 0, 0, 0] for _ in range(bp.MIN_HOTSPOT)],
     }
-    thin = [(-92.30, 34.72, 13)] * (bp.MIN_PLACE_HOURS - 1)
-    rich = [(-92.30, 34.72, 13)] * bp.MIN_PLACE_HOURS
+    thin = _calls(bp.MIN_PLACE_HOURS - 1)
+    rich = _calls(bp.MIN_PLACE_HOURS)
 
-    assert bp.build_hotspots(hist, [2020], [], thin, {})["places"][0]["hours"] is None
-    got = bp.build_hotspots(hist, [2020], [], rich, {})["places"][0]
+    assert bp.build_hotspots(hist, [2020], [], thin, {}, 41)["places"][0]["hours"] is None
+    got = bp.build_hotspots(hist, [2020], [], rich, {}, 41)["places"][0]
     assert got["hours"] is not None and got["peak"] is not None
+
+
+# ------------------------------------------------- current activity merged --
+def test_a_place_with_no_offense_record_qualifies_on_current_calls():
+    """Somewhere busy now must be able to earn a card on its own."""
+    hist = {"off_cat": [], "locs": [], "crime": []}
+    calls = _calls(bp.MIN_RECENT, lon=-92.40, lat=34.80, cat="assault")
+    h = bp.build_hotspots(hist, [], [], calls, {}, 41)
+    assert len(h["places"]) == 1
+    p = h["places"][0]
+    assert p["src"] == "recent"
+    assert p["n"] == 0 and p["by_cat"]["assault"] == bp.MIN_RECENT
+
+
+def test_current_only_places_need_reportable_calls_not_errands():
+    """A jail or shelter generating assist/welfare traffic is not a hotspot."""
+    hist = {"off_cat": [], "locs": [], "crime": []}
+    errands = _calls(bp.MIN_RECENT * 4, lon=-92.40, lat=34.80, cat="assist")
+    errands += _calls(bp.MIN_RECENT * 4, lon=-92.40, lat=34.80, cat="welfare")
+    assert bp.build_hotspots(hist, [], [], errands, {}, 41)["places"] == []
+
+
+def test_current_only_below_threshold_is_dropped():
+    hist = {"off_cat": [], "locs": [], "crime": []}
+    calls = _calls(bp.MIN_RECENT - 1, lon=-92.40, lat=34.80, cat="assault")
+    assert bp.build_hotspots(hist, [], [], calls, {}, 41)["places"] == []
+
+
+def test_current_calls_attach_to_the_historical_site_they_sit_on():
+    """Calls at a known hotspot enrich it rather than becoming a second card."""
+    hist = {
+        "off_cat": ["theft"], "locs": ["100 TEST ST"],
+        "crime": [[-92.30, 34.72, 0, 20200106, 0, 0, 0] for _ in range(bp.MIN_HOTSPOT)],
+    }
+    calls = _calls(bp.MIN_RECENT * 3, lon=-92.30, lat=34.720_1, cat="assault")
+    h = bp.build_hotspots(hist, [2020], [], calls, {}, 41)
+    assert len(h["places"]) == 1
+    assert h["places"][0]["src"] == "history"
+    assert h["places"][0]["recent"]["n"] == bp.MIN_RECENT * 3
+
+
+def test_call_to_offense_ratio_is_reported_for_ranking():
+    """The browser needs it to rank call-based entries against offense-based ones."""
+    hist = {
+        "off_cat": ["theft"], "locs": ["100 TEST ST"],
+        "crime": [[-92.30, 34.72, 0, 20200106, 0, 0, 0] for _ in range(100)],
+    }
+    h = bp.build_hotspots(hist, [2020], [], _calls(50), {}, 365)
+    # 50 reportable calls a year against 100 offenses a year
+    assert h["call_to_offense"] == pytest.approx(0.5, abs=0.01)
 
 
 def test_subsite_suffixes_are_stripped_from_place_names():

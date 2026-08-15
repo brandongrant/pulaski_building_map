@@ -180,21 +180,23 @@ library) is organised around time rather than place:
 | **What** | Category leaderboard with last-7-days counts and the change against the week before. Click one to filter every other panel. |
 | **Where** | An abstract hex mosaic — quarter-mile cells, no basemap, no labels, just the city's shape drawn out of where officers were sent. Click a cell to open it on the map. |
 | **Corridors** | The street names that keep coming up, split by category. |
-| **Risk assessment** | Per-location statements — *"higher risk of theft at Walmart (2700 S Shackleford) on Friday, most likely between 2 and 4 PM"* — for every address with ≥60 reported offenses. Clicking one flies the map to it at building zoom with the dispatch points switched on. |
+| **Risk assessment** | Per-location statements — *"higher risk of theft at Walmart (2700 S Shackleford) on Friday, most likely between 2 and 4 PM"* — built from the long offense record and current calls for service together. Clicking one flies the map to it at building zoom with the dispatch points switched on. |
 | **Case files** | The parsed daily reports as cards: offenses, event tags, address, and a link to the city's PDF. |
 | **The long view** | Month-of-year shape of 115k reported offenses over the complete years of the LRPD export. |
 
 ### How a risk statement is built
 
-Two datasets with opposite gaps. LRPD's published offenses reach back to 2017 and
-carry a date but **no time of day**; the dispatch archive has real timestamps but
-only a few weeks of them. So each statement is assembled from both, and says
-which is which:
+Three datasets with opposite gaps. LRPD's published offenses reach back to 2017
+and carry a date but **no time of day**; the live dispatch archive has real
+timestamps and is current, but is weeks long and records *calls for service*
+rather than confirmed offenses; the daily incident reports are richer and rarer
+still. Each statement is assembled from whichever of them the location has:
 
-- **Where** — offenses grouped by LRPD's own recorded address, ranked by volume.
-- **What / when (day)** — eight complete years at that address, with a
-  day-of-week *lift*: how much likelier the offense is on its peak day than on an
-  average day there.
+- **Where** — offenses grouped by LRPD's own recorded address. A place with no
+  offense record at all still qualifies on ≥14 reportable calls for service, so
+  somewhere busy *now* appears alongside somewhere with a long history.
+- **What / when (day)** — that location's own record, expressed as a *lift*: how
+  much likelier the offense is on its peak day than on an average day there.
 - **When (hour)** — that location's own dispatch calls once there are ≥25 of
   them; until then the citywide clock for that offense, and the card says so.
 - **Which business** — nearest named footprint from PAgis's building layer
@@ -203,6 +205,17 @@ which is which:
   bare address. Per-building suffixes are stripped (`Fair Oaks Apts - Bldg 8` →
   `Fair Oaks Apts`) because nearest-match picks an arbitrary building inside a
   complex.
+
+Two details make the merge honest rather than tidy:
+
+- **Current-only places qualify on reportable categories, not raw call volume.**
+  Rank by total calls instead and the board fills with the county jail (prisoner
+  transports logged as `assist`) and a homeless shelter (welfare checks) —
+  places the police are sent *to help*.
+- **Rates are normalised before ranking.** Citywide, reportable calls run ~4×
+  more frequent than reported offenses (`call_to_offense` in `pulse.json`), so
+  an unscaled rate would push every call-based entry above every offense-based
+  one. Cards built from current calls are tinted and labelled as such.
 
 The section carries its own caveat, and it is worth repeating here: these are
 **concentrations, not personal odds**. There is no footfall denominator — a busy
