@@ -46,10 +46,8 @@ body.view-pulse .maplibregl-control-container { display: none !important; }
   font-size: 12px; font-weight: 600; letter-spacing: 3.4px; text-transform: uppercase;
   color: var(--accent);
 }
-.pLede {
-  max-width: 62ch; margin: 20px 0 0; color: #b9c1d2; font-size: 15px; line-height: 1.62;
-}
-.pMeta { margin-top: 14px; color: var(--txt-dim); font-size: 12px; }
+/* with no standfirst under the title, the status line carries that gap itself */
+.pMeta { margin-top: 20px; color: var(--txt-dim); font-size: 12px; }
 .pMeta b { color: var(--txt); font-weight: 600; }
 .pDot {
   display: inline-block; width: 7px; height: 7px; border-radius: 50%;
@@ -257,7 +255,6 @@ body.view-pulse .maplibregl-control-container { display: none !important; }
   .pCard { padding: 18px 16px 20px; border-radius: 14px; }
   .pNowFigs { gap: 22px 30px; }
   .pFig .v { font-size: 27px; }
-  .pLede { font-size: 14px; }
   .pCases { grid-template-columns: 1fr; }
   .tabBtn { padding: 9px 20px 10px; font-size: 12px; }
 }
