@@ -4525,3 +4525,8 @@
 {"id": "c0b01d072c6aae782bdc", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "1200 S UNIVERSITY AVE", "ts": "2026-08-15T08:28:25Z", "sens": 0, "seen": "2026-08-15T09:22:47Z"}
 {"id": "849e3ce9a364012240bc", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "10100 N RODNEY PARHAM RD", "ts": "2026-08-15T09:10:12Z", "sens": 0, "seen": "2026-08-15T09:49:44Z"}
 {"id": "eff6cee32b97d2e79ce8", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "9001 W MARKHAM ST", "ts": "2026-08-15T08:59:45Z", "sens": 0, "seen": "2026-08-15T09:49:44Z"}
+{"id": "e6d252c8deb335136ae1", "src": "CLR-CAD", "jur": "Little Rock", "type": "ADMINISTRATIVE", "cat": "assist", "loc": "3201 W ROOSEVELT RD", "ts": "2026-08-15T09:39:50Z", "sens": 0, "seen": "2026-08-15T10:19:44Z"}
+{"id": "280f2811944bff83e2a7", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "1400 JOHN BARROW RD", "ts": "2026-08-15T09:39:20Z", "sens": 0, "seen": "2026-08-15T10:19:44Z"}
+{"id": "68ecc2d0f3ca532e63e1", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "5609 VALLEY DR", "ts": "2026-08-15T09:38:36Z", "sens": 0, "seen": "2026-08-15T10:19:44Z"}
+{"id": "0968f9f77caa7a9880be", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "1224 E 28TH ST", "ts": "2026-08-15T09:27:38Z", "sens": 0, "seen": "2026-08-15T10:19:44Z"}
+{"id": "fc96d6a9a9a3a39613ec", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "6221 COLONEL GLENN RD", "ts": "2026-08-15T09:21:09Z", "sens": 0, "seen": "2026-08-15T10:19:44Z"}
