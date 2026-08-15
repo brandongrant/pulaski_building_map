@@ -9,3 +9,4 @@ mapbox-vector-tile
 pmtiles
 pyarrow
 openpyxl
+pdfplumber

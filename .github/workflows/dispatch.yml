@@ -1,8 +1,13 @@
-name: Collect dispatch + deeds data
+name: Collect dispatch + deeds + daily reports
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # Hourly, not */15. Every run rewrites the all-time outputs (all.geojson is
+    # ~3 MB), so the data branch gained a fresh copy 96 times a day for no gain:
+    # the CAD feed is delayed 30 min-8 h anyway, and its window holds several
+    # hours of events, so an hourly poll still catches every call with room to
+    # spare.
+    - cron: "7 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -24,11 +29,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests
+      - run: pip install requests pdfplumber
       - run: python pipeline/dispatch_collect.py --store datastore
-      - name: Collect recorded documents (pulaskideeds.com, 2 gentle queries)
+      # 8 per hourly run == the 2 per quarter-hourly run this replaced, so the
+      # deed harvest keeps its old daily pace; they run sequentially, so it is
+      # still a short burst once an hour rather than a sustained load.
+      - name: Collect recorded documents (pulaskideeds.com, 8 gentle queries)
         continue-on-error: true
-        run: python pipeline/deeds_collect.py --store datastore --max-queries 2
+        run: python pipeline/deeds_collect.py --store datastore --max-queries 8
+      # The city posts one daily-report PDF each weekday and keeps about a week
+      # online, so the archive only exists if we keep checking. The collector
+      # self-throttles to one listing fetch every few hours regardless of how
+      # often this workflow runs.
+      - name: Collect LRPD daily reports (throttled)
+        continue-on-error: true
+        run: python pipeline/reports_collect.py --store datastore --min-interval-hours 4
+      - name: Rebuild the Pulse summary
+        run: python pipeline/build_pulse.py --store datastore
       - name: Commit collected data
         run: |
           cd datastore

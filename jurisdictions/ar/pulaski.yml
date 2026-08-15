@@ -116,7 +116,7 @@ sources:
     entity_grain: call_for_service
     source_type: live_feed
     service_url: https://web.littlerock.state.ar.us/pub/Home/CadEvents
-    refresh: 15_minutes    # .github/workflows/dispatch.yml
+    refresh: hourly    # .github/workflows/dispatch.yml (was */15 until 2026-08-15)
     sensitivity: sensitive_location_event
     redistribution_reviewed: false
     connector: pipeline/dispatch_collect.py
@@ -145,7 +145,7 @@ sources:
     source_type: polite_scrape
     service_url: https://pulaskideeds.com/search/
     coverage_start: 1994
-    refresh: 15_minutes_2_queries   # deeds_collect.py --max-queries 2
+    refresh: hourly_8_queries   # deeds_collect.py --max-queries 8 (same daily pace)
     sensitivity: public_property_event
     redistribution_reviewed: false
     connector: pipeline/deeds_collect.py + worker/pulaski-deeds.js
@@ -156,6 +156,32 @@ sources:
         - ARM   # medical-record authorizations
       no_document_images: true
       current_owner_detection: labeled_heuristic
+
+  lrpd_daily_reports:
+    name: LRPD daily incident reports (published PDFs)
+    source_owner: City of Little Rock / LRPD
+    entity_grain: incident_report
+    source_type: published_pdf
+    discovery_url: https://littlerock.gov/residents/police-department/21st-century-policing/daily-reports/
+    refresh: weekday_by_noon    # collector checks every 4 h from dispatch.yml
+    retention_at_source: about one week — older dates 404, so the archive only
+      exists because the collector keeps checking
+    sensitivity: sensitive_location_event
+    redistribution_reviewed: false
+    connector: pipeline/lrpd_reports.py + pipeline/reports_collect.py
+    storage: data branch (append-only JSONL archive + reports/out/*)
+    display_policy:
+      # The published PDFs are complete report packets: they name victims,
+      # witnesses and suspects, and some are stamped "Redact Before Release".
+      # Narratives are read to derive mechanical tags and then discarded —
+      # nothing person-level is written to disk or served (pinned by
+      # tests/test_lrpd_reports.py against reports_collect.PUBLISH_FIELDS).
+      narratives: read_then_discarded
+      published_fields: incident_level_only
+      exclude: [victim_names, witness_names, suspect_names, suspect_descriptions,
+                dates_of_birth, officer_names, property_detail, juvenile_detail]
+      link_to_source: true          # each case links to the city's own PDF page
+      language: reported incident   # not a charge or a conviction
 
   lrpd_reported_crime:
     name: Little Rock Police Department reported index offenses (2017-YTD)

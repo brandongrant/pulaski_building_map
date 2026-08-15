@@ -81,7 +81,7 @@ Steps (each restartable, ~20–40 min total, ~2 GB temp disk):
 
 ## Public dispatch overlay
 
-[dispatch.yml](.github/workflows/dispatch.yml) runs every ~15 minutes: it pulls the
+[dispatch.yml](.github/workflows/dispatch.yml) runs hourly: it pulls the
 City of Little Rock public CAD feed (`/pub/Home/CadEvents`), dedupes by
 `hash(type+location+time)`, categorizes call types into ~20 buckets, geocodes
 against a PAgis address-point index, and appends JSONL archives to the
@@ -92,6 +92,10 @@ against a PAgis address-point index, and appends JSONL archives to the
 - `dispatch/out/grid_30d.geojson` — ~500 ft cells with per-category counts
 - `dispatch/out/all.geojson` — every geocoded call, all-time (indefinite)
 - `dispatch/out/stats.json` — totals, geocode-quality breakdown, per-category counts
+
+The same workflow also collects the LRPD **daily incident reports** and rebuilds
+the **Pulse** summary at the end of every run — see
+[Daily police reports](#daily-police-reports--the-pulse-tab) below.
 
 **Geocoding (verified-address, fixed 2026-07-13):** the location string is
 canonicalized so street-type/direction synonyms match the address index
@@ -131,6 +135,58 @@ currently covers recordings from 2026-04-01 forward (the clerk's verified
 index lags recording by ~2–4 weeks). Design, source recon, and roadmap:
 [docs/recorded_documents_plan.md](docs/recorded_documents_plan.md).
 Military discharges and medical-record authorizations are never collected.
+
+## Daily police reports → the **Pulse** tab
+
+The site has two views, switched from the pill at the top: **Map** (everything
+above) and **Pulse** — the city's crime picture as a shape rather than a list.
+
+LRPD publishes a PDF of complete incident reports each weekday and takes the old
+ones down after about a week, so the archive only exists if something keeps
+checking. [`reports_collect.py`](pipeline/reports_collect.py) runs inside the
+same hourly workflow as the dispatch collector but self-throttles to one
+listing fetch every four hours: it scrapes the
+[daily reports page](https://littlerock.gov/residents/police-department/21st-century-policing/daily-reports/),
+downloads dates it has not seen, and parses each packet with
+[`lrpd_reports.py`](pipeline/lrpd_reports.py) — a geometric reader of LRPD
+Form 5501 (field boxes are fixed to the point; the red "Redact Before Release"
+stamp is filtered out by colour before words are assembled). Roughly a third of
+the PDFs are scans with no text layer; whatever is recoverable from those is
+kept and marked `partial`.
+
+**What is kept, and what is not.** The published record is incident-level only:
+number, date/time, call type, statutory offenses, district, address, plus the
+dispatch category and a geocode. The narratives name victims, witnesses and
+suspects — those paragraphs are read to derive mechanical tags (*firearm,
+forced entry, property taken, suspect fled, arrest made*…) and then discarded.
+Nothing person-level is written to disk or served, which
+[`tests/test_lrpd_reports.py`](tests/test_lrpd_reports.py) pins against
+`reports_collect.PUBLISH_FIELDS`. Every case links straight to the city's own
+PDF page for anyone who wants the full document.
+
+[`build_pulse.py`](pipeline/build_pulse.py) then folds the dispatch archive, the
+daily-report incidents and the 2017–2025 offense export into a single ~55 KB
+`pulse/out/pulse.json` on the `data` branch, so the tab draws instantly instead
+of grinding through a 3 MB GeoJSON in the browser. Everything is bucketed in
+America/Chicago local time.
+
+The tab itself ([`web/pulse.js`](web/pulse.js), hand-built SVG, no chart
+library) is organised around time rather than place:
+
+| Panel | What it shows |
+|---|---|
+| **The clock** | A 24-hour dial: outer ring = every call, inner ring = shots/assault/robbery, each scaled to its own busiest hour. The city is busiest mid-afternoon and most violent near midnight — the two rings make that a shape, not a statistic. |
+| **The week** | 168 squares, one per weekday-hour, so the worst square on the board is obvious. |
+| **What** | Category leaderboard with last-7-days counts and the change against the week before. Click one to filter every other panel. |
+| **Where** | An abstract hex mosaic — quarter-mile cells, no basemap, no labels, just the city's shape drawn out of where officers were sent. Click a cell to open it on the map. |
+| **Corridors** | The street names that keep coming up, split by category. |
+| **Case files** | The parsed daily reports as cards: offenses, event tags, address, and a link to the city's PDF. |
+| **The long view** | Month-of-year shape of 115k reported offenses over the complete years of the LRPD export. |
+
+`web/data/pulse/pulse.json` is a committed snapshot so the tab works on a fresh
+clone; the live file on the `data` branch is preferred and the page says so when
+it has to fall back. For local iteration:
+`python pipeline/build_pulse.py --store <data-branch-checkout> --out web/data/pulse/pulse.json`.
 
 ## Permit overlay
 

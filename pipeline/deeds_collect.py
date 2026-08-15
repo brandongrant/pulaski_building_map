@@ -18,10 +18,11 @@ How the source behaves (measured 2026-07-06, docs/recorded_documents_plan.md):
     in-process queue), so recent days legitimately return 0 rows and must be
     re-checked later
 
-Politeness budget: --max-queries per run (default 2) + one session bootstrap;
-with the */15 cron that is ~200 light requests/day, comparable to one human
-user. Days that keep failing (server cap) are retried across runs with an
-attempt counter, never hammered in a loop.
+Politeness budget: --max-queries per run (default 2; the hourly workflow passes
+8, which is the same ~200 light requests/day the old */15 cron made at 2 apiece)
+plus one session bootstrap — comparable to one human user. Days that keep
+failing (server cap) are retried across runs with an attempt counter, never
+hammered in a loop.
 
 Store layout:
   deeds/legal_index.json.gz   SUBDIV|LOT|BLOCK -> [lon, lat, addr, city]
