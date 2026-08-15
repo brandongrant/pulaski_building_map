@@ -4479,3 +4479,7 @@
 {"id": "072cdca6ee5d6041b0f0", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "10524 W MARKHAM ST", "ts": "2026-08-15T04:41:21Z", "sens": 0, "seen": "2026-08-15T05:27:50Z"}
 {"id": "0b7d980ddc42956de3f5", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "2401 W 65TH ST", "ts": "2026-08-15T04:35:18Z", "sens": 0, "seen": "2026-08-15T05:27:50Z"}
 {"id": "da265a611cb2cd557e34", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "3618 W ROOSEVELT RD", "ts": "2026-08-15T04:31:06Z", "sens": 1, "seen": "2026-08-15T05:27:50Z"}
+{"id": "50776d5000cc8714f25c", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "7511 VEGA DR", "ts": "2026-08-15T05:15:06Z", "sens": 1, "seen": "2026-08-15T05:52:16Z"}
+{"id": "a1f318b7175d2ca086d0", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "E 7TH ST / CUMBERLAND ST", "ts": "2026-08-15T05:14:06Z", "sens": 0, "seen": "2026-08-15T05:52:16Z"}
+{"id": "4253a0f8105368fac43d", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "3917 W 12TH ST", "ts": "2026-08-15T05:10:24Z", "sens": 0, "seen": "2026-08-15T05:52:16Z"}
+{"id": "3b977358e617d45090ad", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "6500 MABELVALE CTF", "ts": "2026-08-15T04:59:03Z", "sens": 1, "seen": "2026-08-15T05:52:16Z"}
