@@ -1,0 +1,51 @@
+{
+ "2026-08-03": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 1,
+  "pages": 7,
+  "text_pages": 4,
+  "url": "https://littlerock.gov/wp-content/uploads/08-03-2026.pdf"
+ },
+ "2026-08-04": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 1,
+  "pages": 13,
+  "text_pages": 4,
+  "url": "https://littlerock.gov/wp-content/uploads/08-04-2026.pdf"
+ },
+ "2026-08-06": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 2,
+  "pages": 17,
+  "text_pages": 17,
+  "url": "https://littlerock.gov/wp-content/uploads/08-06-2026.pdf"
+ },
+ "2026-08-10": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 3,
+  "pages": 29,
+  "text_pages": 29,
+  "url": "https://littlerock.gov/wp-content/uploads/08-10-2026.pdf"
+ },
+ "2026-08-11": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 1,
+  "pages": 14,
+  "text_pages": 9,
+  "url": "https://littlerock.gov/wp-content/uploads/08-11-2026.pdf"
+ },
+ "2026-08-13": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 1,
+  "pages": 8,
+  "text_pages": 4,
+  "url": "https://littlerock.gov/wp-content/uploads/08-13-2026.pdf"
+ },
+ "2026-08-14": {
+  "collected": "2026-08-15T17:27:01Z",
+  "incidents": 3,
+  "pages": 37,
+  "text_pages": 37,
+  "url": "https://littlerock.gov/wp-content/uploads/08-14-2026.pdf"
+ }
+}
