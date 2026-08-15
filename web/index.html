@@ -6,9 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="pulse.css">
 </head>
 <body>
 <div id="map"></div>
+
+<nav id="tabs" role="tablist" aria-label="Views">
+  <button class="tabBtn on" data-view="map" role="tab" aria-selected="true">Map</button>
+  <button class="tabBtn" data-view="pulse" role="tab" aria-selected="false">Pulse</button>
+</nav>
 
 <button id="panelToggle" title="Toggle panel (H)">☰</button>
 
@@ -191,6 +197,7 @@
   </div>
 
   <footer>
+    <a href="#" id="pulseLink">Pulse — what's happening around the city →</a>
     <a href="#" id="aboutLink">About & data sources</a>
   </footer>
 </aside>
@@ -217,6 +224,13 @@
           index-offense statistics (2017–2025), plotted at LRPD's own published
           coordinates; suppressed-location incidents are omitted. A reported
           offense is not a conviction.</li>
+      <li><b>Daily incident reports</b> — the report PDFs LRPD publishes each
+          weekday, collected as they appear (the city takes them down after
+          about a week) and reduced to incident-level facts: time, call type,
+          statutory offenses, district and address. The narratives name victims
+          and witnesses, so they are read to derive event tags — weapon,
+          forced entry, property taken — and then discarded. See the
+          <b>Pulse</b> tab.</li>
     </ul>
     <h3>Caveats</h3>
     <ul>
@@ -239,8 +253,100 @@
 
 <div id="loading"><div class="spin"></div>Loading building tiles…</div>
 
+<!-- ===================== Pulse: the city, hour by hour ===================== -->
+<main id="pulse" hidden role="tabpanel" aria-label="Pulse">
+  <div class="pWrap">
+
+    <header class="pHead">
+      <h1>Pulse<span>Little Rock, hour by hour</span></h1>
+      <p class="pLede">Every call the police were sent to, every incident report the
+        city published — folded into the shape of an ordinary week. This is what
+        the daily reports look like when you stop reading them one PDF at a time.</p>
+      <div class="pMeta" id="pMeta">Loading…</div>
+    </header>
+
+    <div id="pFilterBar" class="pFilter" hidden>
+      <span>Showing</span>
+      <button id="pFilterChip" class="chipActive"></button>
+      <button id="pFilterClear" class="pLink">show everything</button>
+    </div>
+
+    <section class="pCard pNow">
+      <div class="pNowFigs" id="pNowFigs"></div>
+      <p class="pNote" id="pMovers"></p>
+      <div class="pSpark"><svg id="pDaySpark" viewBox="0 0 720 90" preserveAspectRatio="none"></svg>
+        <div class="pSparkAx"><span id="pSparkA"></span><span id="pSparkB"></span></div>
+      </div>
+    </section>
+
+    <div class="pGrid pGrid2">
+      <section class="pCard">
+        <h2>The clock <em>when the city calls</em></h2>
+        <div class="pClockWrap">
+          <svg id="pClock" viewBox="0 0 420 420" aria-label="Calls by hour of day"></svg>
+          <div class="pClockRead" id="pClockRead"></div>
+        </div>
+        <div class="pClockKey" id="pClockKey"></div>
+      </section>
+
+      <section class="pCard">
+        <h2>The week <em>168 hours, one square each</em></h2>
+        <svg id="pWeek" viewBox="0 0 460 210" aria-label="Calls by weekday and hour"></svg>
+        <p class="pNote" id="pWeekNote"></p>
+      </section>
+    </div>
+
+    <section class="pCard">
+      <h2>What <em>pick one to filter everything below</em></h2>
+      <div id="pCats" class="pCats"></div>
+    </section>
+
+    <div class="pGrid pGrid2">
+      <section class="pCard">
+        <h2>Where <em>each cell is a quarter-mile of city</em></h2>
+        <svg id="pHex" viewBox="0 0 460 400" aria-label="Call density mosaic"></svg>
+        <p class="pNote">No streets, no labels — just the city's own shape, drawn out of
+          where officers were sent. Click a cell to open it on the map.</p>
+      </section>
+
+      <section class="pCard">
+        <h2>Corridors <em>the addresses that keep coming up</em></h2>
+        <div id="pStreets" class="pStreets"></div>
+      </section>
+    </div>
+
+    <section class="pCard">
+      <h2>Case files <em>from the city's daily incident reports</em></h2>
+      <p class="pNote" id="pCasesNote"></p>
+      <div id="pCases" class="pCases"></div>
+    </section>
+
+    <section class="pCard">
+      <h2>The long view <em>reported offenses, 2017 onward</em></h2>
+      <div id="pHistory" class="pHistory"></div>
+    </section>
+
+    <footer class="pFoot">
+      <p><b>Calls for service are not crimes.</b> A dispatch record means someone
+        called and officers were sent; an incident report is an officer's account of
+        what they found. Neither is a charge or a conviction, and both are edited by
+        the city before release.</p>
+      <p>Sources: City of Little Rock public CAD feed · LRPD
+        <a href="https://littlerock.gov/residents/police-department/21st-century-policing/daily-reports/"
+           target="_blank" rel="noopener">daily reports</a> ·
+        LRPD published index offenses 2017–2025. Incident-report narratives name
+        victims and witnesses, so they are read for context and discarded — nothing
+        person-level is stored or shown here. Each case links to the city's own PDF.
+        Unofficial.</p>
+    </footer>
+  </div>
+</main>
+
+<div id="pTip" hidden></div>
+
 <script src="vendor/maplibre-gl.js"></script>
 <script src="vendor/pmtiles.js"></script>
 <script src="app.js"></script>
+<script src="pulse.js"></script>
 </body>
 </html>

@@ -1,0 +1,266 @@
+/* ============================================================ view switcher */
+#tabs {
+  position: fixed; z-index: 45; top: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 3px; padding: 3px;
+  background: var(--panel-bg); border: 1px solid var(--panel-border);
+  border-radius: 11px; backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+.tabBtn {
+  appearance: none; border: 0; cursor: pointer; font: inherit;
+  padding: 7px 18px 8px; border-radius: 8px;
+  background: transparent; color: var(--txt-dim);
+  font-size: 11.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  transition: background 0.15s, color 0.15s; touch-action: manipulation;
+}
+.tabBtn:hover { color: var(--txt); }
+.tabBtn.on { background: var(--ctl-bg); color: var(--accent); }
+
+/* The map keeps its DOM (and its WebGL context) while Pulse is open; its
+   chrome is taken out of the stacking order rather than layered under. */
+body.view-pulse #panel,
+body.view-pulse #panelToggle,
+body.view-pulse #tooltip,
+body.view-pulse #loading,
+body.view-pulse .maplibregl-control-container { display: none !important; }
+
+/* ================================================================== canvas */
+#pulse {
+  position: absolute; inset: 0; z-index: 20;
+  overflow-y: auto; overscroll-behavior: contain;
+  background:
+    radial-gradient(1100px 460px at 50% -180px, #12182a 0%, rgba(5, 6, 10, 0) 70%),
+    #05060a;
+  scrollbar-width: thin; scrollbar-color: #333d52 transparent;
+}
+#pulse[hidden] { display: none; }
+.pWrap { max-width: 1120px; margin: 0 auto; padding: 64px 22px 80px; }
+
+/* ==================================================================== head */
+.pHead h1 {
+  margin: 0; font-size: clamp(38px, 7vw, 62px); font-weight: 800;
+  letter-spacing: -1.5px; line-height: 0.95;
+}
+.pHead h1 span {
+  display: block; margin-top: 10px;
+  font-size: 12px; font-weight: 600; letter-spacing: 3.4px; text-transform: uppercase;
+  color: var(--accent);
+}
+.pLede {
+  max-width: 62ch; margin: 20px 0 0; color: #b9c1d2; font-size: 15px; line-height: 1.62;
+}
+.pMeta { margin-top: 14px; color: var(--txt-dim); font-size: 12px; }
+.pMeta b { color: var(--txt); font-weight: 600; }
+.pDot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: #57d38c; margin-right: 7px; vertical-align: 1px;
+  box-shadow: 0 0 0 3px rgba(87, 211, 140, 0.16);
+}
+
+/* ================================================================== filter */
+.pFilter {
+  position: sticky; top: 0; z-index: 6; margin: 26px 0 -8px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 11px 14px; border-radius: 11px;
+  background: rgba(10, 13, 20, 0.92); backdrop-filter: blur(8px);
+  border: 1px solid var(--panel-border);
+  font-size: 12.5px; color: var(--txt-dim);
+}
+.pFilter[hidden] { display: none; }
+.chipActive {
+  appearance: none; cursor: default; font: inherit; font-weight: 600;
+  border: 1px solid currentColor; border-radius: 999px; padding: 3px 13px 4px;
+  background: transparent;
+}
+.pLink {
+  appearance: none; background: none; border: 0; cursor: pointer; font: inherit;
+  color: var(--accent); text-decoration: underline; text-underline-offset: 3px; padding: 2px;
+}
+
+/* =================================================================== cards */
+.pCard {
+  margin-top: 26px; padding: 22px 24px 24px;
+  background: linear-gradient(180deg, rgba(20, 26, 40, 0.55), rgba(11, 14, 22, 0.55));
+  border: 1px solid var(--panel-border); border-radius: 16px;
+}
+.pCard h2 {
+  margin: 0 0 18px; font-size: 12px; font-weight: 700;
+  letter-spacing: 2.2px; text-transform: uppercase; color: var(--txt);
+}
+.pCard h2 em {
+  font-style: normal; font-weight: 400; letter-spacing: 0.2px;
+  text-transform: none; color: var(--txt-dim); margin-left: 10px; font-size: 12.5px;
+}
+.pGrid { display: grid; gap: 22px; }
+.pGrid2 { grid-template-columns: 1fr 1fr; }
+.pGrid2 > .pCard { margin-top: 26px; }
+.pNote { margin: 14px 0 0; color: var(--txt-dim); font-size: 11.5px; line-height: 1.55; }
+
+/* ===================================================================== now */
+.pNowFigs { display: flex; flex-wrap: wrap; gap: 34px 46px; }
+.pFig { min-width: 118px; }
+.pFig .v { font-size: 34px; font-weight: 700; letter-spacing: -1px; line-height: 1.05; }
+.pFig .k {
+  margin-top: 5px; color: var(--txt-dim);
+  font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase;
+}
+.pFig .d { font-size: 12.5px; margin-top: 6px; }
+.up { color: #ff7a6b; } .down { color: #57d38c; } .flat { color: var(--txt-dim); }
+.pSpark { margin-top: 22px; }
+.pSpark svg { width: 100%; height: 90px; display: block; }
+.pSparkAx {
+  display: flex; justify-content: space-between;
+  color: var(--txt-dim); font-size: 10.5px; margin-top: 5px;
+}
+
+/* =================================================================== clock */
+.pClockWrap { position: relative; }
+#pClock { width: 100%; height: auto; display: block; overflow: visible; }
+#pClock .wedge { cursor: pointer; transition: opacity 0.12s; }
+#pClock .wedge:hover { opacity: 0.75; }
+#pClock text { fill: var(--txt-dim); font-size: 11px; }
+#pClock .hnow { fill: var(--accent); font-weight: 700; }
+.pClockRead {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 148px; text-align: center; pointer-events: none;
+}
+.pClockRead .h { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.pClockRead .n { color: var(--txt-dim); font-size: 11.5px; margin-top: 2px; }
+.pClockRead .t { color: #b9c1d2; font-size: 11px; margin-top: 8px; line-height: 1.45; }
+.pClockKey {
+  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+  margin-top: 16px; color: var(--txt-dim); font-size: 11.5px;
+}
+.pKeySw { display: inline-block; width: 22px; height: 8px; border-radius: 2px; margin-right: 7px; vertical-align: 0; }
+
+/* ==================================================================== week */
+#pWeek { width: 100%; height: auto; display: block; }
+#pWeek text { fill: var(--txt-dim); font-size: 9.5px; }
+#pWeek rect.cell { cursor: pointer; }
+#pWeek rect.cell:hover { stroke: var(--txt); stroke-width: 1.2; }
+
+/* =============================================================== leaderboard */
+.pCats { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 30px; }
+.pCatRow {
+  display: grid; grid-template-columns: 15px minmax(96px, 1fr) 62px 74px;
+  align-items: center; gap: 10px;
+  padding: 7px 8px; border-radius: 8px; cursor: pointer; border: 0; width: 100%;
+  background: none; color: inherit; font: inherit; text-align: left;
+}
+.pCatRow:hover { background: rgba(255, 255, 255, 0.045); }
+.pCatRow.sel { background: rgba(255, 255, 255, 0.075); }
+.pCatSw { width: 11px; height: 11px; border-radius: 3px; }
+.pCatName { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pCatBar { height: 7px; border-radius: 4px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+.pCatBar i { display: block; height: 100%; border-radius: 4px; }
+.pCatFig { text-align: right; font-size: 12px; color: var(--txt-dim); }
+.pCatFig b { color: var(--txt); font-weight: 600; }
+.pCatFig .d { font-size: 11px; margin-left: 6px; }
+
+/* ================================================================== mosaic */
+#pHex { width: 100%; height: auto; display: block; }
+#pHex polygon { cursor: pointer; }
+#pHex polygon:hover { stroke: #fff; stroke-width: 1.1; }
+
+/* ================================================================= streets */
+.pStreets { display: flex; flex-direction: column; gap: 1px; }
+.pStreetRow {
+  display: grid; grid-template-columns: minmax(96px, 132px) 1fr 40px; gap: 12px;
+  align-items: center; padding: 6px; border-radius: 7px;
+}
+.pStreetRow:hover { background: rgba(255, 255, 255, 0.04); }
+.pStreetName {
+  font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-transform: capitalize;
+}
+.pStreetTrack { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+.pStreetBar { display: flex; height: 9px; border-radius: 4px; overflow: hidden; }
+.pStreetBar i { display: block; height: 100%; }
+.pStreetN { text-align: right; font-size: 11.5px; color: var(--txt-dim); font-variant-numeric: tabular-nums; }
+
+/* ============================================================== case files */
+.pCases { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
+.pCase {
+  display: flex; flex-direction: column; gap: 9px;
+  padding: 15px 16px 14px; border-radius: 13px;
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid var(--panel-border); border-left: 3px solid var(--c, #8b93a5);
+}
+.pCaseTop { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.pCaseWhen { font-size: 11px; color: var(--txt-dim); letter-spacing: 0.4px; }
+.pCaseNo { font-size: 10.5px; color: #5f6a80; font-variant-numeric: tabular-nums; }
+.pCaseTitle { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; color: var(--c, var(--txt)); }
+.pCaseOff { display: flex; flex-wrap: wrap; gap: 5px; }
+.pCaseOff span {
+  font-size: 10.5px; padding: 2px 8px 3px; border-radius: 5px;
+  background: rgba(255, 255, 255, 0.06); color: #c8cfdd;
+}
+.pCaseTags { display: flex; flex-wrap: wrap; gap: 5px; }
+.pCaseTags span {
+  font-size: 10.5px; padding: 2px 8px 3px; border-radius: 999px;
+  border: 1px solid var(--panel-border); color: var(--txt-dim);
+}
+.pCaseWhere { font-size: 11.5px; color: #b9c1d2; text-transform: capitalize; }
+.pCaseFoot { display: flex; gap: 14px; margin-top: 2px; }
+.pCaseFoot a, .pCaseFoot button {
+  appearance: none; background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; font-size: 11px; color: var(--accent);
+  text-decoration: none; border-bottom: 1px solid rgba(243, 213, 76, 0.35);
+}
+.pCaseFoot a:hover, .pCaseFoot button:hover { border-bottom-color: var(--accent); }
+.pCaseNone { color: var(--txt-dim); font-size: 13px; padding: 8px 0 4px; }
+
+/* ================================================================= history */
+.pHistory { display: grid; grid-template-columns: repeat(auto-fit, minmax(216px, 1fr)); gap: 20px; }
+.pHistCell h3 { margin: 0 0 3px; font-size: 12.5px; font-weight: 600; }
+.pHistCell .sub { color: var(--txt-dim); font-size: 11px; margin-bottom: 9px; }
+.pHistCell svg { width: 100%; height: auto; display: block; }
+.pHistCell text { fill: var(--txt-dim); font-size: 8.5px; }
+
+/* ================================================================== footer */
+.pFoot { margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--panel-border); }
+.pFoot p { color: var(--txt-dim); font-size: 11.5px; line-height: 1.65; max-width: 74ch; }
+.pFoot b { color: #b9c1d2; }
+.pFoot a { color: var(--txt-dim); }
+.pFoot a:hover { color: var(--accent); }
+
+/* ================================================================= tooltip */
+#pTip {
+  position: fixed; z-index: 60; pointer-events: none; max-width: 250px;
+  background: rgba(10, 12, 18, 0.96); border: 1px solid var(--panel-border);
+  border-radius: 9px; padding: 9px 12px; font-size: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.65);
+}
+#pTip[hidden] { display: none; }
+#pTip b { display: block; margin-bottom: 3px; }
+#pTip .l { color: var(--txt-dim); }
+
+/* ================================================================== mobile */
+@media (max-width: 860px) {
+  .pGrid2 { grid-template-columns: 1fr; }
+  .pCats { grid-template-columns: 1fr; }
+}
+/* The Pulse link in the map panel's footer — a text entry point that does not
+   depend on spotting a floating pill. */
+#pulseLink {
+  display: block; margin-bottom: 5px;
+  color: var(--accent); font-size: 12px; font-weight: 600; text-decoration: none;
+}
+#pulseLink:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 640px) {
+  /* stop the drawer running underneath the tab pill */
+  #panel { max-height: calc(100vh - 80px); max-height: calc(100dvh - 80px); }
+  #tabs { top: auto; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+  #pulseLink { font-size: 13.5px; padding: 8px 0; }
+  .pWrap { padding: 26px 15px 96px; }
+  .pCard { padding: 18px 16px 20px; border-radius: 14px; }
+  .pNowFigs { gap: 22px 30px; }
+  .pFig .v { font-size: 27px; }
+  .pLede { font-size: 14px; }
+  .pCases { grid-template-columns: 1fr; }
+  .tabBtn { padding: 9px 20px 10px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #pClock .wedge, .tabBtn { transition: none; }
+}
