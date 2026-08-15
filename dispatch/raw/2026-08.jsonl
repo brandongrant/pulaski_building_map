@@ -4581,3 +4581,5 @@
 {"id": "3c0da0dda77202344995", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "ASHER AVE / FAIR PARK BLVD", "ts": "2026-08-15T15:39:38Z", "sens": 0, "seen": "2026-08-15T16:33:13Z"}
 {"id": "a939117063c3c27fd9ec", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "224 E 7TH ST", "ts": "2026-08-15T15:38:18Z", "sens": 1, "seen": "2026-08-15T16:33:13Z"}
 {"id": "b841de611232e327629c", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "11420 BASS PRO PKY", "ts": "2026-08-15T15:35:59Z", "sens": 0, "seen": "2026-08-15T16:33:13Z"}
+{"id": "d4a246f5d42c41f8b1f3", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "W 12TH ST / S LOUISIANA ST", "ts": "2026-08-15T16:09:01Z", "sens": 0, "seen": "2026-08-15T16:59:29Z"}
+{"id": "7486dc88997580b904a3", "src": "CLR-CAD", "jur": "Little Rock", "type": "STANDBY TO PREVENT DISTURBANCE", "cat": "disturbance", "loc": "2812 S CHESTER ST", "ts": "2026-08-15T16:04:41Z", "sens": 0, "seen": "2026-08-15T16:59:29Z"}
