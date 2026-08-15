@@ -48,6 +48,30 @@ sources:
     redistribution_reviewed: false
     connector: pipeline/download_layer.py + pipeline/build_owner_index.py
 
+  pagis_building_names:
+    name: PAgis named buildings (BO_NAME on BaseMap layer 21)
+    source_owner: Pulaski Area GIS (PAgis)
+    entity_grain: building
+    source_type: arcgis_feature_layer
+    service_url: https://www.pagis.org/arcgis/rest/services/MAPS/BaseMap/MapServer/21
+    fields_used: [BO_NAME]
+    refresh: with_building_refresh
+    sensitivity: public_property
+    redistribution_reviewed: false
+    connector: pipeline/build_place_index.py
+    display_policy:
+      # Used to put a business name on an incident cluster in the Pulse risk
+      # section. Named only within 45 m of the cluster centre — past that the
+      # nearest footprint is a neighbour, and the statement would pin a shopping
+      # centre's offenses on one tenant. Per-building suffixes ("- Bldg 8") are
+      # stripped so a complex is never represented by one arbitrary building.
+      name_match_radius_m: 45
+      subsite_suffixes: stripped
+    notes: >
+      11,744 of 225,829 footprints carry a name, and they are overwhelmingly the
+      commercial and institutional ones. Housing is unnamed, so a residential
+      address falls back to its street address unless the complex itself is named.
+
   pagis_address_points:
     name: PAgis address points
     source_owner: Pulaski Area GIS (PAgis)

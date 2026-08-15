@@ -180,13 +180,49 @@ library) is organised around time rather than place:
 | **What** | Category leaderboard with last-7-days counts and the change against the week before. Click one to filter every other panel. |
 | **Where** | An abstract hex mosaic — quarter-mile cells, no basemap, no labels, just the city's shape drawn out of where officers were sent. Click a cell to open it on the map. |
 | **Corridors** | The street names that keep coming up, split by category. |
+| **Risk assessment** | Per-location statements — *"higher risk of theft at Walmart (2700 S Shackleford) on Friday, most likely between 2 and 4 PM"* — for every address with ≥60 reported offenses. Clicking one flies the map to it at building zoom with the dispatch points switched on. |
 | **Case files** | The parsed daily reports as cards: offenses, event tags, address, and a link to the city's PDF. |
 | **The long view** | Month-of-year shape of 115k reported offenses over the complete years of the LRPD export. |
 
+### How a risk statement is built
+
+Two datasets with opposite gaps. LRPD's published offenses reach back to 2017 and
+carry a date but **no time of day**; the dispatch archive has real timestamps but
+only a few weeks of them. So each statement is assembled from both, and says
+which is which:
+
+- **Where** — offenses grouped by LRPD's own recorded address, ranked by volume.
+- **What / when (day)** — eight complete years at that address, with a
+  day-of-week *lift*: how much likelier the offense is on its peak day than on an
+  average day there.
+- **When (hour)** — that location's own dispatch calls once there are ≥25 of
+  them; until then the citywide clock for that offense, and the card says so.
+- **Which business** — nearest named footprint from PAgis's building layer
+  (`pipeline/build_place_index.py`, 11.7k named buildings) within **45 m**.
+  Beyond that the match drifts onto a neighbour, so the card falls back to the
+  bare address. Per-building suffixes are stripped (`Fair Oaks Apts - Bldg 8` →
+  `Fair Oaks Apts`) because nearest-match picks an arbitrary building inside a
+  complex.
+
+The section carries its own caveat, and it is worth repeating here: these are
+**concentrations, not personal odds**. There is no footfall denominator — a busy
+store records more offenses partly because far more people walk through it — and
+a single address can absorb a whole parking lot or shopping centre.
+
 `web/data/pulse/pulse.json` is a committed snapshot so the tab works on a fresh
 clone; the live file on the `data` branch is preferred and the page says so when
-it has to fall back. For local iteration:
-`python pipeline/build_pulse.py --store <data-branch-checkout> --out web/data/pulse/pulse.json`.
+it has to fall back. `web/data/places.json` is likewise committed and read at
+build time — the hourly workflow does **not** rebuild it; refresh it by hand with
+`python pipeline/build_place_index.py` when PAgis republishes its buildings.
+
+For local iteration:
+
+```bat
+python pipeline/build_pulse.py --store <data-branch-checkout> --out web/data/pulse/pulse.json
+```
+
+then open `http://localhost:8080/?pulse=local`, which skips the published
+summary and reads the checkout's own copy.
 
 ## Permit overlay
 

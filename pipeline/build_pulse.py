@@ -24,7 +24,7 @@ import json
 import math
 import re
 from collections import Counter, defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -41,6 +41,19 @@ DAY_SERIES = 60           # daily sparkline length
 TOP_STREETS = 28
 TOP_TYPES = 24
 CASE_FILES = 120          # most recent daily-report incidents shipped to the UI
+
+# --- hotspots -------------------------------------------------------------
+# A place needs a real history before any statement about it means anything.
+MIN_HOTSPOT = 60          # reported offenses across the complete years
+TOP_HOTSPOTS = 40
+# Name a business only when its footprint is essentially on top of the incident
+# cluster. Measured against the busiest locations, matches inside ~45 m are the
+# right building (Walmart 8-17 m, Home Depot 3 m); past that they drift onto a
+# neighbour and would pin a shopping centre's incidents on one restaurant.
+NAME_RADIUS_M = 45
+DSP_RADIUS_M = 80         # dispatch calls counted as "at" a hotspot
+MIN_PLACE_HOURS = 25      # dispatch calls needed before using a place's own clock
+MIN_CAT_FOR_LIFT = 12     # per-category floor before quoting a day-of-week lift
 
 # Categories that describe a crime rather than an errand. The clock, the mosaic
 # and the leaderboard use this set so "assist / admin" traffic (a third of all
@@ -99,6 +112,115 @@ def load_json(path, default=None):
         return default
 
 
+def peak_window(profile, width=2):
+    """Start hour of the heaviest `width`-hour block in a 24-hour profile."""
+    if not any(profile):
+        return None
+    best, best_h = -1, 0
+    for h in range(24):
+        s = sum(profile[(h + i) % 24] for i in range(width))
+        if s > best:
+            best, best_h = s, h
+    return best_h
+
+
+def build_hotspots(hist, full_years, places, calls, city_hours):
+    """Where reported offenses concentrate, and when they land there.
+
+    Two datasets with complementary gaps: LRPD's published offenses go back to
+    2017 and carry a date but no time of day, while the dispatch archive has
+    real timestamps but only a few weeks of them. So a place's *day* comes from
+    eight years of offenses at that spot, and its *hour* comes from its own
+    dispatch calls when there are enough of them and from the citywide profile
+    for that category when there are not — flagged either way, because the two
+    are not the same claim.
+    """
+    if not hist:
+        return None
+    off_cat = hist.get("off_cat") or []
+    locs = hist.get("locs") or []
+    years = set(full_years)
+
+    groups = defaultdict(lambda: {"n": 0, "cat": Counter(), "dow": [0] * 7,
+                                  "cat_dow": defaultdict(lambda: [0] * 7),
+                                  "lon": [], "lat": [], "first": 9999, "last": 0})
+    for lon, lat, oi, ymd, _st, _wp, li in hist["crime"]:
+        year = ymd // 10000
+        if year not in years:
+            continue
+        cat = off_cat[oi] if oi < len(off_cat) else "other"
+        try:
+            dow = date(year, (ymd // 100) % 100, ymd % 100).weekday()
+        except ValueError:
+            continue
+        g = groups[li]
+        g["n"] += 1
+        g["cat"][cat] += 1
+        g["dow"][dow] += 1
+        g["cat_dow"][cat][dow] += 1
+        g["lon"].append(lon)
+        g["lat"].append(lat)
+        g["first"] = min(g["first"], year)
+        g["last"] = max(g["last"], year)
+
+    ranked = sorted(((g["n"], li) for li, g in groups.items() if g["n"] >= MIN_HOTSPOT),
+                    reverse=True)[:TOP_HOTSPOTS]
+
+    # metres per degree at Little Rock's latitude, good enough for a 45 m test
+    MX, MY = 91_000.0, 111_000.0
+    out = []
+    for _n, li in ranked:
+        g = groups[li]
+        lon = sorted(g["lon"])[len(g["lon"]) // 2]
+        lat = sorted(g["lat"])[len(g["lat"]) // 2]
+
+        name, best = None, NAME_RADIUS_M ** 2
+        for pname, px, py in places:
+            dx, dy = (px - lon) * MX, (py - lat) * MY
+            d2 = dx * dx + dy * dy
+            if d2 < best:
+                best, name = d2, pname
+
+        # the place's own recent clock, if the dispatch archive has enough of it
+        hours = [0] * 24
+        dsp_n = 0
+        r2 = DSP_RADIUS_M ** 2
+        for clon, clat, chour in calls:
+            dx, dy = (clon - lon) * MX, (clat - lat) * MY
+            if dx * dx + dy * dy <= r2:
+                hours[chour] += 1
+                dsp_n += 1
+
+        span = max(1, g["last"] - g["first"] + 1)
+        cat_dow = {c: v for c, v in g["cat_dow"].items() if sum(v) >= MIN_CAT_FOR_LIFT}
+        out.append({
+            "addr": locs[li] if li < len(locs) else "",
+            "name": name,
+            "lon": round(lon, 5), "lat": round(lat, 5),
+            "n": g["n"],
+            "per_year": round(g["n"] / span, 1),
+            "first": g["first"], "last": g["last"],
+            "by_cat": dict(g["cat"]),
+            "dow": g["dow"],
+            "cat_dow": cat_dow,
+            "dsp_n": dsp_n,
+            "hours": hours if dsp_n >= MIN_PLACE_HOURS else None,
+            "peak": (peak_window(hours) if dsp_n >= MIN_PLACE_HOURS else None),
+        })
+
+    return {
+        "min_events": MIN_HOTSPOT,
+        "name_radius_m": NAME_RADIUS_M,
+        "min_place_hours": MIN_PLACE_HOURS,
+        "years": [min(full_years), max(full_years)] if full_years else None,
+        # fallback clocks: the citywide hour profile per category, so a place
+        # without its own dispatch history still gets an honest time window
+        "city_hours": city_hours,
+        "city_peak": {c: peak_window(v) for c, v in city_hours.items() if any(v)},
+        "places": out,
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--store", required=True)
@@ -126,6 +248,8 @@ def main():
     days = defaultdict(Counter)
     cat_7d, cat_prev7 = Counter(), Counter()
     latest_ts = ""
+    call_pts = []                       # (lon, lat, local hour) for hotspots
+    city_hours = defaultdict(lambda: [0] * 24)   # whole archive, per category
 
     cut_clock = now - timedelta(days=CLOCK_DAYS)
     cut_weeks = now - timedelta(weeks=WEEKS)
@@ -174,11 +298,13 @@ def main():
             streets[st][cat] += 1
             streets[st]["_n"] += 1
 
+        city_hours[cat][local.hour] += 1
         lon, lat = ((f.get("geometry") or {}).get("coordinates") or (None, None))[:2]
         if lon is not None:
             q, r = hex_cell(*merc(lon, lat), HEX_M)
             hexes[(q, r)][cat] += 1
             hexes[(q, r)]["_n"] += 1
+            call_pts.append((lon, lat, local.hour))
 
     # order categories by how much of the recent picture they actually are
     cat_totals = Counter()
@@ -248,6 +374,14 @@ def main():
             "total": hist.get("count"),
         }
 
+    # ------------------------------------------------------------- hotspots --
+    places = (load_json(WEB_DATA_DIR / "places.json", {}) or {}).get("places", [])
+    hotspots = build_hotspots(hist, full_years if hist else [], places, call_pts,
+                              {c: v for c, v in city_hours.items() if any(v)})
+    if hist and not places:
+        print("WARNING: web/data/places.json missing — hotspots will be unnamed. "
+              "Run pipeline/build_place_index.py")
+
     out = {
         "updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated_local": now_local.strftime("%Y-%m-%dT%H:%M"),
@@ -294,15 +428,18 @@ def main():
             "cases": cases,
         },
         "history": history,
+        "hotspots": hotspots,
     }
 
     out_path = Path(args.out) if args.out else store / "pulse" / "out" / "pulse.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
     kb = out_path.stat().st_size / 1024
+    named = sum(1 for p in (hotspots or {}).get("places", []) if p["name"])
     print(f"pulse.json: {kb:.0f} KB — {totals['all']} calls over "
           f"{len(day_counts)} days, {len(hex_cells)} mosaic cells, "
           f"{len(cases)} case files, "
+          f"{len((hotspots or {}).get('places', []))} hotspots ({named} named), "
           f"history {'yes' if history else 'MISSING'}")
 
 

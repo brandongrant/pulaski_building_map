@@ -107,18 +107,29 @@
   function goToMap(lon, lat, zoom) {
     showView("map");
     if (typeof map === "undefined" || !map || !map.flyTo) return;
-    const fly = () => map.flyTo({ center: [lon, lat], zoom: zoom || 15.5, speed: 1.4 });
-    if (map.loaded && map.loaded()) fly(); else map.once("load", fly);
+    const fly = () => {
+      try { map.flyTo({ center: [lon, lat], zoom: zoom || 15.5, speed: 1.4 }); }
+      catch (e) { map.jumpTo({ center: [lon, lat], zoom: zoom || 15.5 }); }
+    };
+    // isStyleLoaded, not loaded(): the latter also reads false while the map is
+    // merely busy, and "load" has already fired by then, so a deferred fly-to
+    // would never run.
+    if (map.isStyleLoaded && map.isStyleLoaded()) fly();
+    else map.once("load", fly);
   }
 
   /* ------------------------------------------------------------------ load */
   async function load() {
-    for (let i = 0; i < PULSE_URLS.length; i++) {
+    // ?pulse=local skips the published summary and reads the checkout's own
+    // copy — how you iterate on the pipeline without waiting for a collector run
+    const urls = /[?&]pulse=local\b/.test(location.search)
+      ? PULSE_URLS.slice(1) : PULSE_URLS;
+    for (let i = 0; i < urls.length; i++) {
       try {
-        const r = await fetch(PULSE_URLS[i], { cache: "no-store" });
+        const r = await fetch(urls[i], { cache: "no-store" });
         if (!r.ok) continue;
         D = await r.json();
-        fromSeed = i > 0;
+        fromSeed = urls[i] !== PULSE_URLS[0];
         break;
       } catch (e) { /* try the next source */ }
     }
@@ -157,6 +168,7 @@
     renderCats();
     renderHex();
     renderStreets();
+    renderRisk();
     renderCases();
     renderHistory();
   }
@@ -576,6 +588,175 @@
       div.title = `${r.name.toLowerCase()} — ${fmt(r.n)} calls`;
       box.appendChild(div);
     }
+  }
+
+  /* --- risk assessment ----------------------------------------------------
+     One statement per location, assembled from two sources with opposite gaps.
+     The DAY comes from eight years of reported offenses at that address; the
+     HOUR comes from that location's own dispatch calls when there are enough of
+     them, and from the citywide clock for the category when there are not. Each
+     card says which, because they are not the same strength of claim. */
+  const DOWFULL = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                   "Saturday", "Sunday"];
+
+  function riskFor(place) {
+    const H = D.hotspots;
+    // which offense is this place's story? the filter wins when it applies
+    let cat = null;
+    if (sel && place.cat_dow && place.cat_dow[sel]) cat = sel;
+    if (!cat) {
+      const byCat = Object.entries(place.by_cat || {});
+      if (!byCat.length) return null;
+      cat = byCat.sort((a, b) => b[1] - a[1])[0][0];
+    }
+    const n = (place.by_cat || {})[cat] || 0;
+    const dow = (place.cat_dow || {})[cat] || place.dow;
+    const total = sum(dow);
+    if (!total) return null;
+    let peakDow = 0;
+    for (let i = 1; i < 7; i++) if (dow[i] > dow[peakDow]) peakDow = i;
+    const lift = dow[peakDow] / (total / 7);
+
+    const ownClock = !!place.hours;
+    const hours = ownClock ? place.hours : (H.city_hours || {})[cat] || null;
+    const peakHr = ownClock ? place.peak
+      : (H.city_peak || {})[cat] != null ? H.city_peak[cat] : null;
+    return { cat, n, dow, peakDow, lift, hours, peakHr, ownClock };
+  }
+
+  function renderRisk() {
+    const box = $("pRisk");
+    box.innerHTML = "";
+    const H = D.hotspots;
+    if (!H || !(H.places || []).length) {
+      $("pRiskNote").textContent = "";
+      box.innerHTML = `<p class="pCaseNone">No location has enough history yet.</p>`;
+      return;
+    }
+    let list = H.places.slice();
+    if (sel) list = list.filter((p) => (p.cat_dow || {})[sel]);
+    list.sort((a, b) => (sel ? (b.by_cat[sel] || 0) - (a.by_cat[sel] || 0) : b.n - a.n));
+
+    $("pRiskNote").innerHTML =
+      `Every address with at least <b>${H.min_events}</b> reported offenses across ` +
+      `<b>${H.years ? H.years[0] + "–" + H.years[1] : "the record"}</b>, ranked by volume` +
+      (sel ? ` and filtered to ${catLabel(sel).toLowerCase()}` : "") +
+      `. The day comes from that location's own eight-year record; the hour from ` +
+      `its dispatch calls where there are at least ${H.min_place_hours}, otherwise ` +
+      `from the citywide pattern for that offense.`;
+
+    if (!list.length) {
+      box.innerHTML = `<p class="pCaseNone">No location has enough ` +
+        `${catLabel(sel).toLowerCase()} on record to say anything useful.</p>`;
+      return;
+    }
+
+    for (const p of list.slice(0, 12)) {
+      const r = riskFor(p);
+      if (!r) continue;
+      const col = catColor(r.cat);
+      const where = p.name || (p.addr || "").toLowerCase();
+      const card = document.createElement("div");
+      card.className = "pRiskCard";
+      card.style.setProperty("--c", col);
+
+      const window2 = r.peakHr == null ? null
+        : `${hourLabel(r.peakHr)} and ${hourLabel((r.peakHr + 2) % 24)}`;
+      card.innerHTML =
+        `<div class="pRiskHead">Higher risk of <b>${catLabel(r.cat).toLowerCase()}</b> ` +
+        `at <b>${where}</b> on <span class="when">${DOWFULL[r.peakDow]}</span>` +
+        (window2 ? `, most likely between <span class="when">${window2}</span>` : "") +
+        `.</div>` +
+        (p.name ? `<div class="pRiskWhere">${(p.addr || "").toLowerCase()}</div>` : "") +
+        `<div class="pRiskStat"><b>${fmt(r.n)}</b> ${catLabel(r.cat).toLowerCase()} ` +
+        `reports ${p.first}–${p.last} · <b>${p.per_year}</b> a year across all offenses · ` +
+        `<b>${r.lift.toFixed(1)}×</b> more likely on a ${DOWFULL[r.peakDow]} than an ` +
+        `average day here.</div>`;
+
+      const charts = document.createElement("div");
+      charts.className = "pRiskCharts";
+      charts.appendChild(dowChart(r, col));
+      if (r.hours) charts.appendChild(hourChart(r, col));
+      card.appendChild(charts);
+
+      const src = document.createElement("div");
+      src.className = "pRiskSrc";
+      src.textContent = r.ownClock
+        ? `Hour window measured here, from ${fmt(p.dsp_n)} dispatch calls at this location.`
+        : `Hour window is the citywide pattern for ${catLabel(r.cat).toLowerCase()} — ` +
+          `only ${fmt(p.dsp_n)} dispatch calls here so far, so the time of day is not ` +
+          `yet measured at this address.`;
+      card.appendChild(src);
+
+      const foot = document.createElement("div");
+      foot.className = "pRiskFoot";
+      const b = document.createElement("button");
+      b.textContent = "see it on the map →";
+      b.addEventListener("click", () => zoomTo(p));
+      foot.appendChild(b);
+      card.appendChild(foot);
+      box.appendChild(card);
+    }
+  }
+
+  function dowChart(r, col) {
+    const svg = el("svg", { viewBox: "0 0 108 46" });
+    const max = Math.max(1, ...r.dow);
+    const base = hexToRgb(col);
+    for (let i = 0; i < 7; i++) {
+      const h = (r.dow[i] / max) * 30;
+      svg.appendChild(el("rect", {
+        x: i * 15.4 + 1.5, y: (34 - h).toFixed(1), width: 12,
+        height: Math.max(1, h).toFixed(1), rx: 2,
+        fill: i === r.peakDow ? col : mix([26, 32, 48], base, 0.35),
+      }));
+      svg.appendChild(el("text", {
+        x: i * 15.4 + 7.5, y: 43, "text-anchor": "middle",
+        "font-weight": i === r.peakDow ? "700" : "400",
+      }, DOW[i][0]));
+    }
+    return svg;
+  }
+
+  function hourChart(r, col) {
+    const svg = el("svg", { viewBox: "0 0 216 46" });
+    const max = Math.max(1, ...r.hours);
+    const base = hexToRgb(col);
+    for (let h = 0; h < 24; h++) {
+      const inWin = r.peakHr != null &&
+        (h === r.peakHr || h === (r.peakHr + 1) % 24);
+      const bh = (r.hours[h] / max) * 30;
+      svg.appendChild(el("rect", {
+        x: h * 9 + 0.8, y: (34 - bh).toFixed(1), width: 7.4,
+        height: Math.max(1, bh).toFixed(1), rx: 1.5,
+        fill: inWin ? col : mix([26, 32, 48], base, 0.3),
+      }));
+    }
+    for (const h of [0, 6, 12, 18]) {
+      svg.appendChild(el("text", { x: h * 9 + 4.5, y: 43, "text-anchor": "middle" },
+        h === 0 ? "12a" : h === 12 ? "12p" : h < 12 ? h + "a" : (h - 12) + "p"));
+    }
+    return svg;
+  }
+
+  /* Hand-off to the map: fly in to building level and switch the dispatch
+     overlay on so the incidents are actually visible when you land. */
+  function zoomTo(p) {
+    try {
+      const secs = $("dispatchSec");
+      if (secs) secs.open = true;
+      const on = $("dspOn");
+      if (on && !on.checked) {
+        on.checked = true;
+        on.dispatchEvent(new Event("change"));
+      }
+      const all = document.querySelector('input[name="dspMode"][value="all"]');
+      if (all && !all.checked) {
+        all.checked = true;
+        all.dispatchEvent(new Event("change"));
+      }
+    } catch (e) { /* the overlay is a bonus, the fly-to is the point */ }
+    goToMap(p.lon, p.lat, 17);
   }
 
   /* --- case files --------------------------------------------------------- */

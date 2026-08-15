@@ -81,3 +81,71 @@ def test_focus_categories_are_a_subset_of_the_full_taxonomy():
     assert set(bp.FOCUS_CATS) <= set(bp.CRIME_CATS)
     # the loud, non-crime buckets must not be in the focus set
     assert "assist" not in bp.FOCUS_CATS
+
+
+# ------------------------------------------------------- hotspot statements --
+@pytest.mark.parametrize("profile,width,expected", [
+    ([0] * 20 + [5, 9, 9, 1], 2, 21),          # the 9+9 block wins
+    ([9] + [0] * 22 + [9], 2, 23),             # wraps past midnight
+    ([0] * 24, 2, None),                       # nothing to say
+    ([1] * 24, 2, 0),                          # flat: first block, deterministic
+])
+def test_peak_window(profile, width, expected):
+    assert bp.peak_window(profile, width) == expected
+
+
+def test_hotspot_thresholds_are_defensible():
+    # a statement about a named place needs a real sample behind it
+    assert bp.MIN_HOTSPOT >= 50
+    assert bp.MIN_CAT_FOR_LIFT >= 10
+    # naming radius must stay tight enough not to grab the neighbouring building
+    assert bp.NAME_RADIUS_M <= 50
+    # a place's own clock needs more than a handful of calls
+    assert bp.MIN_PLACE_HOURS >= 20
+
+
+def test_hotspots_are_none_without_history():
+    assert bp.build_hotspots(None, [], [], [], {}) is None
+
+
+def test_hotspot_names_only_within_the_radius():
+    """A named building beyond NAME_RADIUS_M must not be attached to a cluster."""
+    hist = {
+        "off_cat": ["theft"],
+        "locs": ["100 TEST ST"],
+        # MIN_HOTSPOT rows, all 2020, same spot
+        "crime": [[-92.30, 34.72, 0, 20200106 + (i % 5), 0, 0, 0]
+                  for i in range(bp.MIN_HOTSPOT)],
+    }
+    near = [["Near Store", -92.30, 34.72002]]        # ~2 m away
+    far = [["Far Store", -92.30, 34.7220]]           # ~220 m away
+
+    hot_near = bp.build_hotspots(hist, [2020], near, [], {})
+    hot_far = bp.build_hotspots(hist, [2020], far, [], {})
+    assert hot_near["places"][0]["name"] == "Near Store"
+    assert hot_far["places"][0]["name"] is None
+    assert hot_far["places"][0]["addr"] == "100 TEST ST"
+
+
+def test_hotspot_hours_fall_back_to_the_city_when_the_place_is_thin():
+    hist = {
+        "off_cat": ["theft"], "locs": ["100 TEST ST"],
+        "crime": [[-92.30, 34.72, 0, 20200106, 0, 0, 0] for _ in range(bp.MIN_HOTSPOT)],
+    }
+    thin = [(-92.30, 34.72, 13)] * (bp.MIN_PLACE_HOURS - 1)
+    rich = [(-92.30, 34.72, 13)] * bp.MIN_PLACE_HOURS
+
+    assert bp.build_hotspots(hist, [2020], [], thin, {})["places"][0]["hours"] is None
+    got = bp.build_hotspots(hist, [2020], [], rich, {})["places"][0]
+    assert got["hours"] is not None and got["peak"] is not None
+
+
+def test_subsite_suffixes_are_stripped_from_place_names():
+    """One footprint of a complex must not be blamed for the whole site."""
+    import build_place_index as bpi
+    assert bpi.site_name("Fair Oaks Apts - Bldg 8") == "Fair Oaks Apts"
+    assert bpi.site_name("Baptist Health Medical - Office") == "Baptist Health Medical"
+    assert bpi.site_name("Spanish Johns Apts - Bldg B") == "Spanish Johns Apts"
+    # a hyphen that is part of the name survives
+    assert bpi.site_name("Wal-Mart Supercenter") == "Wal-Mart Supercenter"
+    assert bpi.site_name("Chateau De Ville Apts") == "Chateau De Ville Apts"
