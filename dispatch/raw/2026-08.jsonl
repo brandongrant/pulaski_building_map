@@ -4514,3 +4514,7 @@
 {"id": "34e0d3f6311fd3deee3f", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "112 NORMANDY RD", "ts": "2026-08-15T07:44:31Z", "sens": 0, "seen": "2026-08-15T08:24:53Z"}
 {"id": "be38b367efc929caf9ee", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT HIT & RUN W/INJURY ( C )", "cat": "traffic", "loc": "8107 INTERSTATE 30", "ts": "2026-08-15T07:34:18Z", "sens": 0, "seen": "2026-08-15T08:24:53Z"}
 {"id": "2bbb4fbd8abd71c1a1ae", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "STAGECOACH RD / INTERSTATE 430", "ts": "2026-08-15T07:22:21Z", "sens": 0, "seen": "2026-08-15T08:24:53Z"}
+{"id": "d43248b9219ab6db8bec", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUBJECT STOP", "cat": "other", "loc": "1000 S BOWMAN RD", "ts": "2026-08-15T08:15:44Z", "sens": 0, "seen": "2026-08-15T08:54:52Z"}
+{"id": "46da75ab4d09333621f0", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "104 S UNIVERSITY AVE", "ts": "2026-08-15T08:02:52Z", "sens": 1, "seen": "2026-08-15T08:54:52Z"}
+{"id": "ddb1961989d009d6b9fa", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "W MARKHAM ST / PEARL AVE", "ts": "2026-08-15T08:02:13Z", "sens": 0, "seen": "2026-08-15T08:54:52Z"}
+{"id": "9dce4517e0f2ac2da927", "src": "CLR-CAD", "jur": "Little Rock", "type": "ADMINISTRATIVE", "cat": "assist", "loc": "720 W MARKHAM ST", "ts": "2026-08-15T08:01:41Z", "sens": 0, "seen": "2026-08-15T08:54:52Z"}
