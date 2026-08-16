@@ -99,7 +99,7 @@
     }
     drawn = true;
     window.__watch = { data: () => D, render, initMap, focus, showDetail,
-                       map: () => wmap, applyFilter, queue: () => queue };
+                       map: () => wmap, applyFilter, queue: () => queue, diag };
     render();
   }
 
@@ -112,7 +112,7 @@
     renderGaps();
     renderForm();
     renderSources();
-    initMap();
+    initMapSoon(0);
     addLayersWhenReady();      // the style may already be up and waiting on us
   }
 
@@ -179,6 +179,14 @@
     };
   }
 
+  // The tab may still be laying out when the view changes, so a single attempt
+  // can catch the container at zero width and silently never build the map.
+  function initMapSoon(attempt) {
+    initMap();
+    if (wmap || (attempt || 0) > 12) return;
+    setTimeout(() => initMapSoon((attempt || 0) + 1), 150);
+  }
+
   function initMap() {
     if (wmap || typeof maplibregl === "undefined") return;
     const holder = $("wMap");
@@ -197,6 +205,20 @@
       styleReady = true;
       addLayersWhenReady();
     });
+    wmap.on("error", (e) => {
+      const msg = (e && e.error && e.error.message) || "unknown map error";
+      if (!layersAdded) $("wMapNote").textContent = "Map problem: " + msg;
+    });
+    // The style is a plain object with no network fetch behind it, so if "load"
+    // has not fired by now something is wrong and the reader deserves to know
+    // rather than stare at an empty rectangle.
+    setTimeout(() => {
+      if (!layersAdded) {
+        $("wMapNote").textContent =
+          "The map could not start in this browser. The device list, sightings "
+          + "and records below all still work.";
+      }
+    }, 9000);
   }
 
   function addLayersWhenReady() {
@@ -659,12 +681,28 @@
   }
 
   /* ------------------------------------------------------------------ wire */
+  // One paste that answers "why is the map empty" without a debugger.
+  function diag() {
+    const holder = $("wMap");
+    return {
+      dataLoaded: !!D,
+      devices: D ? D.devices.features.length : 0,
+      mapBuilt: !!wmap,
+      styleReady, layersAdded,
+      containerSize: holder ? [holder.offsetWidth, holder.offsetHeight] : null,
+      canvas: holder && holder.querySelector("canvas") ? "yes" : "no",
+      layers: wmap && wmap.style && wmap.style._order ? wmap.style._order.slice() : [],
+      maplibre: typeof maplibregl !== "undefined",
+      note: $("wMapNote") ? $("wMapNote").textContent : "",
+    };
+  }
+
   document.addEventListener("viewchange", (e) => {
     if (e.detail.view !== "watch") return;
     if (!drawn) load();
     // The container had no size until now, so the map is built on first view.
     requestAnimationFrame(() => {
-      if (!wmap) initMap();
+      if (!wmap) initMapSoon(0);
       else wmap.resize();
     });
   });
