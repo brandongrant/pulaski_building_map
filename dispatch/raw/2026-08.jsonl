@@ -4850,3 +4850,7 @@
 {"id": "d5f97d00353e74355541", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "11400 W MARKHAM ST", "ts": "2026-08-16T11:08:30Z", "sens": 1, "seen": "2026-08-16T12:57:26Z"}
 {"id": "c0b4a79e50ecca920c90", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE JUST OCCURRED", "cat": "disturbance", "loc": "10014 WILDERNESS RD", "ts": "2026-08-16T11:07:12Z", "sens": 0, "seen": "2026-08-16T12:57:26Z"}
 {"id": "d94e7b9cd23eb5a3bc29", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "800 BROOKSIDE DR", "ts": "2026-08-16T11:05:49Z", "sens": 0, "seen": "2026-08-16T12:57:26Z"}
+{"id": "006c63d4e7b2480d3d4f", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL MISCHIEF", "cat": "vandalism", "loc": "KANIS RD / S BOWMAN RD", "ts": "2026-08-16T13:06:56Z", "sens": 0, "seen": "2026-08-16T13:40:51Z"}
+{"id": "6cf6a97fc75a1a943350", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "12322 MEYER RD", "ts": "2026-08-16T13:01:48Z", "sens": 0, "seen": "2026-08-16T13:40:51Z"}
+{"id": "3e941655b97e1e859dbe", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE JUST OCCURRED", "cat": "disturbance", "loc": "6600 TRACY AVE", "ts": "2026-08-16T13:00:35Z", "sens": 0, "seen": "2026-08-16T13:40:51Z"}
+{"id": "e294af96e329f114567a", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE", "cat": "disturbance", "loc": "10014 WILDERNESS RD", "ts": "2026-08-16T12:37:57Z", "sens": 0, "seen": "2026-08-16T13:40:51Z"}
