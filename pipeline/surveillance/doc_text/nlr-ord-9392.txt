@@ -1,0 +1,190 @@
+0 -21 -
+ORDINANCE NO. 93q2 --
+AN ORDINANCE WAIVING FORMAL BIDDING REQUIREMENTS AND
+AUTHORIZING PAYMENT TO SKYCOP INC., A SOLE SOURCE
+VENDOR, FOR THE PURCHASE OF LICENSE PLATE READER
+CAMERAS FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT;
+DECLARING AN EMERGENCY; AND FOR OTHER PURPOSES.
+WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount
+of $20,000 to follow statutory procedures of local advertisement and opening of sealed bids which
+may only be waived in exceptional situations where bidding is deemed not feasible or practical;
+and
+WHEREAS, the North Little Rock Police Department ("NLRPD") is in need of license
+plate reader ("LPR") cameras, which are mounted on poles that capture the numbers and letters of
+license plates on still or moving vehicles; and
+WHEREAS, all LPR camera vendors require use of their specific cameras in order to be
+compatible with their system; and
+WHEREAS, the NLRPD uses the City of Little Rock's LPR Server, who uses SkyCop Inc.
+as their LPR camera reader; and
+WHEREAS, the City Council has previously authorized the waiver of formal bidding
+requirements for the purchase of LPR cameras from SkyCop Inc.; and
+WHEREAS, the NLRPD is requesting the purchase and installation of seven (7) additional
+cameras from SkyCop Inc. at a total price of Sixty Four Thousand Four Hundred Ninety Nine and
+88/100 Dollars ($64,499.88) including tax, in order to be compatible with the LRPD's LPR server
+(see Quotes from Skycop, Inc. attached collectively hereto as Exhibit A).
+NOW, THEREFORE, BE IT ORDAINED BY THE CITY COUNCIL OF THE CITY OF
+NORTH LITTLE ROCK, ARKANSAS:
+SECTION 1: That formal bidding is hereby waived in connection with the purchase of
+LPR cameras from SkyCop Inc. for a total amount of Sixty Four Thousand Four Hundred Ninety
+Nine and 88/100 cents ($64,499.88).
+SECTION 2: That the cost of the cameras is included in and shall be paid from the 2021
+I.T. Department Budget.
+SECTION 3: That all ordinances or parts of ordinances in conflict herewith are hereby
+repealed to the extent of the conflict.
+1
+SECTION 4: That the provisions of this Ordinance are hereby declared to be severable,
+and if any section, phrase or provision shall be declared or held invalid, such invalidity shall not
+affect the remainder of the sections, phrases or provisions.
+SECTION 5: That it is hereby found and determined that it is in the best interest of the
+City of North Little Rock to purchase said LPR cameras from SkyCop Inc., and is necessary for
+the immediate preservation of the public health, safety and welfare; THEREFORE, an emergency
+is hereby declared to exist, and this Ordinance shall be in full force and effect from and after its
+passage and approval.
+PASSED:
+%3601/
+SPONSOR:
+APPR+� D:
+C
+Mayor T y C. Hartwick
+ATTEST:
+Mayor Terry- . Hartwick Di ne Whitbey, City C` erk
+APPROVED AS TO FORM:
+Amy Beck,)nan Fields, City Attorney
+PREPARED BY THE OFFICE OF THE CITY ATTORNEY/kt
+2
+RECEIVED BY
+Z.
+FILED t k a 6 A.M.
+By • S
+P.M.
+r.
+DATE ,-) (
+Diane Whitbey, City Clerk and Collector
+North Little Rocl , Arkansas
+)' (Sr- L
+EXHIBIT
+I
+SkyCop
+Quote Prepared For
+Ben Tullos
+North Little Rock Police Department
+2525 N. Main Street
+North Little Rock , AR 72116
+Phone:501-791-8526
+Ben.Tullos@nlrpolice.org
+Item# Quantity
+One -Time Items
+1)
+Item
+2 Skycop LPR Enclosure
+SkyCop License Plate Capture Camera Enclosure
+Includes:
+Antenna
+Enclosure
+Verizon Certified LTE Router
+Power Supplies
+Misc. Hardware
+Connection License
+Quote
+Quote Date: 05/12/2021
+Quote Number: 3728
+Quote/Project:North Little Rock PD LPR 2021
+Payment Terms:
+Quote Prepared By
+Sales Account
+SCI TECHNOLOGIES INC.
+3736 Getwell Cove
+Memphis, Tennessee 38118
+Phone:
+Fax:
+2) 1 Technical Support
+Onsite Technician Support during Installation. Includes
+travel time, labor time, and travel expense per day
+Unit Price
+Unit Adjusted Unit
+Discount Price
+$8,218.50 $246.56
+$1,200.00
+Extended
+Price
+$7,971.95 $15,943.89
+$1,200.00 $1,200.00
+One -Time Subtotal
+Taxable
+Sales Tax North Little Rock, AR (9.5%)
+Total Taxes
+One -Time Total
+$17,143.89
+$1,628.67
+$1,628.67
+$1,628.67
+$18,772.56
+Total $18,772.56
+Authorizing Signature
+Date
+Interest Charges on Past Due Accounts and Collection Costs Overdue amounts shall be subject to a monthly finance charge. In
+addition, customer shall reimburse all costs and expenses for attorney's fees incurred in collecting any amounts past due. Additional
+training or Professional Services can be provided at our standard rates.
+tawiml
+SkyCop
+1/4.11.0.1.1®
+Quote Prepared For
+Ben Tullos
+North Little Rock Police Department
+2525 N. Main Street
+North Little Rock , AR 72116
+Phone:501-791-8526
+Ben.Tullos@nlrpolice.org
+Item# Quantity Item
+One -Time Items
+1)
+5 Skycap LPR Enclosure
+SkyCop License Plate Capture Camera Enclosure
+Includes:
+Antenna
+Enclosure
+Verizon Certified LTE Router
+Power Supplies
+Misc. Hardware
+Connection License
+Quote
+Quote Date: 05/12/2021
+Quote Number: 3728
+Quote/Project:North Little Rock PD LPR 2021
+Payment Terms:
+Quote Prepared By
+Sales Account
+SCI TECHNOLOGIES INC.
+3736 Getwell Cove
+Memphis, Tennessee 38118
+Phone:
+Fax:
+sales skvcnninr.rom
+2) 1 Technical Support
+Onsite Technician Support during Installation. Includes
+travel time, labor time, and travel expense per day
+Unit Price
+Unit Adjusted Unit
+Discount Price
+$8,218.50 $246.56
+$1,900.00
+Extended
+Price
+$7,971.95 $39,859.73
+$1,900.00 $1,900.00
+One -Time Subtotal
+Taxable
+Sales Tax North Little Rock, AR (9.5%)
+Total Taxes
+One -Time Total
+$41,759.73
+$3,967.17
+$3,967.17
+$3,967.17
+$45,726.90
+Total $45,726.90
+Authorizing Signature
+Date
+Interest Charges on Past Due Accounts and Collection Costs Overdue amounts shall be subject to a monthly finance charge. In
+addition, customer shall reimburse all costs and expenses for attorney's fees incurred in collecting any amounts past due. Additional
+training or Professional Services can be provided at our standard rates.

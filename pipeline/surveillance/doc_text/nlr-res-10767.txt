@@ -1,0 +1,847 @@
+R -24 -
+RESOLUTION NO. /0 767
+A RESOLUTION WAIVING FORMAL BIDDING REQUIREMENTS AND
+AUTHORIZING PAYMENT TO FUSUS, A SOLE SOURCE VENDOR, FOR
+THE PURCHASE OF SOFTWARE FOR THE NORTH LITTLE ROCK
+POLICE DEPARTMENT; AUTHORIZING THE MAYOR AND CITY
+CLERK TO ENTER INTO A MULTI -YEAR AGREEMENT FOR THE
+PURCHASE; AND FOR OTHER PURPOSES.
+WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount
+of $35,000 to follow statutory procedures of local advertisement and opening of sealed bids which
+may only be waived in exceptional situations where bidding is deemed not feasible or practical;
+and
+WHEREAS, Fusus, 5550 Triangle Parkway, Ste 100, Peachtree Corners, Georgia 30092,
+is the sole source distributor of Real -Time Crime Center, a video and data collaboration platform
+intended to expedite intelligence gathering and improve emergency response time and criminal
+investigations; and
+WHEREAS, the City of Little Rock uses Fusus, and in order to share information and
+collaborate in crime investigation and prevention, the NLRPD must use the platform as well; and
+WHEREAS, the North Little Rock Police Department (NLRPD) wishes to enter into a
+Service Agreement with Fusus for the total cost of Four Hundred Fifty Thousand and 00/100
+Dollars ($450,000.00) to be paid over thirty six (36) months (see Service Agreement Proposal
+attached hereto as Exhibit A).
+NOW, THEREFORE, BE IT RESOLVED BY THE CITY COUNCIL OF THE CITY OF
+NORTH LITTLE ROCK, ARKANSAS:
+SECTION 1: That formal bidding is hereby waived in connection with the purchase of
+Real -Time Crime Center from Fusus for a total amount of Four Hundred Fifty Thousand and
+00/100 Dollars ($450,000.00).
+SECTION 2: That the Mayor and City Clerk are hereby authorized to enter into an
+agreement with Fusus (substantially similar to Exhibit A) and make payments to the total cost over
+the course of thirty six (36) months.
+SECTION 3: That the cost of the platform shall be included in the yearly IT Department
+Budget.
+SECTION 4: That the provisions of this Resolution are hereby declared to be severable,
+and if any section, phrase or provision shall be declared or held invalid, such invalidity shall not
+affect the remainder of the sections, phrases or provisions.
+1
+SECTION 5: That this Resolution shall be in full force and effect from and after its passage
+and approval.
+PASSED:
+SPONSOR:
+Mayor Terry} Hartwick
+APPROVED AS TO FORM:
+Amy ields, City Attorney
+PREPARED BY THE OFFICE OF THE CITY ATTORNEY/kt
+APPROV D: Te
+Mayor
+ATTEST.
+e "az 71,-;
+C. Hartwick
+E
+Diane Whitbey, City Clerk
+2
+FILED /6 Vi A.M. P.M.
+By ! {y 41 -7 -
+DATE r4/)%-. "
+Diane Whitbey, City Clerk and Collector
+North Little Rock, Arkansas
+RECEIVED BY
+Chief Patrick Thessing
+North Little Rock Police Department
+1 Justice Center Drive
+North Little Rock, AR 72114
+Subject: Service Agreement Proposal
+Dear Chief Thessing,
+January 4, 2024
+Fusus is honored that the North Little Rock Police Department is considering our organization to
+support its community safety initiatives by providing a plafform to view public and community video
+sources for incident situational awareness and investigations.
+Fusus will provide a video and data collaboration platform to expedite intelligence gathering and
+efficiency of response to situations as they unfold throughout the community. Further, the plafform is
+tied to a community -facing website portal for video camera registry, providing a tool for identifying the
+location of cameras in proximity to incidents, as well as a means for efficient outreach to collect
+recorded video and image files from camera owners both public and private.
+This Service Agreement Proposal and related software subscription will become effective upon signing
+and continue for thirty-six (36) months.
+1. Initial Scope of Work: The following fusus Enterprise Package software and associated
+hardware will be delivered and installed as part of this agreement.
+a. fususONETM: Initial setup, access and training of users to include up to 1,500 data
+points and 1,500 public/private video feeds
+b. fususCORETM: Installation and setup of:
+i. Twenty (20) fususCORE Pro TM Appliances
+ii. Four (4) fususCORE Elite AI TM Appliances
+iii. Two (2) fususCORE Pro AITM Appliances
+iv. Two (2) fususCORE Elite TM Appliances
+c. fususREGISTRYTM: Creation of a custom website portal for community members to
+register privately owned cameras
+d. fususVAULTTM: Implementation of a CJIS compliant evidence vault for the storage of up
+to 10TB of videos and still images captured via the fususONETM platform
+e. fususOPSTM: Implementation of the Fusus smart -phone app which provides viewing of
+live camera feeds and setting up and transmitting the location of teams for special
+events and critical incident management
+f. fususTIPSTM: Implementation of the Fusus SMS service that provides text
+communications of pictures, audio and video directly into fususVaultTM
+g. fususNOTIFYTM: Implementation of the Fusus SMS text service that provides text
+notifications to community members
+h. fususAlertTM: Implementation of the Fusus iOS/Android application which provides panic
+alerting to fususONETM along with geolocation of persons in distress and automatic
+docking of nearby camera assets in the fususONETM platform
+i. fususANALYTICSTM: Implementation of the Fusus crime and incident heat mapping and
+analysis plafform
+www.fusus.com
+5550 Triangle Parkway, Ste 100, Peachtree Corners, GA 30092 (844) 226-9226
+j. fususCcDNNECT Call -Cut: Three (3) months_fusus callj-out to businesses within the
+jurisdiction to assist with, camera regist a it on and integration
+k. fususCDNNECT Microsite: Development of an/agency, specific website landing page to
+assist w,ith`building camera registration and -Integration ]of'comrt unity video assets
+I. fusustNCIDENTTM: Implementation of the Fusus -Situational Awareness system for bi-
+directional telestration, icon marking, floorplan room clearing, planning, and resource
+staging from Emergency Operation Center workstations and mobile field -based users on
+laptops and iOS/Android mobile devices
+m. fususLIVELINKTM: Provision of FOsus live link system which allows 911 callers to initiate
+a camera stream in the event of an emergency to the Department, along with a one -to -
+many methodology for secure and encrypted responder -group sharing during an
+emergency
+n. fususOVERWATCH: Allows users the ability to track vehicles and people from one
+camera to another
+o. Remote Configuration of fir -sus Core(s)
+p. Integration of all current and future video feeds
+q. Integration of Computer Aided Dispatch, AVL, drone feeds, covert cameras, and license
+plate readers as required
+Note: fususTM will provide continuing data and loT integrations at no additional charge for
+the life of the agreement
+2. Payment and Subscription Terms:
+a. Payment 1: Due Upon Contract Signing
+b. Payment 2: Due Three months after signing
+c. Payment 3: Due Upon 1st Anniversary of Contract Signing
+d. Payment 4: Due Three months after 1st Anniversary of Contract
+e. Payment 5: Due Upon 2nd Anniversary of Contract
+f. Payment 6: Due Three Months after 2nd Anniversary of Contract
+$ 75,000
+$ 75,000
+$ 75,000
+$ 75,000
+$ 75,000
+$ 75,000
+Invoices for payments 2,3,4,5 and 6 will be sent 60 days prior to their respective due dates.
+Note: Additional fususCORETM appliances and camera streams may be purchased for the
+following per unit price schedule.
+a. CORE Lite: $200/each
+b. CORE Lite Extended: $300/each
+c. CORE Pro: $600/each
+d. CORE Pro Extended: $1,000/each
+e. CORE Elite: $4,000/each
+f. CORE Elite Al: $5,000/each
+g. Additional 500 Streams: $25,000 per year
+3. Bill of Materials Included with the Service: As part of the annual subscription price, each system
+will include the following:
+a. fususONETM SaaS
+b. Unlimited video alerts, access, and video download
+c. fususCORETM warranty and technical support for the life of the agreement
+www.fusus.cr
+5550 Triangle Parkway, Ste 100, Peachtree Corners, GA 30092 (844) 226-9226
+d. Unlimite fususOPS Application for Android and SOS De,_ ices
+Subscription to fC:susONETM includes all the faifowing:
+a. Unlimited Users for Your Agency to fususONETM — Real -Time Crime Center in the Cloud
+b. Unlimited Access for Your Agency to the fususONETM Dashboard
+c. Floorplan Integration for designated locations in fususONETM
+d. Ongoing Integration Services with the CAD System
+e. Installation and Technical Phone Support
+f. Provide a Full Solution Warranty for the Life of the Agreement
+g. Live U.S.-Based Phone Technical Support for the Life of the Agreement
+4 Technical Recruirements:
+a. Camera live -sharing compatibility will be assessed for each location before CORE
+delivery.
+b. The customer will designate a primary POC for the deployment of the fususTM solution.
+c. Minimum network speed of .5 mb/s per viewed camera for live video sharing through the
+system.
+5. Terms and Conditions:
+The use of and access to fususTM products and services is subject to the fususTM Terms of
+Service found at httzs://www.fusus.com/fusus-terms-of-service.
+The Termination for Convenience Clause Asserts that the customer may, at its sole discretion,
+terminate the agreement with 30 days of written notice to Fusus. Services will be reimbursed on
+a pro -rated basis from the last day of the term through the agreement's remainder. The cost of
+any unreturned or unserviceable fOsusCORE(s), as listed above in Section 2, will be deducted
+from the refund.
+We are privileged to work with you on this project. Should you have any questions at any time, please
+feel free to call (603) 493-0699 or email me at ctc@fusus.com.
+Respectfully,
+CA,/^t CApA.YLU-
+Carlo Capano
+Vice President of Sales
+Approved (Signature):
+By (Print Name/Title): Date
+www.fusus.com
+5550 Triangle Parkway, Ste 100, Peachtree Corners, GA 30092 (844) 226-9226
+n
+4 J
+c
+fusus
+. ♦76,1
+North Little Rock Police Department
+North Little Rock Police Department
+300 Main Street
+North Little Rock, AR 72114
+John Barber
+Chief Information Technology Officer
+jbarber@nlr.ar.gov
++15019066446
+Pat Thessing
+Chief
+pat.thessing@nIrpolice.org
+501-771-7102
+Reference: 20230913-161944337
+Quote created: September 13, 2023
+Quote expires: March 29, 2024
+Quote created by: Jim Price
+Public Safety Advisor
+jp@fusus.com
+Products & Services
+Item & Description
+SKU
+Quantity
+Unit Price Total
+Enterprise Package SaaS
+loud Stor��:c
+Core Elite Al Appliance
+FUSE -E-
+1-1001
+CORE -
+AI -2001
+Core Elite Appliance CORE -
+EL -2001
+$150,000.00
+/ year
+4 $5,000.00
+$150,000.00 /year
+or
+$0.00
+2 $4,000.00 $0.00
+Item & Description SKU Quantity Unit Price Total
+Core Pro Al Appliance
+Core Pro Appliance
+CORE- 2 $2,000.00
+PAI-2001
+$0.00
+$4,000.00
+disccunt
+CORE -P- 20 $600.00 $0.00
+2001 af« r 12 000.00
+cisc.runt
+Tota I $150,000.00
+Purchase terms
+Questions? Contact me!
+Jim Price
+Public Safety Advisor
+j p©fusus.com
+Fusus, Inc.
+5550 Triangle Parkway
+Peachtree Corners, Georgia 30092
+United States of America
+January 4, 2024
+Chief Patrick Thessing
+North Little Rock Police Department
+1 Justice Center Drive
+North Little Rock, AR 72114
+Subject: Service Agreement Proposal
+Dear Chief Thessing,
+Fusus is honored that the North Little Rock Police Department is considering our organization to
+support its community safety initiatives by providing a platform to view public and community video
+sources for incident situational awareness and investigations.
+Fusus will provide a video and data collaboration platform to expedite intelligence gathering and
+efficiency of response to situations as they unfold throughout the community. Further, the platform is
+tied to a community -facing website portal for video camera registry, providing a tool for identifying the
+location of cameras in proximity to incidents, as well as a means for efficient outreach to collect
+recorded video and image files from camera owners both public and private.
+This Service Agreement Proposal and related software subscription will become effective upon signing
+and continue for thirty-six (36) months.
+1 Initial Scope of Work: The following fusus Enterprise Package software and associated
+hardware will be delivered and installed as part of this agreement.
+a. fususONETM: Initial setup, access and training of users to include up to 1,500 data
+points and 1,500 public/private video feeds
+b. fususCORETM: Installation and setup of:
+i. Twenty (20) fususCORE Pro TM Appliances
+ii. Four (4) fususCORE Elite AITM Appliances
+iii. Two (2) fususCORE Pro AI TM Appliances
+iv. Two (2) fususCORE Elite TM Appliances
+c. fususREGISTRYTM: Creation of a custom website portal for community members to
+register privately owned cameras
+d. fususVAULTTM: Implementation of a CJIS compliant evidence vault for the storage of up
+to 10TB of videos and still images captured via the fususONETM platform
+e. fususOPSTM: Implementation of the Fusus smart -phone app which provides viewing of
+live camera feeds and setting up and transmitting the location of teams for special
+events and critical incident management
+f. fususTIPSTM: Implementation of the Fusus SMS service that provides text
+communications of pictures, audio and video directly into fususVaultTM
+g. fususNOTIFYTM: Implementation of the Fusus SMS text service that provides text
+notifications to community members
+h. fususAlertTM: Implementation of the Fusus iOS/Android application which provides panic
+alerting to fususONETM along with geolocation of persons in distress and automatic
+docking of nearby camera assets in the fususONETM platform
+i. fususANALYTICSTM: Implementation of the Fusus crime and incident heat mapping and
+analysis platform
+5550 Triangle Parkway, Ste 100, Peachtree Corners, GA 30092 (844) 226-9226
+j. fususCONNECT Call -Out: Three (3) months fusus call -out to businesses within the
+jurisdiction to assist with camera registration and integration
+k. fususCONNECT Microsite: Development of an agency specific website landing page to
+assist with building camera registration and integration of community video assets
+I. fususlNCIDENTTM: Implementation of the Fusus Situational Awareness system for bi-
+directional telestration, icon marking, floorplan room clearing, planning, and resource
+staging from Emergency Operation Center workstations and mobile field -based users on
+laptops and iOS/Android mobile devices
+m. fususLIVELINKTM: Provision of FOsus live link system which allows 911 callers to initiate
+a camera stream in the event of an emergency to the Department, along with a one -to -
+many methodology for secure and encrypted responder -group sharing during an
+emergency
+n. fususOVERWATCH: Allows users the ability to track vehicles and people from one
+camera to another
+o. Remote Configuration of fusus Core(s)
+p. Integration of all current and future video feeds
+q. Integration of Computer Aided Dispatch, AVL, drone feeds, covert cameras, and license
+plate readers as required
+Note: fususTM will provide continuing data and loT integrations at no additional charge for
+the life of the agreement
+2. Payment and Subscription Terms:
+a. Payment 1: Due Upon Contract Signing
+b. Payment 2: Due Three months after signing
+c. Payment 3: Due Upon 1st Anniversary of Contract Signing
+d. Payment 4: Due Three months after 1st Anniversary of Contract
+e. Payment 5: Due Upon 2nd Anniversary of Contract
+f. Payment 6: Due Three Months after 2nd Anniversary of Contract
+$ 75,000
+$ 75,000
+$ 75,000
+$ 75,000
+$ 75,000
+$ 75,000
+Invoices for payments 2,3,4,5 and 6 will be sent 60 days prior to their respective due dates.
+Note: Additional fususCORETM appliances and camera streams may be purchased for the
+following per unit price schedule.
+a. CORE Lite: $200/each
+b. CORE Lite Extended: $300/each
+c. CORE Pro: $600/each
+d. CORE Pro Extended: $1,000/each
+e. CORE Elite: $4,000/each
+f. CORE Elite Al: $5,000/each
+g. Additional 500 Streams: $25,000 per year
+3. Bill of Materials Included with the Service: As part of the annual subscription price, each system
+will include the following:
+a. fususONETM SaaS
+b. Unlimited video alerts, access, and video download
+c. fususCORETM warranty and technical support for the life of the agreement
+5550 Triangle Parkway, Ste 100, Peachtree Corners, GA 30092 (844) 226-9226
+d. Unlimited fususOPS Application for Android and iOS Devices
+Subscription to fususONETM includes all the following:
+a. Unlimited Users for Your Agency to fususONETM — Real -Time Crime Center in the Cloud
+b. Unlimited Access for Your Agency to the fususONETM Dashboard
+c. Floorplan Integration for designated locations in fususONETM
+d. Ongoing Integration Services with the CAD System
+e. Installation and Technical Phone Support
+f. Provide a Full Solution Warranty for the Life of the Agreement
+g. Live U.S.-Based Phone Technical Support for the Life of the Agreement
+4. Technical Requirements:
+a. Camera live -sharing compatibility will be assessed for each location before CORE
+delivery.
+b. The customer will designate a primary POC for the deployment of the fusus TM solution.
+c. Minimum network speed of .5 mb/s per viewed camera for live video sharing through the
+system.
+5. Terms and Conditions:
+The use of and access to fususTM products and services is subject to the fususTM Terms of
+Service found at https://www.fusus.com/fusus-terms-of-service.
+The Termination for Convenience Clause Asserts that the customer may, at its sole discretion,
+terminate the agreement with 30 days of written notice to FOsus. Services will be reimbursed on
+a pro -rated basis from the last day of the term through the agreement's remainder. The cost of
+any unreturned or unserviceable fususCORE(s), as listed above in Section 2, will be deducted
+from the refund.
+We are privileged to work with you on this project. Should you have any questions at any time, please
+feel free to call (603) 493-0699 or email me at ctc@fusus.com.
+Respectfully,
+Carte- Caitsw
+Carlo Capano
+Vice President of Sales
+Approved (Signature):
+By (Print Name/Title): f /IT C_ A4ALA.,I`
+Date `f-2
+5550 Triangle Parkway, Ste 100, Peachtree Corners, GA 30092 (844) 226-9226
+Re: FUSUS Service Agreement
+ATTEST:
+DIANE WIIITBEY, CITY CL
+By:
+DATE
+Approved as to Form:
+CITY OF NORTH LITTLE ROCK
+Amy Beckman Fields
+City Attorney
+Deputy City Attorney
+3Zifi-‘4 -0,A4A/
+Date
+(Resolution No. 10715 attached hereto)
+Fusus Terms of Service
+Updated October 2023
+Terms and Conditions Governing a Subscriber's Use of the FOsus Software, and all Fusus Solutions
+and Services Provided via the Software, including but not limited to the FOsusONE,
+FususREGISTRY, FOsusOPS, FususALERT, FususTIPS, FususNOTIFY, FususCORE,
+FususVAULT, FususCONNECT and FususNOTIFY product offerings.
+Introduction:
+Subscribers to the Terms.
+The following Terms of Service Agreement (the "Terms" or the "Agreement") is a binding agreement
+between FOsus Inc. ("Fusus") and you, a user of the Fusus Software ("Software") and/or a
+Subscriber to the FOsusONE Real Time lnteroperability Solution ("Solution"), as presented in the
+accompanying Offer Letter, which You agree to, either as an individual of at least eighteen years of
+age, or as an organizational entity, or as an associational
+entity, in accordance with your status and existence ("You" or "Subscriber"). These Terms govern
+Your use of the Fusus Software, the Solution, and all other solutions, services and networks owned
+or controlled by Fusus (all of which are included in the definition of "Content" provided in Section 1
+below), which are provided to You via the Software. When You accessed this Software, and/or when
+You registered Your account on the Software
+("Account") and/or when You clicked the "AGREED" box on the Software login page, You
+acknowledged Your understanding of these Terms and Your voluntary consent to be bound by these
+Terms.
+Individual Subscribers.
+If You are an individual, You hereby represent and warrant to Fusus that You are at least eighteen
+(18) years of age or and otherwise capable of entering into and performing legal agreements, and
+that You agree to be bound by the Terms.
+Entity Subscribers.
+If You are going to use the Solution on behalf of a public entity, business entity, corporate entity,
+organizational entity, or associational entity, You hereby represent to Fusus that You have the
+authority to bind that entity to these Terms as the Subscriber, and Your acceptance of these Terms
+will be treated as acceptance by that public, business, corporate, organizational, or associational
+entity as the Subscriber. In that event, You acknowledge and understand that "You" and "Your" will
+refer to that public, business, corporate, organizational, or associational entity as the Subscriber,
+which Subscriber is bound to these Terms, along with all officers, directors, employees, contractors,
+agents, or volunteers in and under Subscriber's control and/or supervision, who are also bound to
+these Terms.
+Updates to the Terms.
+When using the Software, the Solution, and/or any other solutions and/or services provided by
+Fusus via the Software, You will be subject to any updates and revisions to these Terms. Fusus
+reserves the right, at FOsus's sole discretion and without prior notice to You, to update, amend,
+change, modify, add, or remove portions of these Terms at any time by posting the updated Terms
+("Updates"). Unless otherwise stated in writing by Fusus, all Updates shall be effective immediately
+upon posting on the Software, and Your continued use of the FOsus
+Software after the posting of any Updates to these Terms constitutes Your binding acceptance of
+such changes. You acknowledge and agree that it is Your responsibility to ensure that You are
+current and up-to-date in Your understanding of and compliance with these Terms, notwithstanding
+whether or not Fusus has posted any notice of Updates to these Terms on the Software, and you
+acknowledge, understand, and agree that You must periodically check these Terms for Updates.
+Additional posted policies, guidelines or rules applicable to specific services and features, may be
+posted from time to time ("Policies"). All such Policies are hereby incorporated by reference into
+these Terms. In the case of any inconsistency between these Terms and any other document that
+has been incorporated by reference herein, these Terms shall control.
+CONTENT.
+Content Defined.
+The Software contains the Solution and may contain other solutions and products and services, as
+well as a variety of materials and other items relating to the Solution and to Fusus's other products
+and services, and similar items from our licensors and other third parties, including all layout,
+information, text, data, files, images, scripts, designs, graphics, button icons, instructions,
+illustrations, photographs, audio clips, music, sounds, pictures, videos, advertising copy, URLs,
+technology, software, interactive features, the "look and feel" of the Software and of the Solution,
+and the compilation, assembly, and arrangement of the materials of the Software and any and all
+copyrightable material (including source and object code), trademarks, logos, trade names, service
+marks, company names, and trade identities of various parties, including those owned by Fusus and
+those owned by third parties and licensed to Fusus for use on the Software (collectively,
+"Trademarks"), and other forms of intellectual property included in the Software, in the Solution,
+and/or in any other product or solution or service provided by Fusus. All of the foregoing, including
+the Solution and any other solutions, products, and/or services provided by Fusus through the
+Software is defined and referred to collectively in these Terms as "Content".
+Ownership.
+The Software (including any past, present, and future versions) and the Content are owned by Fusus
+or controlled by Fusus through licenses granted to FOsus by its licensors. All right, title, and interest
+in and to the Content available via the Software is the property of Fusus or of our licensors, and is
+protected by U.S. federal copyright, trademark, patent, and trade secrets laws and by other federal
+and state intellectual property, and unfair competition laws. In addition to Fusus's copyright
+ownership of the Content, Fusus owns a copyright in the selection, compilation, assembly,
+arrangement, and enhancement of the Content on the Software. "Intellectual Property Rights," as
+used in these Terms, means any and all rights belonging to Fusus and existing under patent law,
+copyright law, semiconductor chip protection law, trade secret law, trademark law, unfair competition
+law, publicity rights law, privacy rights law, and any and all other proprietary rights, and any and all
+applications, renewals, extensions and restorations thereof, now or hereafter in force and effect
+worldwide, in any intellectual property, which includes, but is not limited to, patentable inventions,
+ideas, and processes, trade secrets, trademarks, trade names, copyrightable works, and any
+confidential information. As between You and Fusus, Fusus retains all its respective titles, interests,
+and ownership in the Software and the Content, and You understand and acknowledge that neither
+You nor any other Subscriber acquires any ownership in any Intellectual Property Rights regarding
+the Software or the Content under these Terms.
+Limited License Granted to You.
+Subject to Your strict and ongoing compliance with Your Subscription Agreement and with these
+Terms, Fusus
+grants You a limited, non-exclusive, revocable, non -assignable, and non -transferable license to use
+the Software and the Solution (the "Limited License"). The foregoing Limited License does not give
+You any ownership of, or any other intellectual property interest in, any Content (including, but not
+limited to, the Solution), and Fusus reserves the right to suspend or terminate, at any time and for
+any reason, Your Limited License without any advance notice to You, and without any liability. This
+Agreement and any Additional Terms include only narrow, limited grants of rights to Content and to
+use and access the Software. No right or license may be construed, under any legal theory, by
+implication, estoppel, industry custom, or otherwise. All rights not expressly granted to You are
+reserved by Fusus. Any unauthorized use of any Content or the Software for any purpose is strictly
+prohibited.
+SUBSCRIBER -GENERATED CONTENT: CONTENT YOU SUBMIT.
+Your Ownership of Subscriber -Generated Content.
+Fusus may provide a Subscriber the opportunity to post, upload, display, publish, distribute, transmit,
+broadcast, or otherwise make available on or submit through the Software (collectively, "submit")
+messages, text, illustrations, files, images, graphics, photos, comments, sounds, music, videos,
+information, content, ratings, reviews, data, questions, suggestions, personally identifiable
+information, or other information or materials created by a Subscriber (collectively, "Subscriber -
+Generated Content"). Subject to the rights and license You grant to Fusus under these Terms (see
+below), You retain whatever legally cognizable right, title, and interest that You have in Your
+Subscriber -Generated Content. You understand and acknowledge that Fusus has no obligation to
+monitor or enforce Your intellectual property rights to Your Subscriber -Generated Content.
+(hereinafter, "PII").
+Fusus's Enforcement Rights in Subscriber -Generated Content.
+You grant Fusus the exclusive right to protect and enforce its licensed rights to Your Subscriber -
+Generated Content while it is posted on the Software, including the right to bring and control
+enforcement actions in Your name and on Your behalf at Fosus's cost and expense.
+Your Representations and Warranties and Your Indemnification Obligations for Your Subscriber -
+Generated Content.
+Each time You submit any Subscriber -Generated Content, You represent and warrant that You are
+the sole author and owner of the intellectual property and other rights to the Subscriber- Generated
+Content, or You have a lawful right to submit the Subscriber -Generated Content.
+REPORTING INTELLECTUAL PROPERTY INFRINGEMENT. DMCA Notice for Copyright
+Infringement.
+Fusus will respond appropriately to notices of alleged copyright infringement that comply with the
+Digital Millennium Copyright Act ("DMCA"), as set forth below. If You own a copyright in a work (or
+represent such a copyright owner) and believe that the copyright in that work has been infringed by
+an improper posting of it as part of Subscriber -Generated Content on the Software, then You may
+send us a written notice that includes all of the following:
+• a subject line that says: "DMCA Copyright Infringement Notice"; and
+• a description of the copyrighted work that You claim has been infringed or, if multiple copyrighted
+works are covered by a single notification, a representative list of such works; and
+• a description of the location of the infringing material on the Software; and
+• Your full name, address, telephone number, and e-mail address; and
+• a statement by You that You have a good faith belief that use of the allegedly infringing material in
+the manner complained of is not authorized by the copyright owner; and
+• a statement by You, made under penalty of perjury, that all the information in Your notice is
+accurate, and that You are the copyright owner (or, if You are not the copyright owner, then Your
+statement must indicate that You are authorized to act on the behalf of the owner); and,
+•
+• Your physical signature or, if sent within an email (rather than in a physical document or a digital
+document attached to an email), the characters "//sll" followed by Your full typed name, which will
+serve as Your electronic signature.
+Fusus may elect to not respond to DMCA Notices that do not substantially comply with all of the
+foregoing requirements, and Fusus may elect to remove allegedly infringing material that comes to
+its attention via notices that do not substantially comply with the DMCA.
+• Mode of Communication.
+FOsus will only respond to DMCA Notices that it receives by mail or e-mail at the addresses below:
+By Mail:
+FOsus
+ATTN: DMCA Notice
+5550 Triangle Pky, Suite 100, Peachtree Corners, GA 30092
+By E -Mail:
+We may send the information that You provide in Your DMCA Notice to the person who provided the
+allegedly infringing work. That person may elect to send us a DMCA Counter -Notification.
+Without limiting Fusus's other rights, Fusus may, in appropriate circumstances, terminate a repeat
+infringer's access to the Software and any other Software owned or operated by Fusus.
+• DMCA Counter -Notification regarding Copyright Infringement.
+If access on the Software to a work that You submitted to Fusus is disabled or the work is removed
+as a result of a DMCA Notice, and if You believe that the disabled access or removal is the result of
+mistake or misidentification, then You may send us a DMCA Counter -Notification to the addresses
+above. Your DMCA Counter -Notification should contain the following information:
+• a subject line that says: "DMCA Counter -Notification"; and
+• a description of the material that has been removed or to which access has been disabled and the
+location at which the material appeared on the Software before it was removed or disabled; and
+• a statement made under penalty of perjury that You have a good faith belief that the material was
+removed or disabled as a result of mistake or misidentification; and
+• Your full name, address, telephone number, e-mail address, and the username of Your Account;
+and
+• a statement that You consent to the jurisdiction of the Federal District Court for the judicial district
+in which Your address is located (or, if the address is located outside the U.S.A., to the jurisdiction of
+the United States District Court for the District of Georgia), and that You will accept service of
+process from the person who provided DMCA notification to us or an agent of such person; and
+• Your physical signature or, if sent within an email (rather than in a physical document or a digital
+document attached to an email), the characters "//s//" followed by Your full typed name, which will
+serve as Your electronic signature.
+Please note that the DMCA provides that any person who knowingly materially misrepresents that
+material or activity was removed or disabled by mistake or misidentification may be subject to
+liability.
+If we receive a DMCA Counter -Notification, then we may replace the material that we removed (or
+stop disabling access to it) in not less than 10 and not more than 14 business days following receipt
+of the DMCA Counter- Notification. However, we will not do this if we first receive notice at the
+addresses above that the party who sent us the DMCA Copyright Infringement Notice has filed a
+lawsuit asking a court for an order restraining the person who provided the material from engaging in
+infringing activity relating to the material on the Software.
+You should also be aware that we may forward the DMCA Counter -Notification to the party who sent
+us the DMCA Copyright Infringement Notice.
+• Reporting Infringement of Other Intellectual Property.
+If You own intellectual property other than a copyright and believe that Your intellectual property has
+been infringed by an improper posting or distribution of it on the Software, then You may send Fusus
+a written notice to one of the addresses set forth in Section 4.A. above that includes all of the
+following:
+• a subject line that says: "Intellectual Property Infringement Notice"; and
+• a description of the intellectual property that You claim has been infringed, or a list of the
+intellectual
+• property if multiple works have been infringed; and a description of the location of the infringing
+material on the Software; and
+• Your full name, address, telephone number, and e-mail address; and
+• a statement by You that You have a good faith belief that use of the allegedly infringing material in
+the manner complained of is not authorized by the owner; and
+• a statement by You, made under penalty of perjury, that all the information in Your notice is
+accurate, and that You are the owner (or, if You are not the owner, then Your statement must
+indicate that You are authorized to act on the behalf of the owner); and,
+• Your physical signature or, if sent within an email (rather than in a physical document or a digital
+document attached to an email), the characters "//s//" followed by Your full typed name, which will
+serve as Your electronic signature.
+Fusus will act on such notices in its sole discretion. Any User of the Software that fails to respond
+satisfactorily to Fusus with regard to any such notice is subject to suspension or termination. We
+may send the information that You provide in Your notice to the person who provided the allegedly
+infringing material.
+YOUR ACCOUNT AT FUSUS.
+Registration.
+To access the Solution through the Software, You not only must execute a Subscription Agreement,
+but also You must become a registered user of the Software by establishing an Account. The
+Software's practices governing any resulting collection and use of Your personal information in Your
+Account are disclosed in its Data Privacy Policy in Section 4H.
+Usernames and Passwords.
+If You register for any feature of the Software that requires a password and/or username, such as
+the Solution, then You will select Your own password at the time of registration (or we may send You
+an email notification with a randomly generated initial password) and You agree to the following:
+• You will not use a username (or e-mail address) that is already being used by someone else, that
+may impersonate another person, that belongs to another person, that violates the intellectual
+property or other right of any person or entity, or that is offensive (FOsus may reject the use of any
+password, username, or email address for any reason in our sole discretion); and
+• You will provide accurate, current, and complete registration information about Yourself in
+connection with the registration process and, as permitted, to maintain and update it continuously
+and promptly to keep it accurate, current, and complete for as long as You use the features to which
+the registration relates; and
+• You are solely responsible for all activities that occur on the Software under Your Account,
+password, and username, whether or not You authorize the activity (except to the extent that any
+activity occurs due to unauthorized use of Your password and username by another person or
+entity), and, accordingly, if You are an entity Subscriber, You are solely responsible for the actions of
+all persons subject to Your control and/or supervision who access the Software and the Content
+through Your subscription; and
+• You are solely responsible for maintaining the confidentiality of Your password and for restricting
+access to Your
+computers, phones, pads, tablets, or other Internet Access Devices, so that unauthorized persons
+may not access any password protected portion of the Software using Your name, username, or
+password; and
+• You will immediately notify Fusus of any unauthorized use of Your Account, password, or
+username, or any other breach of security; and
+• You will not sell, transfer, or assign Your Account or any Account rights.
+Fusus shall have no liability for any loss or damage (of any kind and under any legal theory) to You
+or any third party arising from Your inability or failure for any reason to comply with any of the
+foregoing security obligations.
+• Termination in the Event of Non -appropriation.
+If You are a public entity and do not appropriate funds for this agreement, then this agreement and
+all Your obligations terminate. A refund will be provided for any unused portion of the paid
+subscription, after the 30 -day notice period through the remainder of the term.
+Software Access Charges.
+FOsus reserves the right, upon reasonable notice, to charge for access to some or all of the
+Software, charge for access to premium functionality or Content on some or all of the Software, or
+require a subscription or registration to access some or all of the Software. Fusus further retains the
+right to change the terms and conditions for accessing the Software or portions of the Software; and
+the right to restrict access to the Software or portions of the Software, in whole or in part, based on
+any lawful eligibility requirements Fusus may elect to
+impose (e.g., geographic or demographic limitations). FOsus may modify, revalue, or make the
+registration free at its sole discretion without advance notice or liability.
+Your Use of an Internet Access Device and Third -Party Components.
+You understand and agree that Your use of any Internet Access Device and/or all third -party
+hardware, software, services, telecommunication services (including Internet connectivity), or other
+items used by You to access the Software ("Third -Party Components") are the sole and exclusive
+responsibility of You, including all costs of Your use of such Third -Party Components, and that
+Fusus has no responsibility for such third- party components, services, or Your relationships with
+such third parties. You agree that You shall at all times comply with the lawful terms and conditions
+of Your agreements with such third parties. FOsus does not represent or warrant that the Software
+and the Content are compatible with any specific third -party hardware or software or any other Third -
+Party Components. You are responsible for providing and maintaining an operating environment as
+reasonably necessary to accommodate and access the Software.
+Wireless Features.
+The Software may offer certain features and services that are available to You via Your wireless
+Internet Access Device. These features and services may include the ability to access the
+Software's features and upload content to the Software, receive messages from the Software, and
+download applications to Your wireless Internet Access Device (collectively, "Wireless Features").
+Standard messaging, data, and other fees may be charged by Your carrier to participate in Wireless
+Features. Fees and charges may appear on Your wireless bill or be deducted from
+Your pre -paid balance. Your carrier may prohibit or restrict certain Wireless Features and certain
+Wireless Features may be incompatible with Your carrier or wireless Internet Access Device. You
+should check with Your carrier to find out what plans are available and how much they cost. Contact
+Your carrier directly with questions regarding these issues. You understand and acknowledge that
+Fusus has no responsibility or liability for Your ability or inability to access or take advantage of any
+Wireless Features due to Your carrier, Your phone service plan, Your Internet Access Device, or any
+other Third -Party Component.
+Customer Service.
+Fusus acknowledges the importance of response times for critical systems when technical issues
+arise. As such, Fusus shall provide technical support during normal business hours from 9am to 5pm
+ET, and via an on -call after- hours support team which is available on a 24/7/365 basis. When
+technical issues arise, Subscriber may contact Fusus Technical Support via phone at: (844) 226-
+9226 ext. 2 or via email at: helpdesk@Fusus.com. Fusus will make every effort in all circumstances
+to respond to Subscriber technical support inquiries in a timely fashion. For after- hours support
+requests, Subscriber shall notify FOsus of the priority of their request when it is submitted. The
+priority shall determine the guaranteed response time as detailed below:
+• Priority 1 — Technical concerns impacting a single or multiple users that require immediate
+resolution during critical incidents or major events at the Customer/Organization. Fusus to return
+customer's call or email within 2 hours, including holidays and weekends.
+• Priority 2 — Technical concerns impacting multiple users, non-critical/major events. Fusus to return
+customer's
+call or email within 24 hours.
+• Priority 3 — Technical concerns impacting a single user, non-critical/major events. FOsus to return
+customer's
+call or email within 1 business day
+Data Privacy.
+Fusus may collect, use, transfer, disclose and otherwise process User -generated data in the context
+of facilitating communication of data with the User and/or the User's Organization through their use
+of FOsusONE (web -interface) or FOsusOPS (iOS or Android interface), complying with legal
+requirements, monitoring the User's use of FOsus's systems, and undertaking data analytics. User
+generated digital media content saved in the Fosus system is the sole property of the User, and may
+not be distributed by Fusus to any third parties outside of the User's Organization without the User's
+expressed written consent.
+A.You represent and warrant the following in respect of this Agreement:
+1. You have the necessary authority to enter into this Agreement; and
+2. If You are an individual, You are over the age of eighteen; and
+3. You shall cooperate with all of the instructions, rules, and procedures that apply to Your
+Fusus Account;
+4. You have provided and will continue to provide true, accurate, current, and complete
+Account registration information; and
+5. You will respect and abide by all of Your obligations under this Agreement, and You will
+perform Your obligations under this Agreement diligently; and
+6. If You are an entity Subscriber, You will monitor and closely supervise all of the persons
+under Your employment, including all officers, directors, employees, contractors, agents, and
+legal representatives who access the Software and the Content through Your subscription to
+ensure their compliance with these Terms, and You understand, acknowledge, and agree
+that You are entirely responsible for such compliance by all persons subject to Your control
+and/or supervision; and
+7 You will comply with all laws and regulations applicable to this Agreement and to the
+Software and Content, include all laws regarding personal rights of privacy and publicity.
+B. Expressed Warranty.
+Products manufactured by Fusus are warranted to be free from defects in material and workmanship
+under normal use and service. This warranty is applicable to any of Fusus's products provided as
+part of the Software as a Service agreement with Subscriber, or purchased by Subscriber for use
+with their subscription, that Subscriber returns to Fusus during the period of the initial term of the
+agreement.
+1. Real -Time Crime Center in the Cloud Subscribers (RTC3): All equipment issued as part of a
+RTC3 project, including FususCORETM appliances and peripherals, are warranted for the
+duration of the initial agreement and will be repaired or replaced at Fosus's cost with an
+appropriate Request to Merchant (RMA) authorization.
+2. Security Operations Center in the Cloud Subscribers (SOC2): All equipment issued as part of
+a SOC2 project, including FosusCORETM appliances and peripherals, are warranted for one
+(1) year from the original date of shipment to Subscriber or its authorized reseller. Extended
+annual warranty periods purchased by Subscriber for coverage after the first year must be
+purchased prior to the original shipment of hardware to be considered valid. All warrantied
+hardware will be repaired or replaced at Fusus's cost with an appropriate Request to
+Merchant (RMA) authorization.
+Fusus's obligations, with respect to such applicable warranty returns, are limited to repair,
+replacement, or refund of the purchase price actually paid for the product, at Fusus's sole option.
+Fusus shall bear round-trip shipment costs of defective items found to be covered by this warranty
+Defective products or parts thereof may be replaced with either new, factory refurbished, or
+remanufactured parts. Defective parts, which have been replaced, shall become Fusus property.
+This warranty does not extend to any product sold by Fusus which has been subjected to misuse,
+neglect, accident, improper installation by a non -authorized 3rd party, or a use for purposes not
+included or not in accordance with installation procedures and instructions furnished by Fusus, or
+which has been repaired or altered by persons other than Fusus or which has been damaged by
+secondary causes, including but not limited to, improper voltages, adverse environment conditions,
+improper handling, or products which have had their serial number or any part thereof altered,
+defaced, or removed.
+7. Indemnification and Liability.
+1. Disclaimer of Warranties. OTHER THAN AS EXPRESSLY SET FORTH IN THIS
+AGREEMENT, FUSUS MAKES NO, AND HEREBY DISCLAIMS ANY,
+REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, WITH
+RESPECT TO THE SOFTWARE AND SOLUTION PROVIDED OR THE AVAILABILITY,
+FUNCTIONALITY, PERFORMANCE OR RESULTS OF USE OF THE SOFTWARE AND
+SOLUTION. WITHOUT LIMITING THE FOREGOING, EXCEPT AS SPECIFICALLY SET
+FORTH HEREIN, FUSUS DISCLAIMS ANY WARRANTY THAT THE SOFTWARE AND
+SOLUTION PROVIDED BY FUSUS, OR THE OPERATION OF THE SOFTWARE AND
+SOLUTION ARE OR WILL BE ACCURATE, ERROR -FREE OR UNINTERRUPTED. FUSUS
+MAKES NO, AND HEREBY DISCLAIMS ANY, IMPLIED WARRANTIES, INCLUDING
+WITHOUT LIMITATION, ANY IMPLIED WARRANTY OF MERCHANTABILITY, OF
+FITNESS FOR ANY PARTICULAR PURPOSE OR ARISING BY USAGE OF TRADE,
+COURSE OF DEALING OR COURSE OF PERFORMANCE.
+2. Fusus shall indemnify, defend and hold the Subscriber and its officials, agents and
+employees harmless from and against any and all claims, damages, losses, injuries and
+expenses (including reasonable attorneys' fees), relating to or arising out of: (i) the gross
+negligence or intentional misconduct of Fusus or (ii) use by Fusus of any intellectual property
+in connection with the Software and Solution under these Terms of Use that infringes or
+misappropriates any copyright, patent, trademark, trade secret of an unaffiliated third
+party. Notwithstanding the foregoing, if the Software and/or Solution becomes the subject of
+such a claim of infringement then Fusus may, at its option: (x) procure for Subscriber the
+right to use the Software and/or Solution free of any liability for infringement; (y) replace or
+modify the Software and/or Solution to make it non -infringing but with reasonably
+comparable functionality; or (z) if Fusus determines that the previous two options are not
+available on a commercially reasonable basis, grant to Subscriber a credit for the unused
+portion of any prepaid access rights fees and refund any deposits paid by Subscriber for the
+affected Software and Solution. Furthermore, Fusus has no liability for, and no obligation to
+indemnify Subscriber against, any third party claim arising or alleging based in whole or in
+part on use of the Software and Solution other than as specified in the Terms of Use or
+documentation relating to the Software and Solution, including use with third party hardware
+and software products not specifically authorized by Fusus.
+3. Disclaimer of Consequential Damages. FUSUS HAS NO LIABILITY WITH RESPECT TO
+THE SERVICES, OR ITS OTHER OBLIGATIONS UNDER THESE TERMS OF SERVICE
+OR OTHERWISE FOR CONSEQUENTIAL, EXEMPLARY, SPECIAL, INCIDENTAL, OR
+PUNITIVE DAMAGES (INCLUDING WITHOUT LIMITATION LOSS OF PROFITS AND THE
+COST OF COVER) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN BREACH OF CONTRACT, NEGLIGENCE, STRICT LIABILITY,
+MISREPRESENTATIONS, OR ANY OTHER TORTS EVEN IF FUSUS HAS BEEN
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+4. Limitations of Remedies and Liability. EXCEPT FOR ANY CLAIMS SUBJECT TO
+INDEMNIFICATION HEREUNDER, FUSUS' TOTAL LIABILITY TO SUBSCRIBER FOR
+ANY REASON AND UPON ANY CAUSE OF ACTION INCLUDING WITHOUT LIMITATION,
+BREACH OF CONTRACT, NEGLIGENCE, STRICT LIABILITY, MISREPRESENTATIONS,
+AND OTHER TORTS, IS LIMITED TO ALL FEES PAID TO FUSUS BY THE SUBSCRIBER
+IN RESPECT OF THE SOFTWARE AND SOLUTION DURING THE THREE MONTHS
+IMMEDIATELY PRECEDING THE EVENTS GIVING RISE TO THE LIABILITY.
+8. Insurance.
+Fusus will add Customer as an additional insured under any applicable policy and, at its own cost
+and expense, maintain, during the Initial Contract Period and any renewal period following the Initial
+Contract Period:
+(1) Commercial general liability and professional liability insurance with limits not less than
+$1,000,000 per occurrence and $2,000,000 aggregate, covering personal and advertising injury,
+bodily injury and property damage, products/completed operations, and contractual liability
+(2) Workers' compensation insurance or similar social insurance or government scheme in
+accordance with the applicable laws; and
+(3) $2,000,000 per occurrence and $2,000,000 aggregate, cybersecurity insurance covering data
+breaches and related incident response and remediation, privacy liability and regulatory action costs,
+including, without limitation, cyber extortion (ransomware) and business email compromise with both
+first party overage and coverage for claims by a third party that the data breach or other cyber
+incident caused them damages.
+9. CONFIDENTIALITY.
+"Confidential Information" means nonpublic information designated as confidential or proprietary or,
+given the nature of the information or circumstances surrounding disclosure, should reasonably be
+understood to be confidential. All Confidential Information disclosed by either party to the other party
+in tangible form shall be clearly marked with a "CONFIDENTIAL", "PROPRIETARY", "NOT FOR
+DISTRIBUTION" or similar legend. If the Confidential Information cannot reasonably be marked as
+required by the preceding sentence, written notice shall be given by the disclosing party to the
+receiving party at the time it is disclosed that it is to be treated as Confidential Information. Each
+Party will take reasonable measures to avoid disclosure, dissemination, or unauthorized use of the
+other Party's Confidential Information and authorized sharing is limited to parties on a need -to -know
+basis. Unless required by law, neither Party will disclose the other Party's Confidential Information
+during the Term and for five (5) years thereafter. To the extent permissible by law, Fusus pricing,
+network diagrams, certifications and third party audit reports, and software screenshots are
+Confidential Information and competition sensitive. If Subscriber receives a public records request to
+disclose Fusus Confidential Information, to the extent allowed by law, Subscriber will provide notice
+to Fusus before disclosure at legal@fusus.com. Subscriber and its authorized users (including
+employees, contractors, agents, officers, volunteers, and directors), may not, or may not attempt to
+alter, or obscure any confidentiality or proprietary rights notices (including copyright and trademark
+notices) of Fusus.
+10. GENERAL PROVISIONS.
+1 Governing Law. The laws of the state where customer is physically located, without
+reference to conflict of law rules, govern this Agreement and any dispute arising from it. The
+United Nations Convention for the International Sale of Goods does not apply to this
+Agreement.
+2. Severability and Interpretation. If any provision of this Agreement, is for any reason deemed
+invalid, unlawful, void, or unenforceable by a court of competent jurisdiction, then that
+provision will be deemed severable from this Agreement, and the invalidity of the provision
+will not affect the validity or enforceability of the remainder of this Agreement which will
+remain in full force and effect.
+3. Communications. Whenever You communicate with Fusus electronically, such as via e-mail,
+You consent to receive communications from Fusus electronically. Please note that, except
+as set forth in the provisions of this Agreement regarding the DMCA, Fusus is obligated to
+respond to inquiries that it receives.
+4 Assignment. Fusus may assign its rights and obligations under this Agreement, in whole or in
+part, to any party at any time without any notice. This Agreement may not be assigned by
+You, and You may not delegate Your duties under these Terms, without the prior written
+consent of an officer of Fusus.
+5. No Waiver. Except as expressly set forth in this Agreement, no failure or delay by You or
+Fusus in exercising any rights or remedies under this Agreement will operate as a waiver of
+that or any other right or remedy.
+6. No Partnership or Joint Venture. Neither this Agreement, nor any terms and conditions
+contained herein shall be construed as creating a partnership, joint venture, franchise or
+agency relationship between You and Fusus.
+7. Complete Agreement.This Agreement contains Your entire understanding with Fusus with
+respect to the subject matter and supersedes any and all prior oral or written proposals or
+understanding.

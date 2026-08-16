@@ -14,7 +14,17 @@ from pathlib import Path
 import pytest
 
 import build_surveillance as bs
+import nlr_laserfiche as lf
 import surveillance_docs as sd
+
+
+def test_laserfiche_links_are_recognised_and_parsed():
+    """North Little Rock's record has no PDFs, so its links take another path."""
+    url = "https://portal.laserfiche.com/Portal/DocView.aspx?id=630141&repo=r-caf858ef"
+    assert lf.is_laserfiche(url)
+    assert lf.doc_id(url) == 630141
+    assert lf.doc_url(630141) == url
+    assert not lf.is_laserfiche("https://www.littlerock.gov/agenda/BC-Flock.pdf")
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SRC = REPO_ROOT / "pipeline" / "surveillance"
@@ -27,6 +37,22 @@ def test_money_skips_line_numbers_and_sorts_by_size():
     values = [a["value"] for a in sd.money_values(text)]
     assert values == [690000.0, 77500.0]          # $12 dropped as noise
     assert sd.money_values(text)[0]["literal"] == "$690,000.00"
+
+
+def test_headline_amount_is_the_price_not_the_insurance_limit():
+    """NLR's Flock licence carries a $2,000,000 liability clause. Leading the
+    money row with that number would misstate what the city bought."""
+    text = ("Vendor shall maintain commercial general liability insurance of "
+            "$2,000,000 aggregate and $1,000,000 per occurrence. Contract Total "
+            "due at signing $18,450.00.")
+    top = sd.money_values(text)[0]
+    assert top["value"] == 18450.0
+    assert "Total" in top["context"]
+
+
+def test_malformed_ocr_amount_is_dropped_not_misread():
+    """A scanned "$99,834,62" must not be read as nine million."""
+    assert sd.money_values("total of $99,834,62 paid") == []
 
 
 def test_resolution_numbers_without_the_word_no():

@@ -30,6 +30,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+import nlr_laserfiche  # noqa: E402
 from common.settings import RAW_DIR  # noqa: E402
 
 SRC = Path(__file__).parent / "surveillance"
@@ -52,7 +53,9 @@ VENDORS = [
 MONTHS = ("January|February|March|April|May|June|July|August|September|"
           "October|November|December")
 
-RE_MONEY = re.compile(r"\$\s?([\d,]+(?:\.\d{2})?)")
+# Thousands must group in threes. Scanned council records contain typos like
+# "$99,834,62", and a loose pattern reads that as nine million.
+RE_MONEY = re.compile(r"\$\s?(\d{1,3}(?:,\d{3})+(?:\.\d{2})?|\d+(?:\.\d{2})?)(?![\d,])")
 RE_ORDINANCE = re.compile(r"Ordinance\s+No\.?\s*([\d][\d,\.]{2,})", re.I)
 RE_ACCOUNT = re.compile(r"[Aa]ccount\s+(?:No\.?\s*)?([\d]{5,6}-[\d]{4,6})")
 RE_COOP = re.compile(r"(Omnia|OMINA|NCPA|Sourcewell)(?:\s+Partners)?"
@@ -72,7 +75,18 @@ MONTH_NUM = {m: i + 1 for i, m in enumerate(
 
 
 def fetch(target):
-    """Return (bytes, content_type, resolved_url) for a URL or local path."""
+    """Return (bytes, content_type, resolved_url) for a URL or local path.
+
+    North Little Rock's council record lives in a Laserfiche portal with no PDF
+    endpoint, so those links are resolved to their text layer instead. The
+    citation stays the public DocView URL; the hash is then over the extracted
+    text rather than an original file, which is noted on the entry.
+    """
+    if nlr_laserfiche.is_laserfiche(target):
+        text, pages = nlr_laserfiche.document_text(nlr_laserfiche.doc_id(target))
+        if not text.strip():
+            raise SystemExit(f"no text layer returned for {target}")
+        return text.encode("utf-8"), "text/plain; laserfiche", target
     if re.match(r"^https?://", target, re.I):
         req = urllib.request.Request(target, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=90) as r:
@@ -86,6 +100,8 @@ def fetch(target):
 
 def to_text(raw, content_type, url):
     """Extract plain text from a PDF, HTML page, or text file."""
+    if "laserfiche" in content_type:
+        return raw.decode("utf-8"), "laserfiche", 1
     is_pdf = raw[:5] == b"%PDF-" or "pdf" in content_type.lower() or url.lower().endswith(".pdf")
     if is_pdf:
         import pdfplumber  # imported lazily: only PDFs need it
@@ -102,10 +118,23 @@ def to_text(raw, content_type, url):
     return text, "text", 1
 
 
+# A contract's biggest number is often not its price: licence agreements carry
+# insurance limits, and budget items quote the whole fund. Score each figure by
+# what it sits next to so the headline is the amount actually being approved.
+BUYING = re.compile(r"total|not to exceed|not exceed|amount of|price of|sum of|"
+                    r"cost of|payment (?:to|of)|purchase|expenditure|annual", re.I)
+# Statutory bidding thresholds ("purchases exceeding $20,000") and insurance
+# limits are the two figures most likely to be mistaken for a price.
+NOT_BUYING = re.compile(r"insur|liabilit|coverage|aggregate|bodily injury|"
+                        r"property damage|umbrella|workers.? comp|bond|"
+                        r"exceeding the amount|purchases exceeding|in excess of", re.I)
+
+
 def money_values(text):
-    """Dollar figures as (numeric, literal) pairs, largest first, deduped."""
+    """Dollar figures, most likely purchase price first, deduped."""
+    flat = re.sub(r"\s+", " ", text)
     seen, out = set(), []
-    for m in RE_MONEY.finditer(text):
+    for m in RE_MONEY.finditer(flat):
         literal = m.group(0).replace("$ ", "$")
         try:
             value = float(m.group(1).replace(",", ""))
@@ -114,8 +143,16 @@ def money_values(text):
         if value < 100 or value in seen:      # skip line numbers and page refs
             continue
         seen.add(value)
-        out.append({"value": value, "literal": literal})
-    return sorted(out, key=lambda d: -d["value"])[:12]
+        # The qualifier almost always comes first ("total amount of $X"), so
+        # look backwards - far enough to clear a spelled-out amount, because
+        # these documents write "a total amount of Sixty-Two Thousand One
+        # Hundred Ninety-Five & 58/100 Dollars ($62,195.58)".
+        qualifier = flat[max(0, m.start() - 130):m.end() + 25]
+        score = ((2 if BUYING.search(qualifier) else 0)
+                 - (5 if NOT_BUYING.search(qualifier) else 0))
+        out.append({"value": value, "literal": literal, "score": score,
+                    "context": flat[max(0, m.start() - 90):m.end() + 90].strip()[:200]})
+    return sorted(out, key=lambda d: (-d["score"], -d["value"]))[:12]
 
 
 def uniq(seq):
@@ -177,10 +214,13 @@ def guess_title(text, url):
     """Agenda memos say it after 'Subject:'; resolutions say 'A RESOLUTION TO ...'."""
     flat = re.sub(r"^\s*\d+\s+", "", text, flags=re.M)        # strip line numbers
     flat = re.sub(r"\s+", " ", flat)
-    m = re.search(r"\bA (RESOLUTION|ORDINANCE) TO (.+?)(?:;| AND FOR OTHER PURPOSES|\.)",
-                  flat, re.I)
+    # Little Rock writes "A RESOLUTION TO AUTHORIZE...", North Little Rock
+    # writes "AN ORDINANCE WAIVING..." - accept either shape.
+    m = re.search(r"\bAN? (RESOLUTION|ORDINANCE)\s+((?:TO\s+)?\S+.+?)"
+                  r"(?:;| AND FOR OTHER PURPOSES|\.)", flat, re.I)
     if m:
-        title = f"A {m.group(1).lower()} to {m.group(2).strip()}"
+        title = f"A{'n' if m.group(1).upper() == 'ORDINANCE' else ''} " \
+                f"{m.group(1).lower()} {m.group(2).strip()}"
         return re.sub(r"\s+", " ", title)[:200]
     m = re.search(r"Subject:\s*(.+?)(?:Submitted By:|SYNOPSIS)", flat, re.I)
     if m:

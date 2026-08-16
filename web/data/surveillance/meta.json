@@ -28,7 +28,7 @@
   "small-cell": 1
  },
  "devices": 525,
- "documents": 7,
+ "documents": 16,
  "lrpd_foia_readers": 116,
  "lrpd_foia_also_mapped_by_volunteers": 43,
  "spend": [
@@ -43,6 +43,26 @@
    "title": "A resolution to AUTHORIZE THE CITY MANAGER TO EXECUTE A TWO (2)-YEAR CONTRACT WITH SHOTSPOTTER, INC"
   },
   {
+   "date": "2018-11-13",
+   "amount": 33200.0,
+   "literal": "$33,200.00",
+   "programs": [
+    "skycop"
+   ],
+   "doc": "nlr-ord-9053",
+   "title": "An ordinance WAIVING FORMAL BIDDING REQUIREMENTS FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FROM SKYCORP INC"
+  },
+  {
+   "date": "2020-01-27",
+   "amount": 62195.58,
+   "literal": "$62,195.58",
+   "programs": [
+    "skycop"
+   ],
+   "doc": "nlr-ord-9210",
+   "title": "An ordinance WAIVING FORMAL BIDDING REQUIREMENTS FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FROM SKYCOP INC"
+  },
+  {
    "date": "2021-02-16",
    "amount": 287393.0,
    "literal": "$287,393.00",
@@ -51,6 +71,58 @@
    ],
    "doc": "r-shotspotter-a24d0f",
    "title": "A resolution to AUTHORIZE THE CITY MANAGER TO ENTER INTO A CONTRACT AMENDMENT WITH SHOTSPOTTER, INC"
+  },
+  {
+   "date": "2021-09-13",
+   "amount": 64499.88,
+   "literal": "$64,499.88",
+   "programs": [
+    "skycop"
+   ],
+   "doc": "nlr-ord-9392",
+   "title": "An ordinance WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP INC"
+  },
+  {
+   "date": "2021-10-25",
+   "amount": 117071.72,
+   "literal": "$117,071.72",
+   "programs": [
+    "skycop",
+    "rtcc-nlr"
+   ],
+   "doc": "nlr-res-10134",
+   "title": "A resolution WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP, INC"
+  },
+  {
+   "date": "2022-09-26",
+   "amount": 42250.0,
+   "literal": "$42,250.00",
+   "programs": [
+    "skycop"
+   ],
+   "doc": "nlr-res-10380",
+   "title": "A resolution WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP, INC"
+  },
+  {
+   "date": "2024-01-08",
+   "amount": 18450.0,
+   "literal": "$18,450.00",
+   "programs": [
+    "flock-other"
+   ],
+   "doc": "nlr-res-10721",
+   "title": "A resolution AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO A LICENSE AGREEMENT WITH FLOCK GROUP INC"
+  },
+  {
+   "date": "2024-02-26",
+   "amount": 450000.0,
+   "literal": "$450,000.00",
+   "programs": [
+    "drones",
+    "rtcc-nlr"
+   ],
+   "doc": "nlr-res-10767",
+   "title": "A resolution WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO FUSUS, A SOLE SOURCE VENDOR, FOR THE PURCHASE OF SOFTWARE FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT"
   },
   {
    "date": "2025-02-04",
@@ -64,8 +136,8 @@
   },
   {
    "date": "2025-02-18",
-   "amount": 362000.0,
-   "literal": "$362,000,",
+   "amount": 284500.0,
+   "literal": "$284,500",
    "programs": [
     "flock-lrpd",
     "rtcc-lrpd"
@@ -93,6 +165,17 @@
    ],
    "doc": "bc-flock-license-plate-920bcc",
    "title": "A resolution to authorize the City Manager to enter into a contract with Insight Public Sector to renew Little Rock Police Department\u2019s Flock Safety Software Subscription Services to support Falcon Li"
+  },
+  {
+   "date": "2026-04-27",
+   "amount": 106000.0,
+   "literal": "$106,000.00",
+   "programs": [
+    "flock-other",
+    "rtcc-nlr"
+   ],
+   "doc": "nlr-res-11320",
+   "title": "A resolution AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO AN EXTENSION OF THE CONTRACT WITH FLOCK GROUP INC"
   }
  ],
  "sources": [

@@ -50,7 +50,7 @@
   "how_to_spot": "Same slim pole and shoebox head; retail units usually sit at lot entrances rather than on public roads.",
   "retention": "The 150-day state purge applies to government entities. A private operator's own retention is set by its contract, not by the ALPR statute.",
   "who_can_see_it": "Each owner controls sharing. Business owners can choose to share with police, which is how a retailer's camera becomes part of an investigation.",
-  "money": "Bought jurisdiction by jurisdiction; North Little Rock's and the retailers' contracts are not in this trail yet. Several Arkansas cities - Cabot, Pea Ridge, Mayflower, Greers Ferry, Searcy - suspended or removed their Flock cameras during 2026.",
+  "money": "Bought jurisdiction by jurisdiction. North Little Rock signed a five-year Flock licence in January 2024 (Resolution 10721, $18,450 at signing) and extended its camera contracts in April 2026 up to $106,000 (Resolution 11320) - while still buying SkyCop cameras in parallel. Several Arkansas cities - Cabot, Pea Ridge, Mayflower, Greers Ferry, Searcy - suspended or removed their Flock cameras during 2026.",
   "sources": [
    {
     "label": "KATV - Arkansas cities suspending Flock cameras",
@@ -58,7 +58,73 @@
    }
   ],
   "one_line": "The same readers, bought separately by other agencies and shops.",
-  "documents": []
+  "documents": [
+   "nlr-res-10721",
+   "nlr-res-11320"
+  ]
+ },
+ "skycop": {
+  "name": "SkyCop license plate readers",
+  "short": "SkyCop ALPR",
+  "family": "alpr",
+  "operator": "North Little Rock Police Department",
+  "vendor": "SkyCop, Inc., 3736 Getwell Cove, Memphis, Tennessee",
+  "since": "2018",
+  "one_line": "North Little Rock's plate readers - a different vendor, the same idea.",
+  "count_note": "Bought in batches from 2018 onward: four cameras in 2018, seven more in 2020, further purchases in 2021, 2022 and 2023. The city has never published where they are.",
+  "what_it_is": "Pole-mounted plate reader cameras, in the council's own words 'cameras mounted on poles that capture the numbers and letters of license plates on still or moving vehicles'. Same function as a Flock Falcon, different manufacturer.",
+  "what_it_captures": "Plate number, time and place of every passing vehicle, fed to a shared plate-reader server.",
+  "how_to_spot": "A boxy camera head on a dedicated pole, usually mains-powered rather than solar, often paired with a separate flash unit.",
+  "retention": "The 150-day purge in the Arkansas ALPR statute applies to the city as a government entity.",
+  "who_can_see_it": "North Little Rock police - and here is the part worth noticing: NLRPD runs its plate reads through the City of Little Rock's LPR server, so the two cities' systems are joined at the back end.",
+  "money": "Ordinance 9053 (13 Nov 2018) bought the first four at $8,300 each, $33,200 total. Ordinance 9210 (27 Jan 2020) added seven at $8,115.15 each, $62,195.58. Ordinance 9392 (13 Sep 2021) came to $64,499.88, Resolution 10134 (25 Oct 2021) bundled cameras with body cameras and networking at $117,071.72, Resolution 10380 (26 Sep 2022) added $42,250, and Resolution 10506 (13 Mar 2023) re-authorised the money in the 2023 budget. The 2020 cameras were paid from the I.T. department budget.",
+  "procurement_note": "Every one of these purchases waived formal bidding. Arkansas law (Ark. Code Ann. 14-58-303) requires sealed bids above $20,000, and the council waived that each time by declaring SkyCop a sole source vendor. The stated reason is vendor lock-in that the city did not choose: North Little Rock uses Little Rock's plate-reader server, Little Rock ran the request for proposal and picked SkyCop, and so only SkyCop cameras are compatible.",
+  "not_mapped_because": "The city has never published camera locations, and unlike Flock these have not been widely mapped by volunteers, so the count above has no pins to go with it.",
+  "sources": [
+   {
+    "label": "Ordinance 9210 - seven cameras, bidding waived",
+    "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=630141&repo=r-caf858ef"
+   },
+   {
+    "label": "North Little Rock council record (Laserfiche)",
+    "url": "https://portal.laserfiche.com/Portal/browse.aspx?repo=r-caf858ef"
+   }
+  ],
+  "documents": [
+   "nlr-ord-9053",
+   "nlr-ord-9210",
+   "nlr-ord-9392",
+   "nlr-res-10134",
+   "nlr-res-10380",
+   "nlr-res-10506"
+  ]
+ },
+ "rtcc-nlr": {
+  "name": "North Little Rock real time crime centre",
+  "short": "NLR crime centre",
+  "family": "software",
+  "operator": "North Little Rock Police Department",
+  "vendor": "Fusus (now Axon)",
+  "since": "2024",
+  "one_line": "The second city running the same platform as Little Rock's.",
+  "what_it_is": "North Little Rock bought Fusus in February 2024 for $450,000, naming it a sole source vendor. It is the same platform Little Rock's Real Time Crime Center runs on - the layer that pulls cameras, plate hits and drone feeds into one searchable console.",
+  "what_it_captures": "Nothing directly. It joins the feeds of everything else.",
+  "how_to_spot": "Nothing to see from the street.",
+  "retention": "Depends on the feeding system.",
+  "who_can_see_it": "NLRPD staff.",
+  "money": "Resolution 10767 (26 Feb 2024) approved $450,000 for Fusus, with formal bidding waived on sole-source grounds. Resolution 11320 (27 Apr 2026) extended camera contracts at up to $106,000.",
+  "not_mapped_because": "Software again, plus whichever private cameras get connected to it.",
+  "sources": [
+   {
+    "label": "Resolution 10767 - Fusus, sole source",
+    "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=646428&repo=r-caf858ef"
+   }
+  ],
+  "documents": [
+   "nlr-res-10134",
+   "nlr-res-10767",
+   "nlr-res-11320"
+  ]
  },
  "flock-unattributed": {
   "name": "Flock readers with no operator recorded",
@@ -281,7 +347,9 @@
     "url": "https://www.atlasofsurveillance.org/a/aos003636-north-little-rock-police-department-drones"
    }
   ],
-  "documents": []
+  "documents": [
+   "nlr-res-10767"
+  ]
  },
  "fusus": {
   "name": "Axon Fusus - the software behind the crime centre",

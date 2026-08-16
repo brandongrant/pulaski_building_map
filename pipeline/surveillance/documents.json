@@ -18,15 +18,21 @@
   "amounts": [
    {
     "value": 290000.0,
-    "literal": "$290,000.00"
+    "literal": "$290,000.00",
+    "score": 2,
+    "context": "INC., (D/B/A SST, 5 INC.), IN A TOTAL AMOUNT NOT TO EXCEED TWO HUNDRED 6 NINETY DOLLARS ($290,000.00), FOR THE PURCHASE OF A WIDE 7 AREA GUNSHOT DETECTION SERVICE FOR THE LITTLE ROCK 8 POLIC"
    },
    {
     "value": 250000.0,
-    "literal": "$250,000.00"
+    "literal": "$250,000.00",
+    "score": 2,
+    "context": "on for Public Safety (TIPS) Grant in the amount of Two Hundred Fifty Thousand 29 Dollars ($250,000.00), Account No. 270529-G35158, and the remaining Forty Thousand Dollars 30 ($40,000.00) bal"
    },
    {
     "value": 40000.0,
-    "literal": "$40,000.00"
+    "literal": "$40,000.00",
+    "score": 0,
+    "context": "rs ($250,000.00), Account No. 270529-G35158, and the remaining Forty Thousand Dollars 30 ($40,000.00) balance will be paid from the Federal Equitable Sharing Seized Funds, Account No. 270529"
    }
   ],
   "facts": {
@@ -44,6 +50,102 @@
   "parts": {},
   "excerpt": "1 RESOLUTION NO. ______ 2 3 A RESOLUTION TO AUTHORIZE THE CITY MANAGER TO EXECUTE 4 A TWO (2)-YEAR CONTRACT WITH SHOTSPOTTER, INC., (D/B/A SST, 5 INC.), IN A TOTAL AMOUNT NOT TO EXCEED TWO HUNDRED 6 NINETY DOLLARS ($290,000.00), FOR THE PURCHASE OF A WIDE 7 AREA GUNSHOT DETECTION SERVICE FOR THE LITTLE ROCK 8 POLICE DEPARTMENT; AND FOR OTHER PURPOSES. 9 10 WHEREAS, since September 11, 2001, the City has become eligible for several Emergency Service 11 Equipment Grants; and 12 WHEREAS, ShotSpotter, Inc., (d/b/a SST, Inc.) (“ShotSpotter”) operates on the principle of 13 multilateration, based upon the precise time the sound of gunfire arrives at each sensor utilizing audio 14 sensors installed on top of buildings or on poles in the designated service area; and 15 WHEREAS, SST, Inc., is the exclusive provider for ShotSpotter Flex, the cloud-based, subscription 16 managed service offering, which includes warranty, maintenance and support services on its system; and 17 WHEREAS, multiple sensors pick up on the gun shot's sound and transmits data to the SST cloud- 18 based server, where the company's proprietary software analyzes the data to classify the incident and 19 determine the exact location, transmits the data to the SST “Incident Review Center” within seconds an 20 SST professional reviewer analyzes data and recordings to confirm gunfire before the alert of shots fired, 21 map location and audio data of the shooting is sent directly to the City’s Police Dispatch Workstation",
   "note": "The original gunshot-detection buy."
+ },
+ {
+  "id": "nlr-ord-9053",
+  "title": "An ordinance WAIVING FORMAL BIDDING REQUIREMENTS FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FROM SKYCORP INC",
+  "date": "2018-11-13",
+  "body": "North Little Rock City Council",
+  "kind": "ordinance",
+  "programs": [
+   "skycop"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=624089&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "af957641011888fbec657d5d85c30e1f4e6703205affb34d8f7a6c5e97a1ae4d",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 33200.0,
+    "literal": "$33,200.00",
+    "score": 2,
+    "context": "m SkyCorp Inc. for a total amount of Thirty -Three Thousand Two Hundred & 00/100 Dollars ($33,200.00). SECTION 2: That the sum of Thirty -Three Thousand Two Hundred & 00/100 Dollars ($33,200"
+   },
+   {
+    "value": 8300.0,
+    "literal": "$8,300.00",
+    "score": 2,
+    "context": "4) cameras from SkyCorp Inc. at a price of Eight Thousand Three Hundred & 00/100 Dollars ($8,300.00) each in order to be compatible with the LRPD's LPR server. NOW, THEREFORE, BE IT ORDAINE"
+   },
+   {
+    "value": 20000.0,
+    "literal": "$20,000",
+    "score": -3,
+    "context": "OSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $20,000 to follow statutory procedures of local advertisement and opening of sealed bids which ma"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "0-18-85 ORDINANCE NO. �22J� AN ORDINANCE WAIVING FORMAL BIDDING REQUIREMENTS FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FROM SKYCORP INC., A SOLE SOURCE VENDOR; DECLARING AN EMERGENCY; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $20,000 to follow statutory procedures of local advertisement and opening of sealed bids which may only be waived in exceptional situations where bidding is deemed not feasible or practical; and WHEREAS, license plate reader (\"LPR\") cameras are cameras mounted on poles that capture the numbers and letters of license plates on a still or moving vehicle; and WHEREAS, the North Little Rock Police Department (\"NLRPD\") currently uses LPR cameras in order to aid in their duties as officers of the law; and WHERAS, all LPR camera vendors require use of their specific cameras in order to be compatible with their system; and WHEREAS, the NLRPD uses the City of Little Rock's LPR Server; and WHEREAS, the Little Rock Police Department (\"LRPD\") conducted a request for proposal bid, and selected SkyCorp Inc., as their LPR camera vendor; and and WHEREAS, SkyCorp Inc., is the sole source vendor for compatible LPR cameras; WHEREAS, the NLRPD is requesting to purchase four (4) cameras from SkyCorp Inc. at a price of Eight Thousand Three Hundred & 00/100 Dollars ($8,300.00) each in order to be compatible with the LRPD's LPR server. NOW, THEREFORE, BE IT ORDAINED BY THE CITY COUNCIL OF THE CITY OF NORTH",
+  "note": "The first SkyCop buy: four cameras, bidding waived."
+ },
+ {
+  "id": "nlr-ord-9210",
+  "title": "An ordinance WAIVING FORMAL BIDDING REQUIREMENTS FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FROM SKYCOP INC",
+  "date": "2020-01-27",
+  "body": "North Little Rock City Council",
+  "kind": "ordinance",
+  "programs": [
+   "skycop"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=630141&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "91f4ba46c3a74fa9b9ccf043f95193c5e58f0d8a11d8fed817867893318304ab",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 62195.58,
+    "literal": "$62,195.58",
+    "score": 2,
+    "context": "nc. for a total amount of Sixty -Two Thousand One Hundred Ninety - Five & 58/100 Dollars ($62,195.58). 1 of 2 SECTION 2: That the cost of the cameras is included in and shall be paid from th"
+   },
+   {
+    "value": 8115.15,
+    "literal": "$8,115.15",
+    "score": 2,
+    "context": "meras from SkyCop Inc. at a price of Eight Thousand One Hundred Fifteen & 15/100 Dollars ($8,115.15) each, plus tax, in order to be compatible with the LRPD's LPR server. NOW, THEREFORE, BE"
+   },
+   {
+    "value": 20000.0,
+    "literal": "$20,000",
+    "score": -3,
+    "context": "OSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $20,000 to follow statutory procedures of local advertisement and opening of sealed bids which ma"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "O -20-O8. ORDINANCE NO. 12-/C, AN ORDINANCE WAIVING FORMAL BIDDING REQUIREMENTS FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FROM SKYCOP INC., A SOLE SOURCE VENDOR; DECLARING AN EMERGENCY; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $20,000 to follow statutory procedures of local advertisement and opening of sealed bids which may only be waived in exceptional situations where bidding is deemed not feasible or practical; and WHEREAS, license plate reader (\"LPR\") cameras are cameras mounted on poles that capture the numbers and letters of license plates on still or moving vehicles; and WHEREAS, the North Little Rock Police Department (\"NLRPD\") currently uses LPR cameras in order to aid in their duties as officers of the law; and WHERAS, all LPR camera vendors require use of their specific cameras in order to be compatible with their system; and WHEREAS, the NLRPD uses the City of Little Rock's LPR Server; and WHEREAS, the Little Rock Police Department (\"LRPD\") issued a request for proposal, and selected SkyCop Inc., as their LPR camera vendor; and WHEREAS, SkyCop Inc., is the sole source vendor for compatible LPR cameras; and WHEREAS, the City Council has previously authorized the waiver of formal bidding requirements for the purchase of LPR cameras from SkyCop Inc.; and WHEREAS, the NLRPD is requesting to purchase seven (7) additional cameras from SkyCop Inc. at a price of Eight Thousand One Hundred Fifteen & ",
+  "note": "Seven more cameras. States plainly that only SkyCop works because Little Rock chose SkyCop for the shared server."
  },
  {
   "id": "r-shotspotter-a24d0f",
@@ -64,7 +166,9 @@
   "amounts": [
    {
     "value": 287393.0,
-    "literal": "$287,393.00"
+    "literal": "$287,393.00",
+    "score": 2,
+    "context": "NOT TO EXCEED TWO HUNDRED 6 EIGHTY-SEVEN THOUSAND, THREE HUNDRED NINETY-THREE 7 DOLLARS ($287,393.00), FOR THE RENEWAL OF THE WIDE AREA 8 GUNSHOT DETECTION SERVICE FOR THE LITTLE ROCK POLICE"
    }
   ],
   "facts": {
@@ -82,6 +186,481 @@
   "parts": {},
   "excerpt": "1 RESOLUTION NO. ___________ 2 3 A RESOLUTION TO AUTHORIZE THE CITY MANAGER TO ENTER 4 INTO A CONTRACT AMENDMENT WITH SHOTSPOTTER, INC., (D/B/A 5 SST, INC.), FOR A TOTAL AMOUNT NOT TO EXCEED TWO HUNDRED 6 EIGHTY-SEVEN THOUSAND, THREE HUNDRED NINETY-THREE 7 DOLLARS ($287,393.00), FOR THE RENEWAL OF THE WIDE AREA 8 GUNSHOT DETECTION SERVICE FOR THE LITTLE ROCK POLICE 9 DEPARTMENT; AND FOR OTHER PURPOSES. 10 11 WHEREAS, since September 11, 2001, the City has become eligible for several Emergency Service 12 Equipment Grants; and, 13 WHEREAS, the Little Rock Police Department entered into an initial contract with ShotSpotter, Inc., 14 (d/b/a SST, Inc.) (“ShotSpotter”) dated August 10, 2018, and requests authorization to amend the Annual 15 Flex Subscription Services Contract for an two (2) additional one (1)-year terms, December 19, 2020, 16 through, and including, December 18, 2022, for coverage of two (2) square-miles and to coordinate or 17 co-term the renewal of the Annual API Subscription Services, June 14, 2021, through, and including, 18 December 18, 2022; and, 19 WHEREAS, ShotSpotter operates on the principle of multilateration, based upon the precise time the 20 sound of gunfire arrives at each sensor utilizing audio sensors installed on top of buildings or on poles in 21 the designated service area; and, 22 WHEREAS, SST, Inc., is the exclusive provider for ShotSpotter Flex, the cloud-based, subscription 23 managed service offering, which includes warranty, maintenance an",
   "note": "First renewal after the federal grant."
+ },
+ {
+  "id": "nlr-ord-9392",
+  "title": "An ordinance WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP INC",
+  "date": "2021-09-13",
+  "body": "North Little Rock City Council",
+  "kind": "ordinance",
+  "programs": [
+   "skycop"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=643110&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "bcc707654d1f7a7ba8c8556e12a3c9ab8853e381f9629e8088017b471f23c91e",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 64499.88,
+    "literal": "$64,499.88",
+    "score": 2,
+    "context": "Inc. at a total price of Sixty Four Thousand Four Hundred Ninety Nine and 88/100 Dollars ($64,499.88) including tax, in order to be compatible with the LRPD's LPR server (see Quotes from Sky"
+   },
+   {
+    "value": 45726.9,
+    "literal": "$45,726.90",
+    "score": 2,
+    "context": "ttle Rock, AR (9.5%) Total Taxes One -Time Total $41,759.73 $3,967.17 $3,967.17 $3,967.17 $45,726.90 Total $45,726.90 Authorizing Signature Date Interest Charges on Past Due Accounts and Col"
+   },
+   {
+    "value": 41759.73,
+    "literal": "$41,759.73",
+    "score": 2,
+    "context": "-Time Subtotal Taxable Sales Tax North Little Rock, AR (9.5%) Total Taxes One -Time Total $41,759.73 $3,967.17 $3,967.17 $3,967.17 $45,726.90 Total $45,726.90 Authorizing Signature Date Inte"
+   },
+   {
+    "value": 18772.56,
+    "literal": "$18,772.56",
+    "score": 2,
+    "context": "ttle Rock, AR (9.5%) Total Taxes One -Time Total $17,143.89 $1,628.67 $1,628.67 $1,628.67 $18,772.56 Total $18,772.56 Authorizing Signature Date Interest Charges on Past Due Accounts and Col"
+   },
+   {
+    "value": 17143.89,
+    "literal": "$17,143.89",
+    "score": 2,
+    "context": "-Time Subtotal Taxable Sales Tax North Little Rock, AR (9.5%) Total Taxes One -Time Total $17,143.89 $1,628.67 $1,628.67 $1,628.67 $18,772.56 Total $18,772.56 Authorizing Signature Date Inte"
+   },
+   {
+    "value": 3967.17,
+    "literal": "$3,967.17",
+    "score": 2,
+    "context": "tal Taxable Sales Tax North Little Rock, AR (9.5%) Total Taxes One -Time Total $41,759.73 $3,967.17 $3,967.17 $3,967.17 $45,726.90 Total $45,726.90 Authorizing Signature Date Interest Charg"
+   },
+   {
+    "value": 1628.67,
+    "literal": "$1,628.67",
+    "score": 2,
+    "context": "tal Taxable Sales Tax North Little Rock, AR (9.5%) Total Taxes One -Time Total $17,143.89 $1,628.67 $1,628.67 $1,628.67 $18,772.56 Total $18,772.56 Authorizing Signature Date Interest Charg"
+   },
+   {
+    "value": 39859.73,
+    "literal": "$39,859.73",
+    "score": 0,
+    "context": "ce Unit Adjusted Unit Discount Price $8,218.50 $246.56 $1,900.00 Extended Price $7,971.95 $39,859.73 $1,900.00 $1,900.00 One -Time Subtotal Taxable Sales Tax North Little Rock, AR (9.5%) Tot"
+   },
+   {
+    "value": 15943.89,
+    "literal": "$15,943.89",
+    "score": 0,
+    "context": "ce Unit Adjusted Unit Discount Price $8,218.50 $246.56 $1,200.00 Extended Price $7,971.95 $15,943.89 $1,200.00 $1,200.00 One -Time Subtotal Taxable Sales Tax North Little Rock, AR (9.5%) Tot"
+   },
+   {
+    "value": 8218.5,
+    "literal": "$8,218.50",
+    "score": 0,
+    "context": "time, labor time, and travel expense per day Unit Price Unit Adjusted Unit Discount Price $8,218.50 $246.56 $1,200.00 Extended Price $7,971.95 $15,943.89 $1,200.00 $1,200.00 One -Time Subto"
+   },
+   {
+    "value": 7971.95,
+    "literal": "$7,971.95",
+    "score": 0,
+    "context": "y Unit Price Unit Adjusted Unit Discount Price $8,218.50 $246.56 $1,200.00 Extended Price $7,971.95 $15,943.89 $1,200.00 $1,200.00 One -Time Subtotal Taxable Sales Tax North Little Rock, AR"
+   },
+   {
+    "value": 1900.0,
+    "literal": "$1,900.00",
+    "score": 0,
+    "context": "and travel expense per day Unit Price Unit Adjusted Unit Discount Price $8,218.50 $246.56 $1,900.00 Extended Price $7,971.95 $39,859.73 $1,900.00 $1,900.00 One -Time Subtotal Taxable Sales"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "0 -21 - ORDINANCE NO. 93q2 -- AN ORDINANCE WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP INC., A SOLE SOURCE VENDOR, FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT; DECLARING AN EMERGENCY; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $20,000 to follow statutory procedures of local advertisement and opening of sealed bids which may only be waived in exceptional situations where bidding is deemed not feasible or practical; and WHEREAS, the North Little Rock Police Department (\"NLRPD\") is in need of license plate reader (\"LPR\") cameras, which are mounted on poles that capture the numbers and letters of license plates on still or moving vehicles; and WHEREAS, all LPR camera vendors require use of their specific cameras in order to be compatible with their system; and WHEREAS, the NLRPD uses the City of Little Rock's LPR Server, who uses SkyCop Inc. as their LPR camera reader; and WHEREAS, the City Council has previously authorized the waiver of formal bidding requirements for the purchase of LPR cameras from SkyCop Inc.; and WHEREAS, the NLRPD is requesting the purchase and installation of seven (7) additional cameras from SkyCop Inc. at a total price of Sixty Four Thousand Four Hundred Ninety Nine and 88/100 Dollars ($64,499.88) including tax, in order to be compatible with the LRPD's LPR server (see Quotes from Skycop, Inc. attached collectively h",
+  "note": "Another sole-source SkyCop purchase."
+ },
+ {
+  "id": "nlr-res-10134",
+  "title": "A resolution WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP, INC",
+  "date": "2021-10-25",
+  "body": "North Little Rock City Council",
+  "kind": "resolution",
+  "programs": [
+   "skycop",
+   "rtcc-nlr"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=643308&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "6e1a13495354c315176574e804b142e81aaa3450a181d0daa5f551996db26743",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 117071.72,
+    "literal": "$117,071.72",
+    "score": 2,
+    "context": "her than radios) Computer or networking equipment and peripherals Total Amount Requested: $ 117,071.72 ❑ Computer software or mobile applications (e.g., records management, computer -aided dis"
+   },
+   {
+    "value": 99843.62,
+    "literal": "$99,843.62",
+    "score": 2,
+    "context": "aders with all corresponding equipment, licensing, programming and support for a total of $99,843.62. One LPR server to communicate with and store LPR data: $11,946.17. One firewall applianc"
+   },
+   {
+    "value": 99834.62,
+    "literal": "$99,834.62",
+    "score": 2,
+    "context": "for a total amount of Ninety Nine Thousand Eight Hundred Thirty Four and 62/100 Dollars ($99,834.62), contingent on funding through the BJA Northern and Middle States Rural Law Enforcement"
+   },
+   {
+    "value": 91591.4,
+    "literal": "$91,591.40",
+    "score": 2,
+    "context": "00.00 One -Time Subtotal Taxable County (3%) State (6%) Total Taxes One -Time Total Total $91,591.40 $8,243.23 $2,747.74 $5,495.48 $8,243.23 $99,834.62 $99,834.62 Interest Charges on Past Du"
+   },
+   {
+    "value": 11946.17,
+    "literal": "$11,946.17",
+    "score": 2,
+    "context": "support for a total of $99,843.62. One LPR server to communicate with and store LPR data: $11,946.17. One firewall appliance to protect the data: $5,281.93. Describe how the agency plans to"
+   },
+   {
+    "value": 8243.23,
+    "literal": "$8,243.23",
+    "score": 2,
+    "context": "Time Subtotal Taxable County (3%) State (6%) Total Taxes One -Time Total Total $91,591.40 $8,243.23 $2,747.74 $5,495.48 $8,243.23 $99,834.62 $99,834.62 Interest Charges on Past Due Accounts"
+   },
+   {
+    "value": 5495.48,
+    "literal": "$5,495.48",
+    "score": 2,
+    "context": "e County (3%) State (6%) Total Taxes One -Time Total Total $91,591.40 $8,243.23 $2,747.74 $5,495.48 $8,243.23 $99,834.62 $99,834.62 Interest Charges on Past Due Accounts and Collection Cost"
+   },
+   {
+    "value": 2747.74,
+    "literal": "$2,747.74",
+    "score": 2,
+    "context": "tal Taxable County (3%) State (6%) Total Taxes One -Time Total Total $91,591.40 $8,243.23 $2,747.74 $5,495.48 $8,243.23 $99,834.62 $99,834.62 Interest Charges on Past Due Accounts and Colle"
+   },
+   {
+    "value": 150000.0,
+    "literal": "$150,000",
+    "score": 0,
+    "context": "on of the United States through a reimbursed subaward process. Agencies may request up to $150,000 in funding for equipment and items that support the program purposes outlined above, incl"
+   },
+   {
+    "value": 87691.4,
+    "literal": "$87,691.40",
+    "score": 0,
+    "context": "y Unit Price Unit Adjusted Unit Extended Discount Price Price $8,218.50 $246.56 $7,971.95 $87,691.40 $3,900.00 Authorizing Signature Date $3,900.00 $3,900.00 One -Time Subtotal Taxable Count"
+   },
+   {
+    "value": 8218.5,
+    "literal": "$8,218.50",
+    "score": 0,
+    "context": "e, and travel expense per day Unit Price Unit Adjusted Unit Extended Discount Price Price $8,218.50 $246.56 $7,971.95 $87,691.40 $3,900.00 Authorizing Signature Date $3,900.00 $3,900.00 One"
+   },
+   {
+    "value": 7971.95,
+    "literal": "$7,971.95",
+    "score": 0,
+    "context": "nse per day Unit Price Unit Adjusted Unit Extended Discount Price Price $8,218.50 $246.56 $7,971.95 $87,691.40 $3,900.00 Authorizing Signature Date $3,900.00 $3,900.00 One -Time Subtotal Ta"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "R-21-160 RESOLUTION NO. A RESOLUTION WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP, INC., A SOLE SOURCE VENDOR, FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $35,000 to follow statutory procedures of local advertisement and opening of sealed bids which may only be waived in exceptional situations where bidding is deemed not feasible or practical; and WHEREAS, the North Little Rock Police Department (\"NLRPD\") is in need of license plate reader (\"LPR\") cameras, which are mounted on poles that capture the numbers and letters of license plates on still or moving vehicles; and WHEREAS, all LPR camera vendors require use of their specific cameras in order to be compatible with their system; and WHEREAS, the NLRPD uses the City of Little Rock's LPR Server, who uses SkyCop, Inc. as their LPR camera reader; and WHEREAS, the City Council has previously authorized the waiver of formal bidding requirements for the purchase of LPR cameras from SkyCop, Inc.; and WHEREAS, the NLRPD is requesting the purchase and installation of eleven (11) additional cameras from SkyCop, Inc. at a total price of Ninety Nine Thousand Eight Hundred Thirty Four and 62/100 Dollars ($99,834,62) including tax, in order to be compatible with the LRPD's LPR server (see Quote from Skycop, Inc. attached hereto as Exhibit A); and WHEREAS, th",
+  "note": "Plate readers bundled with body cameras and crime-centre kit."
+ },
+ {
+  "id": "nlr-res-10380",
+  "title": "A resolution WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP, INC",
+  "date": "2022-09-26",
+  "body": "North Little Rock City Council",
+  "kind": "resolution",
+  "programs": [
+   "skycop"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=655792&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "c626ac043cc8e8653286c05cdf5a5438d5f6c89fe734527c2e17e2be80e08300",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 42250.0,
+    "literal": "$42,250.00",
+    "score": 2,
+    "context": "omer will provide SIM cards and local installation/equipment. 5 $8,450.00 5 $135.00 TOTAL $42,250.00 $675.00 $42,925.00 PLEASE ALLOW FOR APPLICABLE TAXES AND SHIPPING - PRICES BASED UPON TOT"
+   },
+   {
+    "value": 8450.0,
+    "literal": "$8,450.00",
+    "score": 2,
+    "context": "bor - Sales expenses. Customer will provide SIM cards and local installation/equipment. 5 $8,450.00 5 $135.00 TOTAL $42,250.00 $675.00 $42,925.00 PLEASE ALLOW FOR APPLICABLE TAXES AND SHIPP"
+   },
+   {
+    "value": 675.0,
+    "literal": "$675.00",
+    "score": 2,
+    "context": "rovide SIM cards and local installation/equipment. 5 $8,450.00 5 $135.00 TOTAL $42,250.00 $675.00 $42,925.00 PLEASE ALLOW FOR APPLICABLE TAXES AND SHIPPING - PRICES BASED UPON TOTAL PURCH"
+   },
+   {
+    "value": 135.0,
+    "literal": "$135.00",
+    "score": 2,
+    "context": "expenses. Customer will provide SIM cards and local installation/equipment. 5 $8,450.00 5 $135.00 TOTAL $42,250.00 $675.00 $42,925.00 PLEASE ALLOW FOR APPLICABLE TAXES AND SHIPPING - PRIC"
+   },
+   {
+    "value": 42925.0,
+    "literal": "$42,925.00",
+    "score": 0,
+    "context": "s from SkyCop, Inc. for Forty Two Thousand Nine Hundred Twenty - Five and 00/100 Dollars ($42,925.00) without tax (see Quote from Skycop, Inc. attached hereto as Exhibit A). NOW, THEREFORE,"
+   },
+   {
+    "value": 35000.0,
+    "literal": "$35,000",
+    "score": -3,
+    "context": "OSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $35,000 to follow statutory procedures of local advertisement and opening of sealed bids which ma"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "R-22- I C RESOLUTION NO. /19 3U A RESOLUTION WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO SKYCOP, INC. FOR THE PURCHASE OF LICENSE PLATE READER CAMERAS FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $35,000 to follow statutory procedures of local advertisement and opening of sealed bids which may only be waived in exceptional situations where bidding is deemed not feasible or practical; and WHEREAS, the North Little Rock Police Department (\"NLRPD\") is in need of annual upgrades and replacements to the City's system of license plate reader (\"LPR\") cameras, which are mounted on poles that capture the numbers and letters of license plates on still or moving vehicles; and WHEREAS, the NLRPD must use cameras compatible with the current system, which was previously purchased and installed by SkyCop, Inc., 3736 Getwell Cove, Memphis, Tennessee 38118; and WHEREAS, the NLRPD is requesting the purchase of upgrades and replacements of five (5) additional LPR cameras from SkyCop, Inc. for Forty Two Thousand Nine Hundred Twenty - Five and 00/100 Dollars ($42,925.00) without tax (see Quote from Skycop, Inc. attached hereto as Exhibit A). NOW, THEREFORE, BE IT ORDAINED BY THE CITY COUNCIL OF THE CITY OF NORTH LITTLE ROCK, ARKANSAS: SECTION 1: That formal bidding is hereby waived in connection with the purchase of upgrades and replacements of license plate reader camera",
+  "note": "Carries SkyCop's Memphis address."
+ },
+ {
+  "id": "nlr-res-10506",
+  "title": "A resolution AMENDING THE 2023 BUDGET FOR THE CITY OF NORTH LITTLE ROCK TO REAUTHORIZE AND INCLUDE ADDITIONAL EXPENDITURES FOR SPECIFIED DEPARTMENTAL BUDGETS",
+  "date": "2023-03-13",
+  "body": "North Little Rock City Council",
+  "kind": "resolution",
+  "programs": [
+   "skycop"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=645059&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "f0c94a5bd8e26ecdb0501647ef18db825f373e82273c9dd8ba54739de6744bd0",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "R-23-0 RESOLUTION NO. A RESOLUTION AMENDING THE 2023 BUDGET FOR THE CITY OF NORTH LITTLE ROCK TO REAUTHORIZE AND INCLUDE ADDITIONAL EXPENDITURES FOR SPECIFIED DEPARTMENTAL BUDGETS; AND FOR OTHER PURPOSES. WHEREAS, several departments of the City of North Little Rock (the \"City\") have open purchase orders issued in 2022 which were not commenced and outstanding budget balances in which expenditures were delayed until 2023, and the North Little Rock City Council has found and determined that it is necessary and desirable to amend the 2023 Budget (adopted pursuant to Resolution No. 10425 on November 14, 2022) to reauthorize and include these additional expenditures for certain City Departments. NOW, THEREFORE, BE IT RESOLVED BY THE CITY COUNCIL OF THE CITY OF NORTH LITTLE ROCK, ARKANSAS: SECTION 1: That the 2023 Budget for the City of North Little Rock should be, and is hereby, amended to reauthorize and include additional expenditure for certain City Departments as itemized on Exhibit \"A\" attached hereto and incorporated herein by reference. SECTION 2: That funds for the subject expenditures are hereby appropriated pursuant to fund appropriation designations listed on Exhibit \"A\". SECTION 3: That all resolutions or parts of resolutions in conflict herewith are hereby repealed to the extent of the conflict. SECTION 4: That this Resolution shall be in full force and effect from and after its passage and approval. PASSED: 3/I3 SPONSOR: APPRL7WED: Mayor terry C. Hartwick ATTEST: Dia",
+  "note": "Re-authorises the camera money in the 2023 budget."
+ },
+ {
+  "id": "nlr-res-10721",
+  "title": "A resolution AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO A LICENSE AGREEMENT WITH FLOCK GROUP INC",
+  "date": "2024-01-08",
+  "body": "North Little Rock City Council",
+  "kind": "resolution",
+  "programs": [
+   "flock-other"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=646175&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "62b48f3c23ad00e86aca3e7a1ca91b2f098f5ea68c692a0c860019d559ffb814",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 18450.0,
+    "literal": "$18,450.00",
+    "score": 2,
+    "context": "igning Annual Recurring after Year 1 Contract Total 'Tax not included $9,450.00 $9,000.00 $18,450.00 L /V12 -1 VZIST I�LR LICENSE AGREEMENT THIS AGREEMENT by and between the City of North Li"
+   },
+   {
+    "value": 9450.0,
+    "literal": "$9,450.00",
+    "score": 2,
+    "context": "Year! At Contract Signing Annual Recurring after Year 1 Contract Total 'Tax not included $9,450.00 $9,000.00 $18,450.00 L /V12 -1 VZIST I�LR LICENSE AGREEMENT THIS AGREEMENT by and between"
+   },
+   {
+    "value": 9000.0,
+    "literal": "$9,000.00",
+    "score": 2,
+    "context": "ement Net 30 30 Days Annual Plan - First Year Invoiced at Signing. IFIock Safety Platform $9,000.00 Flock Safety Flock OS FlockOS'\"\" Flock Safety LPR Products Flock Safely Falcon D Professi"
+   },
+   {
+    "value": 2000000.0,
+    "literal": "$2,000,000",
+    "score": -5,
+    "context": "liability insurance with coverage amounts of not less than $1,000,000 per occurrence and $2,000,000 in the aggregate -for bodily injury and property damage; workers' eompensOon insurance pe"
+   },
+   {
+    "value": 1000000.0,
+    "literal": "$1,000,000",
+    "score": -5,
+    "context": "nd expense, commercial general liability insurance with coverage amounts of not less than $1,000,000 per occurrence and $2,000,000 in the aggregate -for bodily injury and property damage; wo"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [
+    "Flock Group",
+    "Flock Safety"
+   ],
+   "terms": [
+    "5-year",
+    "1-year"
+   ]
+  },
+  "parts": {},
+  "excerpt": "R -24 - RESOLUTION NO. 10 'N. I A RESOLUTION AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO A LICENSE AGREEMENT WITH FLOCK GROUP INC. D/B/A FLOCK SAFETY; AND FOR OTHER PURPOSES. WHEREAS, the North Little Rock Police Department (\"NLRPD\") uses license plate readers to reduce crime, make communities safer and otherwise aid their duties as officers of the law; and WHEREAS, Flock Group Inc. d/b/a Flock Safety (\"Flock Safety\"), 1170 Howell Mill Road, Suite 210, Atlanta, Georgia 30318, is an automaton company that provides an automatic license plate reader system that captures vehicle attributes through use of infrastructure -free battery and solar powered cameras; and WHEREAS, in correlation with a service agreement with the NLRPD, Flock Safety wishes to install license plate reader cameras on existing poles owned and maintained by the City; and WHEREAS, the City Council finds that reasonable compensation to the City of North Little Rock for use of the poles is $20.00 per year per pole. NOW, THEREFORE, BE IT RESOLVED BY THE CITY COUNCIL OF THE CITY OF NORTH LITTLE ROCK, ARKANSAS: SECTION 1: That the Mayor and City Clerk are hereby authorized to enter into a License Agreement (substantially similar to Exhibit A) granting a license to Flock Safety to install license plate readers on City -owned and maintained poles, with all contracts/agreements to be reviewed and approved by the City Attorney prior to execution. SECTION 2: That this Resolution shall be in full force and effect f",
+  "note": "North Little Rock adds Flock alongside SkyCop - a five-year licence."
+ },
+ {
+  "id": "nlr-res-10767",
+  "title": "A resolution WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO FUSUS, A SOLE SOURCE VENDOR, FOR THE PURCHASE OF SOFTWARE FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT",
+  "date": "2024-02-26",
+  "body": "North Little Rock City Council",
+  "kind": "resolution",
+  "programs": [
+   "drones",
+   "rtcc-nlr"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=646428&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "33b40228fd1d41364a808b7f98449b8a7618110c1acdbb4023a880d43981d98c",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 450000.0,
+    "literal": "$450,000.00",
+    "score": 2,
+    "context": "greement with Fusus for the total cost of Four Hundred Fifty Thousand and 00/100 Dollars ($450,000.00) to be paid over thirty six (36) months (see Service Agreement Proposal attached hereto a"
+   },
+   {
+    "value": 2000.0,
+    "literal": "$2,000.00",
+    "score": 2,
+    "context": "escription SKU Quantity Unit Price Total Core Pro Al Appliance Core Pro Appliance CORE- 2 $2,000.00 PAI-2001 $0.00 $4,000.00 disccunt CORE -P- 20 $600.00 $0.00 2001 af« r 12 000.00 cisc.run"
+   },
+   {
+    "value": 600.0,
+    "literal": "$600",
+    "score": 2,
+    "context": "nit price schedule. a. CORE Lite: $200/each b. CORE Lite Extended: $300/each c. CORE Pro: $600/each d. CORE Pro Extended: $1,000/each e. CORE Elite: $4,000/each f. CORE Elite Al: $5,00"
+   },
+   {
+    "value": 300.0,
+    "literal": "$300",
+    "score": 2,
+    "context": "for the following per unit price schedule. a. CORE Lite: $200/each b. CORE Lite Extended: $300/each c. CORE Pro: $600/each d. CORE Pro Extended: $1,000/each e. CORE Elite: $4,000/each"
+   },
+   {
+    "value": 200.0,
+    "literal": "$200",
+    "score": 2,
+    "context": "camera streams may be purchased for the following per unit price schedule. a. CORE Lite: $200/each b. CORE Lite Extended: $300/each c. CORE Pro: $600/each d. CORE Pro Extended: $1,000"
+   },
+   {
+    "value": 150000.0,
+    "literal": "$150,000.00",
+    "score": 0,
+    "context": "e Elite Al Appliance FUSE -E- 1-1001 CORE - AI -2001 Core Elite Appliance CORE - EL -2001 $150,000.00 / year 4 $5,000.00 $150,000.00 /year or $0.00 2 $4,000.00 $0.00 Item & Description SKU Qu"
+   },
+   {
+    "value": 75000.0,
+    "literal": "$75,000",
+    "score": 0,
+    "context": "Anniversary of Contract f. Payment 6: Due Three Months after 2nd Anniversary of Contract $ 75,000 $ 75,000 $ 75,000 $ 75,000 $ 75,000 $ 75,000 Invoices for payments 2,3,4,5 and 6 will be"
+   },
+   {
+    "value": 25000.0,
+    "literal": "$25,000",
+    "score": 0,
+    "context": "/each e. CORE Elite: $4,000/each f. CORE Elite Al: $5,000/each g. Additional 500 Streams: $25,000 per year 3. Bill of Materials Included with the Service: As part of the annual subscripti"
+   },
+   {
+    "value": 5000.0,
+    "literal": "$5,000",
+    "score": 0,
+    "context": "$600/each d. CORE Pro Extended: $1,000/each e. CORE Elite: $4,000/each f. CORE Elite Al: $5,000/each g. Additional 500 Streams: $25,000 per year 3. Bill of Materials Included with the S"
+   },
+   {
+    "value": 4000.0,
+    "literal": "$4,000",
+    "score": 0,
+    "context": "tended: $300/each c. CORE Pro: $600/each d. CORE Pro Extended: $1,000/each e. CORE Elite: $4,000/each f. CORE Elite Al: $5,000/each g. Additional 500 Streams: $25,000 per year 3. Bill of"
+   },
+   {
+    "value": 1000.0,
+    "literal": "$1,000",
+    "score": 0,
+    "context": ": $200/each b. CORE Lite Extended: $300/each c. CORE Pro: $600/each d. CORE Pro Extended: $1,000/each e. CORE Elite: $4,000/each f. CORE Elite Al: $5,000/each g. Additional 500 Streams:"
+   },
+   {
+    "value": 35000.0,
+    "literal": "$35,000",
+    "score": -3,
+    "context": "OSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $35,000 to follow statutory procedures of local advertisement and opening of sealed bids which ma"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [
+    "Fusus"
+   ],
+   "terms": [
+    "18-year",
+    "1-year",
+    "5-year"
+   ]
+  },
+  "parts": {},
+  "excerpt": "R -24 - RESOLUTION NO. /0 767 A RESOLUTION WAIVING FORMAL BIDDING REQUIREMENTS AND AUTHORIZING PAYMENT TO FUSUS, A SOLE SOURCE VENDOR, FOR THE PURCHASE OF SOFTWARE FOR THE NORTH LITTLE ROCK POLICE DEPARTMENT; AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO A MULTI -YEAR AGREEMENT FOR THE PURCHASE; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann. § 14-58-303 requires City purchases exceeding the amount of $35,000 to follow statutory procedures of local advertisement and opening of sealed bids which may only be waived in exceptional situations where bidding is deemed not feasible or practical; and WHEREAS, Fusus, 5550 Triangle Parkway, Ste 100, Peachtree Corners, Georgia 30092, is the sole source distributor of Real -Time Crime Center, a video and data collaboration platform intended to expedite intelligence gathering and improve emergency response time and criminal investigations; and WHEREAS, the City of Little Rock uses Fusus, and in order to share information and collaborate in crime investigation and prevention, the NLRPD must use the platform as well; and WHEREAS, the North Little Rock Police Department (NLRPD) wishes to enter into a Service Agreement with Fusus for the total cost of Four Hundred Fifty Thousand and 00/100 Dollars ($450,000.00) to be paid over thirty six (36) months (see Service Agreement Proposal attached hereto as Exhibit A). NOW, THEREFORE, BE IT RESOLVED BY THE CITY COUNCIL OF THE CITY OF NORTH LITTLE ROCK, ARKANSAS: SECTION 1: That formal bidding is",
+  "note": "Fusus named as a sole source vendor - the same platform Little Rock's crime centre runs on."
  },
  {
   "id": "bc-lrpd-shotspotter-4f6533",
@@ -102,7 +681,9 @@
   "amounts": [
    {
     "value": 188000.0,
-    "literal": "$188,000.00"
+    "literal": "$188,000.00",
+    "score": 2,
+    "context": "ittle Rock Police Department. FISCAL IMPACT The amount of this amendment is not to exceed $188,000.00. This will be paid from 105201-61350. The original service contract was previously approv"
    }
   ],
   "facts": {
@@ -147,16 +728,16 @@
   "added_by": "research",
   "amounts": [
    {
-    "value": 362000.0,
-    "literal": "$362,000,"
-   },
-   {
     "value": 284500.0,
-    "literal": "$284,500"
+    "literal": "$284,500",
+    "score": 2,
+    "context": "of criminals and the prevention of crime. Resolution 16,489 included the renewal cost of $284,500. The amended amount is $362,000, including the cost of $77,500 to cover the license plate"
    },
    {
     "value": 77500.0,
-    "literal": "$77,500.00"
+    "literal": "$77,500.00",
+    "score": 2,
+    "context": "olice Department Real Time Crime Center. FISCAL IMPACT The total cost for this renewal is $77,500.00. This will be paid from Account No. 105225-63360. RECOMMENDATION Approval of the resoluti"
    }
   ],
   "facts": {
@@ -204,7 +785,9 @@
   "amounts": [
    {
     "value": 77500.0,
-    "literal": "$77,500.00"
+    "literal": "$77,500.00",
+    "score": 2,
+    "context": "SECTOR, INC., IN AN AMOUNT NOT TO EXCEED SEVENTY- 6 SEVEN THOUSAND, FIVE HUNDRED DOLLARS ($77,500.00), PLUS 7 APPLICABLE TAXES AND FEES FOR A ONE (1)-YEAR SUBSCRIPTION 8 RENEWAL FOR THE LITT"
    }
   ],
   "facts": {
@@ -254,15 +837,15 @@
   "amounts": [
    {
     "value": 690000.0,
-    "literal": "$690,000.00"
+    "literal": "$690,000.00",
+    "score": 2,
+    "context": "r two (2) one (1)-year terms, at an annual rate of $345,000.00 for a total expenditure of $690,000.00 over the life of the contract. FISCAL IMPACT The annual renewal cost is $345,00.00 and wi"
    },
    {
     "value": 345000.0,
-    "literal": "$345,000.00"
-   },
-   {
-    "value": 34500.0,
-    "literal": "$345,00.00"
+    "literal": "$345,000.00",
+    "score": 2,
+    "context": "ameras installed throughout the City for two (2) one (1)-year terms, at an annual rate of $345,000.00 for a total expenditure of $690,000.00 over the life of the contract. FISCAL IMPACT The a"
    }
   ],
   "facts": {
@@ -318,5 +901,63 @@
   "parts": {},
   "excerpt": "Address Status 5944 Rebsamen Park Rd, Little Rock, AR 72207, United States In Service 106 N Chester St, Little Rock, AR 72201-1203, United States In Service 5875 Rebsamen Park Rd, Little Rock, AR 72207, United States In Service 12103 Sardis Rd, Little Rock, AR 72103, United States In Service 6200 Mabelvale Cut Off Rd, Little Rock, AR 72209-8306, United States In Service Arch St & 32nd St, Little Rock, AR 72206, USA In Service 2508 E Roosevelt Rd, Little Rock, AR 72206, USA In Service 1005 W 11th St, Little Rock, AR 72202, USA In Service 1921 Wright Ave, Little Rock, AR 72202, USA In Service 2801 Old Forge Dr, Little Rock, AR 72227, USA In Service 5501 W 12th St, Little Rock, AR 72204, USA In Service 9 Chicot Rd, Mabelvale, AR 72103, USA In Service 4000 Maryland Ave, Little Rock, AR 72204, USA In Service 7520 W Markham St, Little Rock, AR 72205-2608, United States In Service 1501 Green Mountain Dr, Little Rock, AR 72211, USA In Service 9100 Colonel Glenn Rd, Little Rock, AR 72204, USA In Service 3115 Springer Blvd, Little Rock, AR 72206, USA In Service 1210 N Shackleford Rd, Little Rock, AR 72211, USA In Service 9301 Stardust Trail, Little Rock, AR 72209, USA In Service 12400 Hunters Glen Blvd, Little Rock, AR 72211, USA In Service 7608 W 28th St, Little Rock, AR 72204, USA In Service 1700 Main St, Little Rock, AR 72206, USA In Service 61 Rosemoor Dr, Little Rock, AR 72209, USA In Service 12923 W Markham St, Little Rock, AR 72211, USA In Service 2405 S Pine St, Little Rock, AR",
   "note": "The department's own list of where its plate readers are."
+ },
+ {
+  "id": "nlr-res-11320",
+  "title": "A resolution AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO AN EXTENSION OF THE CONTRACT WITH FLOCK GROUP INC",
+  "date": "2026-04-27",
+  "body": "North Little Rock City Council",
+  "kind": "resolution",
+  "programs": [
+   "flock-other",
+   "rtcc-nlr"
+  ],
+  "url": "https://portal.laserfiche.com/Portal/DocView.aspx?id=761514&repo=r-caf858ef",
+  "source": "portal.laserfiche.com",
+  "format": "laserfiche",
+  "pages": 1,
+  "sha256": "32204ba0139a9891415e20c4a8b11d50de6256398bda2d05b9f758f644b04386",
+  "retrieved": "2026-08-16",
+  "added_by": "nlr-sweep",
+  "amounts": [
+   {
+    "value": 106000.0,
+    "literal": "$106,000.00",
+    "score": 2,
+    "context": "ract and purchase of LPR cameras, not exceed One Hundred Six Thousand and 00/100 Dollars ($106,000.00), shall be paid from the 2026 IT Department Budget. SECTION 3: That this Resolution shall"
+   },
+   {
+    "value": 70000.0,
+    "literal": "$70,000.00",
+    "score": 2,
+    "context": "ached hereto as Exhibit B), for a cost not to exceed Seventy Thousand and 00/100 Dollars ($70,000.00); and WHEREAS, it is in the best interests of the City and its citizens to extend the Con"
+   },
+   {
+    "value": 36000.0,
+    "literal": "$36,000.00",
+    "score": 2,
+    "context": "extending the Contract for an additional year is Thirty Six Thousand and 00/100 Dollars ($36,000.00), and WHEREAS, the City anticipates to purchase up to twenty (20) additional LPR cameras"
+   },
+   {
+    "value": 42921.0,
+    "literal": "$42,921",
+    "score": -3,
+    "context": "cil by resolution may waive the competitive bidding for purchases exceeding the amount of $42,921 where bidding is not feasible or practical, or as provided under § 14-58-104; and WHEREAS"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [
+    "Flock Group",
+    "Flock Safety"
+   ],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "R-26- 1) / RESOLUTION NO. 32o A RESOLUTION AUTHORIZING THE MAYOR AND CITY CLERK TO ENTER INTO AN EXTENSION OF THE CONTRACT WITH FLOCK GROUP INC. D/B/A FLOCK SAFETY FOR AN ADDITIONAL YEAR; WAIVING FORMAL BIDDING FOR LICENSE PLATE READER CAMERAS; AND FOR OTHER PURPOSES. WHEREAS, Ark. Code Ann, § 14-58-303(b)(2)(B) provides that the City Council by resolution may waive the competitive bidding for purchases exceeding the amount of $42,921 where bidding is not feasible or practical, or as provided under § 14-58-104; and WHEREAS, Flock Group Inc. d/b/a Flock Safety (\"Flock Safety\"), 1170 Howell Mi11 Road, Suite 210, Atlanta, Georgia 30318, is an automaton company that provides an automatic license plate reader (LPR) system that captures vehicle attributes through use of infrastructure -free battery and solar powered cameras; and WHEREAS, on January 12, 2024, the City of North Little Rock (the \"City\") and Flock Group Inc. d/b/a Flock Safety (\"Flock Safety\") entered into a License Agreement and Service Agreement (collectively, the \"Contract\"), whereby Flock Safety installed license plate reader cameras on existing poles owned and maintained by the City (see Contract attached hereto as Exhibit A); and WHEREAS, the Contract authorized services for a period of one year, with the option to extend it for five additional one-year periods; and WHEREAS, the cost of extending the Contract for an additional year is Thirty Six Thousand and 00/100 Dollars ($36,000.00), and WHEREAS, the City anti",
+  "note": "The most recent North Little Rock camera contract extension."
  }
 ]
