@@ -17,7 +17,11 @@
   let D = null;              // {devices, programs, documents, meta}
   let wmap = null;           // this view's own MapLibre instance
   let drawn = false;
-  let mapReady = false;
+  // The style and the device data arrive independently: the tab can be opened
+  // before the fetches finish, and the map is built as soon as the container
+  // has a size. Layers go on only once BOTH are ready, whichever lands last.
+  let styleReady = false;
+  let layersAdded = false;
   const off = new Set();     // families toggled off in the legend
   let queue = [];            // documents the reader has submitted, kept locally
 
@@ -109,6 +113,7 @@
     renderForm();
     renderSources();
     initMap();
+    addLayersWhenReady();      // the style may already be up and waiting on us
   }
 
   /* ------------------------------------------------------------------ meta */
@@ -189,10 +194,24 @@
     wmap.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
     wmap.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
     wmap.on("load", () => {
-      mapReady = true;
+      styleReady = true;
+      addLayersWhenReady();
+    });
+  }
+
+  function addLayersWhenReady() {
+    if (layersAdded || !styleReady || !wmap || !D) return;
+    layersAdded = true;
+    try {
       addLayers();
       applyFilter();
-    });
+    } catch (e) {
+      // An empty basemap with no pins looks like "there is nothing here",
+      // which is the worst way for this particular page to fail.
+      layersAdded = false;
+      $("wMapNote").textContent = "The device layer failed to draw: " + e.message;
+      throw e;
+    }
   }
 
   function addLayers() {
@@ -264,7 +283,7 @@
   }
 
   function applyFilter() {
-    if (!mapReady) return;
+    if (!layersAdded) return;
     const onlyUnlisted = $("wOnlyUnlisted").checked;
     const showCones = $("wCones").checked;
     const fams = Object.keys(FAM).filter((k) => !off.has(k));
