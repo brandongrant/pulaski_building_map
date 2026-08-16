@@ -69,6 +69,8 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 def alpr_program(tags):
     maker = (tags.get("manufacturer") or "").lower()
     operator = (tags.get("operator") or "").lower()
+    if "liveview" in maker:               # trailer-mounted camera towers
+        return "lvt-tower"
     if "flock" in maker or "flock" in operator:
         if "little rock police" in operator and "north" not in operator:
             return "flock-lrpd"

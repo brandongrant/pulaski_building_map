@@ -35,6 +35,10 @@
                    blurb: "Speed or red-light enforcement" },
     sighting: { label: "Field sightings", color: "#f3d54c",
                 blurb: "Photographed on a pole, identified by hand" },
+    // Families with nothing to pin: they appear in the guide, not the legend.
+    air: { label: "Airborne", color: "#8fd694", blurb: "Cameras that fly" },
+    software: { label: "Software", color: "#c9a227", blurb: "Joins the rest together" },
+    rf: { label: "Radio sensing", color: "#4ecdc4", blurb: "Detects phones, not faces" },
   };
   const famOf = (f) => FAM[f.properties.fam] || FAM.camera;
 
@@ -47,6 +51,9 @@
   const CONF_TEXT = {
     confirmed: "Confirmed", likely: "Likely", probable: "Probable",
     uncertain: "Not identified",
+  };
+  const CONF_COLOR = {
+    confirmed: "#6fe0a2", likely: "#5fd0c8", probable: "#f3d54c", uncertain: "#f08b8b",
   };
 
   const esc = (s) => String(s == null ? "" : s)
@@ -105,16 +112,20 @@
   }
 
   /* ------------------------------------------------------------------ meta */
+  // A row of numbers reads on a phone; a paragraph does not. Each one is a
+  // link into the detail rather than a summary of it.
   function renderMeta() {
     const m = D.meta, c = m.counts || {};
     const unlisted = D.devices.features.filter((f) => !f.properties.public).length;
-    $("wMeta").innerHTML =
-      `<b>${m.devices}</b> devices mapped across Pulaski County — ` +
-      `<b>${c.alpr || 0}</b> plate readers, <b>${c.traffic || 0}</b> state traffic cameras, ` +
-      `<b>${c.gunshot || 0}</b> gunshot sensors, <b>${c.sighting || 0}</b> field sightings. ` +
-      `<b>${unlisted}</b> were never published by the agency that runs them — they are ` +
-      `here because a volunteer mapped them or someone photographed the pole. ` +
-      `<b>${m.documents}</b> records in the paper trail. Built ${niceDate(m.generated)}.`;
+    const stats = [
+      [m.devices, "devices"],
+      [c.alpr || 0, "plate readers"],
+      [unlisted, "unpublished"],
+      [m.documents, "records"],
+    ];
+    $("wStats").innerHTML = stats.map(
+      ([n, label]) => `<div class="wStat"><b>${n}</b><span>${esc(label)}</span></div>`
+    ).join("");
   }
 
   function renderKey() {
@@ -326,6 +337,33 @@
     box.querySelector(".wClose").addEventListener("click", () => { box.hidden = true; });
   }
 
+  /* --------------------------------------------------- collapsible list row */
+  // Everything below the map is one shape: a tappable summary line, with the
+  // detail hidden until asked for. <details> gives keyboard and screen-reader
+  // behaviour for free.
+  function row(box, opts) {
+    const item = document.createElement("details");
+    item.className = "wItem" + (opts.className ? " " + opts.className : "");
+    if (opts.color) item.style.setProperty("--rowColor", opts.color);
+    item.innerHTML =
+      `<summary>` +
+      (opts.color ? `<span class="wDot"></span>` : "") +
+      `<span class="wSumMain">${opts.title}</span>` +
+      (opts.meta ? `<span class="wSumMeta">${opts.meta}</span>` : "") +
+      `</summary>` +
+      `<div class="wBody">${opts.body}</div>`;
+    box.appendChild(item);
+    return item;
+  }
+
+  const dd = (label, value) => value
+    ? `<dt>${label}</dt><dd>${esc(value)}</dd>` : "";
+
+  function linkRow(links) {
+    return links.filter(Boolean).length
+      ? `<div class="wDocLinks">${links.filter(Boolean).join("")}</div>` : "";
+  }
+
   /* ----------------------------------------------------------- field guide */
   function renderGuide() {
     const counts = {};
@@ -345,33 +383,28 @@
         const doc = D.documents.find((d) => d.id === docId);
         return doc ? `<a href="${esc(doc.url)}" target="_blank" rel="noopener">` +
           `${esc(niceDate(doc.date))} · ${esc(doc.kind.replace(/_/g, " "))}</a>` : "";
-      }).join("");
-      const dd = (label, value) => value
-        ? `<dt>${label}</dt><dd>${esc(value)}</dd>` : "";
-      const card = document.createElement("div");
-      card.className = "wProg";
-      card.style.borderLeftColor = fam.color;
-      card.innerHTML =
-        (n ? `<span class="wProgN">${n} mapped</span>` : "") +
-        `<h3>${esc(p.name)}</h3>` +
-        `<div class="wProgWho">${esc(p.operator || "")}${p.vendor ? " · " + esc(p.vendor) : ""}</div>` +
-        "<dl>" +
-        dd("What it is", p.what_it_is) +
-        dd("What it captures", p.what_it_captures) +
-        dd("How to spot it", p.how_to_spot) +
-        dd("How long it keeps it", p.retention) +
-        dd("Who can see it", p.who_can_see_it) +
-        dd("How many", p.count_note) +
-        dd("The money", p.money) +
-        dd("How it was bought", p.procurement_note) +
-        "</dl>" +
-        (docs ? `<div class="wDocLinks">${docs}</div>` : "") +
-        ((p.sources || []).length
-          ? `<div class="wDocLinks">` + p.sources.map(
-              (s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a>`
-            ).join("") + "</div>"
-          : "");
-      box.appendChild(card);
+      });
+      const sources = (p.sources || []).map(
+        (s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a>`);
+      row(box, {
+        color: fam.color,
+        title: esc(p.short || p.name),
+        meta: n ? `${n}` : "not mapped",
+        body:
+          `<p class="wLead">${esc(p.one_line || "")}</p>` +
+          `<div class="wWho">${esc(p.operator || "")}` +
+          `${p.vendor ? " · " + esc(p.vendor) : ""}</div>` +
+          "<dl>" +
+          dd("What it is", p.what_it_is) +
+          dd("What it captures", p.what_it_captures) +
+          dd("How to spot it", p.how_to_spot) +
+          dd("How long it is kept", p.retention) +
+          dd("Who can see it", p.who_can_see_it) +
+          dd("How many", p.count_note) +
+          dd("The money", p.money) +
+          dd("How it was bought", p.procurement_note) +
+          "</dl>" + linkRow(docs) + linkRow(sources),
+      });
     }
   }
 
@@ -379,43 +412,37 @@
   function renderSightings() {
     const sights = D.devices.features.filter((f) => f.properties.fam === "sighting");
     const unlisted = sights.filter((f) => (f.properties.near_cam_m || 0) > 100).length;
-    $("wSightNote").innerHTML =
-      `${sights.length} sites photographed from the road and checked against the ` +
-      `state's published camera list. ${unlisted} of them sit more than 100 m from ` +
-      `any published camera, which means the equipment on them is not what the ` +
-      `public map is describing. Each card says how confident the identification is.`;
+    $("wSightNote").textContent = `${unlisted} of ${sights.length} far from any listed camera`;
 
     const box = $("wSightings");
     box.innerHTML = "";
     for (const f of sights) {
       const p = f.properties;
       const [lon, lat] = f.geometry.coordinates;
-      const prog = D.programs[p.prog] || {};
       const timeline = (p.timeline || []).map(
         (t) => `<li><b>${esc(niceMonth(t.date))}</b> — ${esc(t.saw)}</li>`).join("");
-      const card = document.createElement("div");
-      card.className = "wSight";
-      card.innerHTML =
-        `<span class="wConf ${esc(p.conf)}">${esc(CONF_TEXT[p.conf] || p.conf)}</span>` +
-        (prog.short ? ` <span class="wPill">${esc(prog.short)}</span>` : "") +
-        `<h3>${esc(p.lbl)}</h3>` +
-        `<div class="wSightWhere">${esc(p.where)}</div>` +
-        (timeline ? `<ul class="wTimeline">${timeline}</ul>` : "") +
-        (p.why ? `<p>${esc(p.why)}</p>` : "") +
-        (p.confirm ? `<p class="wAsk"><b>To settle it:</b> ${esc(p.confirm)}</p>` : "") +
-        (p.note ? `<p class="wAsk">${esc(p.note)}</p>` : "") +
-        `<div class="wSightFoot">` +
-          `<a href="${esc(p.url)}" target="_blank" rel="noopener">Street View →</a>` +
-          `<button class="wBtn ghost wGo" type="button">Show on the map</button>` +
-          (p.near_cam_m != null
-            ? `<span class="wPill">${p.near_cam_m} m from ${esc(p.near_cam)}</span>` : "") +
-        `</div>`;
-      card.querySelector(".wGo").addEventListener("click", () => {
+      const item = row(box, {
+        color: CONF_COLOR[p.conf] || FAM.sighting.color,
+        title: esc(p.lbl),
+        meta: esc(CONF_TEXT[p.conf] || p.conf),
+        body:
+          `<div class="wWho">${esc(p.where)}</div>` +
+          (timeline ? `<ul class="wTimeline">${timeline}</ul>` : "") +
+          (p.why ? `<p>${esc(p.why)}</p>` : "") +
+          (p.confirm ? `<p class="wAsk"><b>To settle it:</b> ${esc(p.confirm)}</p>` : "") +
+          (p.note ? `<p class="wAsk">${esc(p.note)}</p>` : "") +
+          `<div class="wSightFoot">` +
+            `<a href="${esc(p.url)}" target="_blank" rel="noopener">Street View →</a>` +
+            `<button class="wBtn ghost wGo" type="button">Show on map</button>` +
+            (p.near_cam_m != null
+              ? `<span class="wPill">${p.near_cam_m} m from ${esc(p.near_cam)}</span>` : "") +
+          `</div>`,
+      });
+      item.querySelector(".wGo").addEventListener("click", () => {
         focus(lon, lat, 17);
-        $("wMap").scrollIntoView({ behavior: "smooth", block: "center" });
+        $("wMap").scrollIntoView({ behavior: "smooth", block: "start" });
         showDetail(f);
       });
-      box.appendChild(card);
     }
   }
 
@@ -443,60 +470,62 @@
       const progs = (d.programs || []).map(
         (id) => (D.programs[id] || {}).short || id).join(" · ");
       const quote = (d.parts || {}).fiscal_impact || (d.parts || {}).synopsis || "";
-      const el = document.createElement("div");
-      el.className = "wDoc";
-      el.innerHTML =
-        `<div><div class="wDocDate">${esc(niceDate(d.date))}</div>` +
-        (top ? `<div class="wDocAmt">${esc(money(top.value))}</div>` : "") + `</div>` +
-        `<div><h3>${esc(d.title)}</h3>` +
-        `<div class="wDocDate">${esc(d.body || "")}${progs ? " · " + esc(progs) : ""}</div>` +
-        (chips.length ? `<div class="wDocFacts">${chips.join("")}</div>` : "") +
-        (quote ? `<p class="wQuote">${esc(quote.slice(0, 340))}</p>` : "") +
-        (d.note ? `<p class="wQuote">${esc(d.note)}</p>` : "") +
-        `<p style="margin:9px 0 0"><a class="wSrc" href="${esc(d.url)}" target="_blank" ` +
-        `rel="noopener">Read the original (${esc(d.source)}) →</a></p></div>`;
-      box.appendChild(el);
+      // Not every record is a purchase - the FOIA camera list has no figure in
+      // it at all, so it leads with what kind of record it is instead.
+      const lead = top
+        ? `<span class="wAmt">${esc(money(top.value))}</span>`
+        : `<span class="wKind">${esc((d.kind || "record").replace(/_/g, " "))}</span>`;
+      row(box, {
+        className: "wDocRow",
+        title: lead + `<span class="wWhen">${esc(niceDate(d.date))}</span>`,
+        meta: esc(progs),
+        body:
+          `<p class="wLead">${esc(d.title)}</p>` +
+          `<div class="wWho">${esc(d.body || "")}</div>` +
+          (chips.length ? `<div class="wDocFacts">${chips.join("")}</div>` : "") +
+          (quote ? `<p class="wQuote">${esc(quote.slice(0, 340))}</p>` : "") +
+          (d.note ? `<p class="wAsk">${esc(d.note)}</p>` : "") +
+          linkRow([`<a href="${esc(d.url)}" target="_blank" rel="noopener">` +
+                   `Read the original (${esc(d.source)}) →</a>`]),
+      });
     }
   }
 
   /* ------------------------------------------------------------------ gaps */
-  const GAPS = [
-    ["Real Time Crime Center cameras",
-     "75 cameras were approved in February 2023 for about $215,800, and the " +
-     "subscriptions that keep them running still appear in the city's budget. " +
-     "The department has never published where they are, so none of them can " +
-     "be a pin on this map."],
-    ["Most gunshot sensors",
-     "A gunshot detection array needs roughly 20 to 25 microphones per square " +
-     "mile to triangulate. Little Rock's coverage area started at two square " +
-     "miles. The handful shown here are the ones volunteers happened to spot; " +
-     "the real number is far higher and the layout is not public."],
+  // Things that exist here but cannot be a pin. Most come straight from the
+  // programme records; the last two are general limits of the method.
+  const EXTRA_GAPS = [
     ["Plate readers on patrol cars",
      "Mobile readers scan while the car drives, so they have no fixed location " +
-     "to map at all. They feed the same searchable database as the pole-mounted " +
-     "ones."],
-    ["Wrong-way detection cameras",
-     "ARDOT's own description of a wrong-way site includes closed-circuit " +
-     "cameras and illuminators. Those cameras are not published as public " +
-     "traffic feeds, so this map can only show the ramps where the equipment " +
-     "has been seen."],
-    ["Private cameras that police can reach",
-     "Businesses and residents can register or integrate their own cameras with " +
-     "a real time crime centre. A registry like that turns private cameras into " +
-     "part of the public system without any of them appearing on a public map."],
+     "at all. They feed the same searchable database as the pole-mounted ones."],
     ["Everything indoors",
-     "Shops, schools, buses, lobbies and car parks. This map is limited to " +
-     "devices visible from public space or listed in a public record."],
+     "Shops, schools, buses, lobbies and car parks. This map covers devices " +
+     "visible from public space or listed in a public record."],
   ];
 
   function renderGaps() {
     const box = $("wGaps");
     box.innerHTML = "";
-    for (const [title, text] of GAPS) {
-      const el = document.createElement("div");
-      el.className = "wGap";
-      el.innerHTML = `<h3>${esc(title)}</h3><p>${esc(text)}</p>`;
-      box.appendChild(el);
+    for (const id of Object.keys(D.programs)) {
+      const p = D.programs[id];
+      if (!p.not_mapped_because) continue;
+      const fam = FAM[p.family] || FAM.camera;
+      row(box, {
+        color: fam.color,
+        title: esc(p.short || p.name),
+        meta: esc(p.one_line ? "" : ""),
+        body:
+          `<p class="wLead">${esc(p.one_line || "")}</p>` +
+          `<p>${esc(p.not_mapped_because)}</p>` +
+          "<dl>" + dd("What it is", p.what_it_is) +
+          dd("What it captures", p.what_it_captures) +
+          dd("Who runs it", p.operator) + "</dl>" +
+          linkRow((p.sources || []).map(
+            (s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a>`)),
+      });
+    }
+    for (const [title, text] of EXTRA_GAPS) {
+      row(box, { color: "#7f8fa6", title: esc(title), body: `<p>${esc(text)}</p>` });
     }
   }
 

@@ -370,66 +370,47 @@
   <div class="wWrap">
 
     <header class="wHead">
-      <h1>Watch<span>What is watching Pulaski County, and who paid for it</span></h1>
-      <div class="wMeta" id="wMeta">Loading…</div>
+      <h1>Watch<span>What watches Pulaski County — and who paid</span></h1>
+      <div class="wStats" id="wStats"></div>
     </header>
 
-    <section class="wCard wIntro">
-      <p>Every pin here is a device that records something about people passing it.
-        Some are published by the agency that owns them, some were released only
-        after a records request, and some were found by looking at a pole. The
-        point is not that a camera is sinister — it is that you should be able to
-        see what is there, know what it does, and read the paperwork that put it
-        up.</p>
-      <div class="wKey" id="wKey"></div>
-    </section>
-
     <section class="wCard wMapCard">
-      <h2>The map <em>click any device</em></h2>
+      <div class="wKey" id="wKey"></div>
       <div class="wMapWrap">
         <div id="wMap"></div>
         <div class="wMapNote" id="wMapNote"></div>
-        <div class="wDetail" id="wDetail" hidden></div>
       </div>
       <div class="wMapCtl">
-        <label class="wChk"><input type="checkbox" id="wOnlyUnlisted"> only devices the public map does not list</label>
-        <label class="wChk"><input type="checkbox" id="wCones" checked> show which way plate readers face</label>
+        <label class="wChk"><input type="checkbox" id="wOnlyUnlisted"> unpublished only</label>
+        <label class="wChk"><input type="checkbox" id="wCones" checked> facing</label>
       </div>
+      <div class="wDetail" id="wDetail" hidden></div>
     </section>
 
     <section class="wCard">
-      <h2>Field guide <em>how to tell one from another</em></h2>
-      <p class="wNote">The single most useful skill is telling a camera from a
-        radio. Lenses have glass and a sun shroud and point at the road; antennas
-        are smooth, sealed, and point at the sky.</p>
-      <div id="wGuide" class="wGuide"></div>
+      <h2>What's out there <em>tap for detail</em></h2>
+      <div id="wGuide" class="wList"></div>
     </section>
 
     <section class="wCard">
-      <h2>Sightings <em>found on a pole, checked against the record</em></h2>
-      <p class="wNote" id="wSightNote"></p>
-      <div id="wSightings" class="wSightings"></div>
+      <h2>Sightings <em id="wSightNote"></em></h2>
+      <div id="wSightings" class="wList"></div>
     </section>
 
     <section class="wCard">
-      <h2>The money <em>who approved it, and out of which account</em></h2>
-      <p class="wNote">Each row is a document. Figures are quoted as the document
-        writes them, and renewals overlap, so these are decisions in sequence —
-        not a running total.</p>
-      <div id="wMoney" class="wMoney"></div>
+      <h2>The money <em>decisions in sequence, not a total</em></h2>
+      <div id="wMoney" class="wList"></div>
     </section>
 
     <section class="wCard">
-      <h2>Not on this map <em>known to exist, locations unpublished</em></h2>
-      <div id="wGaps" class="wGaps"></div>
+      <h2>Not on the map <em>exists, location unpublished</em></h2>
+      <div id="wGaps" class="wList"></div>
     </section>
 
     <section class="wCard wAdd">
-      <h2>Add to the trail <em>found a document? put it in</em></h2>
-      <p class="wNote">Paste a link to a record — an agenda item, a contract, an
-        invoice, a records response. It is saved in this browser and listed below,
-        with a ready-made command that files it into the project properly so the
-        facts inside it attach to the devices it paid for.</p>
+      <details class="wItem">
+        <summary><span class="wSumMain">Add a document to the trail</span>
+          <span class="wSumMeta">link a record</span></summary>
       <div class="wForm">
         <input type="url" id="wDocUrl" placeholder="https://… link to the document" spellcheck="false">
         <input type="text" id="wDocTitle" placeholder="What is it? (optional)">
@@ -446,15 +427,17 @@
         <div class="wFormMsg" id="wDocMsg"></div>
       </div>
       <div id="wQueue" class="wQueue"></div>
+      </details>
     </section>
 
     <footer class="wFoot">
-      <p><b>A device is not an accusation.</b> A traffic camera watching for
-        stalled cars and a plate reader building a searchable history of where
-        your car has been are both on this map, and they are not the same thing.
-        What they share is that they were installed with public money or in
-        public right-of-way, which makes them public business.</p>
-      <p id="wSources"></p>
+      <p><b>A device is not an accusation.</b> A camera watching for stalled cars
+        and a reader building a history of where your car has been are both here,
+        and they are not the same thing.</p>
+      <details class="wItem wSrcItem">
+        <summary><span class="wSumMain">Sources &amp; caveats</span></summary>
+        <p id="wSources"></p>
+      </details>
     </footer>
   </div>
 </main>
