@@ -1,0 +1,582 @@
+{
+"1 Airport Rd, Little Rock, AR 72202, USA": [
+-92.222141,
+34.726968,
+99.33
+],
+"1005 W 11th St, Little Rock, AR 72202, USA": [
+-92.283253,
+34.739715,
+99.35
+],
+"101 N University Ave, Little Rock, AR 72205, USA": [
+-92.340729,
+34.752492,
+99.46
+],
+"101 N Woodrow St, Little Rock, AR 72205, USA": [
+-92.30567,
+34.751088,
+99.39
+],
+"10100 N Rodney Parham Rd, Little Rock, AR 72227, USA": [
+-92.384712,
+34.76484,
+99.5
+],
+"10210 Stagecoach Rd, Little Rock, AR 72210, USA": [
+-92.426094,
+34.658334,
+99.46
+],
+"1023 E 9th St, Little Rock, AR 72202, USA": [
+-92.259189,
+34.739396,
+99.33
+],
+"10300 N Rodney Parham Rd Suite U, Little Rock, AR 72227, USA": [
+-92.387039,
+34.767972,
+99.57
+],
+"10310 W Markham St, Little Rock, AR 72205, USA": [
+-92.388114,
+34.754328,
+99.43
+],
+"10501 Stagecoach Rd, Little Rock, AR 72210, USA": [
+-92.425775,
+34.655463,
+99.46
+],
+"106 N Chester St, Little Rock, AR 72201-1203, United States": [
+-92.281078,
+34.749776,
+99.57
+],
+"10720 N Rodney Parham Rd a1, Little Rock, AR 72212, USA": [
+-92.393388,
+34.770897,
+99.05
+],
+"108 W Roosevelt Rd, Little Rock, AR 72206, USA": [
+-92.274413,
+34.724745,
+99.43
+],
+"10923 W Markham St, Little Rock, AR 72211, USA": [
+-92.395823,
+34.75332,
+99.43
+],
+"1116 S Cleveland St, Little Rock, AR 72204, USA": [
+-92.345085,
+34.741728,
+99.44
+],
+"11205 Mabelvale West Rd, Mabelvale, AR 72103, USA": [
+-92.402644,
+34.655613,
+97.18
+],
+"11821 Colonel Glenn Rd, Little Rock, AR 72210, USA": [
+-92.407115,
+34.711587,
+99.49
+],
+"1210 N Shackleford Rd, Little Rock, AR 72211, USA": [
+-92.396043,
+34.76467,
+99.47
+],
+"12103 Sardis Rd, Little Rock, AR 72103, United States": [
+-92.389811,
+34.640658,
+99.52
+],
+"1224 Main St, Little Rock, AR 72202, United States": [
+-92.272883,
+34.736598,
+99.49
+],
+"12301 Stagecoach Rd, Little Rock, AR 72210, USA": [
+-92.443212,
+34.64613,
+99.46
+],
+"12400 Hunters Glen Blvd, Little Rock, AR 72211, USA": [
+-92.412486,
+34.767738,
+99.5
+],
+"12800 Chenal Pkwy Ste 8, Little Rock, AR 72211, USA": [
+-92.416833,
+34.755066,
+99.9
+],
+"12811 Chenal Pkwy, Little Rock, AR 72211-3357, United States": [
+-92.416002,
+34.754354,
+99.58
+],
+"12923 W Markham St, Little Rock, AR 72211, USA": [
+-92.417544,
+34.753068,
+99.43
+],
+"1301 Broadway St, Little Rock, AR 72202, USA": [
+-92.27718,
+34.736778,
+99.41
+],
+"1301 Hanger St, Little Rock, AR 72202, USA": [
+-92.257061,
+34.735266,
+99.38
+],
+"13100 Chenal Pkwy, Little Rock, AR 72211, USA": [
+-92.418836,
+34.75539,
+99.43
+],
+"1411 College St, Little Rock, AR 72202, USA": [
+-92.258298,
+34.73361,
+99.39
+],
+"14317 Cantrell Rd, Little Rock, AR 72223, USA": [
+-92.431099,
+34.802597,
+99.43
+],
+"1501 Green Mountain Dr, Little Rock, AR 72211, USA": [
+-92.403045,
+34.766046,
+99.49
+],
+"1604 N University Ave, Little Rock, AR 72207, USA": [
+-92.340968,
+34.766991,
+99.47
+],
+"1700 Main St, Little Rock, AR 72206, USA": [
+-92.273972,
+34.731531,
+99.33
+],
+"1712 E 9th St, Little Rock, AR 72202, USA": [
+-92.25135,
+34.739424,
+99.33
+],
+"1724 N Mississippi St, Little Rock, AR 72207, USA": [
+-92.35831,
+34.769077,
+99.47
+],
+"17901 Chenal Pkwy, Little Rock, AR 72223, USA": [
+-92.45988,
+34.770006,
+99.43
+],
+"1801 Rahling Rd #101, Little Rock, AR 72223, USA": [
+-92.448477,
+34.772004,
+99.44
+],
+"1802 Green Mountain Dr, Little Rock, AR 72212, United States": [
+-92.403731,
+34.770074,
+99.58
+],
+"1864 W 10th St, Little Rock, AR 72202, USA": [
+-92.294039,
+34.741645,
+98.25
+],
+"1910 John Barrow Rd, Little Rock, AR 72204, USA": [
+-92.373111,
+34.736274,
+99.44
+],
+"1921 US-70B, Little Rock, AR 72206, USA": [
+-92.2357,
+34.70857,
+79.71
+],
+"1921 Wright Ave, Little Rock, AR 72202, USA": [
+-92.294856,
+34.731981,
+99.39
+],
+"19400 Cantrell Rd, Little Rock, AR 72223, USA": [
+-92.488065,
+34.811029,
+99.43
+],
+"2101 Barber St, Little Rock, AR 72206, US": [
+-92.261133,
+34.727409,
+99.35
+],
+"2234 River Mountain Rd, Little Rock, AR 72212, USA": [
+-92.389659,
+34.792678,
+99.49
+],
+"2405 S Pine St, Little Rock, AR 72204, United States": [
+-92.317248,
+34.729344,
+99.5
+],
+"2501 S Arch St, Little Rock, AR 72206, USA": [
+-92.279723,
+34.724151,
+99.35
+],
+"2508 E Roosevelt Rd, Little Rock, AR 72206, USA": [
+-92.242967,
+34.722324,
+99.44
+],
+"2618 S Shackleford Rd, Little Rock, AR 72205, USA": [
+-92.395499,
+34.733637,
+99.47
+],
+"2801 Old Forge Dr, Little Rock, AR 72227, USA": [
+-92.376293,
+34.772454,
+99.41
+],
+"2801 Rebsamen Park Rd, Little Rock, AR 72202, USA": [
+-92.311813,
+34.775267,
+99.47
+],
+"2900 W 13th St, Little Rock, AR 72204, United States": [
+-92.30598,
+34.739181,
+99.5
+],
+"3 Regina Cir, Little Rock, AR 72209, US": [
+-92.332251,
+34.677504,
+99.31
+],
+"303 N Bowman Rd, Little Rock, AR 72211, USA": [
+-92.405385,
+34.756565,
+99.38
+],
+"3115 Springer Blvd, Little Rock, AR 72206, USA": [
+-92.259007,
+34.719104,
+99.44
+],
+"3510 Baseline Rd, Little Rock, AR 72209, USA": [
+-92.317253,
+34.668378,
+99.41
+],
+"3525 John Barrow Rd, Little Rock, AR 72204, USA": [
+-92.372454,
+34.721154,
+99.44
+],
+"3600 Ludwig St, Little Rock, AR 72204, US": [
+-92.374317,
+34.720578,
+99.35
+],
+"3801 W 65th St, Little Rock, AR 72209, USA": [
+-92.31782,
+34.689006,
+99.35
+],
+"4000 Maryland Ave, Little Rock, AR 72204, USA": [
+-92.317837,
+34.743285,
+99.43
+],
+"419 Allsopp Park Rd, Little Rock, AR 72205, USA": [
+-92.317102,
+34.765134,
+95.14
+],
+"4200 Asher Ave, Little Rock, AR 72204, USA": [
+-92.321188,
+34.724745,
+99.38
+],
+"4422 AR-338, Little Rock, AR 72209, USA": [
+-92.395292,
+34.669098,
+80.45
+],
+"4601 W 65th St, Little Rock, AR 72209, USA": [
+-92.327586,
+34.690077,
+99.35
+],
+"4739-4571 Mabelvale Pike, Little Rock, AR 72209, USA": [
+-92.333664,
+34.707031,
+97.57
+],
+"4815 Mabelvale Pike, Little Rock, AR 72209, USA": [
+-92.335093,
+34.70532,
+99.46
+],
+"4820 Kavanaugh Blvd, Little Rock, AR 72207, US": [
+-92.329416,
+34.767747,
+99.44
+],
+"5501 W 12th St, Little Rock, AR 72204, USA": [
+-92.334544,
+34.741095,
+99.35
+],
+"5875 Rebsamen Park Rd, Little Rock, AR 72207, United States": [
+-92.339052,
+34.784366,
+99.57
+],
+"5922 Valley Dr, Little Rock, AR 72209, USA": [
+-92.344709,
+34.661121,
+99.38
+],
+"5944 Rebsamen Park Rd, Little Rock, AR 72207, United States": [
+-92.339747,
+34.784693,
+99.57
+],
+"600 Pleasant Valley Dr, Little Rock, AR 72227, USA": [
+-92.388114,
+34.785288,
+99.49
+],
+"61 Rosemoor Dr, Little Rock, AR 72209, USA": [
+-92.328026,
+34.701282,
+99.38
+],
+"6117 W 65th St, Little Rock, AR 72209, USA": [
+-92.34554,
+34.690086,
+99.35
+],
+"616 S Pine St, Little Rock, AR 72205, United States": [
+-92.316395,
+34.750696,
+95.51
+],
+"6200 Mabelvale Cut Off Rd, Little Rock, AR 72209-8306, United States": [
+-92.347707,
+34.693458,
+91.5
+],
+"6325 Stagecoach Rd, Little Rock, AR 72204, USA": [
+-92.392565,
+34.690797,
+99.44
+],
+"65th & I-30, Little Rock, AR 72209, USA": [
+-92.307033,
+34.689141,
+98.32
+],
+"717 S Mississippi St, Little Rock, AR 72205, USA": [
+-92.358783,
+34.747533,
+99.46
+],
+"720 E 9th St, Little Rock, AR 72202, US": [
+-92.263083,
+34.73958,
+99.29
+],
+"7201 Scott Hamilton Dr, Little Rock, AR 72209, USA": [
+-92.318085,
+34.683993,
+99.49
+],
+"7215 S Woodrow St, Little Rock, AR 72205, USA": [
+-92.305482,
+34.747007,
+93.82
+],
+"724 Garland St, Little Rock, AR 72201, US": [
+-92.278157,
+34.750377,
+99.35
+],
+"7300 W 12th St, Little Rock, AR 72204, USA": [
+-92.355761,
+34.741983,
+99.35
+],
+"7520 W Markham St, Little Rock, AR 72205-2608, United States": [
+-92.358603,
+34.753338,
+99.57
+],
+"7608 W 28th St, Little Rock, AR 72204, USA": [
+-92.360043,
+34.727904,
+99.35
+],
+"7616 Geyer Springs Rd, Little Rock, AR 72209, USA": [
+-92.343836,
+34.680148,
+99.47
+],
+"7700 Scott Hamilton Dr, Little Rock, AR 72209, USA": [
+-92.319944,
+34.677981,
+99.49
+],
+"8000 Geyer Springs Rd, Little Rock, AR 72209, USA": [
+-92.344649,
+34.677585,
+99.47
+],
+"801 Vance St, Little Rock, AR 72206, USA": [
+-92.265353,
+34.722823,
+94.17
+],
+"8800 Clover Hl Rd, Little Rock, AR 72205, USA": [
+-92.372288,
+34.749441,
+99.41
+],
+"8822 AR-5, Little Rock, AR 72210, USA": [
+-92.446751,
+34.646147,
+75.31
+],
+"8871 72205, 8901 Kanis Rd, Little Rock, AR 72205, USA": [
+-92.373201,
+34.739946,
+97.75
+],
+"8901 Arch St, Little Rock, AR 72206, USA": [
+-92.305742,
+34.666623,
+96
+],
+"9 Chicot Rd, Mabelvale, AR 72103, USA": [
+-92.363603,
+34.645121,
+85
+],
+"9100 Colonel Glenn Rd, Little Rock, AR 72204, USA": [
+-92.377184,
+34.710624,
+99.47
+],
+"924 Marshall St, Little Rock, AR 72202, USA": [
+-92.291884,
+34.734861,
+94.7
+],
+"9301 Stardust Trail, Little Rock, AR 72209, USA": [
+-92.368886,
+34.666322,
+99.46
+],
+"9401 Mabelvale Cut Off Rd, Mabelvale, AR 72103, USA": [
+-92.382809,
+34.651098,
+79.84
+],
+"Arch St & 32nd St, Little Rock, AR 72206, USA": [
+-92.280506,
+34.71759,
+98.64
+],
+"Asher Ave & Fair Park Blvd, Little Rock, AR 72204, USA": [
+-92.333804,
+34.719597,
+99.5
+],
+"Baseline Rd @ AHTD, Little Rock, AR 72209, USA": [
+-92.395292,
+34.669098,
+94.76
+],
+"Broadway St & Markham St, Little Rock, AR 72201, USA": [
+-92.275106,
+34.748748,
+99.12
+],
+"Charles Bussey Ave & Maple St, Little Rock, AR 72204, USA": [
+-92.314958,
+34.73307,
+99.16
+],
+"Chicot Rd & Baseline Rd, Little Rock, AR 72209, USA": [
+-92.361798,
+34.66971,
+99.47
+],
+"Colonel Glenn Rd & Bryant St, Little Rock, AR 72204, USA": [
+-92.351165,
+34.718031,
+99.15
+],
+"Geyer Springs Rd & Nova Ln, Little Rock, AR 72209, USA": [
+-92.343969,
+34.67547,
+99.5
+],
+"Mabelvale Pike & Richsmith Ln, Little Rock, AR 72103, USA": [
+-92.386008,
+34.663941,
+99.55
+],
+"PMW8+66, Little Rock, AR undefined, US": [
+-92.334437,
+34.745563,
+90.0
+],
+"Riverfront Dr & Cantrell Rd, Little Rock, AR 72202, US": [
+-92.303285,
+34.758171,
+99.51
+],
+"Roosevelt Rd & Brown St, Little Rock, AR 72204, USA": [
+-92.310867,
+34.725645,
+99.1
+],
+"Shackleford Rd & 36th St, Little Rock, AR 72204, USA": [
+-92.394131,
+34.72128,
+97.75
+],
+"University Ave & 10th St, Little Rock, AR 72204, USA": [
+-92.341404,
+34.743195,
+98.75
+],
+"Woodrow St & Asher Ave, Little Rock, AR 72204, US": [
+-92.30621,
+34.730694,
+99.07
+],
+"Wright & Chester, Little Rock, AR 72206, USA": [
+-92.284542,
+34.731855,
+97.91
+],
+"Wright Ave & Thayer St, Little Rock, AR 72202, USA": [
+-92.301705,
+34.732431,
+99.46
+]
+}

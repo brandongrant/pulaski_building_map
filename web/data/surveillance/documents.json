@@ -1,0 +1,322 @@
+[
+ {
+  "id": "r-shot-spotter-b13386",
+  "title": "A resolution to AUTHORIZE THE CITY MANAGER TO EXECUTE A TWO (2)-YEAR CONTRACT WITH SHOTSPOTTER, INC",
+  "date": "2018-06-05",
+  "body": "City of Little Rock",
+  "kind": "resolution",
+  "programs": [
+   "shotspotter"
+  ],
+  "url": "https://www.littlerock.gov/city-administration/board-of-directors/meeting-agenda/AGENDA%20-%20WEB%20-%206-5-2018/R%20-%20Shot%20Spotter.pdf",
+  "source": "www.littlerock.gov",
+  "format": "pdf",
+  "pages": 2,
+  "sha256": "bfe8c4b2bde4f377599ecebc9bfb5c4e1e9fbb0bec0fdef492413b1e13eaaac3",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [
+   {
+    "value": 290000.0,
+    "literal": "$290,000.00"
+   },
+   {
+    "value": 250000.0,
+    "literal": "$250,000.00"
+   },
+   {
+    "value": 40000.0,
+    "literal": "$40,000.00"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [
+    "ShotSpotter"
+   ],
+   "terms": [
+    "2-year"
+   ]
+  },
+  "parts": {},
+  "excerpt": "1 RESOLUTION NO. ______ 2 3 A RESOLUTION TO AUTHORIZE THE CITY MANAGER TO EXECUTE 4 A TWO (2)-YEAR CONTRACT WITH SHOTSPOTTER, INC., (D/B/A SST, 5 INC.), IN A TOTAL AMOUNT NOT TO EXCEED TWO HUNDRED 6 NINETY DOLLARS ($290,000.00), FOR THE PURCHASE OF A WIDE 7 AREA GUNSHOT DETECTION SERVICE FOR THE LITTLE ROCK 8 POLICE DEPARTMENT; AND FOR OTHER PURPOSES. 9 10 WHEREAS, since September 11, 2001, the City has become eligible for several Emergency Service 11 Equipment Grants; and 12 WHEREAS, ShotSpotter, Inc., (d/b/a SST, Inc.) (“ShotSpotter”) operates on the principle of 13 multilateration, based upon the precise time the sound of gunfire arrives at each sensor utilizing audio 14 sensors installed on top of buildings or on poles in the designated service area; and 15 WHEREAS, SST, Inc., is the exclusive provider for ShotSpotter Flex, the cloud-based, subscription 16 managed service offering, which includes warranty, maintenance and support services on its system; and 17 WHEREAS, multiple sensors pick up on the gun shot's sound and transmits data to the SST cloud- 18 based server, where the company's proprietary software analyzes the data to classify the incident and 19 determine the exact location, transmits the data to the SST “Incident Review Center” within seconds an 20 SST professional reviewer analyzes data and recordings to confirm gunfire before the alert of shots fired, 21 map location and audio data of the shooting is sent directly to the City’s Police Dispatch Workstation",
+  "note": "The original gunshot-detection buy."
+ },
+ {
+  "id": "r-shotspotter-a24d0f",
+  "title": "A resolution to AUTHORIZE THE CITY MANAGER TO ENTER INTO A CONTRACT AMENDMENT WITH SHOTSPOTTER, INC",
+  "date": "2021-02-16",
+  "body": "City of Little Rock",
+  "kind": "resolution",
+  "programs": [
+   "shotspotter"
+  ],
+  "url": "https://www.littlerock.gov/city-administration/board-of-directors/meeting-agenda/AGENDA%20-%20WEB%20-%202-16-2021/R%20-%20ShotSpotter.pdf",
+  "source": "www.littlerock.gov",
+  "format": "pdf",
+  "pages": 3,
+  "sha256": "0e184892a2b11ec9721b3e62587db206df62fe92684c53e769c124523e237401",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [
+   {
+    "value": 287393.0,
+    "literal": "$287,393.00"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [
+    "ShotSpotter"
+   ],
+   "terms": [
+    "1-year"
+   ]
+  },
+  "parts": {},
+  "excerpt": "1 RESOLUTION NO. ___________ 2 3 A RESOLUTION TO AUTHORIZE THE CITY MANAGER TO ENTER 4 INTO A CONTRACT AMENDMENT WITH SHOTSPOTTER, INC., (D/B/A 5 SST, INC.), FOR A TOTAL AMOUNT NOT TO EXCEED TWO HUNDRED 6 EIGHTY-SEVEN THOUSAND, THREE HUNDRED NINETY-THREE 7 DOLLARS ($287,393.00), FOR THE RENEWAL OF THE WIDE AREA 8 GUNSHOT DETECTION SERVICE FOR THE LITTLE ROCK POLICE 9 DEPARTMENT; AND FOR OTHER PURPOSES. 10 11 WHEREAS, since September 11, 2001, the City has become eligible for several Emergency Service 12 Equipment Grants; and, 13 WHEREAS, the Little Rock Police Department entered into an initial contract with ShotSpotter, Inc., 14 (d/b/a SST, Inc.) (“ShotSpotter”) dated August 10, 2018, and requests authorization to amend the Annual 15 Flex Subscription Services Contract for an two (2) additional one (1)-year terms, December 19, 2020, 16 through, and including, December 18, 2022, for coverage of two (2) square-miles and to coordinate or 17 co-term the renewal of the Annual API Subscription Services, June 14, 2021, through, and including, 18 December 18, 2022; and, 19 WHEREAS, ShotSpotter operates on the principle of multilateration, based upon the precise time the 20 sound of gunfire arrives at each sensor utilizing audio sensors installed on top of buildings or on poles in 21 the designated service area; and, 22 WHEREAS, SST, Inc., is the exclusive provider for ShotSpotter Flex, the cloud-based, subscription 23 managed service offering, which includes warranty, maintenance an",
+  "note": "First renewal after the federal grant."
+ },
+ {
+  "id": "bc-lrpd-shotspotter-4f6533",
+  "title": "Fourth contract amendment with SoundThinking (ShotSpotter) for gunshot detection",
+  "date": "2025-02-04",
+  "body": "Little Rock Board of Directors",
+  "kind": "board_communication",
+  "programs": [
+   "shotspotter"
+  ],
+  "url": "https://www.littlerock.gov/city-administration/board-of-directors/meeting-agenda/AGENDA%20-%20WEB%20-%202-4-2025/BC%20-%20LRPD%20ShotSpotter.pdf",
+  "source": "www.littlerock.gov",
+  "format": "pdf",
+  "pages": 1,
+  "sha256": "b9e188fef6324a4ae75281a81170eb8c0bb67bd449f9e335d70e61066403293f",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [
+   {
+    "value": 188000.0,
+    "literal": "$188,000.00"
+   }
+  ],
+  "facts": {
+   "resolutions": [
+    "15,392",
+    "15,844",
+    "16,202"
+   ],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [
+    "ShotSpotter",
+    "SoundThinking"
+   ],
+   "terms": []
+  },
+  "parts": {
+   "synopsis": "An ordinance to authorize the City Manager to enter into a fourth contract amendment with Soundthinking, Inc. (formerly ShotSpotter, Inc.), for the renewal of the wide-area gunshot detection service and addition of case builder software for the Little Rock Police Department.",
+   "fiscal_impact": "The amount of this amendment is not to exceed $188,000.00. This will be paid from 105201-61350. The original service contract was previously approved with Resolution 15,392 and amended with Resolutions 15,844 and 16,202.",
+   "background": "In addition to real-time gunfire detection, integrating CaseBuilder as an intelligence-gathering database enhances the department’s ability to manage and analyze critical data from criminal investigations. CaseBuilder centralizes evidence, facilitates collaboration, and provides tools to organize and connect investigative findings, ensuring more effective follow- up during investigations."
+  },
+  "excerpt": "OFFICE OF THE CITY MANAGER LITTLE ROCK, ARKANSAS BOARD OF DIRECTORS COMMUNICATION FEBRUARY 4, 2025 AGENDA Subject: Action Required: Approved By: An ordinance to authorize  Ordinance the City Manager to enter Resolution into a fourth contract amendment with Soundthinking, Inc. (formerly ShotSpotter, Inc.), for the Little Rock Police Department. Submitted By: Susan Altrui Little Rock Police Acting City Manager Department SYNOPSIS An ordinance to authorize the City Manager to enter into a fourth contract amendment with Soundthinking, Inc. (formerly ShotSpotter, Inc.), for the renewal of the wide-area gunshot detection service and addition of case builder software for the Little Rock Police Department. FISCAL IMPACT The amount of this amendment is not to exceed $188,000.00. This will be paid from 105201-61350. The original service contract was previously approved with Resolution 15,392 and amended with Resolutions 15,844 and 16,202. RECOMMENDATION Approval of the ordinance. BACKGROUND In addition to real-time gunfire detection, integrating CaseBuilder as an intelligence-gathering database enhances the department’s ability to manage and analyze critical data from criminal investigations. CaseBuilder centralizes evidence, facilitates collaboration, and provides tools to organize and connect investigative findings, ensuring more effective follow- up during investigations.",
+  "note": "Recent staff memo on the annual renewal."
+ },
+ {
+  "id": "bc-lrpd-flock-safety-cameras-and-insight-publi-secto-0e8f8c",
+  "title": "Amend Resolution 16,489 to add $77,500 for Real Time Crime Center camera subscriptions",
+  "date": "2025-02-18",
+  "body": "Little Rock Board of Directors",
+  "kind": "board_communication",
+  "programs": [
+   "flock-lrpd",
+   "rtcc-lrpd"
+  ],
+  "url": "https://www.littlerock.gov/city-administration/board-of-directors/meeting-agenda/AGENDA%20-%20WEB%20-%202-18-2025/BC%20-%20LRPD%20FLock%20Safety%20Cameras%20and%20Insight%20Publi%20Sector.pdf",
+  "source": "www.littlerock.gov",
+  "format": "pdf",
+  "pages": 1,
+  "sha256": "db009d70b8059a98ea042d8963dbfe8beada674af21f2d63bcdd81cc4a16ae85",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [
+   {
+    "value": 362000.0,
+    "literal": "$362,000,"
+   },
+   {
+    "value": 284500.0,
+    "literal": "$284,500"
+   },
+   {
+    "value": 77500.0,
+    "literal": "$77,500.00"
+   }
+  ],
+  "facts": {
+   "resolutions": [
+    "16,489"
+   ],
+   "ordinances": [],
+   "accounts": [
+    "105225-63360"
+   ],
+   "cooperative_contracts": [],
+   "vendors": [
+    "Flock Safety",
+    "Insight Public Sector"
+   ],
+   "terms": [
+    "1-year"
+   ]
+  },
+  "parts": {
+   "synopsis": "A resolution to amend Little Rock, Ark. Resolution No. 16,489 (November 4, 2024), to authorize the City Manager to enter into a contract with Insight Public Sector, Inc., for a one (1)-year subscription renewal for the Little Rock Police Department Real Time Crime Center.",
+   "fiscal_impact": "The total cost for this renewal is $77,500.00. This will be paid from Account No. 105225-63360.",
+   "background": "Flock Safety has notified the department of a group of cameras that need a contract subscription renewal. Flock Safety is the city’s provider for license plate readers (LPRs) and is an essential tool for the apprehension of criminals and the prevention of crime. Resolution 16,489 included the renewal cost of $284,500. The amended amount is $362,000, including the cost of $77,500 to cover the license plate recognition camera with the vehicle fingerprint software."
+  },
+  "excerpt": "OFFICE OF THE CITY MANAGER LITTLE ROCK, ARKANSAS BOARD OF DIRECTORS COMMUNICATION FEBRUARY 18, 2025 AGENDA Subject: Action Required: Approved By: A resolution to amend Little Ordinance Rock Resolution No. 16,489 √ Resolution (November 4, 2024), to authorize the City Manager to enter into a contract with Insight Public Sector, Inc., for for the Little Rock Police Department Real Time Crime Center. Submitted By: Little Rock Police Susan Altrui Department Acting City Manager SYNOPSIS A resolution to amend Little Rock, Ark. Resolution No. 16,489 (November 4, 2024), to authorize the City Manager to enter into a contract with Insight Public Sector, Inc., for a one (1)-year subscription renewal for the Little Rock Police Department Real Time Crime Center. FISCAL IMPACT The total cost for this renewal is $77,500.00. This will be paid from Account No. 105225-63360. RECOMMENDATION Approval of the resolution. BACKGROUND Flock Safety has notified the department of a group of cameras that need a contract subscription renewal. Flock Safety is the city’s provider for license plate readers (LPRs) and is an essential tool for the apprehension of criminals and the prevention of crime. Resolution 16,489 included the renewal cost of $284,500. The amended amount is $362,000, including the cost of $77,500 to cover the license plate recognition camera with the vehicle fingerprint software.",
+  "note": "Staff memo behind the same vote: renewal rose from $284,500 to $362,000."
+ },
+ {
+  "id": "r-lrpd-flock-safety-cameras-with-insight-public-sect-72d30c",
+  "title": "A resolution to AUTHORIZE THE CITY MANAGER TO ENTER INTO A PRODUCTS AND SERVICES CONTRACT WITH INSIGHT PUBLIC SECTOR, INC",
+  "date": "2025-02-18",
+  "body": "City of Little Rock",
+  "kind": "resolution",
+  "programs": [
+   "flock-lrpd",
+   "rtcc-lrpd"
+  ],
+  "url": "https://www.littlerock.gov/city-administration/board-of-directors/meeting-agenda/AGENDA%20-%20WEB%20-%202-18-2025/R%20-%20LRPD%20Flock%20Safety%20Cameras%20with%20Insight%20Public%20Sector.pdf",
+  "source": "www.littlerock.gov",
+  "format": "pdf",
+  "pages": 2,
+  "sha256": "ff9591d1ecd975ee70f8fc70a2fad34300a049c1defeea69b6f64574446a2457",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [
+   {
+    "value": 77500.0,
+    "literal": "$77,500.00"
+   }
+  ],
+  "facts": {
+   "resolutions": [
+    "15,892",
+    "16,055",
+    "16,489"
+   ],
+   "ordinances": [],
+   "accounts": [
+    "105225-63360"
+   ],
+   "cooperative_contracts": [
+    "Omnia Partners 23-6692-03"
+   ],
+   "vendors": [
+    "Flock Group",
+    "Flock Safety",
+    "Insight Public Sector",
+    "Omnia Partners",
+    "OMNIA Partners"
+   ],
+   "terms": [
+    "1-year"
+   ]
+  },
+  "parts": {},
+  "excerpt": "1 RESOLUTION NO. _______ 2 3 A RESOLUTION TO AUTHORIZE THE CITY MANAGER TO ENTER 4 INTO A PRODUCTS AND SERVICES CONTRACT WITH INSIGHT 5 PUBLIC SECTOR, INC., IN AN AMOUNT NOT TO EXCEED SEVENTY- 6 SEVEN THOUSAND, FIVE HUNDRED DOLLARS ($77,500.00), PLUS 7 APPLICABLE TAXES AND FEES FOR A ONE (1)-YEAR SUBSCRIPTION 8 RENEWAL FOR THE LITTLE ROCK POLICE DEPARTMENT REAL 9 TIME CRIME CENTER; AND FOR OTHER PURPOSES. 10 11 WHEREAS, Flock Group, Inc., (doing business as Flock Safety) manufactures Falcon License Plate 12 Reader Cameras (LPRs”), which are an essential investigative tool for intelligence to aid in the 13 apprehension of criminals and crime prevention; and, 14 WHEREAS, the Little Rock Police Department (“LRPD”) entered into an initial contract with Flock 15 Group, Inc., in 2020 to purchase LPRs and subscribe to its proprietary software; and, 16 WHEREAS, Insight Public Sector, Inc., (“Insight”) partners with Flock Safety to support LPRs and 17 software programs; and, 18 WHEREAS, Omnia Partners Contract No. 23-6692-03 was used to select Insight as the City of Little 19 Rock’s vendor for Flock Safety LPRs and supporting software; and, 20 WHEREAS, the Board of Directors of the City of Little Rock, Arkansas (the “Board”) adopted Little 21 Rock, Ark., Resolution Nos. 15,892 (February 7, 2023) and Resolution No. 16,055 (July 18, 2023) 22 approving the purchase of seventy-five (75) additional Falcon LPRs and the renewal of the software 23 subscription with Insight; and, 24 WHEREAS, t",
+  "note": "Names the whole chain of prior resolutions back to the 2020 original."
+ },
+ {
+  "id": "bc-flock-license-plate-920bcc",
+  "title": "A resolution to authorize the City Manager to enter into a contract with Insight Public Sector to renew Little Rock Police Department’s Flock Safety Software Subscription Services to support Falcon Li",
+  "date": "2025-10-21",
+  "body": "Little Rock Board of Directors",
+  "kind": "board_communication",
+  "programs": [
+   "flock-lrpd"
+  ],
+  "url": "https://www.littlerock.gov/city-administration/board-of-directors/meeting-agenda/AGENDA%20-%20WEB%20-%2010-21-2025/BC%20-%20Flock%20License%20Plate.pdf",
+  "source": "www.littlerock.gov",
+  "format": "pdf",
+  "pages": 1,
+  "sha256": "962beaab8aa3378b84d6ef4f77aa9f636fe34a548122f46313cc0f6f82535c54",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [
+   {
+    "value": 690000.0,
+    "literal": "$690,000.00"
+   },
+   {
+    "value": 345000.0,
+    "literal": "$345,000.00"
+   },
+   {
+    "value": 34500.0,
+    "literal": "$345,00.00"
+   }
+  ],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [
+    "105201-61350"
+   ],
+   "cooperative_contracts": [
+    "Omnia Partners 23-6692-03"
+   ],
+   "vendors": [
+    "Flock Safety",
+    "Insight Public Sector"
+   ],
+   "terms": [
+    "1-year"
+   ]
+  },
+  "parts": {
+   "synopsis": "A resolution to authorize the City Manager to enter into a contract with Insight Public Sector to renew Little Rock Police Department’s Flock Safety Software Subscription Services to support Falcon License Plate Cameras installed throughout the City for two (2) one (1)-year terms, at an annual rate of $345,000.00 for a total expenditure of $690,000.00 over the life of the contract.",
+   "fiscal_impact": "The annual renewal cost is $345,00.00 and will be paid from the department’s software account 105201-61350. Vendor selection was made through the OMINA Partners #23-6692- 03.",
+   "background": "Since 2020, Flock has been our provider for license plate readers. With this purchase, the department will continue to have the necessary intelligence, preventive, and investigative tools to apprehend criminals, assist with the prevention of locate and locate missing persons. Flock Safety has notified the department of a group of cameras that need a contract subscription renewal. Flock Safety is the city’s provider for license plate readers (LPRs) and is an essential tool for the apprehension of criminals and the prevention of crime. Nothing additional is added, current services will remain."
+  },
+  "excerpt": "OFFICE OF THE CITY MANAGER LITTLE ROCK, ARKANSAS BOARD OF DIRECTORS COMMUNICATION OCTOBER 21, 2025 AGENDA Subject: Action Required: Approved By: Authorization of a contract Ordinance with Insight Public Sector, √ Resolution Inc., for the Flock Safety Camera Software Subscription Renewal. Submitted By: Little Rock Police Delphone Hubbard Department City Manager SYNOPSIS A resolution to authorize the City Manager to enter into a contract with Insight Public Sector to renew Little Rock Police Department’s Flock Safety Software Subscription Services to support Falcon License Plate Cameras installed throughout the City for two (2) one (1)-year terms, at an annual rate of $345,000.00 for a total expenditure of $690,000.00 over the life of the contract. FISCAL IMPACT The annual renewal cost is $345,00.00 and will be paid from the department’s software account 105201-61350. Vendor selection was made through the OMINA Partners #23-6692- 03. RECOMMENDATION Adoption of the resolution. BACKGROUND Since 2020, Flock has been our provider for license plate readers. With this purchase, the department will continue to have the necessary intelligence, preventive, and investigative tools to apprehend criminals, assist with the prevention of locate and locate missing persons. Flock Safety has notified the department of a group of cameras that need a contract subscription renewal. Flock Safety is the city’s provider for license plate readers (LPRs) and is an essential tool for the apprehension of",
+  "note": "The contract in force now: two one-year terms at $345,000 a year."
+ },
+ {
+  "id": "pdfoia-2025-4004-7dbb64",
+  "title": "LRPD response to FOIA request PDFOIA-2025-4004: list of license plate reader locations",
+  "date": "2025-12-01",
+  "body": "Little Rock Police Department",
+  "kind": "foia_response",
+  "programs": [
+   "flock-lrpd"
+  ],
+  "url": "https://arktimes.com/wp-content/uploads/2026/01/PDFOIA-2025-4004.pdf",
+  "source": "arktimes.com",
+  "format": "pdf",
+  "pages": 3,
+  "sha256": "1006622d9796300d6555cf0eb7338cec2e366d0dd8b3fc3cb0ea366ad650431b",
+  "retrieved": "2026-08-16",
+  "added_by": "research",
+  "amounts": [],
+  "facts": {
+   "resolutions": [],
+   "ordinances": [],
+   "accounts": [],
+   "cooperative_contracts": [],
+   "vendors": [],
+   "terms": []
+  },
+  "parts": {},
+  "excerpt": "Address Status 5944 Rebsamen Park Rd, Little Rock, AR 72207, United States In Service 106 N Chester St, Little Rock, AR 72201-1203, United States In Service 5875 Rebsamen Park Rd, Little Rock, AR 72207, United States In Service 12103 Sardis Rd, Little Rock, AR 72103, United States In Service 6200 Mabelvale Cut Off Rd, Little Rock, AR 72209-8306, United States In Service Arch St & 32nd St, Little Rock, AR 72206, USA In Service 2508 E Roosevelt Rd, Little Rock, AR 72206, USA In Service 1005 W 11th St, Little Rock, AR 72202, USA In Service 1921 Wright Ave, Little Rock, AR 72202, USA In Service 2801 Old Forge Dr, Little Rock, AR 72227, USA In Service 5501 W 12th St, Little Rock, AR 72204, USA In Service 9 Chicot Rd, Mabelvale, AR 72103, USA In Service 4000 Maryland Ave, Little Rock, AR 72204, USA In Service 7520 W Markham St, Little Rock, AR 72205-2608, United States In Service 1501 Green Mountain Dr, Little Rock, AR 72211, USA In Service 9100 Colonel Glenn Rd, Little Rock, AR 72204, USA In Service 3115 Springer Blvd, Little Rock, AR 72206, USA In Service 1210 N Shackleford Rd, Little Rock, AR 72211, USA In Service 9301 Stardust Trail, Little Rock, AR 72209, USA In Service 12400 Hunters Glen Blvd, Little Rock, AR 72211, USA In Service 7608 W 28th St, Little Rock, AR 72204, USA In Service 1700 Main St, Little Rock, AR 72206, USA In Service 61 Rosemoor Dr, Little Rock, AR 72209, USA In Service 12923 W Markham St, Little Rock, AR 72211, USA In Service 2405 S Pine St, Little Rock, AR",
+  "note": "The department's own list of where its plate readers are."
+ }
+]

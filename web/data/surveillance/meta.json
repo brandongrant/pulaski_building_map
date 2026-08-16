@@ -1,0 +1,111 @@
+{
+ "generated": "2026-08-16",
+ "bbox": [
+  34.55,
+  -92.9,
+  35.1,
+  -91.95
+ ],
+ "counts": {
+  "traffic": 191,
+  "alpr": 313,
+  "gunshot": 11,
+  "camera": 1,
+  "sighting": 9
+ },
+ "by_program": {
+  "ardot-cctv": 194,
+  "flock-lrpd": 132,
+  "flock-unattributed": 136,
+  "shotspotter": 11,
+  "other-alpr": 36,
+  "other-camera": 1,
+  "flock-other": 9,
+  "ardot-wwd": 1,
+  "ardot-managed-lane": 1,
+  "unidentified": 3,
+  "small-cell": 1
+ },
+ "devices": 525,
+ "documents": 7,
+ "lrpd_foia_readers": 116,
+ "lrpd_foia_also_mapped_by_volunteers": 43,
+ "spend": [
+  {
+   "date": "2018-06-05",
+   "amount": 290000.0,
+   "literal": "$290,000.00",
+   "programs": [
+    "shotspotter"
+   ],
+   "doc": "r-shot-spotter-b13386",
+   "title": "A resolution to AUTHORIZE THE CITY MANAGER TO EXECUTE A TWO (2)-YEAR CONTRACT WITH SHOTSPOTTER, INC"
+  },
+  {
+   "date": "2021-02-16",
+   "amount": 287393.0,
+   "literal": "$287,393.00",
+   "programs": [
+    "shotspotter"
+   ],
+   "doc": "r-shotspotter-a24d0f",
+   "title": "A resolution to AUTHORIZE THE CITY MANAGER TO ENTER INTO A CONTRACT AMENDMENT WITH SHOTSPOTTER, INC"
+  },
+  {
+   "date": "2025-02-04",
+   "amount": 188000.0,
+   "literal": "$188,000.00",
+   "programs": [
+    "shotspotter"
+   ],
+   "doc": "bc-lrpd-shotspotter-4f6533",
+   "title": "Fourth contract amendment with SoundThinking (ShotSpotter) for gunshot detection"
+  },
+  {
+   "date": "2025-02-18",
+   "amount": 362000.0,
+   "literal": "$362,000,",
+   "programs": [
+    "flock-lrpd",
+    "rtcc-lrpd"
+   ],
+   "doc": "bc-lrpd-flock-safety-cameras-and-insight-publi-secto-0e8f8c",
+   "title": "Amend Resolution 16,489 to add $77,500 for Real Time Crime Center camera subscriptions"
+  },
+  {
+   "date": "2025-02-18",
+   "amount": 77500.0,
+   "literal": "$77,500.00",
+   "programs": [
+    "flock-lrpd",
+    "rtcc-lrpd"
+   ],
+   "doc": "r-lrpd-flock-safety-cameras-with-insight-public-sect-72d30c",
+   "title": "A resolution to AUTHORIZE THE CITY MANAGER TO ENTER INTO A PRODUCTS AND SERVICES CONTRACT WITH INSIGHT PUBLIC SECTOR, INC"
+  },
+  {
+   "date": "2025-10-21",
+   "amount": 690000.0,
+   "literal": "$690,000.00",
+   "programs": [
+    "flock-lrpd"
+   ],
+   "doc": "bc-flock-license-plate-920bcc",
+   "title": "A resolution to authorize the City Manager to enter into a contract with Insight Public Sector to renew Little Rock Police Department\u2019s Flock Safety Software Subscription Services to support Falcon Li"
+  }
+ ],
+ "sources": [
+  {
+   "name": "ARDOT published traffic cameras",
+   "url": "https://layers.idrivearkansas.com/cameras.geojson"
+  },
+  {
+   "name": "OpenStreetMap surveillance tagging (DeFlock and local mappers)",
+   "url": "https://www.openstreetmap.org"
+  },
+  {
+   "name": "Field sightings verified in Google Street View",
+   "url": ""
+  }
+ ]
+}

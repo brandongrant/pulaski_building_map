@@ -82,14 +82,26 @@
   function hideTip() { tip().hidden = true; }
 
   /* ------------------------------------------------------------ view swap */
+  // Overlay views that sit on top of the live map. The map div itself is never
+  // hidden - it keeps its WebGL context - so only these ids get toggled.
+  const OVERLAY_VIEWS = ["pulse", "watch"];
+
   function showView(v) {
-    const pulse = $("pulse");
-    pulse.hidden = v !== "pulse";
-    document.body.classList.toggle("view-pulse", v === "pulse");
+    for (const name of OVERLAY_VIEWS) {
+      const panel = $(name);
+      if (panel) panel.hidden = name !== v;
+      document.body.classList.toggle("view-" + name, name === v);
+    }
     for (const b of document.querySelectorAll(".tabBtn")) {
       const on = b.dataset.view === v;
       b.classList.toggle("on", on);
       b.setAttribute("aria-selected", on ? "true" : "false");
+    }
+    // Views other than Pulse own their own setup; tell them the view changed.
+    document.dispatchEvent(new CustomEvent("viewchange", { detail: { view: v } }));
+    if (v !== "map" && v !== "pulse") {
+      try { history.replaceState(null, "", "#" + v); } catch (e) { /* file:// */ }
+      return;
     }
     if (v === "pulse") {
       if (!drawn) load();
@@ -955,6 +967,7 @@
     $("pFilterClear").addEventListener("click", () => select(sel));
     addEventListener("scroll", hideTip, true);
     if (location.hash === "#pulse") showView("pulse");
+    else if (location.hash === "#watch") showView("watch");
   }
 
   if (document.readyState === "loading") {

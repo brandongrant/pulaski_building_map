@@ -1,0 +1,258 @@
+{
+ "flock-lrpd": {
+  "name": "Flock Safety Falcon license plate readers",
+  "short": "Flock ALPR",
+  "family": "alpr",
+  "operator": "Little Rock Police Department",
+  "vendor": "Flock Group, Inc. (Flock Safety)",
+  "reseller": "Insight Public Sector, Inc.",
+  "since": "2020",
+  "count_note": "116 citywide, three more permitted but not yet installed (LRPD's own list, released under FOIA request PDFOIA-2025-4004 in January 2026).",
+  "what_it_is": "A small solar- or mains-powered camera on a slim pole, usually at the roadside facing one direction of travel. It photographs every passing vehicle, reads the plate with OCR, and also records a 'vehicle fingerprint' - make, body type, colour, roof rack, bumper stickers, damage - so a car can be searched for even with no plate read.",
+  "what_it_captures": "Plate number, vehicle description, timestamp, and the camera's location for every vehicle that passes. Not a live-monitored video feed; it is a searchable database of where a car has been.",
+  "how_to_spot": "A slim rectangular head about the size of a shoebox on a narrow pole, often with a small solar panel and a black battery box. It points across the lane rather than down it, and sits much lower than a traffic camera - roughly 8 to 12 feet.",
+  "retention": "Arkansas's Automatic License Plate Reader System Act (A.C.A. 12-12-1801 et seq.) requires a government entity to purge captured plate data after 150 days. The statute binds the agency; the vendor holding the same data is not covered by that clause.",
+  "who_can_see_it": "LRPD officers search the system directly. Flock's network also allows sharing with other agencies: EFF documents cited by the Arkansas Times show LRPD data reaching agencies in other states, including Johnson County, Texas.",
+  "money": "Board of Directors approved the first contract in 2020. Resolution 15,892 (7 Feb 2023) and Resolution 16,055 (18 Jul 2023) added 75 more Falcon readers and renewed the software. Resolution 16,489 (4 Nov 2024) renewed the subscription; it was amended on 18 Feb 2025 to add $77,500, taking that renewal from $284,500 to $362,000. On 21 Oct 2025 the board approved two further one-year terms at $345,000 a year - $690,000 total.",
+  "procurement_note": "The city did not run its own competitive bid. Insight Public Sector was selected through Omnia Partners cooperative contract 23-6692-03, a national purchasing agreement that member governments can buy from directly.",
+  "accounts": [
+   "105201-61350 (LRPD software)",
+   "105225-63360 (Real Time Crime Center)"
+  ],
+  "sources": [
+   {
+    "label": "Arkansas Times - we mapped all 116",
+    "url": "https://arktimes.com/arkansas-blog/2026/01/12/little-rock-police-track-you-with-116-license-plate-readers-citywide-we-mapped-them-all"
+   },
+   {
+    "label": "A.C.A. 12-12-1803 restrictions on use",
+    "url": "https://law.justia.com/codes/arkansas/title-12/subtitle-2/chapter-12/subchapter-18/section-12-12-1803/"
+   }
+  ],
+  "documents": [
+   "bc-lrpd-flock-safety-cameras-and-insight-publi-secto-0e8f8c",
+   "r-lrpd-flock-safety-cameras-with-insight-public-sect-72d30c",
+   "bc-flock-license-plate-920bcc",
+   "pdfoia-2025-4004-7dbb64"
+  ]
+ },
+ "flock-other": {
+  "name": "Flock readers run by other agencies and businesses",
+  "short": "Other Flock ALPR",
+  "family": "alpr",
+  "operator": "North Little Rock, Sherwood, Jacksonville, Alexander police; private businesses",
+  "vendor": "Flock Group, Inc. (Flock Safety)",
+  "since": "2020",
+  "count_note": "At least 39 Arkansas law-enforcement agencies use Flock. Retailers run their own: Home Depot and Lowe's readers appear in the open map data for Pulaski County.",
+  "what_it_is": "The same Falcon hardware as the LRPD program, bought separately. A private business's reader watches its own lot but can feed the same searchable network.",
+  "what_it_captures": "Identical to the LRPD readers - plate, vehicle fingerprint, time, place.",
+  "how_to_spot": "Same slim pole and shoebox head; retail units usually sit at lot entrances rather than on public roads.",
+  "retention": "The 150-day state purge applies to government entities. A private operator's own retention is set by its contract, not by the ALPR statute.",
+  "who_can_see_it": "Each owner controls sharing. Business owners can choose to share with police, which is how a retailer's camera becomes part of an investigation.",
+  "money": "Bought jurisdiction by jurisdiction; North Little Rock's and the retailers' contracts are not in this trail yet. Several Arkansas cities - Cabot, Pea Ridge, Mayflower, Greers Ferry, Searcy - suspended or removed their Flock cameras during 2026.",
+  "sources": [
+   {
+    "label": "KATV - Arkansas cities suspending Flock cameras",
+    "url": "https://katv.com/news/local/searcy-joins-six-arkansas-cities-suspending-flock-cameras-amid-privacy-debates"
+   }
+  ],
+  "documents": []
+ },
+ "flock-unattributed": {
+  "name": "Flock readers with no operator recorded",
+  "short": "Flock, owner unrecorded",
+  "family": "alpr",
+  "operator": "Not recorded in the open data",
+  "vendor": "Flock Group, Inc. (Flock Safety)",
+  "count_note": "The largest single group on this map. A volunteer mapping a camera records what is visible from the street - the make is stamped on the housing, the owner is not.",
+  "what_it_is": "Physically identical to the readers above. The gap is in the record, not the hardware: nobody has attached an owner to these particular poles in the open data.",
+  "what_it_captures": "Plate, vehicle description, time and place, like every other Falcon.",
+  "how_to_spot": "Same slim pole and shoebox head.",
+  "retention": "Depends who owns it - 150 days if a government entity, contract terms if a business.",
+  "who_can_see_it": "Unknown, which is the point of the category.",
+  "money": "Untraced. Matching these against LRPD's own 116-camera list, released under FOIA, is the obvious way to close the gap.",
+  "sources": [],
+  "documents": []
+ },
+ "other-camera": {
+  "name": "Other mapped cameras",
+  "short": "Other camera",
+  "family": "camera",
+  "operator": "Various",
+  "what_it_is": "Surveillance cameras recorded in OpenStreetMap that are not plate readers or acoustic sensors.",
+  "what_it_captures": "Video, scope depending on the owner.",
+  "how_to_spot": "Ordinary dome or bullet cameras.",
+  "retention": "Unknown.",
+  "money": "Untraced.",
+  "sources": [],
+  "documents": []
+ },
+ "other-alpr": {
+  "name": "Non-Flock plate readers",
+  "short": "Other ALPR",
+  "family": "alpr",
+  "operator": "Various",
+  "vendor": "Genetec, Motorola Solutions (Vigilant), Leonardo (ELSAG), LiveView Technologies",
+  "what_it_is": "Plate readers from Flock's competitors. Motorola's Vigilant and Leonardo's ELSAG units are the older style, often mounted on poles at intersections or on patrol cars. LiveView Technologies units are the trailer-mounted camera towers seen in big-box parking lots.",
+  "what_it_captures": "Plate reads and timestamps; the mobile versions capture wherever the vehicle drives.",
+  "how_to_spot": "ELSAG and Vigilant heads are squat cylinders or wedge boxes in pairs, angled at the lanes. LVT towers are unmistakable - a trailer with a mast, floodlights and solar panels.",
+  "retention": "Government operators are covered by the same 150-day purge.",
+  "money": "Not yet traced in this trail.",
+  "sources": [],
+  "documents": []
+ },
+ "shotspotter": {
+  "name": "ShotSpotter / SoundThinking gunshot detection",
+  "short": "Gunshot detection",
+  "family": "gunshot",
+  "operator": "Little Rock Police Department",
+  "vendor": "SoundThinking, Inc. (formerly ShotSpotter, Inc.)",
+  "since": "2018",
+  "count_note": "Sensor positions are not published. The map shows the handful volunteers have spotted; a real deployment uses far more, roughly 20-25 microphones per square mile.",
+  "what_it_is": "Acoustic sensors on rooftops and poles that listen continuously for impulsive sounds. When several hear the same bang, the system triangulates the position, a human reviewer at the vendor classifies it, and an alert with coordinates goes to dispatch - usually inside a minute.",
+  "what_it_captures": "Loud impulsive sounds and their location. The sensors buffer audio around a detection, which is how a recorded voice has surfaced as evidence in other cities - the reason critics treat 'it only records gunshots' as too simple a claim.",
+  "how_to_spot": "Hard to spot deliberately. A weatherproof box, often on a tall building parapet or utility pole, with a small microphone port and no lens.",
+  "retention": "Set by contract with the vendor rather than by the ALPR statute.",
+  "who_can_see_it": "Alerts go to LRPD dispatch and the Real Time Crime Center.",
+  "money": "First bought June 2018 - a two-year contract worth $290,000, paid with a US Department of Justice grant. Renewed February 2021 for $287,393. The city later moved it onto local money: a fourth amendment in February 2025 for $188,000 from account 105201-61350, and a further renewal in February 2026. Board votes have been close and repeatedly contested.",
+  "accounts": [
+   "105201-61350 (LRPD software)"
+  ],
+  "sources": [
+   {
+    "label": "Arkansas Times - board renews gunshot surveillance",
+    "url": "https://arktimes.com/arkansas-blog/2026/02/18/little-rock-city-board-renews-controversial-gunshot-surveillance-technology"
+   }
+  ],
+  "documents": [
+   "r-shot-spotter-b13386",
+   "r-shotspotter-a24d0f",
+   "bc-lrpd-shotspotter-4f6533"
+  ]
+ },
+ "rtcc-lrpd": {
+  "name": "LRPD Real Time Crime Center cameras",
+  "short": "Real Time Crime Center",
+  "family": "rtcc",
+  "operator": "Little Rock Police Department",
+  "vendor": "Flock Safety via Insight Public Sector",
+  "since": "2023",
+  "count_note": "75 cameras approved in February 2023 for about $215,800. Individual positions are not published.",
+  "what_it_is": "A staffed room where live camera feeds, plate reader hits and gunshot alerts are watched together and pushed to officers on the street. The cameras are the room's eyes; the plate readers and acoustic sensors are its triggers.",
+  "what_it_captures": "Live video that can be watched and recorded, alongside the ALPR and gunshot feeds.",
+  "how_to_spot": "Usually a dome or bullet camera cluster on a city pole, sometimes with a blue-lit box, at intersections and in parks.",
+  "retention": "Video retention is set by department policy rather than by the ALPR statute.",
+  "who_can_see_it": "LRPD staff in the centre, and officers it dispatches information to.",
+  "money": "Resolution 15,892 (7 Feb 2023) approved 75 cameras at roughly $215,800. The subscriptions that keep them running come through the same Insight Public Sector contract as the plate readers - the February 2025 amendment added $77,500 for the centre from account 105225-63360.",
+  "accounts": [
+   "105225-63360 (Real Time Crime Center)"
+  ],
+  "sources": [
+   {
+    "label": "Arkansas Democrat-Gazette - board approves 75 cameras",
+    "url": "https://www.arkansasonline.com/news/2023/feb/08/little-rock-city-board-approves-purchase-of-75/"
+   }
+  ],
+  "documents": [
+   "bc-lrpd-flock-safety-cameras-and-insight-publi-secto-0e8f8c",
+   "r-lrpd-flock-safety-cameras-with-insight-public-sect-72d30c"
+  ]
+ },
+ "ardot-cctv": {
+  "name": "ARDOT traffic cameras",
+  "short": "ARDOT traffic camera",
+  "family": "traffic",
+  "operator": "Arkansas Department of Transportation, Traffic Management Center",
+  "vendor": "Axis Communications hardware",
+  "count_note": "554 camera feeds are published statewide on IDriveArkansas; 178 of them are in this county. ARDOT's own ITS page describes 'almost 440 department-owned pan-tilt-zoom traffic cameras' plus 100 dynamic message signs and a dozen highway advisory radio sites.",
+  "what_it_is": "Pan-tilt-zoom cameras on tall masts along the interstates, watched around the clock from ARDOT's Traffic Management Center so operators can see crashes, debris and congestion and set the message signs accordingly.",
+  "what_it_captures": "Live video. ARDOT publishes most of these feeds to the public - the map links straight to each camera's stream. They are not plate readers, though a PTZ camera zoomed in can read a plate.",
+  "how_to_spot": "A dome or a long bullet housing at the top of a mast 30 feet or higher, usually with a white cabinet at the base. Models in the published inventory include the Axis P5635-E Mk II, P5655-E and Q6215-LE.",
+  "retention": "Published as live streams; ARDOT does not publish a retention schedule for recorded footage.",
+  "who_can_see_it": "Anyone - the feeds are on IDriveArkansas.com.",
+  "money": "Funded through ARDOT's ITS programme rather than a single city vote.",
+  "sources": [
+   {
+    "label": "IDriveArkansas camera feed (the layer this map reads)",
+    "url": "https://layers.idrivearkansas.com/cameras.geojson"
+   },
+   {
+    "label": "ARDOT ITS Operations",
+    "url": "https://ardot.gov/divisions/tsmo/its-operations/"
+   }
+  ],
+  "documents": []
+ },
+ "ardot-wwd": {
+  "name": "ARDOT wrong-way detection",
+  "short": "Wrong-way detection",
+  "family": "wwd",
+  "operator": "Arkansas Department of Transportation",
+  "vendor": "Not identified in published records",
+  "since": "2024",
+  "count_note": "About 155 sensor sites statewide when complete. Little Rock was the first city to get them, in 2024; installation has since moved along I-40 towards Memphis and onto I-55.",
+  "what_it_is": "Equipment at freeway ramps that detects a car entering against traffic. ARDOT's own description of a site lists 'vehicle sensors, closed-circuit television cameras, illuminators, hardware controllers, warning devices, and communications equipment'. Radar and infrared sensors do the detecting; LED signs flash at the driver; an alarm goes to the Traffic Management Center, which can alert state police.",
+  "what_it_captures": "Vehicle presence and direction, plus camera views of the ramp. This is the important part for anyone comparing the map to IDriveArkansas: the cameras in these kits are part of the safety system and are not published as public traffic feeds.",
+  "how_to_spot": "Look at ramps, not the mainline. A short pole near the ramp terminal carrying one or two small heads, a separate radar-looking panel, sometimes a floodlight-shaped illuminator, a cabinet at the base, and red WRONG WAY signs with LED borders nearby. The concrete pads and pull boxes often appear in Street View a year or more before the equipment does.",
+  "retention": "Not published.",
+  "who_can_see_it": "ARDOT's Traffic Management Center; the video is not on the public map.",
+  "money": "ARDOT has described the statewide programme as costing just under $55 million to install, test and maintain.",
+  "sources": [
+   {
+    "label": "ARDOT NR 25-204 - ramp closures to test the systems",
+    "url": "https://ardot.gov/news/25-204/"
+   },
+   {
+    "label": "Roads & Bridges - Arkansas testing wrong-way detection",
+    "url": "https://www.roadsbridges.com/technology/news/55296007/arkansas-testing-wrong-way-detection-system"
+   }
+  ],
+  "documents": []
+ },
+ "ardot-managed-lane": {
+  "name": "I-430 bridge managed lane",
+  "short": "Managed lane control",
+  "family": "wwd",
+  "operator": "Arkansas Department of Transportation, Traffic Management Center",
+  "since": "2023",
+  "count_note": "One corridor: the Arkansas River bridge on I-430 and its approaches.",
+  "what_it_is": "Arkansas's first managed lane. The outside shoulder opens as a fourth running lane at peak times and closes the rest of the day. Overhead gantries show a green arrow or a red X above the lane, and the corridor is instrumented so the Traffic Management Center can see the lane is clear before opening it.",
+  "what_it_captures": "Traffic video used to check the lane for stalled cars and debris. The red X and green arrow signals themselves are signs, not sensors.",
+  "how_to_spot": "Overhead mast arms across the carriageway carrying a lane-control signal per lane, with small cameras and detector heads on the same arm. Between the bridge and I-40 the poles repeat every few hundred metres.",
+  "retention": "Not published.",
+  "who_can_see_it": "ARDOT's Traffic Management Center, staffed 24/7. A few of the corridor's cameras are on the public map; most of the detection gear is not.",
+  "money": "ARDOT has said building the managed lane rather than a new bridge saved more than $240 million. It opened to traffic in March 2023.",
+  "sources": [
+   {
+    "label": "ARDOT - I-430 bridge managed lane now operational",
+    "url": "https://ardot.gov/news/i-430-bridge-managed-lane-now-operational/"
+   }
+  ],
+  "documents": []
+ },
+ "small-cell": {
+  "name": "Small cell / carrier antennas",
+  "short": "Telecom, not surveillance",
+  "family": "telecom",
+  "operator": "Mobile carriers and tower companies",
+  "what_it_is": "A short-range mobile base station - the tall smooth canister on top of a slim pole, or a cylinder bolted to a utility pole arm with a cabinet below. They add capacity where phone traffic is dense.",
+  "what_it_captures": "Nothing visual. It is a radio, not a camera. A carrier's network necessarily knows which phones connect to which cell, which is a privacy question of a different kind, but this is not a device that watches the street.",
+  "how_to_spot": "A featureless cylinder with no lens and no glass, usually on top of the pole, with a fat cable running down and a metal cabinet at the base. Included here because it is the single most common thing mistaken for a surveillance camera.",
+  "retention": "Not applicable.",
+  "money": "Private infrastructure, permitted through the city right-of-way process rather than bought with public money.",
+  "sources": [],
+  "documents": []
+ },
+ "unidentified": {
+  "name": "Not yet identified",
+  "short": "Unidentified",
+  "family": "unknown",
+  "operator": "Unknown",
+  "what_it_is": "Something real, photographed at a real place, that this project has not confidently named yet. Each one carries a note on what it probably is and what evidence would settle it.",
+  "what_it_captures": "Unknown - that is the point of listing it.",
+  "how_to_spot": "See the sighting notes.",
+  "money": "Unknown.",
+  "sources": [],
+  "documents": []
+ }
+}

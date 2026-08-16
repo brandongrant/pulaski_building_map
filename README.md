@@ -289,6 +289,51 @@ address, date, LRPD clearance status, weapon), plus a year-range slider
 conviction. To refresh: drop a newer LRPD export at `data/raw/lrpd_crime.csv`
 (or pass `--csv`), rerun the script, commit `web/data/crime/`.
 
+## Watch — surveillance devices and their paper trail
+
+The **Watch** tab maps every surveillance device in Pulaski County this project
+can source, says what each kind of device actually does, and links it to the
+records that paid for it.
+
+```bat
+python pipeline/build_surveillance.py
+```
+
+Three kinds of source are merged into `web/data/surveillance/`:
+
+| Source | What it gives |
+|---|---|
+| [ARDOT's published camera layer](https://layers.idrivearkansas.com/cameras.geojson) | ~190 state traffic cameras in the county, with model and live stream link |
+| LRPD's own reader list (FOIA `PDFOIA-2025-4004`) | all 116 Flock plate readers, geocoded against the PAgis locator |
+| OpenStreetMap `man_made=surveillance` (the DeFlock tagging, ODbL) | plate readers and gunshot sensors nobody published |
+| `pipeline/surveillance/sightings.json` | devices photographed from the road, each scored against the published list |
+
+A reader and a volunteer-mapped point within 70 m are treated as the same pole,
+so nothing is counted twice; the authoritative record keeps the pin and inherits
+the direction the volunteer recorded. Each field sighting carries an explicit
+confidence (`confirmed` / `likely` / `probable` / `uncertain`), the reasoning
+behind the identification, and what evidence would settle it — several are
+deliberately filed as *not identified*.
+
+### The paper trail
+
+`pipeline/surveillance_docs.py` turns a public record into a linked entry:
+
+```bat
+python pipeline/surveillance_docs.py add <url-or-file> --program flock-lrpd
+```
+
+It fetches the document, extracts the text (PDF, HTML or plain), and pulls out
+the dollar figures, resolution numbers, account codes, cooperative-contract
+numbers and vendor names *as literal strings that appear in it*. The extracted
+text is committed to `pipeline/surveillance/doc_text/` next to the entry, so any
+figure shown in the app can be checked against its source. `list` shows the
+trail, `rebuild` re-extracts offline, and `queue <file>` ingests submissions
+exported from the site's own "add to the trail" form.
+
+Nothing is summed into a headline total: renewals and amendments overlap, so the
+page shows authorizations as a sequence of decisions instead.
+
 ## Data notes & caveats
 
 - Assessor attributes are **parcel-level**: every structure on a parcel inherits the

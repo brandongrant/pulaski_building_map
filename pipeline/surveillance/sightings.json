@@ -1,0 +1,163 @@
+[
+ {
+  "id": "i430-ramp-maumelle-nlr",
+  "lat": 34.8119984,
+  "lon": -92.3570654,
+  "heading": 297.8,
+  "pitch": -28,
+  "title": "Twin heads on an I-430 ramp, North Little Rock",
+  "where": "I-430 ramp near Maumelle Boulevard (Exit 12), North Little Rock",
+  "program": "ardot-wwd",
+  "confidence": "probable",
+  "timeline": [
+   {"date": "2024-08", "saw": "An excavator working beside the ramp; a fresh concrete pad and pull box set into the fill, no equipment yet."},
+   {"date": "2026-05", "saw": "A pole standing on that pad carrying two small heads near the top."}
+  ],
+  "reasoning": "A ramp, not the mainline; a foundation poured in 2024, which is the year ARDOT says Little Rock got the state's first wrong-way detection sites; two small heads rather than one big pan-tilt-zoom housing. ARDOT's own description of a wrong-way site lists vehicle sensors, closed-circuit cameras and illuminators on the same structure, which is what a pair of small heads looks like from the road.",
+  "confirm": "A wrong-way site has red WRONG WAY signs with LED borders within sight of it, facing the ramp. Whether the sensor is radar or infrared can only be settled from ARDOT's plans for the job.",
+  "note": "Nothing at this location appears in the public camera feed, which is expected: the cameras in a wrong-way kit are part of the safety system, not the public traffic-camera network."
+ },
+ {
+  "id": "i430-mm12-nlr",
+  "lat": 34.8087783,
+  "lon": -92.3600291,
+  "heading": 317.4,
+  "pitch": 7,
+  "title": "Pads in 2021, equipment in 2022",
+  "where": "I-430 north of the Arkansas River, North Little Rock",
+  "program": "ardot-cctv",
+  "confidence": "likely",
+  "timeline": [
+   {"date": "2021-05", "saw": "Concrete pads and pull boxes in the grass. Conduit in, nothing on it."},
+   {"date": "2022-10", "saw": "A tall pole on the pad with a head at the top and a cabinet at the base."}
+  ],
+  "reasoning": "The published camera 'I-430 @ Maumelle Blvd' sits 43 m from this spot, which is inside the error of a published camera point, so the mast in the photo is most likely that camera. The 2021-to-2022 gap matches the corridor build for the managed lane, which opened in March 2023 - conduit and foundations go in with the roadwork, heads arrive a season or two later.",
+  "confirm": "Open camera 544 on IDriveArkansas and compare the view with the pole's aim. If the published view does not match, this is a second structure and the count of unpublished devices on this corridor goes up by one.",
+  "note": "This is the one sighting where the evidence points at a device that IS on the public map - worth stating plainly, because the interesting claim is about the ones that are not."
+ },
+ {
+  "id": "i430-gantry-managed-lane",
+  "lat": 34.8068273,
+  "lon": -92.3633472,
+  "heading": 20.1,
+  "pitch": -4,
+  "title": "The gantry: lane control, a small camera and a cylinder",
+  "where": "I-430 mast arm north of the river bridge, North Little Rock",
+  "program": "ardot-managed-lane",
+  "confidence": "likely",
+  "timeline": [
+   {"date": "2021-05", "saw": "Roadside pads and boxes under construction along this stretch."},
+   {"date": "2026-04", "saw": "A mast arm over the lanes carrying a lane-control signal, a small head at the near end and a cylindrical device further out."}
+  ],
+  "reasoning": "The red X in the middle of the arm is a lane-control signal for the managed lane that opened in March 2023 - it shows a green arrow when the shoulder is running as a fourth lane. Everything else on that arm exists to let the Traffic Management Center check the lane is empty before opening it. The small head at the near end has the profile of a fixed camera.",
+  "confirm": "The cylinder is the open question. A smooth radome that size is either a microwave radar vehicle detector aimed across the lanes or a communications antenna backhauling the gantry to the nearest cabinet. A detector points down at the traffic; an antenna points at the horizon or straight up. The mounting angle in a sharper photograph would settle it.",
+  "note": "The square item with the red X is the lane-control sign itself, not a sensor."
+ },
+ {
+  "id": "i430-median-site",
+  "lat": 34.8051248,
+  "lon": -92.3660297,
+  "heading": 24.9,
+  "pitch": -8,
+  "title": "Nineteen years of equipment on one median mast",
+  "where": "I-430 median north of the Arkansas River bridge",
+  "program": "ardot-cctv",
+  "confidence": "confirmed",
+  "timeline": [
+   {"date": "2007-08", "saw": "A message sign in the median with a single small camera on a pole above it."},
+   {"date": "2014-06", "saw": "The same arrangement, sign and one camera."},
+   {"date": "2022-05", "saw": "A pan-tilt-zoom dome on its own pole beside the sign."},
+   {"date": "2026-04", "saw": "A cluster of three or four separate heads at the top of the pole."}
+  ],
+  "reasoning": "The published camera 'I-430 N. of Arkansas River' is 17 m away, so one of these heads is the public feed - this is the live camera you can already watch. What changed is everything around it: a single camera in 2007 became a stack of devices by 2026, on the same structure, over the same lanes.",
+  "confirm": "Compare the public stream's field of view against each head's aim; whichever does not match the stream is doing something else. The likeliest companions on an ARDOT mast are a detection radar feeding traffic counts and a second fixed camera covering the managed lane.",
+  "note": "This is the clearest single illustration of the pattern: a site that is on the public map, carrying more equipment than the public map describes."
+ },
+ {
+  "id": "i430-i630-shackleford-mast",
+  "lat": 34.7466768,
+  "lon": -92.3926839,
+  "heading": 242.1,
+  "pitch": -20,
+  "title": "Six devices on one pole at the Big Rock interchange",
+  "where": "Exiting I-430 near Shackleford Road, Little Rock",
+  "program": "unidentified",
+  "confidence": "uncertain",
+  "timeline": [
+   {"date": "2026-04", "saw": "A pole carrying, from the top down: a pair of small units, then two heads on short arms, then a boxy unit lower on the mast."}
+  ],
+  "reasoning": "The two published cameras at this interchange are 156 m and 163 m away, so this mast is not either of them. The middle pair read as cameras and the pair below them as detectors - flat panel radar units of the kind used for traffic counts sit on masts exactly like this, aimed across the lanes rather than along them.",
+  "confirm": "The top pair is the honest unknown. The two strongest candidates are communications antennas linking the mast back to a cabinet, and a second detection pair. An antenna has no lens, no glass and no sunshield, and its cable enters at the base of the unit; a detector is a sealed flat panel angled down at the roadway. A zoomed photograph from below would separate them.",
+  "note": "Listed as unidentified on purpose. Everything about the structure says ARDOT roadside equipment, but naming the individual heads without better evidence would be guessing."
+ },
+ {
+  "id": "i430-big-rock-camera",
+  "lat": 34.7469437,
+  "lon": -92.3903915,
+  "heading": 245.9,
+  "pitch": 7,
+  "title": "Single head above the I-430 lanes",
+  "where": "Big Rock interchange, Little Rock",
+  "program": "ardot-cctv",
+  "confidence": "likely",
+  "timeline": [
+   {"date": "2026-04", "saw": "One boxy head with a sunshield at the top of a tall mast beside the carriageway."}
+  ],
+  "reasoning": "The published camera 'Big Rock Interchange' is 48 m away and is listed as an Axis P5635-E Mk II, whose housing is exactly this shape - a long body with a sun shroud over the lens. This is almost certainly a camera you can already watch.",
+  "confirm": "Open the Big Rock Interchange feed and check the view matches the pole's aim.",
+  "note": ""
+ },
+ {
+  "id": "markham-canister-antenna",
+  "lat": 34.754249,
+  "lon": -92.4130259,
+  "heading": 254.1,
+  "pitch": 3,
+  "title": "The canister that is not a camera",
+  "where": "West Markham Street near Bowman Road, Little Rock",
+  "program": "small-cell",
+  "confidence": "confirmed",
+  "timeline": [
+   {"date": "2023-10", "saw": "A grey cylinder on a bracket at the top of a utility pole arm, with a cabinet and cabling below."},
+   {"date": "2026-04", "saw": "The same class of device on a purpose-built black pole at 11450 Financial Centre Parkway - a tall smooth canister on top, cabinet at the base."}
+  ],
+  "reasoning": "No lens, no glass, no sunshield, no aiming bracket - and a thick feeder cable running down to a cabinet. That is a mobile network small cell: a short-range base station that adds phone capacity. The purpose-built version, a slim black pole with a canister on top, is the standard carrier design and is now common along Chenal and Financial Centre.",
+  "confirm": "Nothing to confirm; the shape is diagnostic. Carriers file for these through the city right-of-way permit process, so the paperwork is a permit rather than a police contract.",
+  "note": "Included deliberately as a control. It is the device most often mistaken for surveillance, and telling it apart from a camera at a glance is most of the skill in reading a pole."
+ },
+ {
+  "id": "chenal-signal-device",
+  "lat": 34.7697244,
+  "lon": -92.4585265,
+  "heading": 12.3,
+  "pitch": -12,
+  "title": "Small head on a signal pole, Chenal Parkway",
+  "where": "17900 Chenal Parkway at Rahling Road, Little Rock",
+  "program": "unidentified",
+  "confidence": "uncertain",
+  "timeline": [
+   {"date": "2026-04", "saw": "A small pale device clamped to the signal pole below the mast arm, aimed back along the approach lanes."}
+  ],
+  "reasoning": "Six kilometres from the nearest state traffic camera, so this belongs to the city or the signal, not to ARDOT. Aimed along the approach rather than at the stop line, mounted low on the pole rather than out on the arm.",
+  "confirm": "Three plausible answers: video detection for the signal itself, a radar presence detector, or a plate reader. The map now shows every plate reader recorded in the open data - if none sits at this junction, that third option weakens. A photograph showing whether the front face is glass or a sealed panel would decide it.",
+  "note": "You said you were leaving out the obvious signal hardware, so this one is worth resolving rather than assuming."
+ },
+ {
+  "id": "nlr-multisensor-mast",
+  "lat": 34.8089488,
+  "lon": -92.3565712,
+  "heading": 121.3,
+  "pitch": 25,
+  "title": "Two domes, a cluster above, boxes below",
+  "where": "I-430 corridor near Maumelle Boulevard, North Little Rock",
+  "program": "unidentified",
+  "confidence": "uncertain",
+  "timeline": [
+   {"date": "2022-01", "saw": "Street View coverage begins for this pole in recent years; the mast is bare or partly equipped in the earlier passes."},
+   {"date": "2026-04", "saw": "Three device groups on one mast: a dark cluster at the very top, two large dome cameras on opposed arms below it, and a group of boxes lower still."}
+  ],
+  "reasoning": "Nearly 300 m from the nearest published camera, on the same corridor as the ramp and gantry sites. Two domes on opposed arms means deliberate coverage of both directions from one structure. The boxes below have the flat-fronted look of illuminators, and ARDOT's own component list for a wrong-way site names illuminators explicitly - they light the scene in infrared so a camera can read it at night.",
+  "confirm": "Infrared illuminators show a faint red glow at night and a dark filter panel by day, unlike a floodlight's clear glass. If they are illuminators, this mast is a lit camera site, and the question becomes what is being lit and read.",
+  "note": "The densest single structure in the sightings, and none of it is on the public feed."
+ }
+]

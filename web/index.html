@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="pulse.css">
+<link rel="stylesheet" href="watch.css">
 </head>
 <body>
 <div id="map"></div>
@@ -14,6 +15,7 @@
 <nav id="tabs" role="tablist" aria-label="Views">
   <button class="tabBtn on" data-view="map" role="tab" aria-selected="true">Map</button>
   <button class="tabBtn" data-view="pulse" role="tab" aria-selected="false">Pulse</button>
+  <button class="tabBtn" data-view="watch" role="tab" aria-selected="false">Watch</button>
 </nav>
 
 <button id="panelToggle" title="Toggle panel (H)">☰</button>
@@ -198,6 +200,7 @@
 
   <footer>
     <a href="#" id="pulseLink">Pulse — what's happening around the city →</a>
+    <a href="#" id="watchLink">Watch — the devices watching the county →</a>
     <a href="#" id="aboutLink">About & data sources</a>
   </footer>
 </aside>
@@ -224,6 +227,13 @@
           index-offense statistics (2017–2025), plotted at LRPD's own published
           coordinates; suppressed-location incidents are omitted. A reported
           offense is not a conviction.</li>
+      <li><b>Surveillance devices</b> — ARDOT's published traffic-camera layer,
+          LRPD's own list of its license plate readers (released under FOIA
+          request PDFOIA-2025-4004 and published by the Arkansas Times),
+          surveillance tagging from OpenStreetMap contributors (ODbL, the data
+          behind the DeFlock project), and sites photographed from the road and
+          identified by hand. Procurement records are quoted from the city's own
+          agenda documents. See the <b>Watch</b> tab.</li>
       <li><b>Daily incident reports</b> — the report PDFs LRPD publishes each
           weekday, collected as they appear (the city takes them down after
           about a week) and reduced to incident-level facts: time, call type,
@@ -355,9 +365,104 @@
 
 <div id="pTip" hidden></div>
 
+<!-- ================= Watch: the instruments pointed at the county ========== -->
+<main id="watch" hidden role="tabpanel" aria-label="Watch">
+  <div class="wWrap">
+
+    <header class="wHead">
+      <h1>Watch<span>What is watching Pulaski County, and who paid for it</span></h1>
+      <div class="wMeta" id="wMeta">Loading…</div>
+    </header>
+
+    <section class="wCard wIntro">
+      <p>Every pin here is a device that records something about people passing it.
+        Some are published by the agency that owns them, some were released only
+        after a records request, and some were found by looking at a pole. The
+        point is not that a camera is sinister — it is that you should be able to
+        see what is there, know what it does, and read the paperwork that put it
+        up.</p>
+      <div class="wKey" id="wKey"></div>
+    </section>
+
+    <section class="wCard wMapCard">
+      <h2>The map <em>click any device</em></h2>
+      <div class="wMapWrap">
+        <div id="wMap"></div>
+        <div class="wMapNote" id="wMapNote"></div>
+        <div class="wDetail" id="wDetail" hidden></div>
+      </div>
+      <div class="wMapCtl">
+        <label class="wChk"><input type="checkbox" id="wOnlyUnlisted"> only devices the public map does not list</label>
+        <label class="wChk"><input type="checkbox" id="wCones" checked> show which way plate readers face</label>
+      </div>
+    </section>
+
+    <section class="wCard">
+      <h2>Field guide <em>how to tell one from another</em></h2>
+      <p class="wNote">The single most useful skill is telling a camera from a
+        radio. Lenses have glass and a sun shroud and point at the road; antennas
+        are smooth, sealed, and point at the sky.</p>
+      <div id="wGuide" class="wGuide"></div>
+    </section>
+
+    <section class="wCard">
+      <h2>Sightings <em>found on a pole, checked against the record</em></h2>
+      <p class="wNote" id="wSightNote"></p>
+      <div id="wSightings" class="wSightings"></div>
+    </section>
+
+    <section class="wCard">
+      <h2>The money <em>who approved it, and out of which account</em></h2>
+      <p class="wNote">Each row is a document. Figures are quoted as the document
+        writes them, and renewals overlap, so these are decisions in sequence —
+        not a running total.</p>
+      <div id="wMoney" class="wMoney"></div>
+    </section>
+
+    <section class="wCard">
+      <h2>Not on this map <em>known to exist, locations unpublished</em></h2>
+      <div id="wGaps" class="wGaps"></div>
+    </section>
+
+    <section class="wCard wAdd">
+      <h2>Add to the trail <em>found a document? put it in</em></h2>
+      <p class="wNote">Paste a link to a record — an agenda item, a contract, an
+        invoice, a records response. It is saved in this browser and listed below,
+        with a ready-made command that files it into the project properly so the
+        facts inside it attach to the devices it paid for.</p>
+      <div class="wForm">
+        <input type="url" id="wDocUrl" placeholder="https://… link to the document" spellcheck="false">
+        <input type="text" id="wDocTitle" placeholder="What is it? (optional)">
+        <div class="row">
+          <select id="wDocProgram"></select>
+          <input type="date" id="wDocDate">
+        </div>
+        <textarea id="wDocNote" rows="2" placeholder="What does it show? (optional)"></textarea>
+        <div class="row">
+          <button id="wDocAdd" class="wBtn">Add</button>
+          <button id="wDocCopy" class="wBtn ghost">Copy command</button>
+          <button id="wDocExport" class="wBtn ghost">Copy all as JSON</button>
+        </div>
+        <div class="wFormMsg" id="wDocMsg"></div>
+      </div>
+      <div id="wQueue" class="wQueue"></div>
+    </section>
+
+    <footer class="wFoot">
+      <p><b>A device is not an accusation.</b> A traffic camera watching for
+        stalled cars and a plate reader building a searchable history of where
+        your car has been are both on this map, and they are not the same thing.
+        What they share is that they were installed with public money or in
+        public right-of-way, which makes them public business.</p>
+      <p id="wSources"></p>
+    </footer>
+  </div>
+</main>
+
 <script src="vendor/maplibre-gl.js"></script>
 <script src="vendor/pmtiles.js"></script>
 <script src="app.js"></script>
 <script src="pulse.js"></script>
+<script src="watch.js"></script>
 </body>
 </html>
