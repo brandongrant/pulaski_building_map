@@ -5456,3 +5456,8 @@
 {"id": "d5c28d333178ad860ae1", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "4800 W 7TH ST", "ts": "2026-08-18T09:40:28Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
 {"id": "dd3ea4e99ff65bee4061", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "9024 COLONEL GLENN RD", "ts": "2026-08-18T09:39:31Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
 {"id": "c38b11e8f09648fce04d", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "ASHER AVE / S WOODROW ST", "ts": "2026-08-18T09:37:05Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
+{"id": "3720de6a87d84582ddb6", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "117 S CEDAR ST", "ts": "2026-08-18T10:57:11Z", "sens": 0, "seen": "2026-08-18T11:36:34Z"}
+{"id": "710dc0e57548bcc6c8f1", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY JUST OCCURRED", "cat": "burglary", "loc": "9414 COLONEL GLENN RD", "ts": "2026-08-18T10:44:54Z", "sens": 0, "seen": "2026-08-18T11:36:34Z"}
+{"id": "042ed7a6bba30dfc1057", "src": "CLR-CAD", "jur": "Little Rock", "type": "LOUD MUSIC", "cat": "disturbance", "loc": "122 ALAMO DR", "ts": "2026-08-18T10:42:15Z", "sens": 0, "seen": "2026-08-18T11:36:34Z"}
+{"id": "2f1d164af7c2e6b7db96", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "W ROOSEVELT RD / HOWARD ST", "ts": "2026-08-18T10:27:58Z", "sens": 0, "seen": "2026-08-18T11:36:34Z"}
+{"id": "a7ec3fc203c43b4db84a", "src": "CLR-CAD", "jur": "Little Rock", "type": "THEFT", "cat": "theft", "loc": "2701 S ELM ST", "ts": "2026-08-18T10:19:31Z", "sens": 0, "seen": "2026-08-18T11:36:34Z"}
