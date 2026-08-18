@@ -5451,3 +5451,8 @@
 {"id": "e69a6d470e830a58247a", "src": "CLR-CAD", "jur": "Little Rock", "type": "THEFT JUST OCCURRED", "cat": "theft", "loc": "10724 W MARKHAM ST", "ts": "2026-08-18T08:39:07Z", "sens": 0, "seen": "2026-08-18T09:45:41Z"}
 {"id": "1b7ab3cf550c584221b0", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "118 WESTON PL", "ts": "2026-08-18T08:38:15Z", "sens": 0, "seen": "2026-08-18T09:45:41Z"}
 {"id": "78815c9785d4141df5f3", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "1404 JENNIFER DR", "ts": "2026-08-18T08:32:13Z", "sens": 1, "seen": "2026-08-18T09:45:41Z"}
+{"id": "8992c3b1a4774b1b1cec", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "8515 INTERSTATE 30", "ts": "2026-08-18T10:06:03Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
+{"id": "05ede06fe62406e3e4ce", "src": "CLR-CAD", "jur": "Little Rock", "type": "FIRE RUN", "cat": "other", "loc": "511 E 23RD ST", "ts": "2026-08-18T09:55:17Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
+{"id": "d5c28d333178ad860ae1", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "4800 W 7TH ST", "ts": "2026-08-18T09:40:28Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
+{"id": "dd3ea4e99ff65bee4061", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "9024 COLONEL GLENN RD", "ts": "2026-08-18T09:39:31Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
+{"id": "c38b11e8f09648fce04d", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "ASHER AVE / S WOODROW ST", "ts": "2026-08-18T09:37:05Z", "sens": 0, "seen": "2026-08-18T10:42:12Z"}
