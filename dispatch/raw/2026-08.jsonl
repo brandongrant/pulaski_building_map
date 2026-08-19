@@ -5728,3 +5728,7 @@
 {"id": "028f963d86042cd482e7", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "2111 SCOTTY CT", "ts": "2026-08-19T05:42:32Z", "sens": 0, "seen": "2026-08-19T07:02:01Z"}
 {"id": "b8c1f321cf6d25641ba8", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "6601 POPPY RD", "ts": "2026-08-19T05:19:14Z", "sens": 0, "seen": "2026-08-19T07:02:01Z"}
 {"id": "3171b6f7e7a6895d2572", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST PARTY", "cat": "disturbance", "loc": "2 SAINT VINCENT CIR", "ts": "2026-08-19T05:18:20Z", "sens": 0, "seen": "2026-08-19T07:02:01Z"}
+{"id": "26761518626670539978", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "3700 CEDAR HILL RD", "ts": "2026-08-19T07:08:58Z", "sens": 0, "seen": "2026-08-19T07:50:27Z"}
+{"id": "1e537c330b517342a8f9", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "7724 GEYER SPRINGS RD", "ts": "2026-08-19T06:48:20Z", "sens": 0, "seen": "2026-08-19T07:50:27Z"}
+{"id": "ae66b45a8519cc291008", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "14400 TAYLOR LOOP RD", "ts": "2026-08-19T06:47:05Z", "sens": 0, "seen": "2026-08-19T07:50:27Z"}
+{"id": "33a1e568f91d08725856", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "1 SAINT VINCENT CIR", "ts": "2026-08-19T06:45:01Z", "sens": 0, "seen": "2026-08-19T07:50:27Z"}
