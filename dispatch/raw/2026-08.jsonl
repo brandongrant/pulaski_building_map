@@ -6078,3 +6078,6 @@
 {"id": "6ea74da4046c2564a1a2", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "9001 W MARKHAM ST", "ts": "2026-08-20T07:41:01Z", "sens": 0, "seen": "2026-08-20T08:52:53Z"}
 {"id": "7b051e9dae5a3055d539", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "16121 CHENAL PKY", "ts": "2026-08-20T07:40:40Z", "sens": 0, "seen": "2026-08-20T08:52:53Z"}
 {"id": "60d4599166f9ff48012f", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "2100 S PARK ST", "ts": "2026-08-20T07:39:35Z", "sens": 0, "seen": "2026-08-20T08:52:53Z"}
+{"id": "c19907583df9a9184d7e", "src": "CLR-CAD", "jur": "Little Rock", "type": "SHOTS FIRED", "cat": "shots", "loc": "408 ELMRIDGE DR", "ts": "2026-08-20T08:39:47Z", "sens": 0, "seen": "2026-08-20T09:47:16Z"}
+{"id": "56aad7e0c52102eae939", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "11319 N RODNEY PARHAM RD", "ts": "2026-08-20T08:36:23Z", "sens": 1, "seen": "2026-08-20T09:47:16Z"}
+{"id": "479c1504a0bc0854407d", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "7 BOGEY LN", "ts": "2026-08-20T08:28:37Z", "sens": 0, "seen": "2026-08-20T09:47:16Z"}
