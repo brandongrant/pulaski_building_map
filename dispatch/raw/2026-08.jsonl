@@ -6065,3 +6065,9 @@
 {"id": "7e07d1f9986e956eac30", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "10724 W MARKHAM ST", "ts": "2026-08-20T05:28:36Z", "sens": 1, "seen": "2026-08-20T07:02:24Z"}
 {"id": "5e5b8830040e70ecb6cb", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "12906 VILLAGE RUN PKWY", "ts": "2026-08-20T05:19:28Z", "sens": 0, "seen": "2026-08-20T07:02:24Z"}
 {"id": "9a9bb07ce5440fdc4631", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL MISCHIEF", "cat": "vandalism", "loc": "17116 CHENAL PKY", "ts": "2026-08-20T05:17:44Z", "sens": 0, "seen": "2026-08-20T07:02:24Z"}
+{"id": "0d460542c1dd185542a0", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "3917 W 12TH ST", "ts": "2026-08-20T07:14:43Z", "sens": 0, "seen": "2026-08-20T07:53:02Z"}
+{"id": "4d06b5e2ea57147c097d", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "1424 W 15TH ST", "ts": "2026-08-20T07:13:03Z", "sens": 0, "seen": "2026-08-20T07:53:02Z"}
+{"id": "eb19988002a59c6d4963", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "8608 GEYER SPRINGS RD", "ts": "2026-08-20T07:09:20Z", "sens": 1, "seen": "2026-08-20T07:53:02Z"}
+{"id": "650d2779768aee52d5c5", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "8822 STAGECOACH RD", "ts": "2026-08-20T07:06:10Z", "sens": 0, "seen": "2026-08-20T07:53:02Z"}
+{"id": "087bfdbfe7fb8bfcea8e", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "315 MAIN ST", "ts": "2026-08-20T06:51:04Z", "sens": 0, "seen": "2026-08-20T07:53:02Z"}
+{"id": "c4ea8533cb1f084122b3", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "6201 W MARKHAM ST", "ts": "2026-08-20T06:40:41Z", "sens": 0, "seen": "2026-08-20T07:53:02Z"}
