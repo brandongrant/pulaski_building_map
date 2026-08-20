@@ -6184,3 +6184,8 @@
 {"id": "033378ef8f1ca15cb822", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "6 WOOD SORREL PT", "ts": "2026-08-20T17:24:41Z", "sens": 0, "seen": "2026-08-20T18:56:14Z"}
 {"id": "8371a9977154347baac3", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "11701 INTERSTATE 30", "ts": "2026-08-20T17:20:03Z", "sens": 0, "seen": "2026-08-20T18:56:14Z"}
 {"id": "4cf4f8b6362903f17118", "src": "CLR-CAD", "jur": "Little Rock", "type": "ROBBERY ALARM", "cat": "alarm", "loc": "4401 W 12TH ST", "ts": "2026-08-20T17:19:42Z", "sens": 0, "seen": "2026-08-20T18:56:14Z"}
+{"id": "5c9525f340ed9bcd9e57", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "24800 CHENAL PKY", "ts": "2026-08-20T19:09:54Z", "sens": 1, "seen": "2026-08-20T19:40:32Z"}
+{"id": "8d972877a484d7b3b01c", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "5924 BASELINE RD", "ts": "2026-08-20T19:07:42Z", "sens": 0, "seen": "2026-08-20T19:40:32Z"}
+{"id": "0a27713825f1f406351a", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "6501 GEYER SPRINGS RD", "ts": "2026-08-20T19:04:29Z", "sens": 0, "seen": "2026-08-20T19:40:32Z"}
+{"id": "07c58510fba8c2fff9d5", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "2024 ABIGAIL ST", "ts": "2026-08-20T18:52:27Z", "sens": 0, "seen": "2026-08-20T19:40:32Z"}
+{"id": "7e6ff3fa357f1cf89d1f", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE JUST OCCURRED", "cat": "disturbance", "loc": "1019 DENNISON ST", "ts": "2026-08-20T18:41:43Z", "sens": 0, "seen": "2026-08-20T19:40:32Z"}
