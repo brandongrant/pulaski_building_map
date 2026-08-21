@@ -6364,3 +6364,7 @@
 {"id": "eb01805978f7ec88c883", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "8701 INTERSTATE 30", "ts": "2026-08-21T08:40:30Z", "sens": 0, "seen": "2026-08-21T09:49:19Z"}
 {"id": "78d1260417267c3ce506", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE WITH WEAPON IN PROGRESS", "cat": "shots", "loc": "7510 GEYER SPRINGS RD", "ts": "2026-08-21T08:28:22Z", "sens": 0, "seen": "2026-08-21T09:49:19Z"}
 {"id": "a1175d415f2f45706339", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "55 LAKESIDE DR", "ts": "2026-08-21T08:24:23Z", "sens": 1, "seen": "2026-08-21T09:49:19Z"}
+{"id": "8231bb1b0a61e0bed394", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "7715 GEYER SPRINGS RD", "ts": "2026-08-21T09:58:23Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
+{"id": "8a7bef1ba2bff24e36b8", "src": "CLR-CAD", "jur": "Little Rock", "type": "CITIZEN CONTACT", "cat": "other", "loc": "GEYER SPRINGS RD / WINDAMERE DR", "ts": "2026-08-21T09:28:30Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
+{"id": "f66b553cf69a1c7bad2d", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST PARTY", "cat": "disturbance", "loc": "700 E 9TH ST", "ts": "2026-08-21T09:25:01Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
+{"id": "aff3d0a65e302dfca003", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL TRESPASS IN PROGRESS", "cat": "trespass", "loc": "5900 DREHER LN", "ts": "2026-08-21T09:19:52Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
