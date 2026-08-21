@@ -6368,3 +6368,6 @@
 {"id": "8a7bef1ba2bff24e36b8", "src": "CLR-CAD", "jur": "Little Rock", "type": "CITIZEN CONTACT", "cat": "other", "loc": "GEYER SPRINGS RD / WINDAMERE DR", "ts": "2026-08-21T09:28:30Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
 {"id": "f66b553cf69a1c7bad2d", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST PARTY", "cat": "disturbance", "loc": "700 E 9TH ST", "ts": "2026-08-21T09:25:01Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
 {"id": "aff3d0a65e302dfca003", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL TRESPASS IN PROGRESS", "cat": "trespass", "loc": "5900 DREHER LN", "ts": "2026-08-21T09:19:52Z", "sens": 0, "seen": "2026-08-21T10:42:56Z"}
+{"id": "1be99194828f523ca866", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - SUBJECT DOWN", "cat": "welfare", "loc": "CANTRELL RD / KINGSROW DR", "ts": "2026-08-21T10:38:43Z", "sens": 1, "seen": "2026-08-21T11:36:49Z"}
+{"id": "74c012f6bc52fbdcad99", "src": "CLR-CAD", "jur": "Little Rock", "type": "POLICE - OVERDOSE", "cat": "drugs", "loc": "21 REMINGTON DR", "ts": "2026-08-21T10:32:35Z", "sens": 1, "seen": "2026-08-21T11:36:49Z"}
+{"id": "df76f966fe528d1422f8", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "700 E ROOSEVELT RD", "ts": "2026-08-21T10:13:14Z", "sens": 0, "seen": "2026-08-21T11:36:49Z"}
