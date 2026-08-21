@@ -6353,3 +6353,9 @@
 {"id": "10921ec4e7c3c99aec00", "src": "CLR-CAD", "jur": "Little Rock", "type": "FIGHT IN PROGRESS", "cat": "assault", "loc": "4724 ASHER AVE", "ts": "2026-08-21T06:42:18Z", "sens": 0, "seen": "2026-08-21T07:54:30Z"}
 {"id": "a8f89bfcae384a67261c", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE", "cat": "disturbance", "loc": "11 LIMESTONE CV", "ts": "2026-08-21T06:37:37Z", "sens": 0, "seen": "2026-08-21T07:54:30Z"}
 {"id": "81ee6095fb1a4c54e1db", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "W MARKHAM ST / N SHACKLEFORD RD", "ts": "2026-08-21T06:34:54Z", "sens": 0, "seen": "2026-08-21T07:54:30Z"}
+{"id": "1b7a92aac48280b0afc1", "src": "CLR-CAD", "jur": "Little Rock", "type": "FIRE RUN", "cat": "other", "loc": "1201 MADISON ST", "ts": "2026-08-21T07:58:16Z", "sens": 0, "seen": "2026-08-21T08:54:17Z"}
+{"id": "ff293fe3f56dcfe624f9", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "1701 E 22ND ST", "ts": "2026-08-21T07:56:04Z", "sens": 0, "seen": "2026-08-21T08:54:17Z"}
+{"id": "ff90f134caf124bda1e7", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "5120 W MARKHAM ST", "ts": "2026-08-21T07:43:00Z", "sens": 0, "seen": "2026-08-21T08:54:17Z"}
+{"id": "799ad43d0638af7ce113", "src": "CLR-CAD", "jur": "Little Rock", "type": "ARSON REPORT", "cat": "other", "loc": "11500 W MARKHAM ST", "ts": "2026-08-21T07:29:12Z", "sens": 0, "seen": "2026-08-21T08:54:17Z"}
+{"id": "ed1e6dd45b2309994e65", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "6619 WOODSON RD", "ts": "2026-08-21T07:26:45Z", "sens": 0, "seen": "2026-08-21T08:54:17Z"}
+{"id": "331773d1109c1b20d7ec", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "S RODNEY PARHAM RD / S MISSISSIPPI ST", "ts": "2026-08-21T06:52:33Z", "sens": 0, "seen": "2026-08-21T08:54:17Z"}
