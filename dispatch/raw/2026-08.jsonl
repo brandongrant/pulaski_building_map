@@ -6749,3 +6749,6 @@
 {"id": "18d454ed07b4344bb791", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL TRESPASS IN PROGRESS", "cat": "trespass", "loc": "9525 INTERSTATE 30", "ts": "2026-08-22T09:19:43Z", "sens": 0, "seen": "2026-08-22T10:36:03Z"}
 {"id": "1facf26aaee2577c0c1e", "src": "CLR-CAD", "jur": "Little Rock", "type": "FIGHT IN PROGRESS", "cat": "assault", "loc": "1021 JESSIE RD", "ts": "2026-08-22T09:15:52Z", "sens": 0, "seen": "2026-08-22T10:36:03Z"}
 {"id": "7b45e318cc001a9e45cf", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "12101 PLEASANT TREE DR", "ts": "2026-08-22T09:08:21Z", "sens": 1, "seen": "2026-08-22T10:36:03Z"}
+{"id": "959c5584b484f0332b1d", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "501 S BOWMAN RD", "ts": "2026-08-22T10:47:30Z", "sens": 1, "seen": "2026-08-22T11:31:50Z"}
+{"id": "8207c079475f9567f089", "src": "CLR-CAD", "jur": "Little Rock", "type": "SHOOTING", "cat": "shots", "loc": "9601 BAPTIST HEALTH DR", "ts": "2026-08-22T10:44:14Z", "sens": 0, "seen": "2026-08-22T11:31:50Z"}
+{"id": "a228f4c25d2906a734b3", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "11800 PLEASANT RIDGE RD", "ts": "2026-08-22T10:41:19Z", "sens": 0, "seen": "2026-08-22T11:31:50Z"}
