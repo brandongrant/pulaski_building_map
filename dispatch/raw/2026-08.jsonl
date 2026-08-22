@@ -6735,3 +6735,8 @@
 {"id": "4d00e0e45839a323f2b0", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "2222 N UNIVERSITY AVE", "ts": "2026-08-22T07:22:16Z", "sens": 0, "seen": "2026-08-22T08:44:36Z"}
 {"id": "7c5427ca95d741534fc1", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "9700 BASELINE RD", "ts": "2026-08-22T07:21:30Z", "sens": 0, "seen": "2026-08-22T08:44:36Z"}
 {"id": "5e4eb3ed675db9bd91b6", "src": "CLR-CAD", "jur": "Little Rock", "type": "PRISONER TRANSPORT", "cat": "assist", "loc": "1021 JESSIE RD", "ts": "2026-08-22T07:15:46Z", "sens": 0, "seen": "2026-08-22T08:44:36Z"}
+{"id": "d03cbb23f8e4236f0b0f", "src": "CLR-CAD", "jur": "Little Rock", "type": "VEHICLE STOLEN VEHICLE", "cat": "theft", "loc": "4122 C ST", "ts": "2026-08-22T08:59:16Z", "sens": 0, "seen": "2026-08-22T09:37:46Z"}
+{"id": "da7381235b486d2fa5f0", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY", "cat": "assault", "loc": "7724 GEYER SPRINGS RD", "ts": "2026-08-22T08:50:41Z", "sens": 0, "seen": "2026-08-22T09:37:46Z"}
+{"id": "c3cc16b9becd5e2552f8", "src": "CLR-CAD", "jur": "Little Rock", "type": "SHOTS FIRED", "cat": "shots", "loc": "115 DUQUESNE CT", "ts": "2026-08-22T08:48:44Z", "sens": 0, "seen": "2026-08-22T09:37:46Z"}
+{"id": "bd4ac75d98e9af15322c", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "33 BOURESSE CT", "ts": "2026-08-22T08:43:40Z", "sens": 0, "seen": "2026-08-22T09:37:46Z"}
+{"id": "28714b907c63172a72f4", "src": "CLR-CAD", "jur": "Little Rock", "type": "FIGHT", "cat": "assault", "loc": "1316 MAIN ST", "ts": "2026-08-22T08:21:10Z", "sens": 0, "seen": "2026-08-22T09:37:46Z"}
