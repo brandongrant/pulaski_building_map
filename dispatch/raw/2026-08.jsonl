@@ -7090,3 +7090,6 @@
 {"id": "3866b302a218b3ec9c55", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "4726 ASHER AVE", "ts": "2026-08-23T09:22:25Z", "sens": 0, "seen": "2026-08-23T10:36:08Z"}
 {"id": "b69f40c7f3e32756f791", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "7900 SCOTT HAMILTON DR", "ts": "2026-08-23T09:14:52Z", "sens": 0, "seen": "2026-08-23T10:36:08Z"}
 {"id": "848a4951708b596c3fc9", "src": "CLR-CAD", "jur": "Little Rock", "type": "SHOTS FIRED", "cat": "shots", "loc": "11914 PLEASANT TREE DR", "ts": "2026-08-23T09:13:36Z", "sens": 0, "seen": "2026-08-23T10:36:08Z"}
+{"id": "c538b2f8cb5a85bf8d76", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "11716 PLEASANT RIDGE CIR", "ts": "2026-08-23T10:40:43Z", "sens": 1, "seen": "2026-08-23T11:31:51Z"}
+{"id": "98166e2fe4d8427ce80e", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY JUST OCCURRED", "cat": "assault", "loc": "8011 GEYER SPRINGS RD", "ts": "2026-08-23T10:19:33Z", "sens": 0, "seen": "2026-08-23T11:31:51Z"}
+{"id": "4c574ea2d3887ddc1522", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "AZALEA DR / JUNIPER RD", "ts": "2026-08-23T10:14:26Z", "sens": 1, "seen": "2026-08-23T11:31:51Z"}
