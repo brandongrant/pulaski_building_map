@@ -609,3 +609,4 @@
 {"inst":"2026047063","rd":"20260818","dtype":"MEDICAL LIEN","code":"MEL","grantor":["CAPITAL HEALTH CARE"],"grantee":["ESPINOZA JUAN CARLOS","TREXIS INS CO","WALLACE YANNA"],"legal":{},"seen":"2026-08-23T05:41:00Z"}
 {"inst":"2026047069","rd":"20260818","dtype":"SUPPLEMENTAL MEDICAL LIEN","code":"SML","grantor":["CAPITAL HEALTH CARE"],"grantee":["ALLSTATE INS CO","HILBERT DAVID MARIAN","WRIGHT BRANT"],"legal":{},"seen":"2026-08-23T05:41:00Z"}
 {"inst":"2026047054","rd":"20260818","dtype":"MEDICAL LIEN","code":"MEL","grantor":["WILLIAMS CHIROPRACTIC CARE"],"grantee":["GEICO INS CO","HAWKINS ELOUISE"],"legal":{},"seen":"2026-08-23T05:41:00Z"}
+{"inst":"2026047252","rd":"20260819","dtype":"RELEASE OF MEDICAL LIEN","code":"RML","grantor":["BAPTIST HEALTH MEDICAL CENTER"],"grantee":["POWELL TATYANNA"],"legal":{},"seen":"2026-08-24T03:21:58Z"}
