@@ -7348,3 +7348,7 @@
 {"id": "d2e54b771da038edef3f", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "3101 BOYLE PARK RD", "ts": "2026-08-24T07:04:55Z", "sens": 0, "seen": "2026-08-24T09:00:37Z"}
 {"id": "1cf6c83b71f98c603e94", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY IN PROGRESS", "cat": "assault", "loc": "6201 MABELVALE CTF", "ts": "2026-08-24T07:01:15Z", "sens": 0, "seen": "2026-08-24T09:00:37Z"}
 {"id": "fdab25addb0ab1008f5a", "src": "CLR-CAD", "jur": "Little Rock", "type": "BATTERY WITH WEAPON", "cat": "shots", "loc": "4510 ASHER AVE", "ts": "2026-08-24T06:47:17Z", "sens": 0, "seen": "2026-08-24T09:00:37Z"}
+{"id": "d4d38c391dca20ca4b06", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "2 BASS PRO DR", "ts": "2026-08-24T09:26:12Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
+{"id": "da8b3dce36a97e70be43", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE", "cat": "disturbance", "loc": "2501 ALDERSGATE RD", "ts": "2026-08-24T09:24:36Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
+{"id": "d582e74e434687f5f985", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "11410 W MARKHAM ST", "ts": "2026-08-24T09:21:37Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
+{"id": "157c34098c4caa326380", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "6415 W 3RD ST", "ts": "2026-08-24T09:08:21Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
