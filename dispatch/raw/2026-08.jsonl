@@ -7352,3 +7352,8 @@
 {"id": "da8b3dce36a97e70be43", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE", "cat": "disturbance", "loc": "2501 ALDERSGATE RD", "ts": "2026-08-24T09:24:36Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
 {"id": "d582e74e434687f5f985", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "11410 W MARKHAM ST", "ts": "2026-08-24T09:21:37Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
 {"id": "157c34098c4caa326380", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "6415 W 3RD ST", "ts": "2026-08-24T09:08:21Z", "sens": 0, "seen": "2026-08-24T09:59:01Z"}
+{"id": "dad6187155dfae9a9a55", "src": "CLR-CAD", "jur": "Little Rock", "type": "STANDBY TO PREVENT DISTURBANCE", "cat": "disturbance", "loc": "11721 CHENAL PKY", "ts": "2026-08-24T10:18:55Z", "sens": 0, "seen": "2026-08-24T10:49:50Z"}
+{"id": "d8e25b933c7f62a5a0bb", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "17406 CHENAL PKY", "ts": "2026-08-24T10:01:58Z", "sens": 0, "seen": "2026-08-24T10:49:50Z"}
+{"id": "5941eb8d4cd4cf291982", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "12111 W MARKHAM ST", "ts": "2026-08-24T09:41:07Z", "sens": 0, "seen": "2026-08-24T10:49:50Z"}
+{"id": "28cf24bc670fb99b199d", "src": "CLR-CAD", "jur": "Little Rock", "type": "STANDBY TO PREVENT DISTURBANCE", "cat": "disturbance", "loc": "3600 SPRINGER BLVD", "ts": "2026-08-24T09:40:31Z", "sens": 0, "seen": "2026-08-24T10:49:50Z"}
+{"id": "b17b5b9f91fc6e6a5b23", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "10701 INTERSTATE 30", "ts": "2026-08-24T09:37:35Z", "sens": 0, "seen": "2026-08-24T10:49:50Z"}
