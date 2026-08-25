@@ -7691,3 +7691,8 @@
 {"id": "d9633d006652a35efde7", "src": "CLR-CAD", "jur": "Little Rock", "type": "VEHICLE STOLEN VEHICLE", "cat": "theft", "loc": "8101 STAGECOACH RD", "ts": "2026-08-25T08:58:18Z", "sens": 0, "seen": "2026-08-25T09:48:10Z"}
 {"id": "abae1d2305051864e3b9", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT INJURIES", "cat": "traffic", "loc": "STANTON RD / FRONTAGE RD", "ts": "2026-08-25T08:45:05Z", "sens": 0, "seen": "2026-08-25T09:48:10Z"}
 {"id": "a64933c2499b8dd3ca49", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "8610 LABETTE DR", "ts": "2026-08-25T08:33:46Z", "sens": 0, "seen": "2026-08-25T09:48:10Z"}
+{"id": "0d011ee4a486a5d1c922", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "9807 W MARKHAM ST", "ts": "2026-08-25T10:07:55Z", "sens": 0, "seen": "2026-08-25T10:45:54Z"}
+{"id": "80782cb8c5532053ec7e", "src": "CLR-CAD", "jur": "Little Rock", "type": "LOITERING", "cat": "trespass", "loc": "601 BROOKSIDE DR", "ts": "2026-08-25T09:57:16Z", "sens": 0, "seen": "2026-08-25T10:45:54Z"}
+{"id": "312772523e3f0f5ac1d2", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "5800 R ST", "ts": "2026-08-25T09:51:51Z", "sens": 0, "seen": "2026-08-25T10:45:54Z"}
+{"id": "92d0832be9badf93a75e", "src": "CLR-CAD", "jur": "Little Rock", "type": "TRAFFIC STOP", "cat": "traffic", "loc": "7520 GEYER SPRINGS RD", "ts": "2026-08-25T09:30:04Z", "sens": 0, "seen": "2026-08-25T10:45:54Z"}
+{"id": "efd896f17f8e5e21b5b9", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLARY IN PROGRESS", "cat": "burglary", "loc": "10402 MABELVALE PIKE", "ts": "2026-08-25T09:26:22Z", "sens": 0, "seen": "2026-08-25T10:45:54Z"}
