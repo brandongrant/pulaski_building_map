@@ -1,19 +1,19 @@
 {
- "updated": "2026-08-26T11:40:37Z",
- "reports_collected": 9,
+ "updated": "2026-08-26T16:34:19Z",
+ "reports_collected": 11,
  "first_report": "2026-08-03",
- "last_report": "2026-08-18",
- "incidents": 14,
+ "last_report": "2026-08-26",
+ "incidents": 19,
  "full": 9,
- "partial": 5,
- "placed": 9,
+ "partial": 10,
+ "placed": 11,
  "earliest": "2026-07-31",
- "latest": "2026-08-17",
+ "latest": "2026-08-26",
  "by_category": {
-  "shots": 6,
+  "other": 3,
+  "shots": 8,
+  "theft": 2,
   "robbery": 5,
-  "theft": 1,
-  "assault": 1,
-  "other": 1
+  "assault": 1
  }
 }
