@@ -7971,3 +7971,5 @@
 {"id": "f61565d287cafd0ea1ac", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "700 MAIN ST", "ts": "2026-08-26T08:12:29Z", "sens": 0, "seen": "2026-08-26T08:58:23Z"}
 {"id": "9102593f327c6db83155", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "9500 S HEIGHTS RD", "ts": "2026-08-26T08:03:28Z", "sens": 0, "seen": "2026-08-26T08:58:23Z"}
 {"id": "ca54dabb9863ba9c4745", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "21501 HIGHWAY 10", "ts": "2026-08-26T08:01:44Z", "sens": 0, "seen": "2026-08-26T08:58:23Z"}
+{"id": "8c7ba3ec8b1cc9efc1a3", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "501 NAPA VALLEY DR", "ts": "2026-08-26T09:15:29Z", "sens": 0, "seen": "2026-08-26T09:53:57Z"}
+{"id": "9c97d7c8c81f35e2f97f", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "6401 THIBAULT RD", "ts": "2026-08-26T08:46:10Z", "sens": 0, "seen": "2026-08-26T09:53:57Z"}
