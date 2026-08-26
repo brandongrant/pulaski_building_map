@@ -7978,3 +7978,5 @@
 {"id": "be47ad2e4381d5bab442", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "3500 WHITFIELD ST", "ts": "2026-08-26T09:47:33Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
 {"id": "dbd87beaab39cc47166b", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "7510 GEYER SPRINGS RD", "ts": "2026-08-26T09:45:39Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
 {"id": "d864829bb58c3c9791ce", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "RICE ST / MARYLAND AVE", "ts": "2026-08-26T09:44:43Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
+{"id": "3858d007ec7e1e583c2d", "src": "CLR-CAD", "jur": "Little Rock", "type": "CHECK CONDITION OF SUBJECT", "cat": "welfare", "loc": "311 E 8TH ST", "ts": "2026-08-26T10:38:55Z", "sens": 1, "seen": "2026-08-26T11:39:58Z"}
+{"id": "e3a6c42cd214990e738c", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON IN PROGRESS", "cat": "suspicious", "loc": "1602 GREEN MOUNTAIN DR", "ts": "2026-08-26T10:23:38Z", "sens": 0, "seen": "2026-08-26T11:39:58Z"}
