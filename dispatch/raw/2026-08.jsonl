@@ -7973,3 +7973,8 @@
 {"id": "ca54dabb9863ba9c4745", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "21501 HIGHWAY 10", "ts": "2026-08-26T08:01:44Z", "sens": 0, "seen": "2026-08-26T08:58:23Z"}
 {"id": "8c7ba3ec8b1cc9efc1a3", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "501 NAPA VALLEY DR", "ts": "2026-08-26T09:15:29Z", "sens": 0, "seen": "2026-08-26T09:53:57Z"}
 {"id": "9c97d7c8c81f35e2f97f", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "6401 THIBAULT RD", "ts": "2026-08-26T08:46:10Z", "sens": 0, "seen": "2026-08-26T09:53:57Z"}
+{"id": "9114d93e6f8b2f9bb0d3", "src": "CLR-CAD", "jur": "Little Rock", "type": "UNKNOWN", "cat": "suspicious", "loc": "311 E 8TH ST", "ts": "2026-08-26T10:02:23Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
+{"id": "e0b2d74430ccfc0f63b3", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "5630 MABELVALE PIKE", "ts": "2026-08-26T09:52:54Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
+{"id": "be47ad2e4381d5bab442", "src": "CLR-CAD", "jur": "Little Rock", "type": "RESIDENTIAL ALARM", "cat": "alarm", "loc": "3500 WHITFIELD ST", "ts": "2026-08-26T09:47:33Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
+{"id": "dbd87beaab39cc47166b", "src": "CLR-CAD", "jur": "Little Rock", "type": "DISTURBANCE IN PROGRESS", "cat": "disturbance", "loc": "7510 GEYER SPRINGS RD", "ts": "2026-08-26T09:45:39Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
+{"id": "d864829bb58c3c9791ce", "src": "CLR-CAD", "jur": "Little Rock", "type": "SUSPICIOUS PERSON", "cat": "suspicious", "loc": "RICE ST / MARYLAND AVE", "ts": "2026-08-26T09:44:43Z", "sens": 0, "seen": "2026-08-26T10:48:51Z"}
