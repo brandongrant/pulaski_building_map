@@ -1213,3 +1213,6 @@
 {"inst":"2026046014","rd":"20260812","dtype":"RELEASE OF MEDICAL LIEN","code":"RML","grantor":["AR CHIROPRACTIC GROUP"],"grantee":["STATE FARM INS CO","WEBB JOSHUA"],"legal":{},"seen":"2026-09-02T04:29:18Z"}
 {"inst":"2026046011","rd":"20260812","dtype":"RELEASE OF MEDICAL LIEN","code":"RML","grantor":["AR CHIROPRACTIC GROUP"],"grantee":["ROBINSON RIKITA","STATE FARM INS CO"],"legal":{},"seen":"2026-09-02T04:29:18Z"}
 {"inst":"2026046012","rd":"20260812","dtype":"RELEASE OF MEDICAL LIEN","code":"RML","grantor":["AR CHIROPRACTIC GROUP"],"grantee":["ROBINSON RIKITA","STATE FARM INS CO"],"legal":{},"seen":"2026-09-02T04:29:18Z"}
+{"inst":"2026046391","rd":"20260814","dtype":"NOTARY BOND","code":"NOB","grantor":["MURPHY HENRY"],"grantee":["MURPHY HENRY"],"legal":{},"seen":"2026-09-02T09:33:10Z"}
+{"inst":"2026046384","rd":"20260814","dtype":"NOTARY BOND","code":"NOB","grantor":["WHITCHER HEATHER"],"grantee":["WHITCHER HEATHER"],"legal":{},"seen":"2026-09-02T09:33:10Z"}
+{"inst":"2026046367","rd":"20260814","dtype":"NOTARY BOND","code":"NOB","grantor":["MARTINEZ DIANA"],"grantee":["MARTINEZ DIANA"],"legal":{},"seen":"2026-09-02T09:33:10Z"}
