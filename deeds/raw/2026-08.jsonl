@@ -1216,3 +1216,5 @@
 {"inst":"2026046391","rd":"20260814","dtype":"NOTARY BOND","code":"NOB","grantor":["MURPHY HENRY"],"grantee":["MURPHY HENRY"],"legal":{},"seen":"2026-09-02T09:33:10Z"}
 {"inst":"2026046384","rd":"20260814","dtype":"NOTARY BOND","code":"NOB","grantor":["WHITCHER HEATHER"],"grantee":["WHITCHER HEATHER"],"legal":{},"seen":"2026-09-02T09:33:10Z"}
 {"inst":"2026046367","rd":"20260814","dtype":"NOTARY BOND","code":"NOB","grantor":["MARTINEZ DIANA"],"grantee":["MARTINEZ DIANA"],"legal":{},"seen":"2026-09-02T09:33:10Z"}
+{"inst":"2026046747","rd":"20260817","dtype":"NOTARY BOND","code":"NOB","grantor":["HUFFMAN KELLY"],"grantee":["HUFFMAN KELLY"],"legal":{},"seen":"2026-09-02T21:47:13Z"}
+{"inst":"2026047711","rd":"20260820","dtype":"REDEMPTION DEED","code":"RDD","grantor":["COMMISSIONER OF STATE LANDS"],"grantee":["GIVENS CARLOS"],"legal":{"LOT":"9","SUBDIVISION":"CLINTON PARK","BLOCK":"5"},"seen":"2026-09-02T21:47:13Z"}
