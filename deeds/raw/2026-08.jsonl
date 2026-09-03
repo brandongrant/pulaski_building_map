@@ -1273,3 +1273,8 @@
 {"inst":"2026046116","rd":"20260813","dtype":"OATHS OF OFFICE","code":"OAO","grantor":["SIXTH JUDICIAL DISTRICT"],"grantee":["KWAPIS CORINNE"],"legal":{},"seen":"2026-09-03T00:12:16Z"}
 {"inst":"2026046117","rd":"20260813","dtype":"OATHS OF OFFICE","code":"OAO","grantor":["SIXTH JUDICIAL DISTRICT"],"grantee":["DAUGHERTY BRIAN"],"legal":{},"seen":"2026-09-03T00:12:16Z"}
 {"inst":"2026046984","rd":"20260818","dtype":"REDEMPTION DEED","code":"RDD","grantor":["COMMISSIONER OF STATE LANDS"],"grantee":["HOUSTON TAMARA L"],"legal":{"SUBDIVISION":"LEWELLYN SUB","LOT":"1"},"seen":"2026-09-03T00:12:16Z"}
+{"inst":"2026046865","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DAVIS CATINA"],"grantee":["DAVIS CATINA"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
+{"inst":"2026046997","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DESOTO JETT"],"grantee":["DESOTO JETT"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
+{"inst":"2026046973","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["HARMON MARLA JANE"],"grantee":["HARMON MARLA JANE"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
+{"inst":"2026046977","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["SHEARD LATINA R"],"grantee":["SHEARD LATINA R"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
+{"inst":"2026046974","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DESAI ANDREW"],"grantee":["DESAI ANDREW"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
