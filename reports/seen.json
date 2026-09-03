@@ -89,5 +89,19 @@
   "pages": 38,
   "text_pages": 38,
   "url": "https://littlerock.gov/wp-content/uploads/08-31-2026.pdf"
+ },
+ "2026-09-01": {
+  "collected": "2026-09-03T00:12:17Z",
+  "incidents": 3,
+  "pages": 25,
+  "text_pages": 25,
+  "url": "https://littlerock.gov/wp-content/uploads/09-01-2026.pdf"
+ },
+ "2026-09-02": {
+  "collected": "2026-09-03T00:12:17Z",
+  "incidents": 1,
+  "pages": 10,
+  "text_pages": 10,
+  "url": "https://littlerock.gov/wp-content/uploads/09-02-2026.pdf"
  }
 }
