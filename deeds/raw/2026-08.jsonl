@@ -1549,3 +1549,7 @@
 {"inst":"2026048240","rd":"20260824","dtype":"NOTARY BOND","code":"NOB","grantor":["UPTON HAYDEN"],"grantee":["UPTON HAYDEN"],"legal":{},"seen":"2026-09-05T10:31:29Z"}
 {"inst":"2026048112","rd":"20260824","dtype":"NOTARY BOND","code":"NOB","grantor":["LANE ANGELA"],"grantee":["LANE ANGELA"],"legal":{},"seen":"2026-09-05T10:31:29Z"}
 {"inst":"2026048102","rd":"20260824","dtype":"NOTARY BOND","code":"NOB","grantor":["FULLERTON LORIS M"],"grantee":["FULLERTON LORIS M"],"legal":{},"seen":"2026-09-05T10:31:29Z"}
+{"inst":"2026048379","rd":"20260825","dtype":"RELEASE OF LIEN","code":"REL","grantor":["NORTH LITTLE ROCK CODE ENFORCEMENT","NLR CITY OF"],"grantee":["MINIKWU VENITA"],"legal":{"SUBDIVISION":"WASHINGTON AVE SUB NLR","BLOCK":"2","LOT":"6"},"seen":"2026-09-05T13:51:31Z"}
+{"inst":"2026048377","rd":"20260825","dtype":"NOTARY BOND","code":"NOB","grantor":["HURLEY NIKKI"],"grantee":["HURLEY NIKKI"],"legal":{},"seen":"2026-09-05T13:51:31Z"}
+{"inst":"2026048493","rd":"20260825","dtype":"NOTARY BOND","code":"NOB","grantor":["ROBERTS WILLIAM MARK"],"grantee":["ROBERTS WILLIAM MARK"],"legal":{},"seen":"2026-09-05T13:51:31Z"}
+{"inst":"2026048466","rd":"20260825","dtype":"NOTARY BOND","code":"NOB","grantor":["HILGER MEGAN"],"grantee":["HILGER MEGAN"],"legal":{},"seen":"2026-09-05T13:51:31Z"}
