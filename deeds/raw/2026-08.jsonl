@@ -1721,3 +1721,17 @@
 {"inst":"2026046227","rd":"20260813","dtype":"ASSIGNMENT OF LEASES AND RENTS","code":"ASR","grantor":["POST OAK LLC"],"grantee":["FIRST SECURITY BANK"],"legal":{"SUBDIVISION":"CLIFFWOOD ADN","LOT":"36"},"seen":"2026-09-06T09:23:04Z"}
 {"inst":"2026046217","rd":"20260813","dtype":"ASSIGNMENT OF RENTS","code":"ARS","grantor":["DENNIS FAMILY HOLDINGS LLC"],"grantee":["AR FEDERAL CREDIT UNION"],"legal":{"SUBDIVISION":"MALABRI","LOT":"3"},"seen":"2026-09-06T09:23:04Z"}
 {"inst":"2026049173","rd":"20260827","dtype":"REDEMPTION DEED","code":"RDD","grantor":["COMMISSIONER OF STATE LANDS"],"grantee":["MOTON DIANKA","MOTON THELMA"],"legal":{"SUBDIVISION":"MOUNTAIN CREST ESTATES","LOT":"37"},"seen":"2026-09-06T13:39:03Z"}
+{"inst":"2026049176","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["CONNORS ADDYSON","TREXIS INS CO"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049174","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["JONES AMIA","STATE FARM INS CO"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049182","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["AKBAR ABDULLAH","ALLSTATE INS CO"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049175","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["QUALITY CARE MEDICAL & REHAB"],"grantee":["LIBERTY MUTUAL INS CO","MCDONALD JAMYON"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049183","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["DIRECT INS CO","HATCHETT DEVONTA"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049179","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["HENRY TAKEIKA","TREXIS INS CO"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049177","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["CONNORS AVA","TREXIS INS CO"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049181","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["CRAWFORD SHAMIRA","STATE FARM INS CO"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049178","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["ACUITY INS CO","SMITH JAMIA"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049180","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["DIRECT INS CO","GRAY JAVEON"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049256","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["SCHWEIZERHOF JAMES"],"grantee":["SCHWEIZERHOF JAMES"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049264","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["THOMAS ALEXANDRA"],"grantee":["THOMAS ALEXANDRA"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049193","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["RAMSEY ROBIN"],"grantee":["RAMSEY ROBIN"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049655","rd":"20260828","dtype":"RELEASE OF MORTGAGE","code":"REM","grantor":["NAVY FEDERAL CREDIT UNION"],"grantee":["LONG DEVIN","LONG JORDAN"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
