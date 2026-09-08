@@ -1273,11 +1273,11 @@
 {"inst":"2026046116","rd":"20260813","dtype":"OATHS OF OFFICE","code":"OAO","grantor":["SIXTH JUDICIAL DISTRICT"],"grantee":["KWAPIS CORINNE"],"legal":{},"seen":"2026-09-03T00:12:16Z"}
 {"inst":"2026046117","rd":"20260813","dtype":"OATHS OF OFFICE","code":"OAO","grantor":["SIXTH JUDICIAL DISTRICT"],"grantee":["DAUGHERTY BRIAN"],"legal":{},"seen":"2026-09-03T00:12:16Z"}
 {"inst":"2026046984","rd":"20260818","dtype":"REDEMPTION DEED","code":"RDD","grantor":["COMMISSIONER OF STATE LANDS"],"grantee":["HOUSTON TAMARA L"],"legal":{"SUBDIVISION":"LEWELLYN SUB","LOT":"1"},"seen":"2026-09-08T04:29:27Z"}
-{"inst":"2026046865","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DAVIS CATINA"],"grantee":["DAVIS CATINA"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
-{"inst":"2026046997","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DESOTO JETT"],"grantee":["DESOTO JETT"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
-{"inst":"2026046973","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["HARMON MARLA JANE"],"grantee":["HARMON MARLA JANE"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
-{"inst":"2026046977","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["SHEARD LATINA R"],"grantee":["SHEARD LATINA R"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
-{"inst":"2026046974","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DESAI ANDREW"],"grantee":["DESAI ANDREW"],"legal":{},"seen":"2026-09-03T05:44:36Z"}
+{"inst":"2026046865","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DAVIS CATINA"],"grantee":["DAVIS CATINA"],"legal":{},"seen":"2026-09-08T09:36:34Z"}
+{"inst":"2026046997","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DESOTO JETT"],"grantee":["DESOTO JETT"],"legal":{},"seen":"2026-09-08T09:36:34Z"}
+{"inst":"2026046973","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["HARMON MARLA JANE"],"grantee":["HARMON MARLA JANE"],"legal":{},"seen":"2026-09-08T09:36:34Z"}
+{"inst":"2026046977","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["SHEARD LATINA R"],"grantee":["SHEARD LATINA R"],"legal":{},"seen":"2026-09-08T09:36:34Z"}
+{"inst":"2026046974","rd":"20260818","dtype":"NOTARY BOND","code":"NOB","grantor":["DESAI ANDREW"],"grantee":["DESAI ANDREW"],"legal":{},"seen":"2026-09-08T09:36:34Z"}
 {"inst":"2026047371","rd":"20260819","dtype":"SUPPLEMENTAL MEDICAL LIEN","code":"SML","grantor":["NORTH SIDE HEALTH CARE"],"grantee":["DIRECT INS CO","SCRUGGS KHLOEY MONYAE","THOMAS WENDELL"],"legal":{},"seen":"2026-09-03T11:10:29Z"}
 {"inst":"2026047377","rd":"20260819","dtype":"MEDICAL LIEN","code":"MEL","grantor":["MARKHAM INJURY CENTER"],"grantee":["MOORE KENNETH W","PHIPPS COURTNEY","STATE FARM INS CO"],"legal":{},"seen":"2026-09-03T11:10:29Z"}
 {"inst":"2026047335","rd":"20260819","dtype":"MEDICAL LIEN","code":"MEL","grantor":["AR CHIROPRACTIC GROUP","CENTRAL AR CHIROPRACTIC"],"grantee":["LINDSEY SHERRISE","SHELTER INS CO"],"legal":{},"seen":"2026-09-03T11:10:29Z"}
