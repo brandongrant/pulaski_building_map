@@ -143,3 +143,4 @@
 {"inst":"2026051473","rd":"20260904","dtype":"MEDICAL LIEN","code":"MEL","grantor":["WILLIAMS CHIROPRACTIC CARE"],"grantee":["ALPINE RIO INS CO","AMOS JEWELAN"],"legal":{},"seen":"2026-09-13T22:24:03Z"}
 {"inst":"2026051401","rd":"20260904","dtype":"MEDICAL LIEN","code":"MEL","grantor":["CAPITAL HEALTH CARE"],"grantee":["BROOKS MYLISHIA","JONES CARRIE ELLEN","STATE FARM INS CO"],"legal":{},"seen":"2026-09-13T22:24:03Z"}
 {"inst":"2026051480","rd":"20260904","dtype":"MEDICAL LIEN","code":"MEL","grantor":["WILLIAMS CHIROPRACTIC CARE"],"grantee":["CAMPBELL TONISHA","STATE FARM INS CO"],"legal":{},"seen":"2026-09-13T22:24:03Z"}
+{"inst":"2026050488","rd":"20260902","dtype":"NOTARY BOND","code":"NOB","grantor":["EVANS BRAD"],"grantee":["EVANS BRAD"],"legal":{},"seen":"2026-09-15T22:11:12Z"}
