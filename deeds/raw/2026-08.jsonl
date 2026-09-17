@@ -1731,9 +1731,9 @@
 {"inst":"2026049181","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["CRAWFORD SHAMIRA","STATE FARM INS CO"],"legal":{},"seen":"2026-09-17T11:39:50Z"}
 {"inst":"2026049178","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["ACUITY INS CO","SMITH JAMIA"],"legal":{},"seen":"2026-09-17T11:39:50Z"}
 {"inst":"2026049180","rd":"20260827","dtype":"MEDICAL LIEN","code":"MEL","grantor":["ACCIDENT & INJURY REHAB"],"grantee":["DIRECT INS CO","GRAY JAVEON"],"legal":{},"seen":"2026-09-17T11:39:50Z"}
-{"inst":"2026049256","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["SCHWEIZERHOF JAMES"],"grantee":["SCHWEIZERHOF JAMES"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
-{"inst":"2026049264","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["THOMAS ALEXANDRA"],"grantee":["THOMAS ALEXANDRA"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
-{"inst":"2026049193","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["RAMSEY ROBIN"],"grantee":["RAMSEY ROBIN"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
+{"inst":"2026049256","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["SCHWEIZERHOF JAMES"],"grantee":["SCHWEIZERHOF JAMES"],"legal":{},"seen":"2026-09-17T16:55:09Z"}
+{"inst":"2026049264","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["THOMAS ALEXANDRA"],"grantee":["THOMAS ALEXANDRA"],"legal":{},"seen":"2026-09-17T16:55:09Z"}
+{"inst":"2026049193","rd":"20260827","dtype":"NOTARY BOND","code":"NOB","grantor":["RAMSEY ROBIN"],"grantee":["RAMSEY ROBIN"],"legal":{},"seen":"2026-09-17T16:55:09Z"}
 {"inst":"2026049655","rd":"20260828","dtype":"RELEASE OF MORTGAGE","code":"REM","grantor":["NAVY FEDERAL CREDIT UNION"],"grantee":["LONG DEVIN","LONG JORDAN"],"legal":{},"seen":"2026-09-06T16:58:55Z"}
 {"inst":"2026049489","rd":"20260828","dtype":"OTHER TYPE LIEN","code":"OTL","grantor":["CHENAL VALLEY PROPERTY OWNERS ASSOCIATION INC"],"grantee":["NONE LISTED"],"legal":{"SUBDIVISION":"CHENAL VALLEY ADN","BLOCK":"135","LOT":"25"},"seen":"2026-09-06T19:08:51Z"}
 {"inst":"2026049501","rd":"20260828","dtype":"OTHER TYPE LIEN","code":"OTL","grantor":["CHENAL VALLEY PROPERTY OWNERS ASSOCIATION INC"],"grantee":["NONE LISTED"],"legal":{"BLOCK":"73","SUBDIVISION":"CHENAL VALLEY ADN","LOT":"58"},"seen":"2026-09-06T19:08:51Z"}
