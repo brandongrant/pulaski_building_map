@@ -184,3 +184,8 @@
 {"inst":"2026051752","rd":"20260908","dtype":"MEDICAL LIEN","code":"MEL","grantor":["MARKHAM INJURY CENTER"],"grantee":["LECRONE IAN J","USAA INS CO","WALKER TARA"],"legal":{},"seen":"2026-09-18T21:40:17Z"}
 {"inst":"2026051721","rd":"20260908","dtype":"SUPPLEMENTAL MEDICAL LIEN","code":"SML","grantor":["BAPTIST HEALTH MEDICAL CENTER"],"grantee":["NELSON YOLANDA","PROGRESSIVE INS CO","USAA INS CO"],"legal":{},"seen":"2026-09-18T21:40:17Z"}
 {"inst":"2026051729","rd":"20260908","dtype":"SUPPLEMENTAL MEDICAL LIEN","code":"SML","grantor":["BAPTIST HEALTH MEDICAL CENTER"],"grantee":["WILLIAMS SYDNEY"],"legal":{},"seen":"2026-09-18T21:40:17Z"}
+{"inst":"2026051928","rd":"20260909","dtype":"RELEASE FEDERAL TAX LIEN","code":"RTL","grantor":["UNITED STATES OF AMERICA"],"grantee":["ASHLEY CARNEAL","CARNEAL ASHLEY"],"legal":{},"seen":"2026-09-19T14:24:54Z"}
+{"inst":"2026051927","rd":"20260909","dtype":"RELEASE FEDERAL TAX LIEN","code":"RTL","grantor":["UNITED STATES OF AMERICA"],"grantee":["FREEDOM MOBILITY LLC","WALZER BRYCE MATTHEW"],"legal":{},"seen":"2026-09-19T14:24:54Z"}
+{"inst":"2026051929","rd":"20260909","dtype":"RELEASE FEDERAL TAX LIEN","code":"RTL","grantor":["UNITED STATES OF AMERICA"],"grantee":["FREEDOM MOBILITY LLC"],"legal":{},"seen":"2026-09-19T14:24:54Z"}
+{"inst":"2026051930","rd":"20260909","dtype":"RELEASE FEDERAL TAX LIEN","code":"RTL","grantor":["UNITED STATES OF AMERICA"],"grantee":["WALZER BRYCE MATTHEW","FREEDOM MOBILITY LLC"],"legal":{},"seen":"2026-09-19T14:24:54Z"}
+{"inst":"2026052148","rd":"20260909","dtype":"NOTARY BOND","code":"NOB","grantor":["BARNETT SHANE EDWARD"],"grantee":["BARNETT SHANE EDWARD"],"legal":{},"seen":"2026-09-19T14:24:54Z"}
