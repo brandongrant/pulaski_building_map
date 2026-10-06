@@ -674,7 +674,7 @@
 {"inst":"2026053164","rd":"20260915","dtype":"RELEASE OF MORTGAGE","code":"REM","grantor":["JPMORGAN CHASE BANK"],"grantee":["CHUNDRU SANDEEP KUMAR"],"legal":{},"seen":"2026-09-25T22:17:02Z"}
 {"inst":"2026053159","rd":"20260915","dtype":"RELEASE OF MORTGAGE","code":"REM","grantor":["FIRST SECURITY BANK"],"grantee":["HARTNESS CONSTRUCTION CO INC"],"legal":{"BLOCK":"48","LOT":"107","SUBDIVISION":"CHENAL VALLEY ADN"},"seen":"2026-09-25T22:17:02Z"}
 {"inst":"2026053165","rd":"20260915","dtype":"RELEASE OF MORTGAGE","code":"REM","grantor":["CENTENNIAL BANK"],"grantee":["HARDIN WILLIE J"],"legal":{},"seen":"2026-09-25T22:17:02Z"}
-{"inst":"2026053166","rd":"20260915","dtype":"ASSIGNMENT OF MORTGAGE","code":"ASM","grantor":["ONITY MORTGAGE CORP"],"grantee":["ABELL ASHLEY R","PHH ASSET SERVICES LLC"],"legal":{},"seen":"2026-09-25T22:17:02Z"}
+{"inst":"2026053166","rd":"20260915","dtype":"ASSIGNMENT OF MORTGAGE","code":"ASM","grantor":["ONITY MORTGAGE CORP"],"grantee":["ABELL ASHLEY R","PHH ASSET SERVICES LLC"],"legal":{},"seen":"2026-10-06T22:49:23Z"}
 {"inst":"2026053205","rd":"20260915","dtype":"MEDICAL LIEN","code":"MEL","grantor":["MARKHAM INJURY CENTER"],"grantee":["PENNINGTON CYNTHIA","USAA INS CO","WATSON CHAD"],"legal":{},"seen":"2026-09-25T22:17:02Z"}
 {"inst":"2026053169","rd":"20260915","dtype":"MEDICAL LIEN","code":"MEL","grantor":["BAPTIST HEALTH MEDICAL CENTER"],"grantee":["KNIGHT ASHANTI","SOUTHERN FARM BUREAU INS CO"],"legal":{},"seen":"2026-09-25T22:17:02Z"}
 {"inst":"2026053206","rd":"20260915","dtype":"MEDICAL LIEN","code":"MEL","grantor":["MARKHAM INJURY CENTER"],"grantee":["RAYFORD OTIS","USAA INS CO","WATSON CHAD"],"legal":{},"seen":"2026-09-25T22:17:02Z"}
