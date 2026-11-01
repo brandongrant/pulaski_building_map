@@ -1,0 +1,6 @@
+{"id": "f5bc8e849f5813147f36", "src": "CLR-CAD", "jur": "Little Rock", "type": "INFORMATION REPORT", "cat": "assist", "loc": "RESERVOIR RD / OLD FORGE DR", "ts": "2026-11-01T00:31:16Z", "sens": 0, "seen": "2026-11-01T01:03:46Z"}
+{"id": "b14849ac692889813dcc", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "CANTRELL RD / N UNIVERSITY AVE", "ts": "2026-11-01T00:30:46Z", "sens": 0, "seen": "2026-11-01T01:03:46Z"}
+{"id": "9ecac37c93bb5d20ec27", "src": "CLR-CAD", "jur": "Little Rock", "type": "ACCIDENT", "cat": "traffic", "loc": "S CHESTER ST / W 3RD ST", "ts": "2026-11-01T00:22:33Z", "sens": 0, "seen": "2026-11-01T01:03:46Z"}
+{"id": "01fd5a0981bc65bf3e0f", "src": "CLR-CAD", "jur": "Little Rock", "type": "BURGLAR ALARM", "cat": "alarm", "loc": "11104 N RODNEY PARHAM RD", "ts": "2026-11-01T00:17:44Z", "sens": 0, "seen": "2026-11-01T01:03:46Z"}
+{"id": "bfa310564c8f8255c736", "src": "CLR-CAD", "jur": "Little Rock", "type": "CRIMINAL TRESPASS IN PROGRESS", "cat": "trespass", "loc": "3901 W MARKHAM ST", "ts": "2026-11-01T00:12:58Z", "sens": 0, "seen": "2026-11-01T01:03:46Z"}
+{"id": "3dd5deec349c251557b0", "src": "CLR-CAD", "jur": "Little Rock", "type": "ASSIST MEDICAL", "cat": "welfare", "loc": "8700 RILEY DR", "ts": "2026-11-01T00:10:26Z", "sens": 1, "seen": "2026-11-01T01:03:46Z"}
